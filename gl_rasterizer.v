@@ -60,6 +60,10 @@ module gl_rasterizer( clk, fifo_ready, count_x, count_y, true,
     wire [31:0] maxx;
     wire [31:0] miny;
     wire [31:0] maxy;
+    wire [31:0] minx_int;
+    wire [31:0] maxx_int;
+    wire [31:0] miny_int;
+    wire [31:0] maxy_int;
     
     wire [31:0] diff_x1minx;
     wire [31:0] diff_x2minx;
