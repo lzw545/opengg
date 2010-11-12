@@ -21,26 +21,26 @@
 module gl_rasterizer( clk, fifo_ready, count_x, count_y, true,
 		      raster_ready, fifo_in1, fifo_in2, fifo_in3);
 
+parameter VERTEX_TYPE_SIZE=96;
+
     input clk;
   
     input fifo_ready;
     output reg raster_ready;
     output reg true;
     
-    output reg count_x;
-    output reg count_y;
+    output reg [31:0] count_x;
+    output reg [31:0] count_y;
     
-    input [95:0]  fifo_in1;
-    input [95:0]  fifo_in2;
-    input [95:0]  fifo_in3;
+    input [VERTEX_TYPE_SIZE-1:0]  fifo_in1;
+    input [VERTEX_TYPE_SIZE-1:0]  fifo_in2;
+    input [VERTEX_TYPE_SIZE-1:0]  fifo_in3;
 
     reg [1:0] state;
-    reg [31:0] count_x;
-    reg [31:0] count_y;
     
-    reg [95:0]  vertex_1;
-    reg [95:0]  vertex_2;
-    reg [95:0]  vertex_3;
+    reg [VERTEX_TYPE_SIZE-1:0]  vertex_1;
+    reg [VERTEX_TYPE_SIZE-1:0]  vertex_2;
+    reg [VERTEX_TYPE_SIZE-1:0]  vertex_3;
 
     wire [31:0] x1;
     wire [31:0] x2;
