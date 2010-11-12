@@ -126,14 +126,17 @@ parameter VERTEX_TYPE_SIZE=96;
     fp_sub subtract_y2(.a(y2), .b(y3), .result(diff_y2y3));
     fp_sub subtract_y3(.a(y3), .b(y1), .result(diff_y3y1));
     
-    comp_3 x_compare( .type(0), .p1(x1), .p2(x2), .p3(x3), .diff_p1p2(diff_x1x2),
-		      .diff_p2p3(diff_x2x3), .diff_p3p1(diff_x3x1), 
-		      .minp(minx), .maxp(maxx), .diff_p1minp(diff_x1minx), 
-		      .diff_p2minp(diff_x2minx), .diff_p3minp(diff_x3minx));
-    comp_3 y_compare( .type(1), .p1(y1), .p2(y2), .p3(y3), .diff_p1p2(diff_y1y2), 
-		      .diff_p2p3(diff_y2y3), .diff_p3p1(diff_y3y1),
-		      .minp(miny), .maxp(maxy), .diff_p1minp(diff_minyy1), 
-		      .diff_p2minp(diff_minyy2), .diff_p3minp(diff_minyy3));
+    comp_3 x_compare( .type(0), 
+                      .p1(x1), .p2(x2), .p3(x3),
+                      .diff_p1p2(diff_x1x2), .diff_p2p3(diff_x2x3), .diff_p3p1(diff_x3x1), 
+		              .minp(minx), .maxp(maxx), 
+                      .diff_p1minp(diff_x1minx), .diff_p2minp(diff_x2minx), .diff_p3minp(diff_x3minx));
+
+    comp_3 y_compare( .type(1), 
+                      .p1(y1), .p2(y2), .p3(y3),
+                      .diff_p1p2(diff_y1y2), .diff_p2p3(diff_y2y3), .diff_p3p1(diff_y3y1),
+                      .minp(miny), .maxp(maxy), 
+                      .diff_p1minp(diff_minyy1), .diff_p2minp(diff_minyy2), .diff_p3minp(diff_minyy3));
       
     fp_mul mult_dy12(diff_y1y2, diff_x1minx, cy1_mul1);
     fp_mul mult_dx12(diff_x1x2, diff_minyy1, cy1_mul2);
