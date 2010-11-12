@@ -112,12 +112,12 @@ module gl_rasterizer( clk, fifo_ready, count_x, count_y, true,
     assign cy2 = cy2_reg;
     assign cy3 = cy3_reg;
 
-    assign x1 = vertex_1[95:64];
-    assign y1 = vertex_1[63:32];
-    assign x2 = vertex_2[95:64];
-    assign y2 = vertex_2[63:32];
-    assign x3 = vertex_3[95:64];
-    assign y3 = vertex_3[63:32];
+    assign x1 = fifo_in1[95:64];
+    assign y1 = fifo_in1[63:32];
+    assign x2 = fifo_in2[95:64];
+    assign y2 = fifo_in2[63:32];
+    assign x3 = fifo_in3[95:64];
+    assign y3 = fifo_in3[63:32];
 
     fp_sub subtract_x1(.a(x1), .b(x2), .result(diff_x1x2));
     fp_sub subtract_x2(.a(x2), .b(x3), .result(diff_x2x3));
