@@ -10,14 +10,16 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="12" />
+   <WVObjectSize size="5" />
    <wvobject fp_name="/top/x" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">x[31:0]</obj_property>
       <obj_property name="ObjectShortName">x[31:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/top/y" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">y[31:0]</obj_property>
       <obj_property name="ObjectShortName">y[31:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/top/t" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">t</obj_property>
@@ -30,39 +32,5 @@
    <wvobject fp_name="/top/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/state" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">state[1:0]</obj_property>
-      <obj_property name="ObjectShortName">state[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/x1" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">x1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x1[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/x2" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">x2[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x2[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/x3" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">x3[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x3[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/y1" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">y1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">y1[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/y2" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">y2[31:0]</obj_property>
-      <obj_property name="ObjectShortName">y2[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/y3" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">y3[31:0]</obj_property>
-      <obj_property name="ObjectShortName">y3[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
 </wave_config>

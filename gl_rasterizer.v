@@ -26,8 +26,8 @@ parameter VERTEX_TYPE_SIZE=96;
     input clk;
   
     input fifo_ready;
-    output reg raster_ready;
-    output reg true;
+    output reg raster_ready = 0;
+    output reg true = 0;
     
     output reg [31:0] count_x;
     output reg [31:0] count_y;
@@ -36,7 +36,7 @@ parameter VERTEX_TYPE_SIZE=96;
     input [VERTEX_TYPE_SIZE-1:0]  fifo_in2;
     input [VERTEX_TYPE_SIZE-1:0]  fifo_in3;
 
-    reg [1:0] state;
+    reg [1:0] state = 0;
     
     reg [VERTEX_TYPE_SIZE-1:0]  vertex_1;
     reg [VERTEX_TYPE_SIZE-1:0]  vertex_2;
@@ -176,7 +176,7 @@ parameter VERTEX_TYPE_SIZE=96;
 		    cy2_reg <= cy2_init;
 		    cy3_reg <= cy3_init;
 		    state <= 1;
-		    count_y <= maxy_int - miny_int;
+		    count_y <= maxy_int - miny_int + 1;
 		end
 	    end
 	    1:	    
@@ -204,13 +204,14 @@ parameter VERTEX_TYPE_SIZE=96;
 		if (count_x)
 		begin
 		    if (cx1_reg > 0 && cx2_reg > 0 && cx3_reg > 0)
-		    begin 
-			true <= 1;
-		    end
+		      begin 
+			    true <= 1;
+		      end
 		    else
-		    begin 
-			true <= 0;
-		    end
+		      begin 
+			    true <= 0;
+		      end
+              
 		    /* FIXME insert into pixel buffer here */
 		    state <= 2;
 		    cx1_reg <= cx1_decr; 
