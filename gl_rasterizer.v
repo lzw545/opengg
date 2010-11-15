@@ -21,26 +21,26 @@
 module gl_rasterizer( clk, fifo_ready, count_x, count_y, true,
 		      raster_ready, fifo_in1, fifo_in2, fifo_in3);
 
+parameter VERTEX_TYPE_SIZE=96;
+
     input clk;
   
     input fifo_ready;
-    output reg raster_ready;
-    output reg true;
+    output reg raster_ready = 0;
+    output reg true = 0;
     
-    output reg count_x;
-    output reg count_y;
+    output reg [31:0] count_x;
+    output reg [31:0] count_y;
     
-    input [95:0]  fifo_in1;
-    input [95:0]  fifo_in2;
-    input [95:0]  fifo_in3;
+    input [VERTEX_TYPE_SIZE-1:0]  fifo_in1;
+    input [VERTEX_TYPE_SIZE-1:0]  fifo_in2;
+    input [VERTEX_TYPE_SIZE-1:0]  fifo_in3;
 
-    reg [1:0] state;
-    reg [31:0] count_x;
-    reg [31:0] count_y;
+    reg [1:0] state = 0;
     
-    reg [95:0]  vertex_1;
-    reg [95:0]  vertex_2;
-    reg [95:0]  vertex_3;
+    reg [VERTEX_TYPE_SIZE-1:0]  vertex_1;
+    reg [VERTEX_TYPE_SIZE-1:0]  vertex_2;
+    reg [VERTEX_TYPE_SIZE-1:0]  vertex_3;
 
     wire [31:0] x1;
     wire [31:0] x2;
@@ -126,14 +126,17 @@ module gl_rasterizer( clk, fifo_ready, count_x, count_y, true,
     fp_sub subtract_y2(.a(y2), .b(y3), .result(diff_y2y3));
     fp_sub subtract_y3(.a(y3), .b(y1), .result(diff_y3y1));
     
-    comp_3 x_compare( .type(0), .p1(x1), .p2(x2), .p3(x3), .diff_p1p2(diff_x1x2),
-		      .diff_p2p3(diff_x2x3), .diff_p3p1(diff_x3x1), 
-		      .minp(minx), .maxp(maxx), .diff_p1minp(diff_x1minx), 
-		      .diff_p2minp(diff_x2minx), .diff_p3minp(diff_x3minx));
-    comp_3 y_compare( .type(1), .p1(y1), .p2(y2), .p3(y3), .diff_p1p2(diff_y1y2), 
-		      .diff_p2p3(diff_y2y3), .diff_p3p1(diff_y3y1),
-		      .minp(miny), .maxp(maxy), .diff_p1minp(diff_minyy1), 
-		      .diff_p2minp(diff_minyy2), .diff_p3minp(diff_minyy3));
+    comp_3 x_compare( .type(0), 
+                      .p1(x1), .p2(x2), .p3(x3),
+                      .diff_p1p2(diff_x1x2), .diff_p2p3(diff_x2x3), .diff_p3p1(diff_x3x1), 
+		              .minp(minx), .maxp(maxx), 
+                      .diff_p1minp(diff_x1minx), .diff_p2minp(diff_x2minx), .diff_p3minp(diff_x3minx));
+
+    comp_3 y_compare( .type(1), 
+                      .p1(y1), .p2(y2), .p3(y3),
+                      .diff_p1p2(diff_y1y2), .diff_p2p3(diff_y2y3), .diff_p3p1(diff_y3y1),
+                      .minp(miny), .maxp(maxy), 
+                      .diff_p1minp(diff_minyy1), .diff_p2minp(diff_minyy2), .diff_p3minp(diff_minyy3));
       
     fp_mul mult_dy12(diff_y1y2, diff_x1minx, cy1_mul1);
     fp_mul mult_dx12(diff_x1x2, diff_minyy1, cy1_mul2);
@@ -173,12 +176,12 @@ module gl_rasterizer( clk, fifo_ready, count_x, count_y, true,
 		    cy2_reg <= cy2_init;
 		    cy3_reg <= cy3_init;
 		    state <= 1;
-		    count_y <= maxy_int - miny_int;
+		    count_y <= miny_int - 1;
 		end
 	    end
 	    1:	    
 	    begin
-		if (count_y)
+		if (count_y <= maxy_int)
 		begin
 		    cx1_reg <= cy1;
 		    cx2_reg <= cy2;
@@ -187,8 +190,8 @@ module gl_rasterizer( clk, fifo_ready, count_x, count_y, true,
 		    cy2_reg <= cy2_incr;
 		    cy3_reg <= cy3_incr;
 		    state <= 2;
-		    count_y <= count_y - 1;
-		    count_x <= maxx_int - minx_int;
+		    count_y <= count_y + 1;
+		    count_x <= minx_int - 1;
 		end
 		else
 		begin
@@ -198,27 +201,28 @@ module gl_rasterizer( clk, fifo_ready, count_x, count_y, true,
 	    end
 	    2: 
 	    begin
-		if (count_x)
-		begin
-		    if (cx1_reg > 0 && cx2_reg > 0 && cx3_reg > 0)
-		    begin 
-			true <= 1;
-		    end
-		    else
-		    begin 
-			true <= 0;
-		    end
-		    /* FIXME insert into pixel buffer here */
-		    state <= 2;
-		    cx1_reg <= cx1_decr; 
-		    cx2_reg <= cx2_decr; 
-		    cx3_reg <= cx3_decr; 
-		    count_x <= count_x - 1;
-		end
-		else
-		begin
-		    state <= 1;
-		end
+		  if (count_x <= maxx_int)
+		  begin
+		      if (cx1_reg[31] == 0 && cx2_reg[31] == 0 && cx3_reg[31] == 0)
+		        begin  
+			      true <= 1;
+                end
+		      else
+		        begin 
+			      true <= 0;
+		        end
+              
+		      /* FIXME insert into pixel buffer here */
+		      state <= 2;
+		      cx1_reg <= cx1_decr; 
+              cx2_reg <= cx2_decr; 
+		      cx3_reg <= cx3_decr; 
+		      count_x <= count_x + 1;
+		  end
+		  else
+		      begin
+		        state <= 1;
+		      end
 	    end
 	    default:
 	    begin
