@@ -28,11 +28,36 @@ module fetch_decode_testbench(
     wire [31:0]     bram_read_2;
     wire [31:0]     bram_read_3;
     
-    dummy_bram bram(.addr(bram_addr_out), 
-                    .read0(bram_read_0), 
-                    .read1(bram_read_1), 
-                    .read2(bram_read_2), 
-                    .read3(bram_read_3));
+    wire [31:0]     v_min_x;
+    wire [31:0]     v_min_y;
+    wire [31:0]     v_max_x;
+    wire [31:0]     v_max_y;
+    
+    wire [31:0]     decode_addr_out;
+    wire            push_en;
+    wire            pop_en;
+    wire [31:0]     color_in;
+    wire [31:0]     color_out;
+    wire            matrix_load_en;
+    wire            matrix_load_id_en;
+    wire            matrix_mul_en;
+    wire            matrix_mul_type;
+    wire            matrix_mode_out;
+    wire            perspective_div_en;
+    wire [31:0]     fetch_inst_in;
+    wire [31:0]     fetch_inst_out;
+    wire [31:0]     fetch_inst_addr;
+    
+    reg             fetch_rst;
+    
+    dummy_bram bram(.addr1(fetch_inst_addr),
+                    .addr2(decode_addr_out),
+                    .read0(fetch_inst_in),
+                    .read1(bram_read_0), 
+                    .read2(bram_read_1), 
+                    .read3(bram_read_2), 
+                    .read4(bram_read_3));
+    
     
     gl_fetch fetch(.inst_out(fetch_inst_out), 
                    .inst_in(fetch_inst_in), 
@@ -49,18 +74,39 @@ module fetch_decode_testbench(
     assign  imm         = fetch_inst_out[30:8];
     assign  inst_type   = fetch_inst_out[31];
     
-    gl_decode    (.clk(clk), .opcode(opcode), .imm(imm), .type(inst_type), 
-                  .bram_addr_out,
-                  .bram_read_in_0, bram_read_in_1, bram_read_in_2, bram_read_in_3,
-                  .viewport_min_x, viewport_min_y, viewport_max_x, viewport_max_y,
-                  .push_en, pop_en, 
-                  .color_in, color_out,
-                  .matrix_load_en, matrix_load_id_en,
-                  .matrix_mul_en, matrix_mul_type, matrix_mode_out,
-                  .perspective_div_en,
-                  .stall);
+    gl_decode  dc (.clk(clk), .opcode(opcode), .imm(imm), .type(inst_type), 
+                  .bram_addr_out(decode_addr_out),
+                  .bram_read_in_0(bram_read_0), 
+                  .bram_read_in_1(bram_read_1), 
+                  .bram_read_in_2(bram_read_2), 
+                  .bram_read_in_3(bram_read_3),
+                  .viewport_min_x(v_min_x), 
+                  .viewport_min_y(v_min_y), 
+                  .viewport_max_x(v_max_x), 
+                  .viewport_max_y(v_max_y),
+                  .push_en(push_en), 
+                  .pop_en(pop_en), 
+                  .color_in(color_in), 
+                  .color_out(color_out),
+                  .matrix_load_en(matrix_load_en), 
+                  .matrix_load_id_en(matrix_load_id_en),
+                  .matrix_mul_en(matrix_mul_en), 
+                  .matrix_mul_type(matrix_mul_type), 
+                  .matrix_mode_out(matrix_mode_out),
+                  .perspective_div_en(perspective_div_en),
+                  .stall(stall) );
     
     always 
         #5 clk = ~clk;
+    
+    initial
+    begin
+        clk = 0;
+        fetch_rst <= 0;
+        #10
+        fetch_rst <= 1;
+        #10 
+        fetch_rst <= 0;
+    end
 
 endmodule

@@ -26,7 +26,8 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
                   bram_read_in_0, bram_read_in_1, bram_read_in_2, bram_read_in_3,
                   matrix_peek_0, matrix_peek_1, matrix_peek_2, matrix_peek_3,
                   matrix_write_en, 
-                  matrix_write_out_0, matrix_write_out_1, matrix_write_out_2, matrix_write_out_3
+                  matrix_write_out_0, matrix_write_out_1, matrix_write_out_2, matrix_write_out_3,
+                  vector_write_out
     );
     
     input           clk;                // clock
@@ -49,15 +50,19 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
                     matrix_peek_3;
     
     output reg          matrix_write_en;
-    output reg [127:0]  matrix_write_out_0,
-                        matrix_write_out_1,
-                        matrix_write_out_2, 
-                        matrix_write_out_3;
+    output reg [127:0]  matrix_write_out_0;
+    output reg [127:0]  matrix_write_out_1;
+    output reg [127:0]  matrix_write_out_2;
+    output reg [127:0]  matrix_write_out_3;
+    output reg [127:0]  vector_write_out;
     
     reg    [1:0]    state;              // internal state counter
     reg    [1:0]    counter;            // second state counter
     reg    [31:0]   bram_offset;        // bram offset ptr
-
+    
+    reg    [127:0]  vector_result_a;    // 
+    reg             vertex_step_2;      // 
+    
     wire   [127:0]  mrc_a,
                     mrc_b;
     wire   [31:0]   mrc_result;
@@ -68,13 +73,15 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
                    counter == 2 ? matrix_peek_2 :
                    counter == 3 ? matrix_peek_3 : 128'h0;
                    
-    assign mrc_b = { bram_read_in_0, bram_read_in_1, bram_read_in_2, bram_read_in_3 };
+    assign mrc_b = vertex_step_2 ? vector_result_a : 
+                                 { bram_read_in_0, bram_read_in_1, bram_read_in_2, bram_read_in_3 };
     
     initial begin
         bram_offset = 0;
         matrix_write_en = 0;
         state = 0;
         counter = 0;
+        vertex_step_2 = 0;
     end
     
     /*
@@ -89,7 +96,14 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
         case(state)
             0:
             begin
-                if (en && counter == 0)
+                if (en && mul_type == 0)
+                begin
+                    matrix_mode_out <= 0;
+                    vector_result_a <= {mrc_result,96'h0};
+                    state <= 4;
+                    matrix_write_en <= 0;
+                end
+                else if (en && counter == 0)
                 begin
                     matrix_mode_out <= matrix_mode_in;
                     matrix_write_out_0 <= {mrc_result,96'h0};
@@ -184,12 +198,49 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
                 counter <= counter+1;
                 state <= 0;
             end
+            4:
+            begin
+                vector_result_a <= vector_result_a | {32'h0,mrc_result,64'h0};
+                state <= 5;
+            end
+            5:
+            begin
+                vector_result_a <= vector_result_a | {64'h0,mrc_result,32'h0};
+                state <= 6;
+            end
+            6:
+            begin
+                vector_result_a <= vector_result_a | {96'h0,mrc_result};
+                state <= 7;
+                vertex_step_2 <= 1;
+                matrix_mode_out <= 0;           // projection
+            end
+            7:
+            begin
+                vector_write_out <= {mrc_result,96'h0};
+                state <= 8;
+            end
+            8:
+            begin
+                vector_write_out <= vector_write_out | {32'h0,mrc_result,64'h0};
+                state <= 9;
+            end
+            9:
+            begin
+                vector_write_out <= vector_write_out | {64'h0,mrc_result,32'h0};
+                state <= 10;
+            end
+            10:
+            begin
+                vector_write_out <= vector_write_out | {96'h0,mrc_result};
+                state <= 0;
+                vertex_step_2 <= 0;
+            end
             default
             begin
             end
         endcase
     end
-    
     
     matrix_row_comp mrc(.result(mrc_result), .a(mrc_a), .b(mrc_b));
     

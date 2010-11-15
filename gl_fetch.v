@@ -19,70 +19,86 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 `include "gl_defines.v"
-module gl_fetch(inst_out, inst_in, inst_addr, clk, stall, reset);
+module gl_fetch(inst_out, inst_in, inst_addr,
+                decode_bram_addr,
+                clk, stall, reset);
 
     parameter
-        text_start = 32'hA0000000,
+        //text_start = 32'hA0000000,
+        text_start = 0,
         width = 32,
         reset_value = 0;
     
-    output reg  [(width-1):0]   inst_out;
-    output reg  [(width-1):0]   inst_addr;
+    output reg  [(width-1):0]   inst_out;               // instruction output
+    output reg  [(width-1):0]   inst_addr;              // instruction address (bram read)
+    output reg  [(width-1):0]   decode_bram_addr;       // 
     input       [(width-1):0]   inst_in;
     input                       clk;
-    input                       stall;          // stall
+    input                       stall;                  // stall
     input                       reset;
 
     initial begin
         inst_addr <= text_start;
+        inst_out  <= 32'b0;
+        decode_bram_addr <= 32'b0; 
     end
     
     
     always @ (posedge clk) begin
         if (~reset && ~stall)                   // Normal Operation
             begin
+                decode_bram_addr <= inst_addr +1;
                 case (inst_in[7:0])
-                    `OP_VERTEX:
+                    //`OP_VERTEX:
+                    8'b00000011:
                     begin
                         inst_addr <= inst_addr + 16;
                         inst_out <= inst_in;
                     end
-                    `OP_COLOR:
+                    //`OP_COLOR:
+                    8'b00000100:
                     begin
                         inst_addr <= inst_addr + 16;
                         inst_out <= inst_in;
                     end
-                    `OP_MULTMATRIX:
+                    //`OP_MULTMATRIX:
+                    8'b00010001:
                     begin
                         inst_addr <= inst_addr + 68;
                         inst_out <= inst_in;
                     end
-                    `OP_LOADMATRIX:
+                    //`OP_LOADMATRIX:
+                    8'b00010011:
                     begin
                         inst_addr <= inst_addr + 68;
                         inst_out <= inst_in;
                     end
-                    `OP_ROTATE:
+                    //`OP_ROTATE:
+                    8'b00010110:
                     begin
                         inst_addr <= inst_addr + 68;
                         inst_out <= inst_in;
                     end
-                    `OP_SCALE:
+                    //`OP_SCALE:
+                    8'b00010111:
                     begin
                         inst_addr <= inst_addr + 68;
                         inst_out <= inst_in;
                     end
-                    `OP_TRANSLATE:
+                    //`OP_TRANSLATE:
+                    8'b00011000:
                     begin
                         inst_addr <= inst_addr + 68;
                         inst_out <= inst_in;
                     end
-                    `OP_VIEWPORT:
+                    //`OP_VIEWPORT:
+                    8'b00011001:
                     begin
                         inst_addr <= inst_addr + 20;
                         inst_out <= inst_in;
                     end
-                    `OP_FRUSTUM:
+                    //`OP_FRUSTUM:
+                    8'b00011010:
                     begin
                         inst_addr <= inst_addr + 28;
                         inst_out <= inst_in;

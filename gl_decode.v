@@ -85,6 +85,11 @@ module gl_decode( clk, opcode, imm, type,
         matrix_mul_type     <= 0;
         matrix_mode_out     <= 0;
         curr_matrix_mode    <= 0;
+        viewport_min_x      <= 0;
+        viewport_min_y      <= 0;
+        viewport_max_x      <= 32'h44200000;        // 640
+        viewport_max_y      <= 32'h43f00000;        // 480
+        stall               <= 0;
         color_out           <= 32'h00000000;        // default color is black
     end
     
@@ -96,7 +101,8 @@ module gl_decode( clk, opcode, imm, type,
         `OP_END:
             begin
             end
-        `OP_VERTEX:
+        //`OP_VERTEX:
+        8'b00000011:
             begin
                 case (stall)
                 0:
@@ -139,21 +145,25 @@ module gl_decode( clk, opcode, imm, type,
                     end
                 endcase
             end
-        `OP_COLOR:
+        //`OP_COLOR:
+        8'b00000100:
             begin
                 color_out <= color_in;
             end
-        `OP_MATRIXMODE:
+        //`OP_MATRIXMODE:
+        8'b00010000:
             begin
                 curr_matrix_mode <= imm[0];
             end
-        `OP_MULTMATRIX:
+        //`OP_MULTMATRIX:
+        8'b00010001:
             begin
                 case (stall)
                     0:
                     begin
                         matrix_mul_en <= 1;
                         matrix_mul_type <= 1;
+                        matrix_mode_out <= curr_matrix_mode;
                         stall <= 1;
                         stall_count <= 15;
                     end
@@ -171,12 +181,14 @@ module gl_decode( clk, opcode, imm, type,
                     end
                 endcase
             end
-        `OP_LOADID:
+        //`OP_LOADID:
+        8'b00010010:
             begin
                 matrix_load_id_en <= 1;
                 matrix_mode_out <= curr_matrix_mode;
             end
-        `OP_LOADMATRIX:
+        //`OP_LOADMATRIX:
+        8'b00010011:
             begin
                 /*TODO figure out BRAM address out */
                 case (stall)
@@ -185,6 +197,7 @@ module gl_decode( clk, opcode, imm, type,
                         matrix_load_en <= 1;
                         stall <= 1;
                         stall_count <= 3;
+                        matrix_mode_out <= curr_matrix_mode;
                     end
                     1:
                     begin
@@ -200,17 +213,20 @@ module gl_decode( clk, opcode, imm, type,
                     end
                 endcase
             end
-        `OP_PUSHMATRIX:
+        //`OP_PUSHMATRIX:
+        8'b00010100:
             begin
                 matrix_mode_out <= curr_matrix_mode;
                 push_en <= 1;
             end
-        `OP_POPMATRIX:
+        //`OP_POPMATRIX:
+        8'b00010101:
             begin
                 matrix_mode_out <= curr_matrix_mode;
                 pop_en <= 1;
             end
-        `OP_ROTATE:
+        //`OP_ROTATE:
+        8'b00010110:
             begin
                 case (stall)
                     0:
@@ -234,7 +250,8 @@ module gl_decode( clk, opcode, imm, type,
                     end
                 endcase
             end
-        `OP_SCALE:
+        //`OP_SCALE:
+        8'b00010111:
             begin
                 case (stall)
                     0:
@@ -258,7 +275,8 @@ module gl_decode( clk, opcode, imm, type,
                     end
                 endcase
             end
-        `OP_TRANSLATE:
+        //`OP_TRANSLATE:
+        8'b00011000:
             begin
                 case (stall)
                     0:
@@ -282,14 +300,16 @@ module gl_decode( clk, opcode, imm, type,
                     end
                 endcase
             end
-        `OP_VIEWPORT:
+        //`OP_VIEWPORT:
+        8'b00011001:
             begin
                 viewport_min_x  <= bram_read_in_0;
                 viewport_min_y  <= bram_read_in_1;
                 viewport_max_x  <= bram_read_in_2;
                 viewport_max_y  <= bram_read_in_3;
             end
-        `OP_FRUSTUM:
+        //`OP_FRUSTUM:
+        8'b00011010:
             begin
             end
         endcase
