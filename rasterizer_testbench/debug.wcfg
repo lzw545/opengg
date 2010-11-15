@@ -10,15 +10,19 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="5" />
-   <wvobject fp_name="/top/x" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">x[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x[31:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   <WVObjectSize size="11" />
+   <wvobject fp_name="/top/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
    <wvobject fp_name="/top/y" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">y[31:0]</obj_property>
       <obj_property name="ObjectShortName">y[31:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/x" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">x[31:0]</obj_property>
+      <obj_property name="ObjectShortName">x[31:0]</obj_property>
       <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/top/t" type="logic" db_ref_id="1">
@@ -29,8 +33,46 @@
       <obj_property name="ElementShortName">out_rdy</obj_property>
       <obj_property name="ObjectShortName">out_rdy</obj_property>
    </wvobject>
-   <wvobject fp_name="/top/clk" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">clk</obj_property>
-      <obj_property name="ObjectShortName">clk</obj_property>
+   <wvobject fp_name="/top/GL_RAS/cx1_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cx1_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cx1_reg[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#0000ff</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/cx2_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cx2_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cx2_reg[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#0000ff</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/cx3_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cx3_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cx3_reg[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#0000ff</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/cy1_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cy1_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cy1_reg[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#ffa500</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/cy2_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cy2_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cy2_reg[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#ffa500</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/cy3_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cy3_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cy3_reg[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">#ffa500</obj_property>
    </wvobject>
 </wave_config>

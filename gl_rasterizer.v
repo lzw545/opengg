@@ -176,12 +176,12 @@ parameter VERTEX_TYPE_SIZE=96;
 		    cy2_reg <= cy2_init;
 		    cy3_reg <= cy3_init;
 		    state <= 1;
-		    count_y <= maxy_int - miny_int + 1;
+		    count_y <= miny_int - 1;
 		end
 	    end
 	    1:	    
 	    begin
-		if (count_y)
+		if (count_y <= maxy_int)
 		begin
 		    cx1_reg <= cy1;
 		    cx2_reg <= cy2;
@@ -190,8 +190,8 @@ parameter VERTEX_TYPE_SIZE=96;
 		    cy2_reg <= cy2_incr;
 		    cy3_reg <= cy3_incr;
 		    state <= 2;
-		    count_y <= count_y - 1;
-		    count_x <= maxx_int - minx_int;
+		    count_y <= count_y + 1;
+		    count_x <= minx_int - 1;
 		end
 		else
 		begin
@@ -201,28 +201,28 @@ parameter VERTEX_TYPE_SIZE=96;
 	    end
 	    2: 
 	    begin
-		if (count_x)
-		begin
-		    if (cx1_reg > 0 && cx2_reg > 0 && cx3_reg > 0)
-		      begin 
-			    true <= 1;
-		      end
-		    else
-		      begin 
-			    true <= 0;
-		      end
+		  if (count_x <= maxx_int)
+		  begin
+		      if (cx1_reg[31] == 0 && cx2_reg[31] == 0 && cx3_reg[31] == 0)
+		        begin  
+			      true <= 1;
+                end
+		      else
+		        begin 
+			      true <= 0;
+		        end
               
-		    /* FIXME insert into pixel buffer here */
-		    state <= 2;
-		    cx1_reg <= cx1_decr; 
-		    cx2_reg <= cx2_decr; 
-		    cx3_reg <= cx3_decr; 
-		    count_x <= count_x - 1;
-		end
-		else
-		begin
-		    state <= 1;
-		end
+		      /* FIXME insert into pixel buffer here */
+		      state <= 2;
+		      cx1_reg <= cx1_decr; 
+              cx2_reg <= cx2_decr; 
+		      cx3_reg <= cx3_decr; 
+		      count_x <= count_x + 1;
+		  end
+		  else
+		      begin
+		        state <= 1;
+		      end
 	    end
 	    default:
 	    begin

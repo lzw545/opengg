@@ -1,3 +1,0 @@
-verilog work "../comp_3.v"
-verilog work "../gl_rasterizer.v"
-verilog work "C:/Xilinx/12.2/ISE_DS/ISE//verilog/src/glbl.v"
