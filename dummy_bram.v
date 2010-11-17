@@ -32,7 +32,7 @@ module dummy_bram(addr1, addr2, read0, read1, read2, read3, read4
     reg    [31:0]  mem [25:0];   
     
     initial begin
-        mem[0] = 32'h00000010;   // Matrix_mode 0
+        /*mem[0] = 32'h00000010;   // Matrix_mode 0
         mem[1] = 32'h00000110;   // Matrix_mode 1   
         mem[2] = 32'h80001013;   // Load_matrix
         mem[3] = 32'h42013333;   // 0
@@ -47,8 +47,8 @@ module dummy_bram(addr1, addr2, read0, read1, read2, read3, read4
         mem[12]= 32'h40800000;   // 4
         mem[13]= 32'h41000000;   // 8
         mem[14]= 32'h41400000;   // 12
-        mem[15]= 32'h41800000;   // 16
-        /*mem[0] = 32'h3F800000;   // 1
+        mem[15]= 32'h41800000;   // 16*/
+        mem[0] = 32'h3F800000;   // 1
         mem[1] = 32'h40A00000;   // 5   
         mem[2] = 32'h41100000;   // 9
         mem[3] = 32'h41500000;   // 13
@@ -63,7 +63,7 @@ module dummy_bram(addr1, addr2, read0, read1, read2, read3, read4
         mem[12]= 32'h40800000;   // 4
         mem[13]= 32'h41000000;   // 8
         mem[14]= 32'h41400000;   // 12
-        mem[15]= 32'h41800000;   // 16 */
+        mem[15]= 32'h41800000;   // 16
     end
 
     assign read0 = mem[addr1 >> 2];

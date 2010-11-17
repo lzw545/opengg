@@ -112,17 +112,17 @@ module matrix_ctrl(clk, matrix_mode,
                 begin
                     if (matrix_mode)
                     begin
-                        projection_stack[3] <= 127'h3F800000000000000000000000000000;
-                        projection_stack[2] <= 127'h000000003F8000000000000000000000;
-                        projection_stack[1] <= 127'h00000000000000003F80000000000000;
-                        projection_stack[0] <= 127'h0000000000000000000000003F800000;
+                        projection_stack[projection_sp]   <= 127'h3F800000000000000000000000000000;
+                        projection_stack[projection_sp-1] <= 127'h000000003F8000000000000000000000;
+                        projection_stack[projection_sp-2] <= 127'h00000000000000003F80000000000000;
+                        projection_stack[projection_sp-3] <= 127'h0000000000000000000000003F800000;
                     end
                     else
                     begin
-                        modelview_stack[3]  <= 127'h3F800000000000000000000000000000;
-                        modelview_stack[2]  <= 127'h000000003F8000000000000000000000;
-                        modelview_stack[1]  <= 127'h00000000000000003F80000000000000;
-                        modelview_stack[0]  <= 127'h0000000000000000000000003F800000;
+                        modelview_stack[modelview_sp]    <= 127'h3F800000000000000000000000000000;
+                        modelview_stack[modelview_sp-1]  <= 127'h000000003F8000000000000000000000;
+                        modelview_stack[modelview_sp-2]  <= 127'h00000000000000003F80000000000000;
+                        modelview_stack[modelview_sp-3]  <= 127'h0000000000000000000000003F800000;
                     end
                 end
                 else if (load_en)

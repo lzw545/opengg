@@ -18,13 +18,12 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module matrix_row_comp(result, a, b, rdy
+module matrix_row_comp(result, a, b
     );
     
     input  [127:0]      a;          // row vector
     input  [127:0]      b;          // column vector
-    output [31:0]       result;     // result
-    output              rdy;          
+    output [31:0]       result;     // result       
     
     wire  [31:0]        a0,         // A[x][0]
                         a1,         // A[x][1]
@@ -41,21 +40,16 @@ module matrix_row_comp(result, a, b, rdy
                         add0_result,
                         add1_result,
                         add2_result;
-                        
-    wire                add0_rdy,
-                        add1_rdy,
-                        add2_rdy;
-                   
-    fp_add add0(.a(mul0_result), .b(mul1_result), .result(add0_result), .rdy(add0_rdy));
-    fp_add add1(.a(mul2_result), .b(mul3_result), .result(add1_result), .rdy(add1_rdy));
-    fp_add add2(.a(add0_result), .b(add1_result), .result(add2_result), .rdy(add2_rdy));
-    
-    fp_mul mul4(.a(a0), .b(b0), .result(mul0_result), .rdy(mul0_rdy));
-    fp_mul mul1(.a(a1), .b(b1), .result(mul1_result), .rdy(mul1_rdy));
-    fp_mul mul2(.a(a2), .b(b2), .result(mul2_result), .rdy(mul2_rdy));
-    fp_mul mul3(.a(a3), .b(b3), .result(mul3_result), .rdy(mul3_rdy));    
 
-    assign rdy = add0_rdy & add1_rdy & add2_rdy;
+    fp_add add0(.a(mul0_result), .b(mul1_result), .result(add0_result));
+    fp_add add1(.a(mul2_result), .b(mul3_result), .result(add1_result));
+    fp_add add2(.a(add0_result), .b(add1_result), .result(add2_result));
+    
+    fp_mul mul4(.a(a0), .b(b0), .result(mul0_result));
+    fp_mul mul1(.a(a1), .b(b1), .result(mul1_result));
+    fp_mul mul2(.a(a2), .b(b2), .result(mul2_result));
+    fp_mul mul3(.a(a3), .b(b3), .result(mul3_result));    
+
     assign result = add2_result;
     assign a0 = a[31:0];
     assign a1 = a[63:32];

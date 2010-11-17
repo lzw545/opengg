@@ -137,7 +137,46 @@ parameter VERTEX_TYPE_SIZE=96;
                       .diff_p1p2(diff_y1y2), .diff_p2p3(diff_y2y3), .diff_p3p1(diff_y3y1),
                       .minp(miny), .maxp(maxy), 
                       .diff_p1minp(diff_minyy1), .diff_p2minp(diff_minyy2), .diff_p3minp(diff_minyy3));
-      
+     
+
+    // barycentric hax
+
+    wire [31:0] alpha;
+    wire [31:0] alpha_1;
+    wire [31:0] alpha_2;
+    wire [31:0] alpha_cons;
+ 
+    wire [31:0] beta;
+    wire [31:0] beta_1;
+    wire [31:0] beta_2;
+    wire [31:0] beta_cons;
+  
+    wire [31:0] gamma;
+    wire [31:0] gamma_1;
+    wire [31:0] gamma_2;
+    wire [31:0] gamma_cons;
+
+    wire [31:0] ab;
+    wire [31:0] abg;
+    
+    fp_mult alpha(diff_y2y3, diff_x1x2, alpha_1);
+    fp_mult alpha2(diff_y2y3, diff_x1x2, alpha_2);
+    fp_mult beta(diff_y3y1, diff_x2x3, beta_1);
+    fp_mult beta2(diff_y2y3, diff_x3x1, beta_2);
+    fp_mult gamma(diff_y1y2, diff_x3x1, gamma_1);
+    fp_mult gamma2(diff_y3y1, diff_x1x2, gamma_2);
+    
+    fp_sub beta(alpha_1, alpha_2, alpha_cons);
+    fp_sub beta(beta_1, beta_2, beta_cons);
+    fp_sub beta(gamma_1, gamma_2, gamma_cons);
+
+    fp_div alpha_cons(cx1, alpha_cons, alpha);
+    fp_div beta_cons(cx2, beta_cons, beta);
+    fp_div gamma_cons(cx3, gamma_cons, gamma);
+
+    fp_add final(alpha, beta, ab);
+    fp_add final2(gamma, ab, abg);
+
     fp_mul mult_dy12(diff_y1y2, diff_x1minx, cy1_mul1);
     fp_mul mult_dx12(diff_x1x2, diff_minyy1, cy1_mul2);
     fp_mul mult_dy23(diff_y2y3, diff_x2minx, cy2_mul1);
@@ -206,16 +245,16 @@ parameter VERTEX_TYPE_SIZE=96;
 		      if (cx1_reg[31] == 0 && cx2_reg[31] == 0 && cx3_reg[31] == 0)
 		        begin  
 			      true <= 1;
-                end
+			end
 		      else
 		        begin 
 			      true <= 0;
 		        end
-              
+            
 		      /* FIXME insert into pixel buffer here */
 		      state <= 2;
 		      cx1_reg <= cx1_decr; 
-              cx2_reg <= cx2_decr; 
+		      cx2_reg <= cx2_decr; 
 		      cx3_reg <= cx3_decr; 
 		      count_x <= count_x + 1;
 		  end

@@ -30,8 +30,6 @@ module matrix_ctrl_testbench(
     reg             push_en;
     reg    [127:0]  data_in;                               
     
-    wire   [127:0]  data_out;
-    
     reg    [127:0]  write_in_0;                     // write in
     reg    [127:0]  write_in_1;
     reg    [127:0]  write_in_2;
@@ -47,7 +45,6 @@ module matrix_ctrl_testbench(
     reg    [127:0]	row_a;
     reg    [127:0]	col_b;
     wire   [31:0]	rc_result;  
-    wire            rdy;
 
     
     always 
@@ -56,15 +53,13 @@ module matrix_ctrl_testbench(
     
     matrix_row_comp matrix_row_comp(    .result(rc_result), 
                                         .a(row_a), 
-                                        .b(col_b), 
-                                        .rdy(rdy));
+                                        .b(col_b));
     
     matrix_ctrl tester( .clk(clk), 
                         .matrix_mode(matrix_mode), 
                         .pop_en(pop_en), 
                         .push_en(push_en), 
                         .data_in(data_in), 
-                        .data_out(data_out),
                         .write_en(write_en),
                         .peek_out_0(peek_out_0), 
                         .peek_out_1(peek_out_1), 
