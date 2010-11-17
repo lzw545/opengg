@@ -159,20 +159,20 @@ parameter VERTEX_TYPE_SIZE=96;
     wire [31:0] ab;
     wire [31:0] abg;
     
-    fp_mult alpha(diff_y2y3, diff_x1x2, alpha_1);
-    fp_mult alpha2(diff_y2y3, diff_x1x2, alpha_2);
-    fp_mult beta(diff_y3y1, diff_x2x3, beta_1);
-    fp_mult beta2(diff_y2y3, diff_x3x1, beta_2);
-    fp_mult gamma(diff_y1y2, diff_x3x1, gamma_1);
-    fp_mult gamma2(diff_y3y1, diff_x1x2, gamma_2);
+    fp_mult alpha_mult_1(diff_y2y3, diff_x1x2, alpha_1);
+    fp_mult alpha_mult_2(diff_y2y3, diff_x1x2, alpha_2);
+    fp_mult beta_mult_1(diff_y3y1, diff_x2x3, beta_1);
+    fp_mult beta_mult_2(diff_y2y3, diff_x3x1, beta_2);
+    fp_mult gamma_mult_1(diff_y1y2, diff_x3x1, gamma_1);
+    fp_mult gamma_mult_2(diff_y3y1, diff_x1x2, gamma_2);
     
-    fp_sub beta(alpha_1, alpha_2, alpha_cons);
-    fp_sub beta(beta_1, beta_2, beta_cons);
-    fp_sub beta(gamma_1, gamma_2, gamma_cons);
+    fp_sub alpha_sub(alpha_1, alpha_2, alpha_cons);
+    fp_sub beta_sub(beta_1, beta_2, beta_cons);
+    fp_sub gamma_sub(gamma_1, gamma_2, gamma_cons);
 
-    fp_div alpha_cons(cx1, alpha_cons, alpha);
-    fp_div beta_cons(cx2, beta_cons, beta);
-    fp_div gamma_cons(cx3, gamma_cons, gamma);
+    fp_div alpha_div(cx1, alpha_cons, alpha);
+    fp_div beta_div(cx2, beta_cons, beta);
+    fp_div gamma_div(cx3, gamma_cons, gamma);
 
     fp_add final(alpha, beta, ab);
     fp_add final2(gamma, ab, abg);
