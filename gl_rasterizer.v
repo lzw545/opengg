@@ -166,9 +166,9 @@ parameter VERTEX_TYPE_SIZE=96;
     fp_mul gamma_mult_1(diff_y1y2, diff_x3x1, gamma_1);
     fp_mul gamma_mult_2(diff_y3y1, diff_x1x2, gamma_2);
     
-    fp_sub alpha_sub(alpha_1, alpha_2, alpha_cons);
-    fp_sub beta_sub(beta_1, beta_2, beta_cons);
-    fp_sub gamma_sub(gamma_1, gamma_2, gamma_cons);
+    fp_sub alpha_sub(alpha_2, alpha_1, alpha_cons);
+    fp_sub beta_sub(beta_2, beta_1, beta_cons);
+    fp_sub gamma_sub(gamma_2, gamma_1, gamma_cons);
 
     fp_div alpha_div(cx1, alpha_cons, alpha);
     fp_div beta_div(cx2, beta_cons, beta);
