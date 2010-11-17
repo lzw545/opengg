@@ -160,7 +160,7 @@ parameter VERTEX_TYPE_SIZE=96;
     wire [31:0] abg;
     
     fp_mul alpha_mult_1(diff_y2y3, diff_x1x2, alpha_1);
-    fp_mul alpha_mult_2(diff_y2y3, diff_x1x2, alpha_2);
+    fp_mul alpha_mult_2(diff_y1y2, diff_x2x3, alpha_2);
     fp_mul beta_mult_1(diff_y3y1, diff_x2x3, beta_1);
     fp_mul beta_mult_2(diff_y2y3, diff_x3x1, beta_2);
     fp_mul gamma_mult_1(diff_y1y2, diff_x3x1, gamma_1);
