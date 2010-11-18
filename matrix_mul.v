@@ -79,6 +79,7 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
     initial begin
         bram_offset = 0;
         matrix_write_en = 0;
+        matrix_mode_out = 0;
         state = 0;
         counter = 0;
         vertex_step_2 = 0;

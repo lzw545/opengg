@@ -22,7 +22,7 @@
 `include "gl_defines.v"
 
 module gl_decode( clk, opcode, imm, type, 
-                  bram_addr_out,
+                  bram_addr_out, bram_addr_in,
                   bram_read_in_0, bram_read_in_1, bram_read_in_2, bram_read_in_3,
                   viewport_min_x, viewport_min_y, viewport_max_x, viewport_max_y,
                   push_en, pop_en, 
@@ -43,7 +43,8 @@ module gl_decode( clk, opcode, imm, type,
     input                       type;
     
     /* BRAM Control */
-    output     [31:0]           bram_addr_out;      
+    output reg [31:0]           bram_addr_out;
+    input      [31:0]           bram_addr_in;
     input      [31:0]           bram_read_in_0;
     input      [31:0]           bram_read_in_1;
     input      [31:0]           bram_read_in_2;
@@ -90,10 +91,12 @@ module gl_decode( clk, opcode, imm, type,
         viewport_max_x      <= 32'h44200000;        // 640
         viewport_max_y      <= 32'h43f00000;        // 480
         stall               <= 0;
+        stall_count         <= 0;
         color_out           <= 32'h00000000;        // default color is black
+        bram_addr_out       <= 0;
     end
     
-    always@(opcode) begin
+    always@(posedge clk) begin
         case(opcode)
         `OP_BEGIN:
             begin 
@@ -169,14 +172,15 @@ module gl_decode( clk, opcode, imm, type,
                     end
                     1:
                     begin
-                        if (stall_count == 0)
-                        begin
-                            stall <= 0;
-                        end
-                        else
+                        if (stall_count > 0)
                         begin
                             matrix_mul_en <= 0;
                             stall_count <= stall_count - 1;
+                            
+                        end
+                        else
+                        begin
+                            stall <= 0;
                         end
                     end
                 endcase
@@ -191,25 +195,31 @@ module gl_decode( clk, opcode, imm, type,
         8'b00010011:
             begin
                 /*TODO figure out BRAM address out */
-                case (stall)
-                    0:
+                case (stall_count)
+                0:
                     begin
                         matrix_load_en <= 1;
                         stall <= 1;
                         stall_count <= 3;
+                        bram_addr_out <= bram_addr_in;
                         matrix_mode_out <= curr_matrix_mode;
                     end
-                    1:
+                1:
                     begin
-                        if (stall_count == 0)
-                        begin
-                            stall <= 0;
-                        end
-                        else
-                        begin
-                            matrix_load_en <= 0;
-                            stall_count <= stall_count - 1;
-                        end
+                        stall_count <= stall_count - 1;
+                        bram_addr_out <= bram_addr_out + 16;
+                    end
+                2:
+                    begin
+                        stall_count <= stall_count - 1;
+                        bram_addr_out <= bram_addr_out + 16;
+                        stall <= 0;
+                    end
+                default:
+                    begin
+                        matrix_load_en <= 0;
+                        bram_addr_out <= bram_addr_out + 16;
+                        stall_count <= stall_count - 1;
                     end
                 endcase
             end

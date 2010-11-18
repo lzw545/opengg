@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/lzw/matrix_mul/fetch_decode_testbench_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="fetch_decode_testbench" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="30" />
+   <wvobject fp_name="/fetch_decode_testbench/bram_read_0" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">bram_read_0[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_read_0[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/bram_read_1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">bram_read_1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_read_1[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/bram_read_2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">bram_read_2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_read_2[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/bram_read_3" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">bram_read_3[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_read_3[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/v_min_x" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">v_min_x[31:0]</obj_property>
+      <obj_property name="ObjectShortName">v_min_x[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/v_min_y" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">v_min_y[31:0]</obj_property>
+      <obj_property name="ObjectShortName">v_min_y[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/v_max_x" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">v_max_x[31:0]</obj_property>
+      <obj_property name="ObjectShortName">v_max_x[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/v_max_y" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">v_max_y[31:0]</obj_property>
+      <obj_property name="ObjectShortName">v_max_y[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/decode_addr_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">decode_addr_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">decode_addr_out[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/push_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">push_en</obj_property>
+      <obj_property name="ObjectShortName">push_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/pop_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pop_en</obj_property>
+      <obj_property name="ObjectShortName">pop_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/color_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">color_in[31:0]</obj_property>
+      <obj_property name="ObjectShortName">color_in[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/color_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">color_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">color_out[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/matrix_load_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">matrix_load_en</obj_property>
+      <obj_property name="ObjectShortName">matrix_load_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/matrix_load_id_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">matrix_load_id_en</obj_property>
+      <obj_property name="ObjectShortName">matrix_load_id_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/matrix_mul_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">matrix_mul_en</obj_property>
+      <obj_property name="ObjectShortName">matrix_mul_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/matrix_mul_type" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">matrix_mul_type</obj_property>
+      <obj_property name="ObjectShortName">matrix_mul_type</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/matrix_mode_out" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">matrix_mode_out</obj_property>
+      <obj_property name="ObjectShortName">matrix_mode_out</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/perspective_div_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">perspective_div_en</obj_property>
+      <obj_property name="ObjectShortName">perspective_div_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/fetch_inst_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fetch_inst_in[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fetch_inst_in[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/fetch_inst_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fetch_inst_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fetch_inst_out[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/fetch_inst_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fetch_inst_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fetch_inst_addr[31:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/opcode" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">opcode[7:0]</obj_property>
+      <obj_property name="ObjectShortName">opcode[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/imm" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">imm[22:0]</obj_property>
+      <obj_property name="ObjectShortName">imm[22:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/inst_type" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">inst_type</obj_property>
+      <obj_property name="ObjectShortName">inst_type</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/stall" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">stall</obj_property>
+      <obj_property name="ObjectShortName">stall</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/fetch_rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">fetch_rst</obj_property>
+      <obj_property name="ObjectShortName">fetch_rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/dc/stall" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">stall</obj_property>
+      <obj_property name="ObjectShortName">stall</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/dc/stall_count" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">stall_count[3:0]</obj_property>
+      <obj_property name="ObjectShortName">stall_count[3:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+</wave_config>

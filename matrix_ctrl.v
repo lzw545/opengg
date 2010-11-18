@@ -87,7 +87,8 @@ module matrix_ctrl(clk, matrix_mode,
     wire [127:0] modelview_out3;
     wire [127:0] projection_out3;
     
-    // STACK PEEK WIRES ARE ALMOST FREE
+    // STACK PEEK
+    
     assign modelview_out0 = modelview_stack[modelview_sp];
     assign modelview_out1 = modelview_stack[modelview_sp-1];
     assign modelview_out2 = modelview_stack[modelview_sp-2];
@@ -97,12 +98,12 @@ module matrix_ctrl(clk, matrix_mode,
     assign projection_out1 = projection_stack[projection_sp-1];
     assign projection_out2 = projection_stack[projection_sp-2];
     assign projection_out3 = projection_stack[projection_sp-3];
-    
+
     assign peek_out_0 = matrix_mode ? projection_out0 : modelview_out0;
     assign peek_out_1 = matrix_mode ? projection_out1 : modelview_out1;
     assign peek_out_2 = matrix_mode ? projection_out2 : modelview_out2;
     assign peek_out_3 = matrix_mode ? projection_out3 : modelview_out3;
-                            
+                           
     always @ (posedge clk)
     begin
         case (state)

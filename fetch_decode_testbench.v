@@ -47,6 +47,7 @@ module fetch_decode_testbench(
     wire [31:0]     fetch_inst_in;
     wire [31:0]     fetch_inst_out;
     wire [31:0]     fetch_inst_addr;
+    wire [31:0]     decode_bram_addr;
     
     reg             fetch_rst;
     
@@ -62,6 +63,7 @@ module fetch_decode_testbench(
     gl_fetch fetch(.inst_out(fetch_inst_out), 
                    .inst_in(fetch_inst_in), 
                    .inst_addr(fetch_inst_addr), 
+                   .decode_bram_addr(decode_bram_addr),
                    .clk(clk),
                    .stall(stall), 
                    .reset(fetch_rst));
@@ -76,6 +78,7 @@ module fetch_decode_testbench(
     
     gl_decode  dc (.clk(clk), .opcode(opcode), .imm(imm), .type(inst_type), 
                   .bram_addr_out(decode_addr_out),
+                  .bram_addr_in(decode_bram_addr),
                   .bram_read_in_0(bram_read_0), 
                   .bram_read_in_1(bram_read_1), 
                   .bram_read_in_2(bram_read_2), 
@@ -103,7 +106,7 @@ module fetch_decode_testbench(
     begin
         clk = 0;
         fetch_rst <= 0;
-        #10
+        #5
         fetch_rst <= 1;
         #10 
         fetch_rst <= 0;

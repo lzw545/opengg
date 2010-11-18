@@ -37,15 +37,22 @@ module gl_fetch(inst_out, inst_in, inst_addr,
     input                       stall;                  // stall
     input                       reset;
 
+    reg                         tmp_stall;              // temporary stall
+    
     initial begin
-        inst_addr <= text_start;
-        inst_out  <= 32'b0;
+        inst_addr        <= text_start;
+        inst_out         <= 32'b0;
         decode_bram_addr <= 32'b0; 
+        tmp_stall        <= 0;
     end
     
     
     always @ (posedge clk) begin
-        if (~reset && ~stall)                   // Normal Operation
+        if (tmp_stall)
+            begin
+                tmp_stall <= 0;
+            end
+        else if (~reset && ~stall)                   // Normal Operation
             begin
                 decode_bram_addr <= inst_addr +1;
                 case (inst_in[7:0])
@@ -72,6 +79,8 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     begin
                         inst_addr <= inst_addr + 68;
                         inst_out <= inst_in;
+                        decode_bram_addr <= inst_addr + 4;
+                        tmp_stall <= 1;
                     end
                     //`OP_ROTATE:
                     8'b00010110:
