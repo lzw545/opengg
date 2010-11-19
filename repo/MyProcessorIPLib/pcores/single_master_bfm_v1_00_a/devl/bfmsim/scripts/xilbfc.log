@@ -1,0 +1,21 @@
+Bus Functional Compiler Utility
+Xilinx EDK 12.2 EDK_MS2.63c
+Copyright (c) 1995-2004 Xilinx, Inc. All rights reserved.
+
+NOTE: This utility runs the Bus Functional Compiler (BFC) perl script
+distributed in the IBM CoreConnect Toolkit.
+
+XILINX_EDK = D:\Xilinx\12.2\ISE_DS\EDK
+
+*********************************************************
+ PEPS Model Toolkit Bus Functional Compiler Version 4.0  
+ >>>>>>>>>>> Configured for mti5 simulator <<<<<<<<<<<  
+ Processing Test Case:sample.bfl                           
+*********************************************************
+    Parsing "plb_slave" BFL code ......
+    Parsing
+"D:\Xilinx\12.2\ISE_DS\EDK\hw\XilinxBFMinterface\pcores\plbv46_bfm\hdl\vhdl\plb_
+dcl.vhd" file for model configuration parameters ......
+    Parsing "plb_master" BFL code ......
+
+Bus Functional Compiler Utility Done

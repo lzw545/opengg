@@ -1,0 +1,10 @@
+ The following files will be modified:
+  system.mhs
+  system.mss
+
+--------------------------------------
+
+--------------------------------------
+ The following changes need to be made manually by the user:
+ No core by the name of  bfm_synch was found.
+ Please check the mhs file and repository.
