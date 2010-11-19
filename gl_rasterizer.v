@@ -18,30 +18,63 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module gl_rasterizer( clk, fifo_ready, count_x, count_y, true,
-		      raster_ready, fifo_in1, fifo_in2, fifo_in3);
+module gl_rasterizer( clk, fifo_ready, count_x, count_y, valid_pixel,
+		      raster_ready, vertex_in1, vertex_in2, vertex_in3,
+		      color_in1, color_in2, color_in3);
 
 parameter VERTEX_TYPE_SIZE=96;
+parameter COLOR_TYPE_SIZE=96;
 
     input clk;
   
     input fifo_ready;
     output reg raster_ready = 0;
-    output reg true = 0;
     
     output reg [31:0] count_x;
     output reg [31:0] count_y;
+   
+    output valid_pixel;
+ 
+    input [COLOR_TYPE_SIZE-1:0]  color_in1;
+    input [COLOR_TYPE_SIZE-1:0]  color_in2;
+    input [COLOR_TYPE_SIZE-1:0]  color_in3;
+  
+    reg [COLOR_TYPE_SIZE-1:0]  color_in1;
+    reg [COLOR_TYPE_SIZE-1:0]  color_in2;
+    reg [COLOR_TYPE_SIZE-1:0]  color_in3;
     
-    input [VERTEX_TYPE_SIZE-1:0]  fifo_in1;
-    input [VERTEX_TYPE_SIZE-1:0]  fifo_in2;
-    input [VERTEX_TYPE_SIZE-1:0]  fifo_in3;
+    wire [31:0] red_1;
+    wire [31:0] green_1;
+    wire [31:0] blue_1;
+ 
+    wire [31:0] red_2;
+    wire [31:0] green_2;
+    wire [31:0] blue_2;
+ 
+    wire [31:0] red_3;
+    wire [31:0] green_3;
+    wire [31:0] blue_3;
 
-    reg [1:0] state = 0;
+    assign red_1 = color_in1[95:64];
+    assign green_1 = color_in1[63:32];
+    assign blue_1 = color_in1[31:0];
+    assign red_2 = color_in2[95:64];
+    assign green_2 = color_in2[63:32];
+    assign blue_2 = color_in2[31:0];
+    assign red_3 = color_in3[95:64];
+    assign green_3 = color_in3[63:32];
+    assign blue_3 = color_in3[31:0];
+    
+    input [VERTEX_TYPE_SIZE-1:0]  vertex_in1;
+    input [VERTEX_TYPE_SIZE-1:0]  vertex_in2;
+    input [VERTEX_TYPE_SIZE-1:0]  vertex_in3;
     
     reg [VERTEX_TYPE_SIZE-1:0]  vertex_1;
     reg [VERTEX_TYPE_SIZE-1:0]  vertex_2;
     reg [VERTEX_TYPE_SIZE-1:0]  vertex_3;
 
+    reg [1:0] state = 0;
+    
     wire [31:0] x1;
     wire [31:0] x2;
     wire [31:0] x3;
@@ -112,12 +145,12 @@ parameter VERTEX_TYPE_SIZE=96;
     assign cy2 = cy2_reg;
     assign cy3 = cy3_reg;
 
-    assign x1 = fifo_in1[95:64];
-    assign y1 = fifo_in1[63:32];
-    assign x2 = fifo_in2[95:64];
-    assign y2 = fifo_in2[63:32];
-    assign x3 = fifo_in3[95:64];
-    assign y3 = fifo_in3[63:32];
+    assign x1 = vertex_in1[95:64];
+    assign y1 = vertex_in1[63:32];
+    assign x2 = vertex_in2[95:64];
+    assign y2 = vertex_in2[63:32];
+    assign x3 = vertex_in3[95:64];
+    assign y3 = vertex_in3[63:32];
 
     fp_sub subtract_x1(.a(x1), .b(x2), .result(diff_x1x2));
     fp_sub subtract_x2(.a(x2), .b(x3), .result(diff_x2x3));
@@ -158,10 +191,8 @@ parameter VERTEX_TYPE_SIZE=96;
 
     wire [31:0] alpha_beta;
     wire [31:0] sum;
-   
-    wire [31:0] true;
  
-    assign true = !(alpha[31] & beta[31] & gamma[31]);
+    assign valid_pixel = !(alpha[31] | beta[31] | gamma[31]);
 
     fp_mul alpha_mult_1(diff_y2y3, diff_x1x2, alpha_1);
     fp_mul alpha_mult_2(diff_y1y2, diff_x2x3, alpha_2);
@@ -177,6 +208,9 @@ parameter VERTEX_TYPE_SIZE=96;
     fp_div alpha_div(cx1, alpha_cons, alpha);
     fp_div beta_div(cx2, beta_cons, beta);
     fp_div gamma_div(cx3, gamma_cons, gamma);
+
+    FIXME INSERT COLOR
+
 
     fp_add final(alpha, beta, alpha_beta);
     fp_add final2(gamma, alpha_beta, sum);
@@ -212,9 +246,12 @@ parameter VERTEX_TYPE_SIZE=96;
 	    begin
 		if (fifo_ready)
 		begin
-		    vertex_1 <= fifo_in1;
-		    vertex_2 <= fifo_in2;
-		    vertex_3 <= fifo_in3;
+		    vertex_1 <= vertex_in1;
+		    vertex_2 <= vertex_in2;
+		    vertex_3 <= vertex_in3;
+		    color_1 <= color_in1;
+		    color_2 <= color_in2;
+		    color_3 <= color_in3;
 		    cy1_reg <= cy1_init;
 		    cy2_reg <= cy2_init;
 		    cy3_reg <= cy3_init;
@@ -246,15 +283,6 @@ parameter VERTEX_TYPE_SIZE=96;
 	    begin
 		  if (count_x <= maxx_int)
 		  begin
-		      if (cx1_reg[31] == 0 && cx2_reg[31] == 0 && cx3_reg[31] == 0)
-		        begin  
-			      true <= 1;
-			end
-		      else
-		        begin 
-			      true <= 0;
-		        end
-            
 		      /* FIXME insert into pixel buffer here */
 		      state <= 2;
 		      cx1_reg <= cx1_decr; 
