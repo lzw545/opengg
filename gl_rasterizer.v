@@ -156,9 +156,13 @@ parameter VERTEX_TYPE_SIZE=96;
     wire [31:0] gamma_2;
     wire [31:0] gamma_cons;
 
-    wire [31:0] ab;
-    wire [31:0] abg;
-    
+    wire [31:0] alpha_beta;
+    wire [31:0] sum;
+   
+    wire [31:0] true;
+ 
+    assign true = !(alpha[31] & beta[31] & gamma[31]);
+
     fp_mul alpha_mult_1(diff_y2y3, diff_x1x2, alpha_1);
     fp_mul alpha_mult_2(diff_y1y2, diff_x2x3, alpha_2);
     fp_mul beta_mult_1(diff_y3y1, diff_x2x3, beta_1);
@@ -174,8 +178,8 @@ parameter VERTEX_TYPE_SIZE=96;
     fp_div beta_div(cx2, beta_cons, beta);
     fp_div gamma_div(cx3, gamma_cons, gamma);
 
-    fp_add final(alpha, beta, ab);
-    fp_add final2(gamma, ab, abg);
+    fp_add final(alpha, beta, alpha_beta);
+    fp_add final2(gamma, alpha_beta, sum);
 
     fp_mul mult_dy12(diff_y1y2, diff_x1minx, cy1_mul1);
     fp_mul mult_dx12(diff_x1x2, diff_minyy1, cy1_mul2);
@@ -230,7 +234,7 @@ parameter VERTEX_TYPE_SIZE=96;
 		    cy3_reg <= cy3_incr;
 		    state <= 2;
 		    count_y <= count_y + 1;
-		    count_x <= minx_int - 1;
+		    count_x <= minx_int;
 		end
 		else
 		begin
