@@ -23,8 +23,8 @@
 module gl_core_internal(clk, reset, bram_enable, bram_rst, bram_addr_out, bram_data_in);
 
     
-    input           clk,                            // clock signal
-                    reset;                          // pipeline reset
+    input           clk;                            // clock signal
+    input           reset;                          // pipeline reset
 
     /* BRAM Control Signals */
     output          bram_enable;                    // bram enable
@@ -51,44 +51,86 @@ module gl_core_internal(clk, reset, bram_enable, bram_rst, bram_addr_out, bram_d
                     matrix_mul_type,                // matrix multiply type (4x4 * 4x4 (1) or 4x4 * 4x1 (0))
                     matrix_ctrl_write_en;           // matrix write enable
     
-    wire [127:0]    peek_out_0,                     // matrix_ctrl peek
-                    peek_out_1,                     // matrix_ctrl peek
-                    peek_out_2,                     // matrix_ctrl peek
-                    peek_out_3,                     // matrix_ctrl peek
-                    mc_write_in_0,                  // matrix_ctrl write in
-                    mc_write_in_1,                  // matrix_ctrl write in
-                    mc_write_in_2,                  // matrix_ctrl write in
-                    mc_write_in_3,                  // matrix_ctrl write in
-                    mc_data_in;                     // matrix_ctrl input line for push
+    wire [127:0]    peek_out_0;                     // matrix_ctrl peek
+    wire [127:0]    peek_out_1;                     // matrix_ctrl peek
+    wire [127:0]    peek_out_2;                     // matrix_ctrl peek
+    wire [127:0]    peek_out_3;                     // matrix_ctrl peek
+    wire [127:0]    mc_write_in_0;                  // matrix_ctrl write in
+    wire [127:0]    mc_write_in_1;                  // matrix_ctrl write in
+    wire [127:0]    mc_write_in_2;                  // matrix_ctrl write in
+    wire [127:0]    mc_write_in_3;                  // matrix_ctrl write in
+    wire [127:0]    mc_data_in;                     // matrix_ctrl input line for push
 
     
     /* Viewport Registers */
     
     
-    /* Color Registers */
-    reg [31:0]      curr_color_reg;                 // register to hold the current color set by gl_color
-    
     /* Pipeline Control Signals */
-    wire            stall;                          // stall
+    wire            stall;                          // fetch stall
     
     
     /*********************************************/
     /*  FETCH                                    */
     /*********************************************/
     
-    wire  [31:0]    inst;                           // instruction fetched from BRAM
+    /*wire  [31:0]    inst;                           // instruction fetched from BRAM
     
     gl_fetch fetch( .inst_out(inst), 
                     .inst_in(bram_data_in), 
                     .inst_addr(bram_addr_out),
                     .clk(clk), 
                     .stall(stall), 
-                    .reset(reset));
+                    .reset(reset));*/
+    
+    wire [31:0]     fetch_inst_in;                   // instruction read from BRAM (addr 1)
+    wire [31:0]     fetch_inst_out;                  // instruction output to decode
+    wire [31:0]     fetch_inst_addr;                 // bram address to read instruction (addr 1)
+    wire [31:0]     decode_bram_addr;                // bram address of data
+    
+    gl_fetch fetch(.inst_out(fetch_inst_out), 
+                   .inst_in(fetch_inst_in), 
+                   .inst_addr(fetch_inst_addr), 
+                   .decode_bram_addr(decode_bram_addr),
+                   .clk(clk),
+                   .stall(stall), 
+                   .reset(fetch_rst));
     
     /*********************************************/
     /*  DECODE                                   */
     /*********************************************/
-           
+
+    wire [7:0]  opcode;
+    wire [22:0] imm;
+    wire        inst_type;
+    
+    assign  opcode      = fetch_inst_out[7:0];
+    assign  imm         = fetch_inst_out[30:8];
+    assign  inst_type   = fetch_inst_out[31];
+    
+    gl_decode  dc (.clk(clk), .opcode(opcode), .imm(imm), .type(inst_type), 
+                  .bram_addr_out(decode_addr_out),
+                  .bram_addr_in(decode_bram_addr),
+                  .bram_read_in_0(bram_read_0), 
+                  .bram_read_in_1(bram_read_1), 
+                  .bram_read_in_2(bram_read_2), 
+                  .bram_read_in_3(bram_read_3),
+                  .viewport_min_x(v_min_x), 
+                  .viewport_min_y(v_min_y), 
+                  .viewport_max_x(v_max_x), 
+                  .viewport_max_y(v_max_y),
+                  .push_en(push_en), 
+                  .pop_en(pop_en), 
+                  .color_in(color_in), 
+                  .color_out(color_out),
+                  .matrix_load_en(matrix_load_en), 
+                  .matrix_load_id_en(matrix_load_id_en),
+                  .matrix_mul_en(matrix_mul_en), 
+                  .matrix_mul_type(matrix_mul_type), 
+                  .matrix_mode_out(matrix_mode_out),
+                  .perspective_div_en(perspective_div_en),
+                  .stall(stall) );
+    
+    /*
     wire [7:0]  opcode;
     wire [22:0] imm;
     wire        inst_type;
@@ -101,7 +143,7 @@ module gl_core_internal(clk, reset, bram_enable, bram_rst, bram_addr_out, bram_d
                         .imm(imm),
                         .type(inst_type),
                         .clk(clk), 
-                        .stall(stall));
+                        .stall(stall)); */
 
     /*********************************************/
     /*  EXECUTE                                  */
