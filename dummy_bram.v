@@ -29,7 +29,7 @@ module dummy_bram(addr1, addr2, read0, read1, read2, read3, read4
     output [31:0]      read3;
     output [31:0]      read4;
                  
-    reg    [31:0]  mem [25:0];   
+    reg    [31:0]  mem [50:0];   
     
     initial begin
         mem[0] = 32'h00000010;   // Matrix_mode 0

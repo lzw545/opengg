@@ -107,7 +107,7 @@ module gl_decode( clk, opcode, imm, type,
         //`OP_VERTEX:
         8'b00000011:
             begin
-                case (stall)
+                case (stall_count)
                 0:
                     begin
                         matrix_mul_en <= 1;                     // enable modelview matrix multiply
@@ -116,36 +116,31 @@ module gl_decode( clk, opcode, imm, type,
                         stall <= 1;
                         stall_count <= 9;
                     end
-                1:
+
+                6:                                              // modelview matrix multiply is done
                     begin
-                        if (stall_count == 0)                   // viewport transformation is done
-                        begin                                   // vertex is done being transformed
-                            stall <= 0;
-                        end
-                        
-                        else if (stall_count == 6)              // modelview matrix multiply is done
-                        begin
-                            matrix_mode_out <= 0;
-                            matrix_mul_en <= 1;
-                            stall_count <= stall_count - 1;
-                        end
-                        
-                        else if (stall_count == 2)              // projection matrix multiply is done
-                        begin
-                            stall_count <= stall_count - 1;
-                        end
-                        
-                        else if (stall_count == 1)              // perspective division is done
-                        begin
-                            stall_count <= stall_count - 1;
-                        end
-                        
-                        else
-                        begin
-                            matrix_mul_en <= 0;
-                            stall_count <= stall_count - 1;
-                        end
+                         matrix_mode_out <= 0;
+                         matrix_mul_en <= 1;
+                         stall_count <= stall_count - 1;
                     end
+
+                2:                                              // projection matrix multiply is done
+                    begin
+                         stall_count <= stall_count - 1;
+                    end
+
+                1:                                              // perspective division is done
+                    begin
+                         stall_count <= stall_count - 1;
+                         stall <= 1;
+                    end
+
+                default:
+                    begin
+                         matrix_mul_en <= 0;
+                         stall_count <= stall_count - 1;
+                    end
+
                 endcase
             end
         //`OP_COLOR:
@@ -161,7 +156,7 @@ module gl_decode( clk, opcode, imm, type,
         //`OP_MULTMATRIX:
         8'b00010001:
             begin
-                case (stall)
+                case (stall_count)
                     0:
                     begin
                         matrix_mul_en <= 1;
@@ -170,18 +165,22 @@ module gl_decode( clk, opcode, imm, type,
                         stall <= 1;
                         stall_count <= 15;
                     end
+                    
+                    2:
+                    begin
+                        stall <= 0;
+                        stall_count <= stall_count - 1;
+                    end
+                    
                     1:
                     begin
-                        if (stall_count > 0)
-                        begin
-                            matrix_mul_en <= 0;
-                            stall_count <= stall_count - 1;
-                            
-                        end
-                        else
-                        begin
-                            stall <= 0;
-                        end
+                        stall_count <= stall_count - 1;
+                    end
+                    
+                    default:
+                    begin
+                        matrix_mul_en <= 0;
+                        stall_count <= stall_count - 1;
                     end
                 endcase
             end
@@ -194,7 +193,6 @@ module gl_decode( clk, opcode, imm, type,
         //`OP_LOADMATRIX:
         8'b00010011:
             begin
-                /*TODO figure out BRAM address out */
                 case (stall_count)
                 0:
                     begin
@@ -238,50 +236,62 @@ module gl_decode( clk, opcode, imm, type,
         //`OP_ROTATE:
         8'b00010110:
             begin
-                case (stall)
+                case (stall_count)
                     0:
                     begin
                         matrix_mul_en <= 1;
                         matrix_mul_type <= 1;
+                        matrix_mode_out <= curr_matrix_mode;
                         stall <= 1;
                         stall_count <= 15;
                     end
+                    
+                    2:
+                    begin
+                        stall <= 0;
+                        stall_count <= stall_count - 1;
+                    end
+                    
                     1:
                     begin
-                        if (stall_count == 0)
-                        begin
-                            stall <= 0;
-                        end
-                        else
-                        begin
-                            matrix_mul_en <= 0;
-                            stall_count <= stall_count - 1;
-                        end
+                        stall_count <= stall_count - 1;
+                    end
+                    
+                    default:
+                    begin
+                        matrix_mul_en <= 0;
+                        stall_count <= stall_count - 1;
                     end
                 endcase
             end
         //`OP_SCALE:
         8'b00010111:
             begin
-                case (stall)
+                case (stall_count)
                     0:
                     begin
                         matrix_mul_en <= 1;
                         matrix_mul_type <= 1;
+                        matrix_mode_out <= curr_matrix_mode;
                         stall <= 1;
                         stall_count <= 15;
                     end
+                    
+                    2:
+                    begin
+                        stall <= 0;
+                        stall_count <= stall_count - 1;
+                    end
+                    
                     1:
                     begin
-                        if (stall_count == 0)
-                        begin
-                            stall <= 0;
-                        end
-                        else
-                        begin
-                            matrix_mul_en <= 0;
-                            stall_count <= stall_count - 1;
-                        end
+                        stall_count <= stall_count - 1;
+                    end
+                    
+                    default:
+                    begin
+                        matrix_mul_en <= 0;
+                        stall_count <= stall_count - 1;
                     end
                 endcase
             end
