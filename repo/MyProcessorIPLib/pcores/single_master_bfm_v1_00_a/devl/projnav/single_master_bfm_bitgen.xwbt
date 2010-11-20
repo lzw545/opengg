@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=D:\545\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\projnav\single_master_bfm.ncd
+OUTFILE=D:\545\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\projnav\single_master_bfm.bit
+FAMILY=Virtex5
+PART=xc5vlx110t-1ff1136
+WORKINGDIR=D:\545\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\projnav
+LICENSE=ISE
+USER_INFO=174679548_176449548_176449550

@@ -1,0 +1,26 @@
+##############################################################################
+## Filename:          D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/data/single_master_bfm_v2_1_0.pao
+## Description:       Peripheral Analysis Order
+## Date:              Tue Nov 09 21:47:50 2010 (by Create and Import Peripheral Wizard)
+##############################################################################
+
+lib proc_common_v3_00_a proc_common_pkg vhdl
+lib proc_common_v3_00_a ipif_pkg vhdl
+lib proc_common_v3_00_a or_muxcy vhdl
+lib proc_common_v3_00_a or_gate128 vhdl
+lib proc_common_v3_00_a family_support vhdl
+lib proc_common_v3_00_a pselect_f vhdl
+lib proc_common_v3_00_a counter_f vhdl
+lib plbv46_slave_single_v1_01_a plb_address_decoder vhdl
+lib plbv46_slave_single_v1_01_a plb_slave_attachment vhdl
+lib plbv46_slave_single_v1_01_a plbv46_slave_single vhdl
+lib plbv46_master_single_v1_01_a data_width_adapter vhdl
+lib plbv46_master_single_v1_01_a data_mirror_128 vhdl
+lib plbv46_master_single_v1_01_a plbv46_master_single vhdl
+lib proc_common_v3_00_a cntr_incr_decr_addn_f vhdl
+lib proc_common_v3_00_a muxf_struct_f vhdl
+lib proc_common_v3_00_a dynshreg_f vhdl
+lib proc_common_v3_00_a srl_fifo_rbu_f vhdl
+lib proc_common_v3_00_a srl_fifo_f vhdl
+lib single_master_bfm_v1_00_a user_logic verilog
+lib single_master_bfm_v1_00_a single_master_bfm vhdl
