@@ -1,0 +1,348 @@
+------------------------------------------------------------------------------
+-- Filename:          D:\545\repo\MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/bfmsim/scripts/sample.bfl
+-- Description:       Sample BFL command script to test peripheral
+-- Date:              Tue Nov 09 21:47:54 2010 (by Create and Import Peripheral Wizard)
+------------------------------------------------------------------------------
+
+
+------------------------------
+-- Define Alias
+------------------------------
+
+-- Byte Enable Alias
+set_alias(IGNOR = 00000000_00000000)
+set_alias(BYTE0 = 10000000_00000000)
+set_alias(BYTE1 = 01000000_00000000)
+set_alias(BYTE2 = 00100000_00000000)
+set_alias(BYTE3 = 00010000_00000000)
+set_alias(BYTE4 = 00001000_00000000)
+set_alias(BYTE5 = 00000100_00000000)
+set_alias(BYTE6 = 00000010_00000000)
+set_alias(BYTE7 = 00000001_00000000)
+set_alias(BYTE8 = 00000000_10000000)
+set_alias(BYTE9 = 00000000_01000000)
+set_alias(BYTEA = 00000000_00100000)
+set_alias(BYTEB = 00000000_00010000)
+set_alias(BYTEC = 00000000_00001000)
+set_alias(BYTED = 00000000_00000100)
+set_alias(BYTEE = 00000000_00000010)
+set_alias(BYTEF = 00000000_00000001)
+set_alias(HWRD0 = 11000000_00000000)
+set_alias(HWRD2 = 00110000_00000000)
+set_alias(HWRD4 = 00001100_00000000)
+set_alias(HWRD6 = 00000011_00000000)
+set_alias(HWRD8 = 00000000_11000000)
+set_alias(HWRDA = 00000000_00110000)
+set_alias(HWRDC = 00000000_00001100)
+set_alias(HWRDE = 00000000_00000011)
+set_alias(WORD0 = 11110000_00000000)
+set_alias(WORD4 = 00001111_00000000)
+set_alias(WORD8 = 00000000_11110000)
+set_alias(WORDC = 00000000_00001111)
+set_alias(DWRD0 = 11111111_00000000)
+set_alias(DWRD8 = 00000000_11111111)
+set_alias(QWORD = 11111111_11111111)
+
+-- PLB BE aliases (fixed length burst)
+set_alias(IBURST   = 00000000_00000000)
+set_alias(FBURST2  = 00010000_00000000)
+set_alias(FBURST3  = 00100000_00000000)
+set_alias(FBURST4  = 00110000_00000000)
+set_alias(FBURST5  = 01000000_00000000)
+set_alias(FBURST6  = 01010000_00000000)
+set_alias(FBURST7  = 01100000_00000000)
+set_alias(FBURST8  = 01110000_00000000)
+set_alias(FBURST9  = 10000000_00000000)
+set_alias(FBURST10 = 10010000_00000000)
+set_alias(FBURST11 = 10100000_00000000)
+set_alias(FBURST12 = 10110000_00000000)
+set_alias(FBURST13 = 11000000_00000000)
+set_alias(FBURST14 = 11010000_00000000)
+set_alias(FBURST15 = 11100000_00000000)
+set_alias(FBURST16 = 11110000_00000000)
+
+-- PLB Size Alias
+set_alias(SINGLE_NORMAL  = 0000)
+set_alias(CACHELN_4WRD   = 0001)
+set_alias(CACHELN_8WRD   = 0010)
+set_alias(CACHELN_16WRD  = 0011)
+set_alias(BYTE_BURST     = 1000)
+set_alias(HLFWORD_BURST  = 1001)
+set_alias(WORD_BURST     = 1010)
+set_alias(DBLWORD_BURST  = 1011)
+set_alias(QUADWORD_BURST = 1100)
+set_alias(OCTWORD_BURST  = 1101)
+
+-- UUT Address Space Alias
+set_alias(USER_MST_BASEADDR    = 30000000)
+
+-- System Memory Address Alias
+set_alias(SYS_MEM0_BASEADDR = 10000000)
+set_alias(SYS_MEM1_BASEADDR = 20000000)
+
+-- UUT User Logic Master Register(s)
+set_alias(MST_CNTL_REG = 30000000)
+set_alias(MST_CNTL_REG_BE = BYTE0)
+set_alias(MST_STAT_REG = 30000001)
+set_alias(MST_STAT_REG_BE = BYTE1)
+set_alias(MST_ADDR_REG = 30000004)
+set_alias(MST_ADDR_REG_BE = WORD4)
+set_alias(MST_BE_REG = 30000008)
+set_alias(MST_BE_REG_BE = WORD8)
+set_alias(MST_LEN_REG = 3000000C)
+set_alias(MST_LEN_REG_BE = HWRDC)
+set_alias(MST_GO_PORT = 3000000F)
+set_alias(MST_GO_PORT_BE = BYTEF)
+
+------------------------------
+-- Data Alias
+------------------------------
+
+-- Common Data
+set_alias(ALL_CLEARED         = 00000000)
+
+-- Data for User Logic Master
+set_alias(MST_STAT_DONE    = 00800000)       -- user logic master operation done
+set_alias(MST_STAT_BUSY    = 00400000)       -- user logic master is busy
+set_alias(MST_STAT_CLEAR   = 00000000)       -- user logic master status is clear
+set_alias(MST_CNTL_RDBRST  = 90000000)       -- burst read without bus lock
+set_alias(MST_CNTL_WRBRST  = 50000000)       -- burst write without bus lock
+set_alias(MST_CNTL_RDSNGL  = 80000000)       -- single read without bus lock
+set_alias(MST_CNTL_WRSNGL  = 40000000)       -- single write without bus lock
+set_alias(MST_BE_16        = FFFF0000)       -- enable all byte lanes
+set_alias(MST_LEN_256      = 01000000)       -- transfer 256 bytes
+set_alias(MST_LEN_4        = 00040000)       -- transfer 4 bytes
+set_alias(MST_GO_KEY       = 0000000A)       -- start user logic master operation
+
+------------------------------
+-- BFL/VHDL communication alias
+------------------------------
+
+set_alias(NOP        = 0)
+set_alias(START      = 1)
+set_alias(STOP       = 2)
+set_alias(WAIT_IN    = 3)
+set_alias(WAIT_OUT   = 4)
+set_alias(ASSERT_IN  = 5)
+set_alias(ASSERT_OUT = 6)
+set_alias(ASSIGN_IN  = 7)
+set_alias(ASSIGN_OUT = 8)
+set_alias(RESET_WDT  = 9)
+set_alias(MST_ERROR  = 30)
+set_alias(INTERRUPT  = 31)
+
+------------------------------
+-- Initialize the PLB Slave as 128-bit slave memory ...
+--
+-- Note:
+--
+-- 	The instance name for bfm_memory is duplicated in the path due to the
+-- 	wrapper level inserted by SimGen to support mixed language simulation.
+------------------------------
+
+set_device(path = /bfm_system/bfm_memory/bfm_memory/slave, device_type = plb_slave)
+configure
+(
+  ssize = 10,
+  fixed_burst_mode = 1,
+  read_addr_pipeline_disable=1,
+  write_addr_pipeline_disable=1,
+  data_pipeline_mode=1,
+  burst_term_mode=CYCLE,
+  aack_delay = 1
+)
+
+-- initialize the source data memory (first 16 locations) ...
+mem_init(addr = 10000000, data = 00010203_04050607_08090A0B_0C0D0E0F)
+mem_init(addr = 10000010, data = 10111213_14151617_18191A1B_1C1D1E1F)
+mem_init(addr = 10000020, data = 20212223_24252627_28292A2B_2C2D2E2F)
+mem_init(addr = 10000030, data = 30313233_34353637_38393A3B_3C3D3E3F)
+mem_init(addr = 10000040, data = 40414243_44454647_48494A4B_4C4D4E4F)
+mem_init(addr = 10000050, data = 50515253_54555657_58595A5B_5C5D5E5F)
+mem_init(addr = 10000060, data = 60616263_64656667_68696A6B_6C6D6E6F)
+mem_init(addr = 10000070, data = 70717273_74757677_78797A7B_7C7D7E7F)
+mem_init(addr = 10000080, data = 80818283_84858687_88898A8B_8C8D8E8F)
+mem_init(addr = 10000090, data = 90919293_94959697_98999A9B_9C9D9E9F)
+mem_init(addr = 100000A0, data = A0A1A2A3_A4A5A6A7_A8A9AAAB_ACADAEAF)
+mem_init(addr = 100000B0, data = B0B1B2B3_B4B5B6B7_B8B9BABB_BCBDBEBF)
+mem_init(addr = 100000C0, data = C0C1C2C3_C4C5C6C7_C8C9CACB_CCCDCECF)
+mem_init(addr = 100000D0, data = D0D1D2D3_D4D5D6D7_D8D9DADB_DCDDDEDF)
+mem_init(addr = 100000E0, data = E0E1E2E3_E4E5E6E7_E8E9EAEB_ECEDEEEF)
+mem_init(addr = 100000F0, data = F0F1F2F3_F4F5F6F7_F8F9FAFB_FCFDFEFF)
+
+-- initialize the destination data memory (first 16 locations) ...
+mem_init(addr = 20000000, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 20000010, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 20000020, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 20000030, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 20000040, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 20000050, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 20000060, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 20000070, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 20000080, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 20000090, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 200000A0, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 200000B0, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 200000C0, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 200000D0, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 200000E0, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+mem_init(addr = 200000F0, data = DEADBEEF_DEADBEEF_DEADBEEF_DEADBEEF)
+
+------------------------------
+-- Initialize the PLB Master as 128-bit master processor ...
+--
+-- Note:
+--
+-- 	The instance name for bfm_processor is duplicated in the path due to the
+-- 	wrapper level inserted by SimGen to support mixed language simulation.
+------------------------------
+
+set_device(path = /bfm_system/bfm_processor/bfm_processor/master, device_type = plb_master)
+configure(msize = 10)
+
+------------------------------
+-- Start Testing ...
+------------------------------
+
+------------------------------------------------------------
+-- Test User Logic Master Model
+--
+-- In the following section, we will test the IP Master Model
+-- in User Logic that created by the Wizard. We will first
+-- initiate a master read operation (the peripheral will read
+-- from system memory and store in a local SRL FIFO), and then
+-- followed by a master write operation (the peripheral will
+-- read from local SRL FIFO and write to system memory), by
+-- operate on the various IP Master Model registers.
+------------------------------------------------------------
+
+wait(level = START)
+
+-- source memory should have been initialized with data pattern already
+-- confirm destination memory is cleared up with special pattern
+mem_update(addr = 20000000, data = DEADBEEF)
+mem_update(addr = 20000004, data = DEADBEEF)
+mem_update(addr = 20000008, data = DEADBEEF)
+mem_update(addr = 2000000C, data = DEADBEEF)
+mem_update(addr = 20000010, data = DEADBEEF)
+mem_update(addr = 20000014, data = DEADBEEF)
+mem_update(addr = 20000018, data = DEADBEEF)
+mem_update(addr = 2000001C, data = DEADBEEF)
+mem_update(addr = 20000020, data = DEADBEEF)
+mem_update(addr = 20000024, data = DEADBEEF)
+mem_update(addr = 20000028, data = DEADBEEF)
+mem_update(addr = 2000002C, data = DEADBEEF)
+mem_update(addr = 20000030, data = DEADBEEF)
+mem_update(addr = 20000034, data = DEADBEEF)
+mem_update(addr = 20000038, data = DEADBEEF)
+mem_update(addr = 2000003C, data = DEADBEEF)
+read(addr = 20000000, size = SINGLE_NORMAL, be = WORD0)
+read(addr = 20000004, size = SINGLE_NORMAL, be = WORD4)
+read(addr = 20000008, size = SINGLE_NORMAL, be = WORD8)
+read(addr = 2000000C, size = SINGLE_NORMAL, be = WORDC)
+read(addr = 20000010, size = SINGLE_NORMAL, be = WORD0)
+read(addr = 20000014, size = SINGLE_NORMAL, be = WORD4)
+read(addr = 20000018, size = SINGLE_NORMAL, be = WORD8)
+read(addr = 2000001C, size = SINGLE_NORMAL, be = WORDC)
+read(addr = 20000020, size = SINGLE_NORMAL, be = WORD0)
+read(addr = 20000024, size = SINGLE_NORMAL, be = WORD4)
+read(addr = 20000028, size = SINGLE_NORMAL, be = WORD8)
+read(addr = 2000002C, size = SINGLE_NORMAL, be = WORDC)
+read(addr = 20000030, size = SINGLE_NORMAL, be = WORD0)
+read(addr = 20000034, size = SINGLE_NORMAL, be = WORD4)
+read(addr = 20000038, size = SINGLE_NORMAL, be = WORD8)
+read(addr = 2000003C, size = SINGLE_NORMAL, be = WORDC)
+
+-- setup master control register for master read operation (and enable bursting if supported)
+mem_update(addr = MST_CNTL_REG, data = MST_CNTL_RDSNGL)
+write(addr = MST_CNTL_REG, size = SINGLE_NORMAL, be = MST_CNTL_REG_BE)
+
+-- setup master address register for target system address (source to be read from)
+mem_update(addr = MST_ADDR_REG, data = SYS_MEM0_BASEADDR)
+write(addr = MST_ADDR_REG, size = SINGLE_NORMAL, be = MST_ADDR_REG_BE)
+
+-- setup master byte enable register for valid byte lanes
+mem_update(addr = MST_BE_REG, data = MST_BE_16)
+write(addr = MST_BE_REG, size = SINGLE_NORMAL, be = MST_BE_REG_BE)
+
+-- setup master length register for transfer length
+mem_update(addr = MST_LEN_REG, data = MST_LEN_4)
+write(addr = MST_LEN_REG, size = SINGLE_NORMAL, be = MST_LEN_REG_BE)
+
+-- write master go port to start master read transactions
+mem_update(addr = MST_LEN_REG, data = MST_GO_KEY)
+write(addr = MST_GO_PORT, size = SINGLE_NORMAL, be = MST_GO_PORT_BE)
+
+-- verify user logic master is now busy
+-- mem_update(addr = MST_CNTL_REG, data = MST_STAT_BUSY)
+-- read(addr = MST_STAT_REG, size = SINGLE_NORMAL, be = MST_STAT_REG_BE)
+
+-- now we need to wait for awhile to let the user logic master complete transactions
+send(level = WAIT_OUT)
+
+-- the testbench will wait certain amount of time before we can continue
+wait(level = WAIT_IN)
+
+-- verify user logic master is done
+mem_update(addr = MST_CNTL_REG, data = MST_STAT_DONE)
+read(addr = MST_STAT_REG, size = SINGLE_NORMAL, be = MST_STAT_REG_BE)
+
+-- clear the user logic master done bit
+mem_update(addr = MST_CNTL_REG, data = MST_STAT_CLEAR)
+write(addr = MST_STAT_REG, size = SINGLE_NORMAL, be = MST_STAT_REG_BE)
+
+-- verify Done is cleared out of the user logic master
+read(addr = MST_STAT_REG, size = SINGLE_NORMAL, be = MST_STAT_REG_BE)
+
+-- now the user logic master local FIFO should contain the expected data
+
+-- setup master control register for master write operation (and enable bursting if supported)
+mem_update(addr = MST_CNTL_REG, data = MST_CNTL_WRSNGL)
+write(addr = MST_CNTL_REG, size = SINGLE_NORMAL, be = MST_CNTL_REG_BE)
+
+-- setup master address register for target system address (destination to be written to)
+mem_update(addr = MST_ADDR_REG, data = SYS_MEM1_BASEADDR)
+write(addr = MST_ADDR_REG, size = SINGLE_NORMAL, be = MST_ADDR_REG_BE)
+
+-- setup master byte enable register for valid byte lanes
+mem_update(addr = MST_BE_REG, data = MST_BE_16)
+write(addr = MST_BE_REG, size = SINGLE_NORMAL, be = MST_BE_REG_BE)
+
+-- setup master length register for transfer length
+mem_update(addr = MST_LEN_REG, data = MST_LEN_4)
+write(addr = MST_LEN_REG, size = SINGLE_NORMAL, be = MST_LEN_REG_BE)
+
+-- write master go port to start master write transactions
+mem_update(addr = MST_LEN_REG, data = MST_GO_KEY)
+write(addr = MST_GO_PORT, size = SINGLE_NORMAL, be = MST_GO_PORT_BE)
+
+-- verify user logic master is now busy
+-- mem_update(addr = MST_CNTL_REG, data = MST_STAT_BUSY)
+-- read(addr = MST_STAT_REG, size = SINGLE_NORMAL, be = MST_STAT_REG_BE)
+
+-- now we need to wait for awhile to let the user logic master complete transactions
+send(level = WAIT_OUT)
+
+-- the testbench will wait certain amount of time before we can continue
+wait(level = WAIT_IN)
+
+-- verify user logic master is done
+mem_update(addr = MST_CNTL_REG, data = MST_STAT_DONE)
+read(addr = MST_STAT_REG, size = SINGLE_NORMAL, be = MST_STAT_REG_BE)
+
+-- clear the user logic master done bit
+mem_update(addr = MST_CNTL_REG, data = MST_STAT_CLEAR)
+write(addr = MST_STAT_REG, size = SINGLE_NORMAL, be = MST_STAT_REG_BE)
+
+-- verify done is cleared out of the user logic master
+read(addr = MST_STAT_REG, size = SINGLE_NORMAL, be = MST_STAT_REG_BE)
+
+-- verify destination system memory contains the expected data
+mem_update(addr = 20000000, data = 00010203)
+read(addr = 20000000, size = SINGLE_NORMAL, be = WORD0)
+
+send(level = STOP)
+
+------------------------------
+-- End of Testing.
+------------------------------

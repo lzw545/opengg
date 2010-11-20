@@ -1,0 +1,9 @@
+-batch 
+-create single_master_bfm 
+-ver 1.00.a 
+-dir "D:\545\repo\MyProcessorIPLib" 
+-lang verilog 
+-bus plbv46 ms 
+-xps 
+-ise 
+-bfmsim "" "" 
