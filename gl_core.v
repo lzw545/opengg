@@ -61,6 +61,10 @@ module gl_core_internal(clk, reset, bram_enable, bram_rst, bram_addr_out, bram_d
     wire [127:0]    mc_write_in_3;                  // matrix_ctrl write in
     wire [127:0]    mc_data_in;                     // matrix_ctrl input line for push
 
+    wire [31:0]     v_x;
+    wire [31:0]     v_y;
+    wire [31:0]     v_width;
+    wire [31:0]     v_height;
     
     /* Viewport Registers */
     
@@ -114,10 +118,10 @@ module gl_core_internal(clk, reset, bram_enable, bram_rst, bram_addr_out, bram_d
                   .bram_read_in_1(bram_read_1), 
                   .bram_read_in_2(bram_read_2), 
                   .bram_read_in_3(bram_read_3),
-                  .viewport_min_x(v_min_x), 
-                  .viewport_min_y(v_min_y), 
-                  .viewport_max_x(v_max_x), 
-                  .viewport_max_y(v_max_y),
+                  .viewport_x(v_min_x), 
+                  .viewport_y(v_min_y), 
+                  .viewport_width(v_max_x), 
+                  .viewport_height(v_max_y),
                   .push_en(push_en), 
                   .pop_en(pop_en), 
                   .color_in(color_in), 
@@ -216,8 +220,22 @@ module gl_core_internal(clk, reset, bram_enable, bram_rst, bram_addr_out, bram_d
     
     /* Viewport Transformation */
     
+    wire [31:0] vt_mulx_result;
+    wire [31:0] vt_muly_result;
+    wire [31:0] vt_addx_result;
+    wire [31:0] vt_addy_result;
+    wire [31:0] vt_addx2_result;
+    wire [31:0] vt_addy2_result;
     
-    fp_sub
+    fp_mul vt_mulx  (.a(pd_vert_x), .b(v_width), .result(vt_mulx_result));
+    fp_add vt_addx  (.a(vt_mulx_result), .b(v_width), .result(vt_addx_result));
+    fp_add vt_addx2 (.a(v_x), .b(vt_addx_result), .result(vt_addx2_result));
+    
+    fp_mul vt_muly  (.a(pd_vert_y), .b(v_width), .result(vt_muly_result));
+    fp_add vt_addy  (.a(vt_muly_result), .b(v_width), .result(vt_addy_result));
+    fp_add vt_addy2 (.a(v_y), .b(vt_addy_result), .result(vt_addy2_result));
+    
+    always @ (posedge clk)
     
     assign bram_enable = 1;
     assign bram_rst = 0;
