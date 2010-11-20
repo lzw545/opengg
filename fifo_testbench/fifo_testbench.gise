@@ -19,11 +19,9 @@
 
   <version xmlns="http://www.xilinx.com/XMLSchema">11.1</version>
 
-  <sourceproject xmlns="http://www.xilinx.com/XMLSchema" xil_pn:fileType="FILE_XISE" xil_pn:name="single_master_bfm.xise"/>
+  <sourceproject xmlns="http://www.xilinx.com/XMLSchema" xil_pn:fileType="FILE_XISE" xil_pn:name="fifo_testbench.xise"/>
 
-  <files xmlns="http://www.xilinx.com/XMLSchema">
-    <file xil_pn:fileType="FILE_NCD" xil_pn:name="single_master_bfm_guide.ncd" xil_pn:origination="imported"/>
-  </files>
+  <files xmlns="http://www.xilinx.com/XMLSchema"/>
 
   <transforms xmlns="http://www.xilinx.com/XMLSchema"/>
 

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:design xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xilinx="http://www.xilinx.com" >
+   <spirit:vendor>xilinx.com</spirit:vendor>
+   <spirit:library>project</spirit:library>
+   <spirit:name>coregen</spirit:name>
+   <spirit:version>1.0</spirit:version>
+   <spirit:componentInstances>
+      <spirit:componentInstance>
+         <spirit:instanceName>fifo_generator_v6_2</spirit:instanceName>
+         <spirit:displayName></spirit:displayName>
+         <spirit:description></spirit:description>
+         <spirit:componentRef spirit:vendor="xilinx.com" spirit:library="ip" spirit:name="fifo_generator" spirit:version="6.2" />
+         <spirit:configurableElementValues>
+            <spirit:configurableElementValue spirit:referenceId="parameter_almost_empty_flag">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_write_data_count">true</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_full_threshold_negate_value">12</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_empty_threshold_negate_value">3</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_output_data_width">128</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_input_depth">16</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_valid_flag">true</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_programmable_empty_type">No_Programmable_Empty_Threshold</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_write_acknowledge_flag">true</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_enable_int_clk">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_fifo_implementation">Independent_Clocks_Block_RAM</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_underflow_flag">true</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_use_extra_logic">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_full_flags_reset_value">1</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_valid_sense">Active_High</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_write_data_count_width">4</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_inject_dbit_error">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_data_count_width">4</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_output_depth">16</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_dout_reset_value">0</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_enable_reset_synchronization">true</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_reset_pin">true</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_underflow_sense">Active_High</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_overflow_sense">Active_High</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_overflow_flag">true</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_read_data_count">true</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_data_count">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_programmable_full_type">No_Programmable_Full_Threshold</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_inject_sbit_error">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_read_data_count_width">4</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_reset_type">Asynchronous_Reset</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_performance_options">Standard_FIFO</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_full_threshold_assert_value">13</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_use_dout_reset">true</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_almost_full_flag">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_use_embedded_registers">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_read_clock_frequency">1</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_write_acknowledge_sense">Active_High</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_disable_timing_violations">false</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_empty_threshold_assert_value">2</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_input_data_width">128</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_write_clock_frequency">1</spirit:configurableElementValue>
+            <spirit:configurableElementValue spirit:referenceId="parameter_enable_ecc">false</spirit:configurableElementValue>
+         </spirit:configurableElementValues>
+         <spirit:vendorExtensions>
+            <xilinx:instanceProperties xmlns:xilinx="http://www.xilinx.com">
+             <xilinx:projectOptions>
+               <xilinx:projectName>coregen</xilinx:projectName>
+               <xilinx:outputDirectory>./</xilinx:outputDirectory>
+               <xilinx:workingDirectory>./tmp/</xilinx:workingDirectory>
+               <xilinx:subWorkingDirectory>./tmp/_cg</xilinx:subWorkingDirectory>
+             </xilinx:projectOptions>
+             <xilinx:part>
+               <xilinx:device>xc5vlx110t</xilinx:device>
+               <xilinx:deviceFamily>virtex5</xilinx:deviceFamily>
+               <xilinx:package>ff1136</xilinx:package>
+               <xilinx:speedGrade>-1</xilinx:speedGrade>
+             </xilinx:part>
+             <xilinx:flowOptions>
+               <xilinx:busFormat>BusFormatAngleBracketNotRipped</xilinx:busFormat>
+               <xilinx:designEntry>Verilog</xilinx:designEntry>
+               <xilinx:asySymbol>true</xilinx:asySymbol>
+               <xilinx:flowVendor>Other</xilinx:flowVendor>
+               <xilinx:addPads>false</xilinx:addPads>
+               <xilinx:removeRPMs>false</xilinx:removeRPMs>
+               <xilinx:createNDF>false</xilinx:createNDF>
+               <xilinx:implementationFileType>Ngc</xilinx:implementationFileType>
+               <xilinx:formalVerification>false</xilinx:formalVerification>
+             </xilinx:flowOptions>
+             <xilinx:simulationOptions>
+               <xilinx:simulationModel>Behavioral</xilinx:simulationModel>
+               <xilinx:simulationLanguage>Verilog</xilinx:simulationLanguage>
+               <xilinx:foundationSym>false</xilinx:foundationSym>
+             </xilinx:simulationOptions>
+           </xilinx:instanceProperties>
+            <xilinx:generationHistory>
+               <xilinx:fileSet>
+                  <xilinx:name>customization_generator</xilinx:name>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>ip_xco_generator</xilinx:name>
+                  <xilinx:file>
+                     <xilinx:name>./fifo_generator_v6_2.xco</xilinx:name>
+                     <xilinx:userFileType>xco</xilinx:userFileType>
+                     <xilinx:timeStamp>Sat Nov 20 02:49:56 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x37A067CE</xilinx:checkSum>
+                  </xilinx:file>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>implementation_netlist_generator</xilinx:name>
+                  <xilinx:file>
+                     <xilinx:name>./fifo_generator_readme.txt</xilinx:name>
+                     <xilinx:userFileType>txt</xilinx:userFileType>
+                     <xilinx:timeStamp>Sat Nov 20 02:51:37 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x406DA7B6</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./fifo_generator_ug175.pdf</xilinx:name>
+                     <xilinx:userFileType>pdf</xilinx:userFileType>
+                     <xilinx:timeStamp>Sat Nov 20 02:51:37 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x90A3543F</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./fifo_generator_v6_2.asy</xilinx:name>
+                     <xilinx:userFileType>asy</xilinx:userFileType>
+                     <xilinx:timeStamp>Sat Nov 20 02:49:57 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x4141CA5F</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./fifo_generator_v6_2.ngc</xilinx:name>
+                     <xilinx:userFileType>ngc</xilinx:userFileType>
+                     <xilinx:timeStamp>Sat Nov 20 02:51:54 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x6EBAEC26</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./fifo_generator_v6_2.v</xilinx:name>
+                     <xilinx:userFileType>verilog</xilinx:userFileType>
+                     <xilinx:timeStamp>Sat Nov 20 02:51:37 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x324A7470</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./fifo_generator_v6_2.veo</xilinx:name>
+                     <xilinx:userFileType>veo</xilinx:userFileType>
+                     <xilinx:timeStamp>Sat Nov 20 02:51:37 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x605231ED</xilinx:checkSum>
+                  </xilinx:file>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>instantiation_template_generator</xilinx:name>
+                  <xilinx:file>
+                     <xilinx:name>./fifo_generator_v6_2.veo</xilinx:name>
+                     <xilinx:userFileType>veo</xilinx:userFileType>
+                     <xilinx:timeStamp>Sat Nov 20 02:51:55 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x605231ED</xilinx:checkSum>
+                  </xilinx:file>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>xco_generator</xilinx:name>
+                  <xilinx:file>
+                     <xilinx:name>./fifo_generator_v6_2.xco</xilinx:name>
+                     <xilinx:userFileType>xco</xilinx:userFileType>
+                     <xilinx:timeStamp>Sat Nov 20 02:52:00 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x5F6026BB</xilinx:checkSum>
+                  </xilinx:file>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>xmdf_generator</xilinx:name>
+                  <xilinx:file>
+                     <xilinx:name>./fifo_generator_v6_2_xmdf.tcl</xilinx:name>
+                     <xilinx:userFileType>tclXmdf</xilinx:userFileType>
+                     <xilinx:userFileType>tcl</xilinx:userFileType>
+                     <xilinx:timeStamp>Sat Nov 20 02:52:00 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x0BA2ACE4</xilinx:checkSum>
+                  </xilinx:file>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>ise_generator</xilinx:name>
+                  <xilinx:file>
+                     <xilinx:name>./_xmsgs/pn_parser.xmsgs</xilinx:name>
+                     <xilinx:userFileType>ignore</xilinx:userFileType>
+                     <xilinx:userFileType>unknown</xilinx:userFileType>
+                     <xilinx:timeStamp>Sat Nov 20 02:52:06 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x5A065002</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./fifo_generator_v6_2.gise</xilinx:name>
+                     <xilinx:userFileType>ignore</xilinx:userFileType>
+                     <xilinx:userFileType>gise</xilinx:userFileType>
+                     <xilinx:timeStamp>Sat Nov 20 02:52:06 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0xE4FA5382</xilinx:checkSum>
+                  </xilinx:file>
+                  <xilinx:file>
+                     <xilinx:name>./fifo_generator_v6_2.xise</xilinx:name>
+                     <xilinx:userFileType>ignore</xilinx:userFileType>
+                     <xilinx:userFileType>xise</xilinx:userFileType>
+                     <xilinx:timeStamp>Sat Nov 20 02:52:06 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0xD5862C35</xilinx:checkSum>
+                  </xilinx:file>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>deliver_readme_generator</xilinx:name>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>flist_generator</xilinx:name>
+                  <xilinx:file>
+                     <xilinx:name>./fifo_generator_v6_2_flist.txt</xilinx:name>
+                     <xilinx:userFileType>ignore</xilinx:userFileType>
+                     <xilinx:userFileType>txtFlist</xilinx:userFileType>
+                     <xilinx:userFileType>txt</xilinx:userFileType>
+                     <xilinx:timeStamp>Sat Nov 20 02:52:06 GMT 2010</xilinx:timeStamp>
+                     <xilinx:checkSum>0x6146C335</xilinx:checkSum>
+                  </xilinx:file>
+               </xilinx:fileSet>
+               <xilinx:fileSet>
+                  <xilinx:name>view_readme_generator</xilinx:name>
+               </xilinx:fileSet>
+            </xilinx:generationHistory>
+         </spirit:vendorExtensions>
+      </spirit:componentInstance>
+   </spirit:componentInstances>
+   <spirit:description></spirit:description>
+   <spirit:vendorExtensions>
+      <xilinx:instanceProperties xmlns:xilinx="http://www.xilinx.com">
+       <xilinx:projectOptions>
+         <xilinx:projectName>coregen</xilinx:projectName>
+         <xilinx:outputDirectory>./</xilinx:outputDirectory>
+         <xilinx:workingDirectory>./tmp/</xilinx:workingDirectory>
+         <xilinx:subWorkingDirectory>./tmp/_cg</xilinx:subWorkingDirectory>
+       </xilinx:projectOptions>
+       <xilinx:part>
+         <xilinx:device>xc5vlx110t</xilinx:device>
+         <xilinx:deviceFamily>virtex5</xilinx:deviceFamily>
+         <xilinx:package>ff1136</xilinx:package>
+         <xilinx:speedGrade>-1</xilinx:speedGrade>
+       </xilinx:part>
+       <xilinx:flowOptions>
+         <xilinx:busFormat>BusFormatAngleBracketNotRipped</xilinx:busFormat>
+         <xilinx:designEntry>Verilog</xilinx:designEntry>
+         <xilinx:asySymbol>true</xilinx:asySymbol>
+         <xilinx:flowVendor>Other</xilinx:flowVendor>
+         <xilinx:addPads>false</xilinx:addPads>
+         <xilinx:removeRPMs>false</xilinx:removeRPMs>
+         <xilinx:createNDF>false</xilinx:createNDF>
+         <xilinx:implementationFileType>Ngc</xilinx:implementationFileType>
+         <xilinx:formalVerification>false</xilinx:formalVerification>
+       </xilinx:flowOptions>
+       <xilinx:simulationOptions>
+         <xilinx:simulationModel>Behavioral</xilinx:simulationModel>
+         <xilinx:simulationLanguage>Verilog</xilinx:simulationLanguage>
+         <xilinx:foundationSym>false</xilinx:foundationSym>
+       </xilinx:simulationOptions>
+     </xilinx:instanceProperties>
+   </spirit:vendorExtensions>
+</spirit:design>

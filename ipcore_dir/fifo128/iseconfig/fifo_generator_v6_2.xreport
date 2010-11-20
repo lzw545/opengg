@@ -1,33 +1,33 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2010-11-19T19:17:09</DateModified>
-  <ModuleName>single_master_bfm</ModuleName>
+  <DateModified>2010-11-19T20:22:27</DateModified>
+  <ModuleName>fifo_generator_v6_2</ModuleName>
   <SummaryTimeStamp>Unknown</SummaryTimeStamp>
-  <SavedFilePath>C:/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/iseconfig/single_master_bfm.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>C:/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav\</ImplementationReportsDirectory>
-  <DateInitialized>2010-11-09T21:56:16</DateInitialized>
+  <SavedFilePath>C:/Documents and Settings/545/Desktop/fifo_verilog/iseconfig/fifo_generator_v6_2.xreport</SavedFilePath>
+  <ImplementationReportsDirectory>C:/Documents and Settings/545/Desktop/fifo_verilog</ImplementationReportsDirectory>
+  <DateInitialized>2010-11-19T20:22:27</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>
  <body>
   <viewgroup label="Design Overview" >
-   <view inputState="Unknown" program="implementation" ShowPartitionData="false" type="FPGASummary" file="single_master_bfm_summary.html" label="Summary" >
+   <view inputState="Unknown" program="implementation" ShowPartitionData="false" type="FPGASummary" file="fifo_generator_v6_2_summary.html" label="Summary" >
     <toc-item title="Design Overview" target="Design Overview" />
     <toc-item title="Design Utilization Summary" target="Design Utilization Summary" />
     <toc-item title="Performance Summary" target="Performance Summary" />
     <toc-item title="Failing Constraints" target="Failing Constraints" />
     <toc-item title="Detailed Reports" target="Detailed Reports" />
    </view>
-   <view inputState="Unknown" program="implementation" contextTags="FPGA_ONLY" hidden="true" type="HTML" file="single_master_bfm_envsettings.html" label="System Settings" />
-   <view inputState="Translated" program="map" locator="MAP_IOB_TABLE" contextTags="FPGA_ONLY" type="IOBProperties" file="single_master_bfm_map.xrpt" label="IOB Properties" />
-   <view inputState="Translated" program="map" contextTags="FPGA_ONLY" hidden="true" type="Control_Sets" file="single_master_bfm_map.xrpt" label="Control Set Information" />
-   <view inputState="Translated" program="map" locator="MAP_MODULE_HIERARCHY" contextTags="FPGA_ONLY" type="Module_Utilization" file="single_master_bfm_map.xrpt" label="Module Level Utilization" />
-   <view inputState="Mapped" program="par" locator="CONSTRAINT_TABLE" contextTags="FPGA_ONLY" type="ConstraintsData" file="single_master_bfm.ptwx" label="Timing Constraints" translator="ptwxToTableXML.xslt" />
-   <view inputState="Mapped" program="par" locator="PAR_PINOUT_BY_PIN_NUMBER" contextTags="FPGA_ONLY" type="PinoutData" file="single_master_bfm_par.xrpt" label="Pinout Report" />
-   <view inputState="Mapped" program="par" locator="PAR_CLOCK_TABLE" contextTags="FPGA_ONLY" type="ClocksData" file="single_master_bfm_par.xrpt" label="Clock Report" />
-   <view inputState="Mapped" program="par" contextTags="FPGA_ONLY,EDK_OFF" type="Timing_Analyzer" file="single_master_bfm.twx" label="Static Timing" />
-   <view inputState="Translated" program="cpldfit" contextTags="CPLD_ONLY,EDK_OFF" hidden="true" type="EXTERNAL_HTML" file="single_master_bfm_html/fit/report.htm" label="CPLD Fitter Report" />
-   <view inputState="Fitted" program="taengine" contextTags="CPLD_ONLY,EDK_OFF" hidden="true" type="EXTERNAL_HTML" file="single_master_bfm_html/tim/report.htm" label="CPLD Timing Report" />
+   <view inputState="Unknown" program="implementation" contextTags="FPGA_ONLY" hidden="true" type="HTML" file="fifo_generator_v6_2_envsettings.html" label="System Settings" />
+   <view inputState="Translated" program="map" locator="MAP_IOB_TABLE" contextTags="FPGA_ONLY" type="IOBProperties" file="fifo_generator_v6_2_map.xrpt" label="IOB Properties" />
+   <view inputState="Translated" program="map" contextTags="FPGA_ONLY" hidden="true" type="Control_Sets" file="fifo_generator_v6_2_map.xrpt" label="Control Set Information" />
+   <view inputState="Translated" program="map" locator="MAP_MODULE_HIERARCHY" contextTags="FPGA_ONLY" type="Module_Utilization" file="fifo_generator_v6_2_map.xrpt" label="Module Level Utilization" />
+   <view inputState="Mapped" program="par" locator="CONSTRAINT_TABLE" contextTags="FPGA_ONLY" type="ConstraintsData" file="fifo_generator_v6_2.ptwx" label="Timing Constraints" translator="ptwxToTableXML.xslt" />
+   <view inputState="Mapped" program="par" locator="PAR_PINOUT_BY_PIN_NUMBER" contextTags="FPGA_ONLY" type="PinoutData" file="fifo_generator_v6_2_par.xrpt" label="Pinout Report" />
+   <view inputState="Mapped" program="par" locator="PAR_CLOCK_TABLE" contextTags="FPGA_ONLY" type="ClocksData" file="fifo_generator_v6_2_par.xrpt" label="Clock Report" />
+   <view inputState="Mapped" program="par" contextTags="FPGA_ONLY,EDK_OFF" type="Timing_Analyzer" file="fifo_generator_v6_2.twx" label="Static Timing" />
+   <view inputState="Translated" program="cpldfit" contextTags="CPLD_ONLY,EDK_OFF" hidden="true" type="EXTERNAL_HTML" file="fifo_generator_v6_2_html/fit/report.htm" label="CPLD Fitter Report" />
+   <view inputState="Fitted" program="taengine" contextTags="CPLD_ONLY,EDK_OFF" hidden="true" type="EXTERNAL_HTML" file="fifo_generator_v6_2_html/tim/report.htm" label="CPLD Timing Report" />
   </viewgroup>
   <viewgroup label="XPS Errors and Warnings" >
    <view program="platgen" WrapMessages="true" contextTags="EDK_ON" hidden="true" type="MessageList" hideColumns="Filtered" file="__xps/ise/_xmsgs/platgen.xmsgs" label="Platgen Messages" />
@@ -40,7 +40,7 @@
    <view inputState="PreSynthesized" program="libgen" contextTags="EDK_ON" hidden="true" type="Secondary_Report" file="libgen.log" label="Libgen Log File" />
    <view inputState="PreSynthesized" program="simgen" contextTags="EDK_ON" hidden="true" type="Secondary_Report" file="simgen.log" label="Simgen Log File" />
    <view inputState="PreSynthesized" program="bitinit" contextTags="EDK_ON" hidden="true" type="Secondary_Report" file="bitinit.log" label="BitInit Log File" />
-   <view inputState="PreSynthesized" program="system" contextTags="EDK_ON" hidden="true" type="Secondary_Report" file="single_master_bfm.log" label="System Log File" />
+   <view inputState="PreSynthesized" program="system" contextTags="EDK_ON" hidden="true" type="Secondary_Report" file="fifo_generator_v6_2.log" label="System Log File" />
   </viewgroup>
   <viewgroup label="Errors and Warnings" >
    <view program="pn" WrapMessages="true" contextTags="EDK_OFF" type="MessageList" hideColumns="Filtered, New" file="_xmsgs/pn_parser.xmsgs" label="Parser Messages" />
@@ -56,7 +56,7 @@
    <view inputState="Current" program="fitting" WrapMessages="true" fileList="_xmsgs/xst.xmsgs,_xmsgs/ngdbuild.xmsgs,_xmsgs/cpldfit.xmsgs,_xmsgs/xpwr.xmsgs" contextTags="CPLD_ONLY,EDK_OFF" hidden="true" type="CPLD_MessageList" hideColumns="Filtered" file="_xmsgs/*.xmsgs" label="All Implementation Messages (CPLD)" />
   </viewgroup>
   <viewgroup label="Detailed Reports" >
-   <view program="xst" contextTags="XST_ONLY,EDK_OFF" hidden="false" type="Report" file="single_master_bfm.syr" label="Synthesis Report" >
+   <view program="xst" contextTags="XST_ONLY,EDK_OFF" hidden="false" type="Report" file="fifo_generator_v6_2.syr" label="Synthesis Report" >
     <toc-item title="Top of Report" target="Copyright " searchDir="Forward" />
     <toc-item title="Synthesis Options Summary" target="   Synthesis Options Summary   " />
     <toc-item title="HDL Compilation" target="   HDL Compilation   " />
@@ -81,15 +81,15 @@
     <toc-item title="Timing Summary" target="Timing Summary" subItemLevel="2" />
     <toc-item title="Timing Details" target="Timing Details" subItemLevel="2" />
    </view>
-   <view program="synplify" contextTags="SYNPLIFY_ONLY,EDK_OFF" hidden="true" type="Report" file="single_master_bfm.srr" label="Synplify Report" />
-   <view program="precision" contextTags="PRECISION_ONLY,EDK_OFF" hidden="true" type="Report" file="single_master_bfm.prec_log" label="Precision Report" />
-   <view inputState="Synthesized" program="ngdbuild" type="Report" file="single_master_bfm.bld" label="Translation Report" >
+   <view program="synplify" contextTags="SYNPLIFY_ONLY,EDK_OFF" hidden="true" type="Report" file="fifo_generator_v6_2.srr" label="Synplify Report" />
+   <view program="precision" contextTags="PRECISION_ONLY,EDK_OFF" hidden="true" type="Report" file="fifo_generator_v6_2.prec_log" label="Precision Report" />
+   <view inputState="Synthesized" program="ngdbuild" type="Report" file="fifo_generator_v6_2.bld" label="Translation Report" >
     <toc-item title="Top of Report" target="Copyright (c)" searchDir="Forward" />
     <toc-item title="Command Line" target="Command Line:" />
     <toc-item title="Partition Status" target="Partition Implementation Status" />
     <toc-item title="Final Summary" target="NGDBUILD Design Results Summary:" />
    </view>
-   <view inputState="Translated" program="map" contextTags="FPGA_ONLY" type="Report" file="single_master_bfm_map.mrp" label="Map Report" >
+   <view inputState="Translated" program="map" contextTags="FPGA_ONLY" type="Report" file="fifo_generator_v6_2_map.mrp" label="Map Report" >
     <toc-item title="Top of Report" target="Release" searchDir="Forward" />
     <toc-item title="Section 1: Errors" target="Section 1 -" searchDir="Backward" />
     <toc-item title="Section 2: Warnings" target="Section 2 -" searchDir="Backward" />
@@ -105,7 +105,7 @@
     <toc-item title="Section 12: Control Set Information" target="Section 12 -" searchDir="Backward" />
     <toc-item title="Section 13: Utilization by Hierarchy" target="Section 13 -" searchDir="Backward" />
    </view>
-   <view inputState="Mapped" program="par" contextTags="FPGA_ONLY" type="Report" file="single_master_bfm.par" label="Place and Route Report" >
+   <view inputState="Mapped" program="par" contextTags="FPGA_ONLY" type="Report" file="fifo_generator_v6_2.par" label="Place and Route Report" >
     <toc-item title="Top of Report" target="Copyright (c)" searchDir="Forward" />
     <toc-item title="Device Utilization" target="Device Utilization Summary:" />
     <toc-item title="Router Information" target="Starting Router" />
@@ -114,7 +114,7 @@
     <toc-item title="Timing Results" target="Timing Score:" />
     <toc-item title="Final Summary" target="Peak Memory Usage:" />
    </view>
-   <view inputState="Routed" program="trce" contextTags="FPGA_ONLY" type="Report" file="single_master_bfm.twr" label="Post-PAR Static Timing Report" >
+   <view inputState="Routed" program="trce" contextTags="FPGA_ONLY" type="Report" file="fifo_generator_v6_2.twr" label="Post-PAR Static Timing Report" >
     <toc-item title="Top of Report" target="Copyright (c)" searchDir="Forward" />
     <toc-item title="Timing Report Description" target="Device,package,speed:" />
     <toc-item title="Informational Messages" target="INFO:" />
@@ -125,22 +125,22 @@
     <toc-item title="Timing Summary" target="Timing summary:" />
     <toc-item title="Trace Settings" target="Trace Settings:" />
    </view>
-   <view inputState="Translated" program="cpldfit" contextTags="CPLD_ONLY,EDK_OFF" hidden="true" type="Report" file="single_master_bfm.rpt" label="CPLD Fitter Report (Text)" >
+   <view inputState="Translated" program="cpldfit" contextTags="CPLD_ONLY,EDK_OFF" hidden="true" type="Report" file="fifo_generator_v6_2.rpt" label="CPLD Fitter Report (Text)" >
     <toc-item title="Top of Report" target="cpldfit:" searchDir="Forward" />
     <toc-item title="Resources Summary" target="**  Mapped Resource Summary  **" />
     <toc-item title="Pin Resources" target="** Pin Resources **" />
     <toc-item title="Global Resources" target="** Global Control Resources **" />
    </view>
-   <view inputState="Fitted" program="taengine" contextTags="CPLD_ONLY,EDK_OFF" hidden="true" type="Report" file="single_master_bfm.tim" label="CPLD Timing Report (Text)" >
+   <view inputState="Fitted" program="taengine" contextTags="CPLD_ONLY,EDK_OFF" hidden="true" type="Report" file="fifo_generator_v6_2.tim" label="CPLD Timing Report (Text)" >
     <toc-item title="Top of Report" target="Performance Summary Report" searchDir="Forward" />
     <toc-item title="Performance Summary" target="Performance Summary:" />
    </view>
-   <view inputState="Routed" program="xpwr" contextTags="EDK_OFF" type="Report" file="single_master_bfm.pwr" label="Power Report" >
+   <view inputState="Routed" program="xpwr" contextTags="EDK_OFF" type="Report" file="fifo_generator_v6_2.pwr" label="Power Report" >
     <toc-item title="Top of Report" target="Copyright (c)" searchDir="Forward" />
     <toc-item title="Power summary" target="Power summary" />
     <toc-item title="Thermal summary" target="Thermal summary" />
    </view>
-   <view inputState="Routed" program="bitgen" contextTags="FPGA_ONLY" type="Report" file="single_master_bfm.bgn" label="Bitgen Report" >
+   <view inputState="Routed" program="bitgen" contextTags="FPGA_ONLY" type="Report" file="fifo_generator_v6_2.bgn" label="Bitgen Report" >
     <toc-item title="Top of Report" target="Copyright (c)" searchDir="Forward" />
     <toc-item title="Bitgen Options" target="Summary of Bitgen Options:" />
     <toc-item title="Final Summary" target="DRC detected" />
@@ -148,20 +148,20 @@
   </viewgroup>
   <viewgroup label="Secondary Reports" >
    <view inputState="PreSynthesized" program="isim" hidden="if_missing" type="Secondary_Report" file="isim.log" label="ISIM Simulator Log" />
-   <view inputState="Synthesized" program="netgen" hidden="if_missing" type="Secondary_Report" file="netgen/synthesis/single_master_bfm_synthesis.nlf" label="Post-Synthesis Simulation Model Report" >
+   <view inputState="Synthesized" program="netgen" hidden="if_missing" type="Secondary_Report" file="netgen/synthesis/fifo_generator_v6_2_synthesis.nlf" label="Post-Synthesis Simulation Model Report" >
     <toc-item title="Top of Report" target="Release" searchDir="Forward" />
    </view>
-   <view inputState="Translated" program="netgen" hidden="if_missing" type="Secondary_Report" file="netgen/translate/single_master_bfm_translate.nlf" label="Post-Translate Simulation Model Report" >
+   <view inputState="Translated" program="netgen" hidden="if_missing" type="Secondary_Report" file="netgen/translate/fifo_generator_v6_2_translate.nlf" label="Post-Translate Simulation Model Report" >
     <toc-item title="Top of Report" target="Release" searchDir="Forward" />
    </view>
-   <view inputState="Translated" program="netgen" hidden="if_missing" type="Secondary_Report" file="single_master_bfm_tran_fecn.nlf" label="Post-Translate Formality Netlist Report" />
-   <view inputState="Translated" program="map" contextTags="FPGA_ONLY" hidden="true" type="Secondary_Report" file="single_master_bfm_map.map" label="Map Log File" >
+   <view inputState="Translated" program="netgen" hidden="if_missing" type="Secondary_Report" file="fifo_generator_v6_2_tran_fecn.nlf" label="Post-Translate Formality Netlist Report" />
+   <view inputState="Translated" program="map" contextTags="FPGA_ONLY" hidden="true" type="Secondary_Report" file="fifo_generator_v6_2_map.map" label="Map Log File" >
     <toc-item title="Top of Report" target="Release" searchDir="Forward" />
     <toc-item title="Design Information" target="Design Information" />
     <toc-item title="Design Summary" target="Design Summary" />
    </view>
    <view inputState="Routed" program="smartxplorer" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="smartxplorer_results/smartxplorer.txt" label="SmartXplorer Report" />
-   <view inputState="Mapped" program="trce" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="single_master_bfm_preroute.twr" label="Post-Map Static Timing Report" >
+   <view inputState="Mapped" program="trce" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="fifo_generator_v6_2_preroute.twr" label="Post-Map Static Timing Report" >
     <toc-item title="Top of Report" target="Copyright (c)" searchDir="Forward" />
     <toc-item title="Timing Report Description" target="Device,package,speed:" />
     <toc-item title="Informational Messages" target="INFO:" />
@@ -172,43 +172,43 @@
     <toc-item title="Timing Summary" target="Timing summary:" />
     <toc-item title="Trace Settings" target="Trace Settings:" />
    </view>
-   <view inputState="Mapped" program="netgen" hidden="if_missing" type="Secondary_Report" file="netgen/map/single_master_bfm_map.nlf" label="Post-Map Simulation Model Report" />
-   <view inputState="Mapped" program="map" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="single_master_bfm_map.psr" label="Physical Synthesis Report" >
+   <view inputState="Mapped" program="netgen" hidden="if_missing" type="Secondary_Report" file="netgen/map/fifo_generator_v6_2_map.nlf" label="Post-Map Simulation Model Report" />
+   <view inputState="Mapped" program="map" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="fifo_generator_v6_2_map.psr" label="Physical Synthesis Report" >
     <toc-item title="Top of Report" target="Copyright (c)" searchDir="Forward" />
    </view>
-   <view inputState="Mapped" program="par" contextTags="FPGA_ONLY" hidden="true" type="Pad_Report" file="single_master_bfm_pad.txt" label="Pad Report" >
+   <view inputState="Mapped" program="par" contextTags="FPGA_ONLY" hidden="true" type="Pad_Report" file="fifo_generator_v6_2_pad.txt" label="Pad Report" >
     <toc-item title="Top of Report" target="Copyright (c)" searchDir="Forward" />
    </view>
-   <view inputState="Mapped" program="par" contextTags="FPGA_ONLY" hidden="true" type="Secondary_Report" file="single_master_bfm.unroutes" label="Unroutes Report" >
+   <view inputState="Mapped" program="par" contextTags="FPGA_ONLY" hidden="true" type="Secondary_Report" file="fifo_generator_v6_2.unroutes" label="Unroutes Report" >
     <toc-item title="Top of Report" target="Copyright (c)" searchDir="Forward" />
    </view>
-   <view inputState="Mapped" program="map" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="single_master_bfm_preroute.tsi" label="Post-Map Constraints Interaction Report" >
+   <view inputState="Mapped" program="map" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="fifo_generator_v6_2_preroute.tsi" label="Post-Map Constraints Interaction Report" >
     <toc-item title="Top of Report" target="Release" searchDir="Forward" />
    </view>
-   <view inputState="Mapped" program="par" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="single_master_bfm.grf" label="Guide Results Report" />
-   <view inputState="Routed" program="par" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="single_master_bfm.dly" label="Asynchronous Delay Report" />
-   <view inputState="Routed" program="par" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="single_master_bfm.clk_rgn" label="Clock Region Report" />
-   <view inputState="Routed" program="par" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="single_master_bfm.tsi" label="Post-Place and Route Constraints Interaction Report" >
+   <view inputState="Mapped" program="par" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="fifo_generator_v6_2.grf" label="Guide Results Report" />
+   <view inputState="Routed" program="par" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="fifo_generator_v6_2.dly" label="Asynchronous Delay Report" />
+   <view inputState="Routed" program="par" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="fifo_generator_v6_2.clk_rgn" label="Clock Region Report" />
+   <view inputState="Routed" program="par" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="fifo_generator_v6_2.tsi" label="Post-Place and Route Constraints Interaction Report" >
     <toc-item title="Top of Report" target="Copyright (c)" searchDir="Forward" />
    </view>
-   <view inputState="Routed" program="netgen" hidden="if_missing" type="Secondary_Report" file="single_master_bfm_par_fecn.nlf" label="Post-Place and Route Formality Netlist Report" />
-   <view inputState="Routed" program="netgen" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="netgen/par/single_master_bfm_timesim.nlf" label="Post-Place and Route Simulation Model Report" />
-   <view inputState="Routed" program="netgen" hidden="if_missing" type="Secondary_Report" file="single_master_bfm_sta.nlf" label="Primetime Netlist Report" >
+   <view inputState="Routed" program="netgen" hidden="if_missing" type="Secondary_Report" file="fifo_generator_v6_2_par_fecn.nlf" label="Post-Place and Route Formality Netlist Report" />
+   <view inputState="Routed" program="netgen" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="netgen/par/fifo_generator_v6_2_timesim.nlf" label="Post-Place and Route Simulation Model Report" />
+   <view inputState="Routed" program="netgen" hidden="if_missing" type="Secondary_Report" file="fifo_generator_v6_2_sta.nlf" label="Primetime Netlist Report" >
     <toc-item title="Top of Report" target="Release" searchDir="Forward" />
    </view>
-   <view inputState="Routed" program="ibiswriter" hidden="if_missing" type="Secondary_Report" file="single_master_bfm.ibs" label="IBIS Model" >
+   <view inputState="Routed" program="ibiswriter" hidden="if_missing" type="Secondary_Report" file="fifo_generator_v6_2.ibs" label="IBIS Model" >
     <toc-item title="Top of Report" target="IBIS Models for" searchDir="Forward" />
     <toc-item title="Component" target="Component " />
    </view>
-   <view inputState="Routed" program="pin2ucf" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="single_master_bfm.lck" label="Back-annotate Pin Report" >
+   <view inputState="Routed" program="pin2ucf" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="fifo_generator_v6_2.lck" label="Back-annotate Pin Report" >
     <toc-item title="Top of Report" target="pin2ucf Report File" searchDir="Forward" />
     <toc-item title="Constraint Conflicts Information" target="Constraint Conflicts Information" />
    </view>
-   <view inputState="Routed" program="pin2ucf" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="single_master_bfm.lpc" label="Locked Pin Constraints" >
+   <view inputState="Routed" program="pin2ucf" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="fifo_generator_v6_2.lpc" label="Locked Pin Constraints" >
     <toc-item title="Top of Report" target="top.lpc" searchDir="Forward" />
     <toc-item title="Newly Added Constraints" target="The following constraints were newly added" />
    </view>
-   <view inputState="Translated" program="netgen" contextTags="CPLD_ONLY,EDK_OFF" hidden="if_missing" type="Secondary_Report" file="netgen/fit/single_master_bfm_timesim.nlf" label="Post-Fit Simulation Model Report" />
+   <view inputState="Translated" program="netgen" contextTags="CPLD_ONLY,EDK_OFF" hidden="if_missing" type="Secondary_Report" file="netgen/fit/fifo_generator_v6_2_timesim.nlf" label="Post-Fit Simulation Model Report" />
    <view inputState="Routed" program="bitgen" contextTags="FPGA_ONLY" hidden="if_missing" type="HTML" file="usage_statistics_webtalk.html" label="WebTalk Report" />
    <view inputState="Routed" program="bitgen" contextTags="FPGA_ONLY" hidden="if_missing" type="Secondary_Report" file="webtalk.log" label="WebTalk Log File" />
   </viewgroup>
