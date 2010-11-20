@@ -37,12 +37,12 @@ module top(    );
 //10 = 0x41200000
 
 gl_rasterizer GL_RAS( .clk(clk), .fifo_ready(1), 
-                      .count_x(x), .count_y(y), .true(t),
+                      .count_x(x), .count_y(y),
                       .raster_ready(out_rdy), 
-                      .fifo_in1(96'h3F800000_3F800000_00000000),
-                      .fifo_in2(96'h3F800000_41200000_00000000),
-                      .fifo_in3(96'h41200000_3F800000_00000000)
-                      
+                      .vertex_in1(96'h3F800000_3F800000_00000000),
+                      .vertex_in2(96'h3F800000_41200000_00000000),
+                      .vertex_in3(96'h41200000_3F800000_00000000),
+                      .valid_pixel(t)
                       );
               
               

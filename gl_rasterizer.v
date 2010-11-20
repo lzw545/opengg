@@ -39,9 +39,9 @@ parameter COLOR_TYPE_SIZE=96;
     input [COLOR_TYPE_SIZE-1:0]  color_in2;
     input [COLOR_TYPE_SIZE-1:0]  color_in3;
   
-    reg [COLOR_TYPE_SIZE-1:0]  color_in1;
-    reg [COLOR_TYPE_SIZE-1:0]  color_in2;
-    reg [COLOR_TYPE_SIZE-1:0]  color_in3;
+    reg [COLOR_TYPE_SIZE-1:0]  color_1;
+    reg [COLOR_TYPE_SIZE-1:0]  color_2;
+    reg [COLOR_TYPE_SIZE-1:0]  color_3;
     
     wire [31:0] red_1;
     wire [31:0] green_1;
@@ -208,10 +208,54 @@ parameter COLOR_TYPE_SIZE=96;
     fp_div alpha_div(cx1, alpha_cons, alpha);
     fp_div beta_div(cx2, beta_cons, beta);
     fp_div gamma_div(cx3, gamma_cons, gamma);
+  
+    wire [31:0] red_add1;
+    wire [31:0] red_add2;
+    wire [31:0] red_add3;
+    wire [31:0] red_add12;
+    wire [31:0] red;
+    
+    wire [31:0] blue_add1;
+    wire [31:0] blue_add2;
+    wire [31:0] blue_add3;
+    wire [31:0] blue_add12;
+    wire [31:0] blue;
 
-    FIXME INSERT COLOR
+    wire [31:0] green_add1;
+    wire [31:0] green_add2;
+    wire [31:0] green_add3;
+    wire [31:0] green_add12;
+    wire [31:0] green;
 
+    fp_mul alpha_red(alpha, red_1, red_add1);
+    fp_mul beta_red(beta, red_2, red_add2);
+    fp_mul gamma_red(gamma, red_3, red_add3);
 
+    fp_mul alpha_green(alpha, green_1, green_add1);
+    fp_mul beta_green(beta, green_2, green_add2);
+    fp_mul gamma_green(gamma, green_3, green_add3);
+    
+    fp_mul alpha_blue(alpha, blue_1, blue_add1);
+    fp_mul beta_blue(beta, blue_2, blue_add2);
+    fp_mul gamma_blue(gamma, blue_3, blue_add3);
+    
+    fp_add red_out_0(red_add1, red_add2, red_add12);
+    fp_add red_out(red_add12, red_add3, red_f);
+     
+    fp_add green_out_0(green_add1, green_add2, green_add12);
+    fp_add green_out(green_add12, green_add3, green_f);
+
+    fp_add blue_out_0(blue_add1, blue_add2, blue_add12);
+    fp_add blue_out(blue_add12, blue_add3, blue_f);
+    
+    fp_mul red_norm(red_f, 32'h42fe0000, red_n);
+    fp_mul green_norm(green_f, 32'h42fe0000, green_n);
+    fp_mul blue_norm(blue_f, 32'h42fe0000, blue_n);
+
+    f2i red_int(red_n, red_i);
+    f2i green_int(green_n, green_int);
+    f2i blue_int(blue_n, blue_int);
+    
     fp_add final(alpha, beta, alpha_beta);
     fp_add final2(gamma, alpha_beta, sum);
 
