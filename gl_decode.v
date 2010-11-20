@@ -24,7 +24,7 @@
 module gl_decode( clk, opcode, imm, type, 
                   bram_addr_out, bram_addr_in,
                   bram_read_in_0, bram_read_in_1, bram_read_in_2, bram_read_in_3,
-                  viewport_min_x, viewport_min_y, viewport_max_x, viewport_max_y,
+                  viewport_x, viewport_y, viewport_width, viewport_height,
                   push_en, pop_en, 
                   color_in, color_out,
                   matrix_load_en, matrix_load_id_en,
@@ -51,10 +51,10 @@ module gl_decode( clk, opcode, imm, type,
     input      [31:0]           bram_read_in_3;
     
     /* Viewport Registers */
-    output reg [31:0]           viewport_min_x;
-    output reg [31:0]           viewport_min_y;
-    output reg [31:0]           viewport_max_x;
-    output reg [31:0]           viewport_max_y;
+    output reg [31:0]           viewport_x;
+    output reg [31:0]           viewport_y;
+    output reg [31:0]           viewport_width;
+    output reg [31:0]           viewport_height;
     
     /* Color Register */
     input      [31:0]           color_in;
@@ -86,10 +86,10 @@ module gl_decode( clk, opcode, imm, type,
         matrix_mul_type     <= 0;
         matrix_mode_out     <= 0;
         curr_matrix_mode    <= 0;
-        viewport_min_x      <= 0;
-        viewport_min_y      <= 0;
-        viewport_max_x      <= 32'h44200000;        // 640
-        viewport_max_y      <= 32'h43f00000;        // 480
+        viewport_x          <= 0;
+        viewport_y          <= 0;
+        viewport_width      <= 32'h44200000;        // 640
+        viewport_height     <= 32'h43f00000;        // 480
         stall               <= 0;
         stall_count         <= 0;
         color_out           <= 32'h00000000;        // default color is black
@@ -323,10 +323,10 @@ module gl_decode( clk, opcode, imm, type,
         //`OP_VIEWPORT:
         8'b00011001:
             begin
-                viewport_min_x  <= bram_read_in_0;
-                viewport_min_y  <= bram_read_in_1;
-                viewport_max_x  <= bram_read_in_2;
-                viewport_max_y  <= bram_read_in_3;
+                viewport_x      <= bram_read_in_0;
+                viewport_y      <= bram_read_in_1;
+                viewport_width  <= bram_read_in_2;
+                viewport_height <= bram_read_in_3;
             end
         //`OP_FRUSTUM:
         8'b00011010:
