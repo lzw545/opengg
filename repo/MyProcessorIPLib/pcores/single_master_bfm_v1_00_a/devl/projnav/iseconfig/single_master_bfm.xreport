@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2010-11-19T17:24:20</DateModified>
+  <DateModified>2010-11-20T22:12:34</DateModified>
   <ModuleName>single_master_bfm</ModuleName>
   <SummaryTimeStamp>Unknown</SummaryTimeStamp>
-  <SavedFilePath>D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/iseconfig/single_master_bfm.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav\</ImplementationReportsDirectory>
+  <SavedFilePath>D:/545/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/iseconfig/single_master_bfm.xreport</SavedFilePath>
+  <ImplementationReportsDirectory>D:/545/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav\</ImplementationReportsDirectory>
   <DateInitialized>2010-11-09T21:56:16</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>
