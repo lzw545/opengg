@@ -28,10 +28,10 @@ module fetch_decode_testbench(
     wire [31:0]     bram_read_2;
     wire [31:0]     bram_read_3;
     
-    wire [31:0]     v_min_x;
-    wire [31:0]     v_min_y;
-    wire [31:0]     v_max_x;
-    wire [31:0]     v_max_y;
+    wire [31:0]     v_x;
+    wire [31:0]     v_y;
+    wire [31:0]     v_width;
+    wire [31:0]     v_height;
     
     wire [31:0]     decode_addr_out;
     wire            push_en;
@@ -83,10 +83,10 @@ module fetch_decode_testbench(
                   .bram_read_in_1(bram_read_1), 
                   .bram_read_in_2(bram_read_2), 
                   .bram_read_in_3(bram_read_3),
-                  .viewport_min_x(v_min_x), 
-                  .viewport_min_y(v_min_y), 
-                  .viewport_max_x(v_max_x), 
-                  .viewport_max_y(v_max_y),
+                  .viewport_x(v_x), 
+                  .viewport_y(v_y), 
+                  .viewport_width(v_width), 
+                  .viewport_height(v_height),
                   .push_en(push_en), 
                   .pop_en(pop_en), 
                   .color_in(color_in), 
