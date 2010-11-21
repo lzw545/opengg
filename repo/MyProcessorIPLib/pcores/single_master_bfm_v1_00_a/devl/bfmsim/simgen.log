@@ -3,27 +3,30 @@ Release 12.2 - Simulation Model Generator Xilinx EDK 12.2 Build EDK_MS2.63c
  (nt64)
 Copyright (c) 1995-2010 Xilinx, Inc.  All rights reserved.
 
-Command Line: simgen -p xc5vlx110tff1136-1 -lang vhdl -lp D:/545/repo/ -lp
-D:/Xilinx/12.2/ISE_DS/edk_user_repository -lp
+Command Line: simgen -p xc5vlx110tff1136-1 -lang verilog -lp D:/545/opengg/repo/
+-lp D:/Xilinx/12.2/ISE_DS/edk_user_repository -lp
 D:/Xilinx/12.2/ISE_DS/edk_user_repository/MyProcessorIPLib -mixed yes -msg
-__xps/ise/xmsgprops.lst -s isim -X
-D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/bfmsim/ -m
-behavioral bfm_system.mhs 
+__xps/ise/xmsgprops.lst -s isim -tb -X
+D:/545/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/bfmsim
+/ -m behavioral bfm_system.mhs 
 
 MHS file              : \...\devl\bfmsim\bfm_system.mhs
-Language (-lang)      : VHDL 
+Language (-lang)      : Verilog 
 Simulation Model (-m) : Behavioral
 Simulator (-s)        : ISE Simulator (ISIM)
 Part (-p) [ family ]  : xc5vlx110tff1136-1 [ virtex5 ]
 Output directory (-od):
-D:\545\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfmsim\
+D:\545\opengg\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfmsim
+\
 
 Edklib (-E) :
-D:\545\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfmsim\edk\
+D:\545\opengg\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfmsim
+\edk\
 Xlib (-X)   :
-D:\545\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfmsim\
+D:\545\opengg\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfmsim
+\
 
-Library Path (-lp): D:\545\repo\
+Library Path (-lp): D:\545\opengg\repo\
 Library Path (-lp): D:\Xilinx\12.2\ISE_DS\edk_user_repository\
 Library Path (-lp): D:\Xilinx\12.2\ISE_DS\edk_user_repository\MyProcessorIPLib\
 
@@ -33,7 +36,7 @@ WARNING:EDK:2478 - The EDK simulation library specified does not currently
 Simulation Model Generator started ...
 
 Reading MHS file ...
-lp : D:\545\repo\
+lp : D:\545\opengg\repo\
 lp : D:\Xilinx\12.2\ISE_DS\edk_user_repository\
 lp : D:\Xilinx\12.2\ISE_DS\edk_user_repository\MyProcessorIPLib\
 WARNING:EDK:2343 - Search path
@@ -78,20 +81,20 @@ INFO:EDK:1560 - IPNAME:plb_v46 INSTANCE:plb_bus -
    \plb_v46_v2_1_0.mpd line 72 - tool is overriding PARAMETER C_PLBV46_DWIDTH
    value to 128
 INFO:EDK:1560 - IPNAME:single_master_bfm_tb INSTANCE:my_core -
-   D:\545\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfmsim\pco
-   res\single_master_bfm_tb_v1_00_a\data\single_master_bfm_tb_v2_1_0.mpd line 26
-   - tool is overriding PARAMETER C_SPLB_NUM_MASTERS value to 2
+   D:\545\opengg\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfm
+   sim\pcores\single_master_bfm_tb_v1_00_a\data\single_master_bfm_tb_v2_1_0.mpd
+   line 26 - tool is overriding PARAMETER C_SPLB_NUM_MASTERS value to 2
 INFO:EDK:1560 - IPNAME:single_master_bfm_tb INSTANCE:my_core -
-   D:\545\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfmsim\pco
-   res\single_master_bfm_tb_v1_00_a\data\single_master_bfm_tb_v2_1_0.mpd line 27
-   - tool is overriding PARAMETER C_SPLB_MID_WIDTH value to 1
+   D:\545\opengg\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfm
+   sim\pcores\single_master_bfm_tb_v1_00_a\data\single_master_bfm_tb_v2_1_0.mpd
+   line 27 - tool is overriding PARAMETER C_SPLB_MID_WIDTH value to 1
 
 Checking platform address map ...
 
 Checking platform configuration ...
 IPNAME:plb_v46 INSTANCE:plb_bus -
-D:\545\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfmsim\bfm_sy
-stem.mhs line 51 - 2 master(s) : 2 slave(s)
+D:\545\opengg\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfmsim
+\bfm_system.mhs line 51 - 2 master(s) : 2 slave(s)
 
 Checking port drivers...
 WARNING:EDK:2098 - PORT:PLB_SMIRQ CONNECTOR:plb_bus_PLB_SMIRQ -
@@ -122,6 +125,10 @@ Running system level DRCs...
 Performing System level DRCs on properties...
 
 Running DRC Tcl procedures for OPTION SYSLEVEL_DRC_PROC...
+WARNING:EDK:2028 - Option "CORE_STATE" in
+   D:\545\opengg\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\data\sin
+   gle_master_bfm_v2_1_0.mpd line 17  is deprecated. Please use Option
+   ARCH_SUPPORT_MAP instead. 
 
 Running UPDATE Tcl procedures for OPTION SIMGEN_SYSLEVEL_UPDATE_PROC...
 

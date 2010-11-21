@@ -91,7 +91,7 @@ module user_logic
 parameter TMP_LEN                        = 7;
 
 parameter LINE_LEN                       = 9;
-parameter ROW_LEN                        = 10;
+parameter COL_LEN                        = 10;
 // -- ADD USER PARAMETERS ABOVE THIS LINE ------------
 
 // -- DO NOT EDIT BELOW THIS LINE --------------------
@@ -104,12 +104,13 @@ parameter C_NUM_REG                      = 4;
 
 // -- ADD USER PORTS BELOW THIS LINE -----------------
 
+/*
 input      [0 : LINE_LEN-1]               FBW_line;
 input      [0 : COL_LEN-1]                FBW_col;
 input      [0 : 31]                       FBW_color;
 input                                     FBW_req;
 output                                    FBW_ack;
-
+*/
 
 // -- ADD USER PORTS ABOVE THIS LINE -----------------
 
@@ -170,30 +171,27 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   reg                                       mst_wr_req;
   reg                                       to_reset;
   reg                                       mst_reset;
-  //reg        [0 : C_MST_AWIDTH-1]           mst_address;
-  reg        [0 : 21]                       mst_address;
   reg        [0 : C_MST_DWIDTH-1]           mst_data_out;
   wire       [0 : TMP_LEN-1]                tmp;
   
+  reg        [0 : 31]                       input_reg;
+  
   // writing
-  reg        [0 : 8]                        line;
-  reg        [0 : 9]                        col;
+  reg        [0 : LINE_LEN-1]               line  = 'b0;
+  reg        [0 : COL_LEN-1]                col   = 'b0;
   reg        [0 : 31]                       color = 'hffff_ffff;
   
   // assign IPIF input wires
   assign IP2Bus_MstRd_Req                    = 0;
   assign IP2Bus_MstWr_Req                    = mst_wr_req;
-  //assign IP2Bus_Mst_Addr[0 : C_MST_AWIDTH-1] = mst_address[0 : C_MST_AWIDTH-1];
-  assign IP2Bus_Mst_Addr[0 : 10] = 11'b1001_0000_000;
-  //assign IP2Bus_Mst_Addr[11: 31] = mst_address;
-  assign IP2Bus_Mst_Addr[11:19] = line;
-  assign IP2Bus_Mst_Addr[20:29] = col;
-  assign IP2Bus_Mst_Addr[30:31] = 'b0;
+  assign IP2Bus_Mst_Addr[0 : 10]             = 11'b1001_0000_000;
+  assign IP2Bus_Mst_Addr[11:19]              = line;
+  assign IP2Bus_Mst_Addr[20:29]              = col;
+  assign IP2Bus_Mst_Addr[30:31]              = 'b0;
   
   assign IP2Bus_Mst_BE[0 : C_MST_DWIDTH/8-1] = ~('b0);
   assign IP2Bus_Mst_Lock                     = 0;
   assign IP2Bus_Mst_Reset                    = mst_reset;
-  //assign IP2Bus_MstWr_d[0 : C_MST_DWIDTH-1]  = mst_data_out[0 : C_MST_DWIDTH-1];
   assign IP2Bus_MstWr_d[0 : C_MST_DWIDTH-1]  = color;
   
   // assign some inputs to be monitored by slv_reg1
@@ -219,14 +217,7 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   // start state machine
 parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_RECVD=4;
 
-  // logic for mst_address counter
-  initial
-    begin
-		mst_data_out = 'hffff_fffff;
-		line = 'd100;
-		col = 'd50;
-    end
-
+/*
   // line counter
   always @ (posedge Bus2IP_Clk)
     begin
@@ -250,7 +241,7 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
 			   col = col + 1;
 		  end		  
     end
-
+*/
 
   always @ (posedge Bus2IP_Clk)
     begin
@@ -259,7 +250,10 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
           if ( slv_reg0 != 'b0 )
             begin
               mst_reset <= 0;
-              state     <= PRESENT_STATE;
+              if ( line != input_reg[(15 - LINE_LEN - 1) : 15] || col != input_reg[(31 - COL_LEN - 1) : 31] )
+				    state     <= PRESENT_STATE;
+				  else
+				    state     <= OFF_STATE;
             end
           else
             begin
@@ -279,7 +273,9 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
             begin
               mst_reset    <= 0;
               mst_wr_req   <= 1;
-              state        <= WAIT_FOR_ACK;
+              line         <= input_reg[(15 - LINE_LEN - 1) : 15];
+				  col          <= input_reg[(31 - COL_LEN - 1) : 31];
+				  state        <= WAIT_FOR_ACK;
             end
              
         WAIT_FOR_ACK:
@@ -365,7 +361,7 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
 
       if ( Bus2IP_Reset == 1 )
         begin
-          slv_reg0  <= 'habcc_d11e;
+          slv_reg0  <= 'habcd_e000;
         end
       else
         case ( slv_reg_write_sel )
@@ -374,7 +370,11 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
               if ( Bus2IP_BE[byte_index] == 1 )
                 for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
                   slv_reg0[bit_index] <= Bus2IP_Data[bit_index];
-          4'b0100 : ;
+          4'b0010 : input_reg <= Bus2IP_Data;
+			          // begin
+			          //   line <= Bus2IP_Data[(15 - LINE_LEN - 1) : 15];
+						 //	 col  <= Bus2IP_Data[(31 - COL_LEN - 1) : 31];
+						 // end
           4'b0001 : color <= Bus2IP_Data;
           default : ;
         endcase
@@ -403,7 +403,7 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
         4'b1000 : slv_ip2bus_data <= slv_reg0;
         4'b0100 : slv_ip2bus_data <= slv_reg1;
         
-        4'b0010 : slv_ip2bus_data <= mst_address;
+        4'b0010 : slv_ip2bus_data <= IP2Bus_Mst_Addr;
         4'b0001 : slv_ip2bus_data <= color;
 		  
         default : slv_ip2bus_data <= 0;
