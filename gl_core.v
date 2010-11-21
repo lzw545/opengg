@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 `include "gl_defines.v"
 
-module gl_core_internal(clk, reset, bram_enable, bram_rst, bram_addr_out, bram_data_in);
+module gl_core_internal(clk, reset, bram_enable, bram_rst, bram_addr_out, bram_data_in, bram_addr);
 
     
     input           clk;                            // clock signal
@@ -31,9 +31,6 @@ module gl_core_internal(clk, reset, bram_enable, bram_rst, bram_addr_out, bram_d
     output          bram_rst;                       // bram reset
     output [31:0]   bram_addr;                      // bram address port
     input  [31:0]   bram_data_in;                   // data from bram
-    
-        
-    reg [31:0]      bram_addr_in;                   // bram address in (from decode to matrix mul)
     
     output reg [31:0] bram_addr_out;                // bram address to read from
     wire [31:0]     bram_read_0;                    // bram data read 
@@ -235,7 +232,18 @@ module gl_core_internal(clk, reset, bram_enable, bram_rst, bram_addr_out, bram_d
     fp_add vt_addy  (.a(vt_muly_result), .b(v_width), .result(vt_addy_result));
     fp_add vt_addy2 (.a(v_y), .b(vt_addy_result), .result(vt_addy2_result));
     
+    reg [31:0] x_result;
+    reg [31:0] y_result;
+    
     always @ (posedge clk)
+    begin
+        if (vt_en)
+        begin
+             // write to fifo
+             x_result <= vt_addx2_result;
+             y_result <= vt_addy2_result;
+        end
+    end
     
     assign bram_enable = 1;
     assign bram_rst = 0;

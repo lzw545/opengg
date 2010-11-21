@@ -88,6 +88,7 @@ module gl_decode( clk, opcode, imm, type,
         curr_matrix_mode    <= 0;
         viewport_x          <= 0;
         viewport_y          <= 0;
+        perspective_div_en  <= 0;
         viewport_width      <= 32'h44200000;        // 640
         viewport_height     <= 32'h43f00000;        // 480
         stall               <= 0;
@@ -124,15 +125,22 @@ module gl_decode( clk, opcode, imm, type,
                          stall_count <= stall_count - 1;
                     end
 
+                3:                                              
+                    begin
+                         stall_count <= stall_count - 1;
+                         perspective_div_en <= 1;
+                         stall <= 0;
+                    end
                 2:                                              // projection matrix multiply is done
                     begin
                          stall_count <= stall_count - 1;
+                         perspective_div_en <= 0;
+                         stall <= 0;
                     end
 
                 1:                                              // perspective division is done
                     begin
                          stall_count <= stall_count - 1;
-                         stall <= 1;
                     end
 
                 default:
@@ -298,28 +306,34 @@ module gl_decode( clk, opcode, imm, type,
         //`OP_TRANSLATE:
         8'b00011000:
             begin
-                case (stall)
+                case (stall_count)
                     0:
                     begin
                         matrix_mul_en <= 1;
                         matrix_mul_type <= 1;
+                        matrix_mode_out <= curr_matrix_mode;
                         stall <= 1;
                         stall_count <= 15;
                     end
+                    
+                    2:
+                    begin
+                        stall <= 0;
+                        stall_count <= stall_count - 1;
+                    end
+                    
                     1:
                     begin
-                        if (stall_count == 0)
-                        begin
-                            stall <= 0;
-                        end
-                        else
-                        begin
-                            matrix_mul_en <= 0;
-                            stall_count <= stall_count - 1;
-                        end
+                        stall_count <= stall_count - 1;
+                    end
+                    
+                    default:
+                    begin
+                        matrix_mul_en <= 0;
+                        stall_count <= stall_count - 1;
                     end
                 endcase
-            end
+            end        
         //`OP_VIEWPORT:
         8'b00011001:
             begin

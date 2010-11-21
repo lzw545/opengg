@@ -76,6 +76,9 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
     assign mrc_b = vertex_step_2 ? vector_result_a : 
                                  { bram_read_in_0, bram_read_in_1, bram_read_in_2, bram_read_in_3 };
     
+        
+    matrix_row_comp mrc(.result(mrc_result), .a(mrc_a), .b(mrc_b));
+    
     initial begin
         bram_offset = 0;
         matrix_write_en = 0;
@@ -251,8 +254,7 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
             end
         endcase
     end
-    
-    matrix_row_comp mrc(.result(mrc_result), .a(mrc_a), .b(mrc_b));
+
     
 
 
