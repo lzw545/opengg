@@ -73,17 +73,14 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290374359" xil_pn:in_ck="6133885563571380450" xil_pn:name="TRANEXT_xstsynthesize_virtex5" xil_pn:prop_ck="9156624528373193682" xil_pn:start_ts="1290374346">
-      <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="WarningsGenerated"/>
+    <transform xil_pn:end_ts="1290395557" xil_pn:in_ck="-2720297129614010548" xil_pn:name="TRANEXT_xstsynthesize_virtex5" xil_pn:prop_ck="9156624528373193682" xil_pn:start_ts="1290395551">
+      <status xil_pn:value="FailedRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name=".lso"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="InputChanged"/>
       <outfile xil_pn:name="_xmsgs/xst.xmsgs"/>
       <outfile xil_pn:name="single_master_bfm.lso"/>
-      <outfile xil_pn:name="single_master_bfm.ngc"/>
-      <outfile xil_pn:name="single_master_bfm.ngr"/>
       <outfile xil_pn:name="single_master_bfm.prj"/>
-      <outfile xil_pn:name="single_master_bfm.stx"/>
       <outfile xil_pn:name="single_master_bfm.syr"/>
       <outfile xil_pn:name="single_master_bfm.xst"/>
       <outfile xil_pn:name="single_master_bfm_vhdl.prj"/>

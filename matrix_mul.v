@@ -68,6 +68,7 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
     wire   [31:0]   mrc_result;
     
     assign bram_addr_out = bram_addr_in + bram_offset;
+    
     assign mrc_a = counter == 0 ? matrix_peek_0 :
                    counter == 1 ? matrix_peek_1 :
                    counter == 2 ? matrix_peek_2 :
@@ -101,7 +102,7 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
         case(state)
             0:
             begin
-                if (en && mul_type == 0)
+                if (en && mul_type == 0)                        // vertex multiplication
                 begin
                     matrix_mode_out <= 0;
                     vector_result_a <= {mrc_result,96'h0};

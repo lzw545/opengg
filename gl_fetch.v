@@ -68,6 +68,7 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     8'b00000100:
                     begin
                         inst_addr <= inst_addr + 16;
+                        decode_bram_addr <= inst_addr + 4;
                         inst_out <= inst_in;
                     end
                     //`OP_MULTMATRIX:

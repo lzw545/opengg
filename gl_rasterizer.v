@@ -18,8 +18,9 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module gl_rasterizer( clk, fifo_ready, count_x, count_y, valid_pixel,
-		      raster_ready, vertex_in1, vertex_in2, vertex_in3,
+module gl_rasterizer( clk, full, count_x, count_y, valid_pixel,
+		      raster_ready, fifo_ready, wr_data, wr_en,
+          vertex_in1, vertex_in2, vertex_in3,
 		      color_in1, color_in2, color_in3);
 
 parameter VERTEX_TYPE_SIZE=96;
@@ -27,7 +28,12 @@ parameter COLOR_TYPE_SIZE=96;
 
     input clk;
   
+    input full;
     input fifo_ready;
+    
+    output reg [31:0] wr_data;
+    output reg wr_en;
+
     output reg raster_ready = 0;
     
     output reg [31:0] count_x;
@@ -213,18 +219,24 @@ parameter COLOR_TYPE_SIZE=96;
     wire [31:0] red_add2;
     wire [31:0] red_add3;
     wire [31:0] red_add12;
+    wire [31:0] red_f;
+    wire [31:0] red_n;
     wire [31:0] red;
-    
+
     wire [31:0] blue_add1;
     wire [31:0] blue_add2;
     wire [31:0] blue_add3;
     wire [31:0] blue_add12;
+    wire [31:0] blue_f;
+    wire [31:0] blue_n;
     wire [31:0] blue;
 
     wire [31:0] green_add1;
     wire [31:0] green_add2;
     wire [31:0] green_add3;
     wire [31:0] green_add12;
+    wire [31:0] green_f;
+    wire [31:0] green_n;
     wire [31:0] green;
 
     fp_mul alpha_red(alpha, red_1, red_add1);
@@ -252,9 +264,9 @@ parameter COLOR_TYPE_SIZE=96;
     fp_mul green_norm(green_f, 32'h42fe0000, green_n);
     fp_mul blue_norm(blue_f, 32'h42fe0000, blue_n);
 
-    f2i red_int(red_n, red_i);
-    f2i green_int(green_n, green_int);
-    f2i blue_int(blue_n, blue_int);
+    f2i red_int(red_n, red);
+    f2i green_int(green_n, green);
+    f2i blue_int(blue_n, blue);
     
     fp_add final(alpha, beta, alpha_beta);
     fp_add final2(gamma, alpha_beta, sum);
@@ -285,64 +297,80 @@ parameter COLOR_TYPE_SIZE=96;
   
     always @ (posedge clk)
     begin
-	case (state)
+      case (state)
 	    0:
-	    begin
-		if (fifo_ready)
-		begin
-		    vertex_1 <= vertex_in1;
-		    vertex_2 <= vertex_in2;
-		    vertex_3 <= vertex_in3;
-		    color_1 <= color_in1;
-		    color_2 <= color_in2;
-		    color_3 <= color_in3;
-		    cy1_reg <= cy1_init;
-		    cy2_reg <= cy2_init;
-		    cy3_reg <= cy3_init;
-		    state <= 1;
-		    count_y <= miny_int - 1;
-		end
-	    end
-	    1:	    
-	    begin
-		if (count_y <= maxy_int)
-		begin
-		    cx1_reg <= cy1;
-		    cx2_reg <= cy2;
-		    cx3_reg <= cy3;
-		    cy1_reg <= cy1_incr;
-		    cy2_reg <= cy2_incr;
-		    cy3_reg <= cy3_incr;
-		    state <= 2;
-		    count_y <= count_y + 1;
-		    count_x <= minx_int;
-		end
-		else
-		begin
-		    state <= 0;
-		    raster_ready <= 1;
-		end
-	    end
+        begin
+        if (fifo_ready)
+          begin
+          vertex_1 <= vertex_in1;
+          vertex_2 <= vertex_in2;
+          vertex_3 <= vertex_in3;
+          color_1 <= color_in1;
+          color_2 <= color_in2;
+          color_3 <= color_in3;
+          cy1_reg <= cy1_init;
+          cy2_reg <= cy2_init;
+          cy3_reg <= cy3_init;
+          state <= 1;
+          count_y <= miny_int - 1;
+          end
+        end
+      1:	    
+        begin
+        if (count_y <= maxy_int)
+          begin
+          cx1_reg <= cy1;
+          cx2_reg <= cy2;
+          cx3_reg <= cy3;
+          cy1_reg <= cy1_incr;
+          cy2_reg <= cy2_incr;
+          cy3_reg <= cy3_incr;
+          state <= 2;
+          count_y <= count_y + 1;
+          count_x <= minx_int;
+          end
+        else
+          begin
+          state <= 0;
+          raster_ready <= 1;
+          end
+        end
 	    2: 
-	    begin
-		  if (count_x <= maxx_int)
-		  begin
-		      /* FIXME insert into pixel buffer here */
-		      state <= 2;
-		      cx1_reg <= cx1_decr; 
-		      cx2_reg <= cx2_decr; 
-		      cx3_reg <= cx3_decr; 
-		      count_x <= count_x + 1;
-		  end
-		  else
+        begin
+        if (count_x <= maxx_int)
+          begin
+          if (valid_pixel)
+            begin
+            wr_en <= 1;
+            wr_data <= {8'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0};
+            if (full == 0) 
+              begin
+              state <= 2;
+              cx1_reg <= cx1_decr; 
+              cx2_reg <= cx2_decr; 
+              cx3_reg <= cx3_decr; 
+              count_x <= count_x + 1;
+              end
+            end
+          else
+            begin
+            wr_en <= 0;
+            state <= 2;
+            cx1_reg <= cx1_decr; 
+            cx2_reg <= cx2_decr; 
+            cx3_reg <= cx3_decr; 
+            count_x <= count_x + 1;
+            end
+          end
+        else
 		      begin
-		        state <= 1;
+          wr_en <= 0;
+		      state <= 1;
 		      end
-	    end
+        end
 	    default:
-	    begin
-	    end
-	endcase
-    end	
-
+        begin
+        end
+      endcase
+  end	
 endmodule
