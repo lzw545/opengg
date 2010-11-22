@@ -34,8 +34,7 @@ module gl_decode( clk, opcode, imm, type,
 
     parameter
         reset_value = 0;
-    
-
+        
     input                       clk;
     
     input   [7:0]               opcode;
