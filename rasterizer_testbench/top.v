@@ -45,7 +45,7 @@ gl_rasterizer GL_RAS( .clk(clk), .fifo_ready(1),
                       .valid_pixel(t)
                       );
               
-              
+fifo_peek fifo_reg(   ) ;          
   initial
     begin
       clk = 0;
