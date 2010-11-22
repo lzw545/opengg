@@ -118,6 +118,8 @@ module gl_core_internal(clk1, clk2, reset, bram_enable, bram_rst, bram_addr_out,
     wire [31:0] green_out;
     wire [31:0] blue_out;
     
+    wire        matrix_load_en;
+    wire        matrix_load_id_en;
     wire        pd_en;
     
     assign  opcode      = fetch_inst_out[7:0];
@@ -171,6 +173,8 @@ module gl_core_internal(clk1, clk2, reset, bram_enable, bram_rst, bram_addr_out,
                         .matrix_mode(matrix_mode_out), 
                         .pop_en(pop_en), 
                         .push_en(push_en), 
+                        .load_en(matrix_load_en),
+                        .load_id_en(matrix_load_id_en),
                         .data_in(data_in), 
                         .write_en(matrix_ctrl_write_en),
                         .peek_out_0(peek_out_0), 
