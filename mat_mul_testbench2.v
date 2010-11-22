@@ -107,8 +107,8 @@ module mat_mul_testbench2(
         mul_en <= 0;
         mul_type <= 0;          // 4x1
         matrix_mode <= 0;       // modelview
-        bram_addr_in <= 32'h0;  // vertex is [1,5,9,13]
         #5
+        bram_addr_in <= 32'h0;  // vertex is [1,5,9,13]
         load_en <= 1;
         #10
         bram_addr_in <= bram_addr_in + 16;

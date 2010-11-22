@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+                            `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -26,7 +26,7 @@ module gl_decode( clk, opcode, imm, type,
                   bram_read_in_0, bram_read_in_1, bram_read_in_2, bram_read_in_3,
                   viewport_x, viewport_y, viewport_width, viewport_height,
                   push_en, pop_en, 
-                  color_in, color_out,
+                  red_out, green_out, blue_out,
                   matrix_load_en, matrix_load_id_en,
                   matrix_mul_en, matrix_mul_type, matrix_mode_out,
                   perspective_div_en,
@@ -56,9 +56,10 @@ module gl_decode( clk, opcode, imm, type,
     output reg [31:0]           viewport_width;
     output reg [31:0]           viewport_height;
     
-    /* Color Register */
-    input      [31:0]           color_in;
-    output reg [31:0]           color_out;
+    /* Color Registers */
+    output reg [31:0]           red_out;
+    output reg [31:0]           green_out;
+    output reg [31:0]           blue_out;
     
     /* Matrix stack, matrix multiply control signals */
     output reg                  push_en;
@@ -93,7 +94,9 @@ module gl_decode( clk, opcode, imm, type,
         viewport_height     <= 32'h43f00000;        // 480
         stall               <= 0;
         stall_count         <= 0;
-        color_out           <= 32'h00000000;        // default color is black
+        red_out             <= 32'h00000000;        // default color is 0
+        green_out           <= 32'h00000000;        // default color is 0
+        blue_out            <= 32'h00000000;        // default color is 0
         bram_addr_out       <= 0;
     end
     
@@ -120,33 +123,33 @@ module gl_decode( clk, opcode, imm, type,
 
                 6:                                              // modelview matrix multiply is done
                     begin
-                         matrix_mode_out <= 0;
-                         matrix_mul_en <= 1;
-                         stall_count <= stall_count - 1;
+                        matrix_mode_out <= 0;
+                        matrix_mul_en <= 1;
+                        stall_count <= stall_count - 1;
                     end
 
                 3:                                              
                     begin
-                         stall_count <= stall_count - 1;
-                         perspective_div_en <= 1;
-                         stall <= 0;
+                        stall_count <= stall_count - 1;
+                        perspective_div_en <= 1;
+                        stall <= 0;
                     end
                 2:                                              // projection matrix multiply is done
                     begin
-                         stall_count <= stall_count - 1;
-                         perspective_div_en <= 0;
-                         stall <= 0;
+                        stall_count <= stall_count - 1;
+                        perspective_div_en <= 0;
+                        stall <= 0;
                     end
 
                 1:                                              // perspective division is done
                     begin
-                         stall_count <= stall_count - 1;
+                        stall_count <= stall_count - 1;
                     end
 
                 default:
                     begin
-                         matrix_mul_en <= 0;
-                         stall_count <= stall_count - 1;
+                        matrix_mul_en <= 0;
+                        stall_count <= stall_count - 1;
                     end
 
                 endcase
@@ -154,7 +157,19 @@ module gl_decode( clk, opcode, imm, type,
         //`OP_COLOR:
         8'b00000100:
             begin
-                color_out <= color_in;
+                case (stall_count)
+                    0:
+                    begin
+                        bram_addr_out <= bram_addr_in;
+                    end
+                    
+                    1:
+                    begin
+                        red_out   <= bram_read_in_0;
+                        green_out <= bram_read_in_1;
+                        blue_out  <= bram_read_in_2;
+                    end
+                endcase
             end
         //`OP_MATRIXMODE:
         8'b00010000:
