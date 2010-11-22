@@ -30,6 +30,9 @@
     <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/trce.xmsgs"/>
     <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/xst.xmsgs"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="comp_3_isim_beh.exe"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="fifo_reg.prj"/>
+    <file xil_pn:fileType="FILE_XST_STX" xil_pn:name="fifo_reg.stx"/>
+    <file xil_pn:fileType="FILE_XST" xil_pn:name="fifo_reg.xst"/>
     <file xil_pn:fileType="FILE_LOG" xil_pn:name="fuse.log"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGDBUILD_LOG" xil_pn:name="gl_rasterizer.bld"/>
     <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="gl_rasterizer.cmd_log"/>
@@ -99,7 +102,10 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="InputAdded"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="../comp_3.v"/>
       <outfile xil_pn:name="../gl_rasterizer.v"/>
       <outfile xil_pn:name="../ipcore_dir/f2i.v"/>
@@ -125,7 +131,11 @@
     <transform xil_pn:end_ts="1290223758" xil_pn:in_ck="3375623904746327394" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1290223758">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="../comp_3.v"/>
       <outfile xil_pn:name="../gl_rasterizer.v"/>
       <outfile xil_pn:name="../ipcore_dir/f2i.v"/>
@@ -142,6 +152,7 @@
       <status xil_pn:value="OutOfDateForProperties"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
       <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="fuse.log"/>
       <outfile xil_pn:name="gl_rasterizer_beh.prj"/>

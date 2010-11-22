@@ -18,40 +18,41 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module fifo_reg( clk, color_empty, vertex_empty, vertex_in, color_in, 
-                 vertex_out, vertex_out2, vertex_out3,
+module fifo_reg( clk, color_empty, vertex_empty, raster_request,
+                 vertex_in, color_in, vertex_out, vertex_out2, vertex_out3,
                  color_out, color_out2, color_out3, 
-                 rd_en, ready );
+                 vertex_rd_en, color_rd_en, ready );
 
   input clk;
   input color_empty;
   input vertex_empty;
   input raster_request;
-  input vertex_in [95:0];
-  input color_in [95:0];
+  input [95:0] vertex_in;
+  input [95:0] color_in;
 
   output reg vertex_rd_en;
   output reg color_rd_en;
   
-  output reg ready;
+  output reg ready = 1;
   
-  output reg vertex_out[95:0];
-  output reg vertex_out2[95:0];
-  output reg vertex_out3[95:0];
-  output reg color_out[95:0];
-  output reg color_out2[95:0];
-  output reg color_out3[95:0];
+  output reg [95:0] vertex_out;
+  output reg [95:0] vertex_out2;
+  output reg [95:0] vertex_out3;
+  output reg [95:0] color_out;
+  output reg [95:0] color_out2;
+  output reg [95:0] color_out3;
 
   reg count = 0;
-  reg state = 0;
+  reg [1:0] state = 0;
   
   always @ (posedge clk)
     begin
       case (state)
 	    0:
         begin
-        if (empty == 0 && count < 3)
+        if (color_empty == 0 && vertex_empty == 0 && count < 3)
           begin
+          ready <= 0;
           count <= count+1;
           vertex_rd_en <= 1;
           color_rd_en <= 1;
@@ -73,7 +74,7 @@ module fifo_reg( clk, color_empty, vertex_empty, vertex_in, color_in,
         begin
         vertex_out <= vertex_in;
         color_out <= color_in;
-        if (empty == 0 && count < 3)
+        if (color_empty == 0 && vertex_empty == 0 && count < 3)
           begin
           vertex_rd_en <= 1;
           color_rd_en <= 1;
@@ -96,10 +97,10 @@ module fifo_reg( clk, color_empty, vertex_empty, vertex_in, color_in,
         begin
         vertex_out2 <= vertex_in;
         color_out2 <= color_in;
-        if (empty == 0 && count < 3)
+        if (color_empty == 0 && vertex_empty == 0 && count < 3)
           begin
             count <= count+1;
-            rd_en <= 1;
+            color_rd_en <= 1;
             state <= 3;
           end
         else
