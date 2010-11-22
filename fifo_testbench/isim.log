@@ -1,6 +1,6 @@
 ISim log file
-Running: C:\opengg\fifo_testbench\top_isim_beh.exe -gui -tclbatch isim.cmd -view C:/opengg/fifo_testbench/default.wcfg -wdb C:/opengg/fifo_testbench/top_isim_beh.wdb 
-ISim M.63c (signature 0xb869381d)
+Running: D:\545\opengg\fifo_testbench\top_isim_beh.exe -gui -tclbatch isim.cmd -view D:/545/opengg/fifo_testbench/default.wcfg -wdb D:/545/opengg/fifo_testbench/top_isim_beh.wdb 
+ISim M.63c (signature 0x7dea747)
 This is a Full version of ISim.
 Time resolution is 1 ps
 # onerror resume
@@ -8,6 +8,7 @@ Time resolution is 1 ps
 Simulator is doing circuit initialization process.
 WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.
 Finished circuit initialization process.
+# run 1.00us
 # run 1.00us
 # run 1.00us
 # run 1.00us

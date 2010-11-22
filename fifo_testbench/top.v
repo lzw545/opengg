@@ -19,7 +19,7 @@ module top;
   wire [0 : 3]   rd_data_count;
   wire [0 : 3]   wr_data_count;
 
-parameter CLK1 = 100, CLK2 = 20;
+parameter CLK1 = 97, CLK2 = 200;
   
   fifo_generator_v6_2 fifo1 (
 	.rst(rst),
@@ -56,7 +56,7 @@ parameter CLK1 = 100, CLK2 = 20;
       wr_clk = 0;
       
       wr_en = 0;
-      rd_en = 0;
+      rd_en = 1;
       
       din = 'd0;
       
@@ -76,12 +76,11 @@ parameter CLK1 = 100, CLK2 = 20;
       if ( wr_ack && !overflow )
         din <= din + 1;
     end
-    
 
   always @ (posedge rd_clk)
-    if ( full && !empty )
-      rd_en <= 1;
+    if ( !empty )
+      rd_en <= ~rd_en;
     else
       rd_en <= 0;
-      
+
 endmodule
