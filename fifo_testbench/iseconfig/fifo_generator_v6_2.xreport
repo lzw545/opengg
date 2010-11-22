@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2010-11-19T22:44:44</DateModified>
+  <DateModified>2010-11-19T23:23:00</DateModified>
   <ModuleName>fifo_generator_v6_2</ModuleName>
   <SummaryTimeStamp>Unknown</SummaryTimeStamp>
   <SavedFilePath>C:/opengg/fifo_testbench/iseconfig/fifo_generator_v6_2.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>C:/opengg/fifo_testbench</ImplementationReportsDirectory>
+  <ImplementationReportsDirectory>C:/opengg/fifo_testbench\</ImplementationReportsDirectory>
   <DateInitialized>2010-11-19T20:37:38</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>
