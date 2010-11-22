@@ -71,7 +71,7 @@ parameter CLK1 = 100, CLK2 = 20;
     end
   
   // *** THIS IS A HACK *** - there should be a better way to do and avoid overcounting
-  always @ (negedge wr_clk)
+  always @ (posedge wr_clk)
     begin
       if ( wr_ack && !overflow )
         din <= din + 1;
