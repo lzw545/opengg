@@ -90,6 +90,9 @@ module user_logic
 // -- ADD USER PARAMETERS BELOW THIS LINE ------------
 parameter TMP_LEN                        = 7;
 
+parameter RAST_FBW_FIFO_LEN              = 64;
+parameter FB_BASE_ADDR                   = 11'b1001_0000_000;
+
 parameter LINE_LEN                       = 9;
 parameter COL_LEN                        = 10;
 // -- ADD USER PARAMETERS ABOVE THIS LINE ------------
@@ -104,13 +107,9 @@ parameter C_NUM_REG                      = 4;
 
 // -- ADD USER PORTS BELOW THIS LINE -----------------
 
-/*
-input      [0 : LINE_LEN-1]               FBW_line;
-input      [0 : COL_LEN-1]                FBW_col;
-input      [0 : 31]                       FBW_color;
-input                                     FBW_req;
-output                                    FBW_ack;
-*/
+//input      [0 : RAST_FBW_FIFO_LEN-1]      FBW_Din;
+//input                                     FBW_fifo_empty;
+//output                                    FBW_fifo_rd_en;
 
 // -- ADD USER PORTS ABOVE THIS LINE -----------------
 
@@ -167,7 +166,6 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   integer                                   byte_index, bit_index;
 
   reg        [0 : 2]                        state = 'b0;
-  reg        [0 : 31]                       counter = 0;
   reg                                       mst_wr_req;
   reg                                       to_reset;
   reg                                       mst_reset;
@@ -184,7 +182,7 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   // assign IPIF input wires
   assign IP2Bus_MstRd_Req                    = 0;
   assign IP2Bus_MstWr_Req                    = mst_wr_req;
-  assign IP2Bus_Mst_Addr[0 : 10]             = 11'b1001_0000_000;
+  assign IP2Bus_Mst_Addr[0 : 10]             = FB_BASE_ADDR;
   assign IP2Bus_Mst_Addr[11:19]              = line;
   assign IP2Bus_Mst_Addr[20:29]              = col;
   assign IP2Bus_Mst_Addr[30:31]              = 'b0;
@@ -250,10 +248,10 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
           if ( slv_reg0 != 'b0 )
             begin
               mst_reset <= 0;
-              if ( line != input_reg[(15 - LINE_LEN - 1) : 15] || col != input_reg[(31 - COL_LEN - 1) : 31] )
-				    state     <= PRESENT_STATE;
-				  else
-				    state     <= OFF_STATE;
+              if ( line != input_reg[(15 - LINE_LEN + 1) : 15] || col != input_reg[(31 - COL_LEN + 1) : 31] )
+			    state     <= PRESENT_STATE;
+			  else
+			    state     <= OFF_STATE;
             end
           else
             begin
@@ -273,9 +271,9 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
             begin
               mst_reset    <= 0;
               mst_wr_req   <= 1;
-              line         <= input_reg[(15 - LINE_LEN - 1) : 15];
-				  col          <= input_reg[(31 - COL_LEN - 1) : 31];
-				  state        <= WAIT_FOR_ACK;
+              line         <= input_reg[(15 - LINE_LEN + 1) : 15];
+			  col          <= input_reg[(31 - COL_LEN + 1) : 31];
+			  state        <= WAIT_FOR_ACK;
             end
              
         WAIT_FOR_ACK:
@@ -395,8 +393,6 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
   //always @( slv_reg_read_sel or slv_reg0 or slv_reg1 )
   always @ *
     begin: SLAVE_REG_READ_PROC
-    
-      counter = counter + 1;
 
       case ( slv_reg_read_sel )
       
