@@ -1,0 +1,13 @@
+# Output products list for <fifo_96>
+_xmsgs\pn_parser.xmsgs
+fifo_96.asy
+fifo_96.gise
+fifo_96.ngc
+fifo_96.v
+fifo_96.veo
+fifo_96.xco
+fifo_96.xise
+fifo_96_flist.txt
+fifo_96_xmdf.tcl
+fifo_generator_readme.txt
+fifo_generator_ug175.pdf
