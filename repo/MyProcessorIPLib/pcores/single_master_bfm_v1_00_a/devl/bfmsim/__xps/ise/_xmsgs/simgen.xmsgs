@@ -32,10 +32,10 @@
 <msg type="info" file="EDK" num="1560" delta="old" >IPNAME:<arg fmt="%s" index="1">plb_v46</arg> INSTANCE:<arg fmt="%s" index="2">plb_bus</arg> - <arg fmt="%s" index="3">D:\Xilinx\12.2\ISE_DS\EDK\hw\XilinxProcessorIPLib\pcores\plb_v46_v1_04_a\data\plb_v46_v2_1_0.mpd line 72</arg> - <arg fmt="%s" index="4">tool</arg> is overriding <arg fmt="%s" index="5">PARAMETER</arg> <arg fmt="%s" index="6">C_PLBV46_DWIDTH</arg> value to <arg fmt="%s" index="7">128</arg>
 </msg>
 
-<msg type="info" file="EDK" num="1560" delta="old" >IPNAME:<arg fmt="%s" index="1">single_master_bfm_tb</arg> INSTANCE:<arg fmt="%s" index="2">my_core</arg> - <arg fmt="%s" index="3">D:\545\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfmsim\pcores\single_master_bfm_tb_v1_00_a\data\single_master_bfm_tb_v2_1_0.mpd line 26</arg> - <arg fmt="%s" index="4">tool</arg> is overriding <arg fmt="%s" index="5">PARAMETER</arg> <arg fmt="%s" index="6">C_SPLB_NUM_MASTERS</arg> value to <arg fmt="%s" index="7">2</arg>
+<msg type="info" file="EDK" num="1560" delta="new" >IPNAME:<arg fmt="%s" index="1">single_master_bfm_tb</arg> INSTANCE:<arg fmt="%s" index="2">my_core</arg> - <arg fmt="%s" index="3">D:\545\opengg\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfmsim\pcores\single_master_bfm_tb_v1_00_a\data\single_master_bfm_tb_v2_1_0.mpd line 26</arg> - <arg fmt="%s" index="4">tool</arg> is overriding <arg fmt="%s" index="5">PARAMETER</arg> <arg fmt="%s" index="6">C_SPLB_NUM_MASTERS</arg> value to <arg fmt="%s" index="7">2</arg>
 </msg>
 
-<msg type="info" file="EDK" num="1560" delta="old" >IPNAME:<arg fmt="%s" index="1">single_master_bfm_tb</arg> INSTANCE:<arg fmt="%s" index="2">my_core</arg> - <arg fmt="%s" index="3">D:\545\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfmsim\pcores\single_master_bfm_tb_v1_00_a\data\single_master_bfm_tb_v2_1_0.mpd line 27</arg> - <arg fmt="%s" index="4">tool</arg> is overriding <arg fmt="%s" index="5">PARAMETER</arg> <arg fmt="%s" index="6">C_SPLB_MID_WIDTH</arg> value to <arg fmt="%s" index="7">1</arg>
+<msg type="info" file="EDK" num="1560" delta="new" >IPNAME:<arg fmt="%s" index="1">single_master_bfm_tb</arg> INSTANCE:<arg fmt="%s" index="2">my_core</arg> - <arg fmt="%s" index="3">D:\545\opengg\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\devl\bfmsim\pcores\single_master_bfm_tb_v1_00_a\data\single_master_bfm_tb_v2_1_0.mpd line 27</arg> - <arg fmt="%s" index="4">tool</arg> is overriding <arg fmt="%s" index="5">PARAMETER</arg> <arg fmt="%s" index="6">C_SPLB_MID_WIDTH</arg> value to <arg fmt="%s" index="7">1</arg>
 </msg>
 
 <msg type="warning" file="EDK" num="2098" delta="old" >PORT:<arg fmt="%s" index="1">PLB_SMIRQ</arg> CONNECTOR:<arg fmt="%s" index="2">plb_bus_PLB_SMIRQ</arg> - <arg fmt="%s" index="3">D:\Xilinx\12.2\ISE_DS\EDK\hw\XilinxBFMinterface\pcores\plbv46_monitor_bfm_v1_00_a\data\plbv46_monitor_bfm_v2_1_0.mpd line 159</arg> - No driver found. Port will be driven to <arg fmt="%s" index="4">GND</arg>!
@@ -45,6 +45,9 @@
 </msg>
 
 <msg type="info" file="EDK" num="1038" delta="old" >Did not implement clock DRCs for parameter: <arg fmt="%s" index="1">my_core</arg>:<arg fmt="%s" index="2">C_MPLB_CLK_PERIOD_PS</arg>. Top-level frequency could not be propagated to this IP. Please make sure that you have specified the frequency of the top-level clock port, and that the clocks are properly connected.
+</msg>
+
+<msg type="warning" file="EDK" num="2028" delta="new" >Option &quot;<arg fmt="%s" index="1">CORE_STATE</arg>&quot; in <arg fmt="%s" index="2">D:\545\opengg\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\data\single_master_bfm_v2_1_0.mpd line 17</arg>  is deprecated. Please use Option ARCH_SUPPORT_MAP instead. 
 </msg>
 
 <msg type="warning" file="EDK" num="504" delta="old" >(GLOBAL) - atleast 1 toplevel output/input needs to be defined!

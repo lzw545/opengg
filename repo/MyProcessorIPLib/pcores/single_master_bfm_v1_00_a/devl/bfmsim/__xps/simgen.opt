@@ -1,1 +1,1 @@
- -p virtex5 -lang vhdl$(PROJECT_SEARCHPATHOPT) $(GLOBAL_SEARCHPATHOPT)   -msg __xps/ise/xmsgprops.lst -s isim -tb -X D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/bfmsim/
+ -p virtex5 -lang verilog$(PROJECT_SEARCHPATHOPT) $(GLOBAL_SEARCHPATHOPT)   -msg __xps/ise/xmsgprops.lst -s isim -tb -X D:/545/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/bfmsim/

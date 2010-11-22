@@ -61,6 +61,8 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     begin
                         inst_addr <= inst_addr + 16;
                         inst_out <= inst_in;
+                        decode_bram_addr <= inst_addr + 4;
+                        tmp_stall <= 1;
                     end
                     //`OP_COLOR:
                     8'b00000100:

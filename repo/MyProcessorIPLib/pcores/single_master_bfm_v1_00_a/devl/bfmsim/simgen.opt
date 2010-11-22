@@ -2,9 +2,9 @@ bfm_system.mhs
 -p
 xc5vlx110tff1136-1
 -lang
-vhdl
+verilog
 -lp
-D:/545/repo/
+D:/545/opengg/repo/
 -lp
 D:/Xilinx/12.2/ISE_DS/edk_user_repository
 -lp
@@ -15,7 +15,8 @@ yes
 __xps/ise/xmsgprops.lst
 -s
 isim
+-tb
 -X
-D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/bfmsim/
+D:/545/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/bfmsim/
 -m
 behavioral

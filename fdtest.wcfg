@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="30" />
+   <WVObjectSize size="27" />
    <wvobject fp_name="/fetch_decode_testbench/bram_read_0" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">bram_read_0[31:0]</obj_property>
       <obj_property name="ObjectShortName">bram_read_0[31:0]</obj_property>
@@ -30,30 +30,6 @@
       <obj_property name="ElementShortName">bram_read_3[31:0]</obj_property>
       <obj_property name="ObjectShortName">bram_read_3[31:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fetch_decode_testbench/v_min_x" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">v_min_x[31:0]</obj_property>
-      <obj_property name="ObjectShortName">v_min_x[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fetch_decode_testbench/v_min_y" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">v_min_y[31:0]</obj_property>
-      <obj_property name="ObjectShortName">v_min_y[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fetch_decode_testbench/v_max_x" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">v_max_x[31:0]</obj_property>
-      <obj_property name="ObjectShortName">v_max_x[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fetch_decode_testbench/v_max_y" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">v_max_y[31:0]</obj_property>
-      <obj_property name="ObjectShortName">v_max_y[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/fetch_decode_testbench/decode_addr_out" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">decode_addr_out[31:0]</obj_property>
-      <obj_property name="ObjectShortName">decode_addr_out[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/fetch_decode_testbench/push_en" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">push_en</obj_property>
@@ -110,6 +86,16 @@
       <obj_property name="ObjectShortName">fetch_inst_addr[31:0]</obj_property>
       <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/decode_bram_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">decode_bram_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">decode_bram_addr[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_decode_testbench/decode_addr_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">decode_addr_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">decode_addr_out[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
    <wvobject fp_name="/fetch_decode_testbench/opcode" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">opcode[7:0]</obj_property>
       <obj_property name="ObjectShortName">opcode[7:0]</obj_property>
@@ -143,6 +129,6 @@
    <wvobject fp_name="/fetch_decode_testbench/dc/stall_count" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">stall_count[3:0]</obj_property>
       <obj_property name="ObjectShortName">stall_count[3:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
 </wave_config>

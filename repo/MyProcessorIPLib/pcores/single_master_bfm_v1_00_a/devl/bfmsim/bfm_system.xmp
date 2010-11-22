@@ -1,7 +1,7 @@
 #Please do not modify this file by hand
 XmpVersion: 12.2
 VerMgmt: 12.2
-IntStyle: default
+IntStyle: ise
 ModuleSearchPath: ../../../../../
 MHS File: bfm_system.mhs
 MSS File: bfm_system.mss
@@ -18,7 +18,7 @@ SdkExportBmmBit: 1
 SdkExportDir: SDK/SDK_Export
 InsertNoPads: 0
 WarnForEAArch: 1
-HdlLang: VHDL
+HdlLang: verilog
 SimModel: BEHAVIORAL
 UserMakeFile: bfm_sim_xps.make
 UcfFile: data/bfm_system.ucf
