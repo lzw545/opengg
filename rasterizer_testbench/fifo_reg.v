@@ -33,7 +33,7 @@ module fifo_reg( clk, color_empty, vertex_empty, raster_request,
   output reg vertex_rd_en;
   output reg color_rd_en;
   
-  output reg ready = 1;
+  output reg ready = 0;
   
   output reg [95:0] vertex_out;
   output reg [95:0] vertex_out2;
@@ -42,7 +42,7 @@ module fifo_reg( clk, color_empty, vertex_empty, raster_request,
   output reg [95:0] color_out2;
   output reg [95:0] color_out3;
 
-  reg count = 0;
+  reg [1:0] count = 0;
   reg [1:0] state = 0;
   
   always @ (posedge clk)
@@ -50,6 +50,10 @@ module fifo_reg( clk, color_empty, vertex_empty, raster_request,
       case (state)
 	    0:
         begin
+        if (raster_request == 1)
+          begin
+          count <= 0;
+          end
         if (color_empty == 0 && vertex_empty == 0 && count < 3)
           begin
           ready <= 0;

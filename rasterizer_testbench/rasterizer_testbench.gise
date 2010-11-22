@@ -77,6 +77,7 @@
     <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="top.cmd_log"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="top.lso"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="top.prj"/>
+    <file xil_pn:fileType="FILE_XST_STX" xil_pn:name="top.stx"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_REPORT" xil_pn:name="top.syr"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="top.xst"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="top_envsettings.html"/>
@@ -105,15 +106,9 @@
       <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="InputAdded"/>
       <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="InputRemoved"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="../comp_3.v"/>
-      <outfile xil_pn:name="../gl_rasterizer.v"/>
-      <outfile xil_pn:name="../ipcore_dir/f2i.v"/>
-      <outfile xil_pn:name="../ipcore_dir/fp_add.v"/>
-      <outfile xil_pn:name="../ipcore_dir/fp_div.v"/>
-      <outfile xil_pn:name="../ipcore_dir/fp_mul.v"/>
-      <outfile xil_pn:name="../ipcore_dir/fp_sub.v"/>
-      <outfile xil_pn:name="top.v"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1290223758" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-954299927434629420" xil_pn:start_ts="1290223758">
       <status xil_pn:value="SuccessfullyRun"/>
@@ -135,31 +130,21 @@
       <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="InputRemoved"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="../comp_3.v"/>
-      <outfile xil_pn:name="../gl_rasterizer.v"/>
-      <outfile xil_pn:name="../ipcore_dir/f2i.v"/>
-      <outfile xil_pn:name="../ipcore_dir/fp_add.v"/>
-      <outfile xil_pn:name="../ipcore_dir/fp_div.v"/>
-      <outfile xil_pn:name="../ipcore_dir/fp_mul.v"/>
-      <outfile xil_pn:name="../ipcore_dir/fp_sub.v"/>
-      <outfile xil_pn:name="top.v"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1290223767" xil_pn:in_ck="3375623904746327394" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="6568355991206442351" xil_pn:start_ts="1290223758">
       <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="NotReadyToRun"/>
       <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForProperties"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="InputRemoved"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="fuse.log"/>
-      <outfile xil_pn:name="gl_rasterizer_beh.prj"/>
-      <outfile xil_pn:name="gl_rasterizer_isim_beh.exe"/>
-      <outfile xil_pn:name="isim"/>
-      <outfile xil_pn:name="isim.log"/>
-      <outfile xil_pn:name="xilinxsim.ini"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1290223767" xil_pn:in_ck="-7687737217945994994" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="1647677194816288547" xil_pn:start_ts="1290223767">
       <status xil_pn:value="SuccessfullyRun"/>
