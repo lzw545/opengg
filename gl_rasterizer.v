@@ -18,8 +18,9 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module gl_rasterizer( clk, fifo_ready, count_x, count_y, valid_pixel,
-		      raster_ready, vertex_in1, vertex_in2, vertex_in3,
+module gl_rasterizer( clk, full, count_x, count_y, valid_pixel,
+		      raster_ready, fifo_ready, wr_data, wr_en,
+          vertex_in1, vertex_in2, vertex_in3,
 		      color_in1, color_in2, color_in3);
 
 parameter VERTEX_TYPE_SIZE=96;
@@ -27,7 +28,12 @@ parameter COLOR_TYPE_SIZE=96;
 
     input clk;
   
+    input full;
     input fifo_ready;
+    
+    output reg [31:0] wr_data;
+    output reg wr_en;
+
     output reg raster_ready = 0;
     
     output reg [31:0] count_x;
@@ -333,15 +339,32 @@ parameter COLOR_TYPE_SIZE=96;
         begin
         if (count_x <= maxx_int)
           begin
-		      /* FIXME insert into pixel buffer here */
-		      state <= 2;
-		      cx1_reg <= cx1_decr; 
-		      cx2_reg <= cx2_decr; 
-		      cx3_reg <= cx3_decr; 
-		      count_x <= count_x + 1;
+          if (valid_pixel)
+            begin
+            wr_en <= 1;
+            wr_data <= {8'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0};
+            if (full == 0) 
+              begin
+              state <= 2;
+              cx1_reg <= cx1_decr; 
+              cx2_reg <= cx2_decr; 
+              cx3_reg <= cx3_decr; 
+              count_x <= count_x + 1;
+              end
+            end
+          else
+            begin
+            wr_en <= 0;
+            state <= 2;
+            cx1_reg <= cx1_decr; 
+            cx2_reg <= cx2_decr; 
+            cx3_reg <= cx3_decr; 
+            count_x <= count_x + 1;
+            end
           end
         else
 		      begin
+          wr_en <= 0;
 		      state <= 1;
 		      end
         end
