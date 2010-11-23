@@ -323,6 +323,7 @@ parameter COLOR_TYPE_SIZE=96;
         else
           begin
           state <= 0;
+          end
         end
       1:	    
         begin
@@ -385,6 +386,7 @@ parameter COLOR_TYPE_SIZE=96;
               cx2_reg <= cx2_reg; 
               cx3_reg <= cx3_reg; 
               count_x <= count_x;
+              end
             end
           else
             begin
