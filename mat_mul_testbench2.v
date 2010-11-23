@@ -37,8 +37,7 @@ module mat_mul_testbench2(
                     write_in_1,
                     write_in_2,
                     write_in_3,
-                    data_in,
-                    data_out;
+                    data_in;
     
     reg [31:0]      bram_addr_in;
     reg             load_en;

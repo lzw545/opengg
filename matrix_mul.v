@@ -39,15 +39,15 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
     
     output [31:0]   bram_addr_out;      // bram read address request
     
-    input  [31:0]   bram_read_in_0,     // bram data in 0
-                    bram_read_in_1,     // bram data in 1
-                    bram_read_in_2,     // bram data in 2
-                    bram_read_in_3;     // bram data in 3
+    input  [31:0]   bram_read_in_0;     // bram data in 0
+    input  [31:0]   bram_read_in_1;     // bram data in 1
+    input  [31:0]   bram_read_in_2;     // bram data in 2
+    input  [31:0]   bram_read_in_3;     // bram data in 3
     
-    input  [127:0]  matrix_peek_0,
-                    matrix_peek_1,
-                    matrix_peek_2,
-                    matrix_peek_3;
+    input  [127:0]  matrix_peek_0;
+    input  [127:0]  matrix_peek_1;
+    input  [127:0]  matrix_peek_2;
+    input  [127:0]  matrix_peek_3;
     
     output reg          matrix_write_en;
     output reg [127:0]  matrix_write_out_0;
@@ -74,8 +74,9 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
                    counter == 2 ? matrix_peek_2 :
                    counter == 3 ? matrix_peek_3 : 128'h0;
                    
-    assign mrc_b = vertex_step_2 ? vector_result_a : 
-                                 { bram_read_in_0, bram_read_in_1, bram_read_in_2, bram_read_in_3 };
+    assign mrc_b = vertex_step_2 ? vector_result_a :
+                   mul_type      ? { bram_read_in_0, bram_read_in_1, bram_read_in_2, bram_read_in_3 } :  
+                                   { bram_read_in_0, bram_read_in_1, bram_read_in_2, 32'b0 };
     
         
     matrix_row_comp mrc(.result(mrc_result), .a(mrc_a), .b(mrc_b));
@@ -110,7 +111,7 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
                     matrix_write_en <= 0;
                     counter <= counter + 1;
                 end
-                else if (en && counter == 0)
+                else if (en && counter == 0)                    // matrix multiplication
                 begin
                     matrix_mode_out <= matrix_mode_in;
                     matrix_write_out_0 <= {mrc_result,96'h0};

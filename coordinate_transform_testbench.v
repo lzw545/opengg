@@ -33,16 +33,16 @@ module coordinate_transform_testbench(
     wire [31:0]     v_width;
     wire [31:0]     v_height;
     
+    wire [31:0]     bram_addr_out;
     wire [31:0]     decode_addr_out;
     wire            push_en;
     wire            pop_en;
-    wire [31:0]     color_in;
-    wire [31:0]     color_out;
     wire            matrix_load_en;
     wire            matrix_load_id_en;
     wire            matrix_mul_en;
     wire            matrix_mul_type;
-    wire            matrix_mode_out;
+    wire            decode_matrix_mode_out;
+    wire            matmul_matrix_mode_out;
     wire            perspective_div_en;
     wire [31:0]     fetch_inst_in;
     wire [31:0]     fetch_inst_out;
@@ -110,16 +110,17 @@ module coordinate_transform_testbench(
                   .matrix_load_id_en(matrix_load_id_en),
                   .matrix_mul_en(matrix_mul_en), 
                   .matrix_mul_type(matrix_mul_type), 
-                  .matrix_mode_out(matrix_mode_out),
+                  .matrix_mode_out(decode_matrix_mode_out),
                   .perspective_div_en(perspective_div_en),
                   .stall(stall) );
     
     
     wire [127:0] data_in;
+    wire [127:0] vertex_result;
     assign data_in = {bram_read_0, bram_read_1, bram_read_2, bram_read_3};
     
     matrix_ctrl matctr( .clk(clk), 
-                        .matrix_mode(matrix_mode_out), 
+                        .matrix_mode(decode_matrix_mode_out), 
                         .pop_en(pop_en), 
                         .push_en(push_en), 
                         .load_en(matrix_load_en),
@@ -137,11 +138,11 @@ module coordinate_transform_testbench(
     
     
     matrix_mul matmul(  .clk(clk), 
-                        .en(mul_en), 
+                        .en(matrix_mul_en), 
                         .matrix_mode_in(matrix_mode), 
-                        .matrix_mode_out(matrix_mode_out),
-                        .mul_type(mul_type), 
-                        .bram_addr_in(bram_addr_in), 
+                        .matrix_mode_out(matmul_matrix_mode_out),
+                        .mul_type(matrix_mul_type), 
+                        .bram_addr_in(decode_addr_out), 
                         .bram_addr_out(bram_addr_out), 
                         .bram_read_in_0(bram_read_0), 
                         .bram_read_in_1(bram_read_1), 
