@@ -302,7 +302,9 @@ module gl_core_internal(clk1, clk2, reset,
     assign bram_enable = 1;
     assign bram_rst = 0;
     
-    
+    /*********************************************/
+    /*  RASTERIZER                               */
+    /*********************************************/   
 endmodule
 
 
