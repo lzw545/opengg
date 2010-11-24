@@ -300,34 +300,53 @@ parameter COLOR_TYPE_SIZE=96;
       case (state)
 	    0:
         begin
+        vertex_1 <= vertex_in1;
+        vertex_2 <= vertex_in2;
+        vertex_3 <= vertex_in3;
+        color_1 <= color_in1;
+        color_2 <= color_in2;
+        color_3 <= color_in3;
+        cy1_reg <= cy1_init;
+        cy2_reg <= cy2_init;
+        cy3_reg <= cy3_init;
+        cx1_reg <= 0;
+        cx2_reg <= 0;
+        cx3_reg <= 0;
+        count_y <= miny_int - 1;
+        raster_ready <= 0;
+        wr_en <= 0;
+        wr_data <= 0;
         if (fifo_ready)
           begin
-          vertex_1 <= vertex_in1;
-          vertex_2 <= vertex_in2;
-          vertex_3 <= vertex_in3;
-          color_1 <= color_in1;
-          color_2 <= color_in2;
-          color_3 <= color_in3;
-          cy1_reg <= cy1_init;
-          cy2_reg <= cy2_init;
-          cy3_reg <= cy3_init;
           state <= 1;
-          count_y <= miny_int - 1;
+          end
+        else
+          begin
+          state <= 0;
           end
         end
       1:	    
         begin
+        vertex_1 <= vertex_1;
+        vertex_2 <= vertex_2;
+        vertex_3 <= vertex_3;
+        color_1 <= color_1;
+        color_2 <= color_2;
+        color_3 <= color_3;
+        cx1_reg <= cy1;
+        cx2_reg <= cy2;
+        cx3_reg <= cy3;
+        cy1_reg <= cy1_incr;
+        cy2_reg <= cy2_incr;
+        cy3_reg <= cy3_incr;
+        count_y <= count_y + 1;
+        count_x <= minx_int;
+        wr_en <= 0;
+        wr_data <= 0;
         if (count_y <= maxy_int)
           begin
-          cx1_reg <= cy1;
-          cx2_reg <= cy2;
-          cx3_reg <= cy3;
-          cy1_reg <= cy1_incr;
-          cy2_reg <= cy2_incr;
-          cy3_reg <= cy3_incr;
           state <= 2;
-          count_y <= count_y + 1;
-          count_x <= minx_int;
+          raster_ready <= 0;
           end
         else
           begin
@@ -337,25 +356,42 @@ parameter COLOR_TYPE_SIZE=96;
         end
 	    2: 
         begin
+        vertex_1 <= vertex_1;
+        vertex_2 <= vertex_2;
+        vertex_3 <= vertex_3;
+        color_1 <= color_1;
+        color_2 <= color_2;
+        color_3 <= color_3;
+        cy1_reg <= cy1_reg;
+        cy2_reg <= cy2_reg;
+        cy3_reg <= cy3_reg;
+        raster_ready <= 0;
         if (count_x <= maxx_int)
           begin
+          state <= 2;
           if (valid_pixel)
             begin
             wr_en <= 1;
             wr_data <= {8'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0};
             if (full == 0) 
               begin
-              state <= 2;
               cx1_reg <= cx1_decr; 
               cx2_reg <= cx2_decr; 
               cx3_reg <= cx3_decr; 
               count_x <= count_x + 1;
               end
+            else 
+              begin
+              cx1_reg <= cx1_reg; 
+              cx2_reg <= cx2_reg; 
+              cx3_reg <= cx3_reg; 
+              count_x <= count_x;
+              end
             end
           else
             begin
             wr_en <= 0;
-            state <= 2;
+            wr_data <= 0;
             cx1_reg <= cx1_decr; 
             cx2_reg <= cx2_decr; 
             cx3_reg <= cx3_decr; 
@@ -365,7 +401,12 @@ parameter COLOR_TYPE_SIZE=96;
         else
 		      begin
           wr_en <= 0;
+          wr_data <= 0;
 		      state <= 1;
+          cx1_reg <= cx1_reg; 
+          cx2_reg <= cx2_reg; 
+          cx3_reg <= cx3_reg; 
+          count_x <= count_x;
 		      end
         end
 	    default:

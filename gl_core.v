@@ -27,21 +27,28 @@
 //////////////////////////////////////////////////////////////////////////////////
 `include "gl_defines.v"
 
-module gl_core_internal(clk1, clk2, reset, bram_enable, bram_rst, bram_addr_out, bram_data_in, bram_addr);
+module gl_core_internal(clk1, clk2, reset, 
+                        bram_a_en, bram_a_write_en, bram_a_rst, bram_a_addr, bram_a_din, bram_a_dout);
 
     
     input           clk1;                           // coordinate transform clk
     input           clk2;                           // raster clk
     input           reset;                          // pipeline reset
 
-    /* BRAM Control Signals */
-    output          bram_enable;                    // bram enable
-    output          bram_rst;                       // bram reset
-    output [31:0]   bram_addr;                      // bram address port
-    input  [31:0]   bram_data_in;                   // data from bram
+    /* BRAM Control Signals from PLB (Port A) */
+    input           bram_a_en;                      // bram enable
+    input           bram_a_write_en;                // bram write enable
+    input           bram_a_rst;                     // bram reset
+    input  [31:0]   bram_a_addr;                    // bram address port
+    output [31:0]   bram_a_din;                     // data from bram
+    input  [31:0]   bram_a_dout;                    // data to bram
     
-    output reg [31:0] bram_addr_out;                // bram address to read from
-    wire [31:0]     bram_read_0;                    // bram data read 
+    
+    /* BRAM Control Signals (Port B) */
+    wire [31:0]     bram_addr_1;                    // fetch addr (bram_read)
+    wire [31:0]     bram_addr_2;                    // decode addr (bram_read_0-3)
+    wire [31:0]     bram_read;                      //
+    wire [31:0]     bram_read_0;                    //
     wire [31:0]     bram_read_1;                    // 
     wire [31:0]     bram_read_2;                    // 
     wire [31:0]     bram_read_3;                    // 
@@ -68,13 +75,12 @@ module gl_core_internal(clk1, clk2, reset, bram_enable, bram_rst, bram_addr_out,
     wire [127:0]    mc_write_in_3;                  // matrix_ctrl write in
     wire [127:0]    mc_data_in;                     // matrix_ctrl input line for push
 
+    /* Viewport Wires */
     wire [31:0]     v_x;
     wire [31:0]     v_y;
     wire [31:0]     v_width;
     wire [31:0]     v_height;
-    
-    /* Viewport Registers */
-    
+
     
     /* Pipeline Control Signals */
     wire            stall;                          // fetch stall
@@ -83,15 +89,6 @@ module gl_core_internal(clk1, clk2, reset, bram_enable, bram_rst, bram_addr_out,
     /*********************************************/
     /*  FETCH                                    */
     /*********************************************/
-    
-    /*wire  [31:0]    inst;                           // instruction fetched from BRAM
-    
-    gl_fetch fetch( .inst_out(inst), 
-                    .inst_in(bram_data_in), 
-                    .inst_addr(bram_addr_out),
-                    .clk(clk), 
-                    .stall(stall), 
-                    .reset(reset));*/
     
     wire [31:0]     fetch_inst_in;                   // instruction read from BRAM (addr 1)
     wire [31:0]     fetch_inst_out;                  // instruction output to decode
@@ -118,6 +115,8 @@ module gl_core_internal(clk1, clk2, reset, bram_enable, bram_rst, bram_addr_out,
     wire [31:0] green_out;
     wire [31:0] blue_out;
     
+    wire [31:0] decode_addr_out;
+    
     wire        matrix_load_en;
     wire        matrix_load_id_en;
     wire        pd_en;
@@ -133,10 +132,10 @@ module gl_core_internal(clk1, clk2, reset, bram_enable, bram_rst, bram_addr_out,
                   .bram_read_in_1(bram_read_1), 
                   .bram_read_in_2(bram_read_2), 
                   .bram_read_in_3(bram_read_3),
-                  .viewport_x(v_min_x), 
-                  .viewport_y(v_min_y), 
-                  .viewport_width(v_max_x), 
-                  .viewport_height(v_max_y),
+                  .viewport_x(v_x), 
+                  .viewport_y(v_y), 
+                  .viewport_width(v_width), 
+                  .viewport_height(v_height),
                   .push_en(push_en), 
                   .pop_en(pop_en), 
                   .red_out(red_out),
@@ -149,26 +148,14 @@ module gl_core_internal(clk1, clk2, reset, bram_enable, bram_rst, bram_addr_out,
                   .matrix_mode_out(matrix_mode_out),
                   .perspective_div_en(pd_en),
                   .stall(stall) );
-    
-    /*
-    wire [7:0]  opcode;
-    wire [22:0] imm;
-    wire        inst_type;
-    
-    assign  opcode      = inst[7:0];
-    assign  imm         = inst[30:8];
-    assign  inst_type   = inst[31];
-    
-    gl_decode decode(   .opcode(opcode),
-                        .imm(imm),
-                        .type(inst_type),
-                        .clk(clk), 
-                        .stall(stall)); */
 
     /*********************************************/
     /*  EXECUTE                                  */
     /*********************************************/   
-        
+
+    wire [127:0] data_in;
+    assign data_in = {bram_read_0, bram_read_1, bram_read_2, bram_read_3};
+    
     matrix_ctrl matctr( .clk(clk1), 
                         .matrix_mode(matrix_mode_out), 
                         .pop_en(pop_en), 

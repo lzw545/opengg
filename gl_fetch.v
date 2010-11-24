@@ -54,7 +54,6 @@ module gl_fetch(inst_out, inst_in, inst_addr,
             end
         else if (~reset && ~stall)                   // Normal Operation
             begin
-                decode_bram_addr <= inst_addr +1;
                 case (inst_in[7:0])
                     //`OP_VERTEX:
                     8'b00000011:
@@ -70,6 +69,7 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                         inst_addr <= inst_addr + 16;
                         decode_bram_addr <= inst_addr + 4;
                         inst_out <= inst_in;
+                        tmp_stall <= 1;
                     end
                     //`OP_MULTMATRIX:
                     8'b00010001:

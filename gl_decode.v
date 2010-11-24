@@ -34,8 +34,7 @@ module gl_decode( clk, opcode, imm, type,
 
     parameter
         reset_value = 0;
-    
-
+        
     input                       clk;
     
     input   [7:0]               opcode;
@@ -161,10 +160,12 @@ module gl_decode( clk, opcode, imm, type,
                     0:
                     begin
                         bram_addr_out <= bram_addr_in;
+                        stall_count <= 1;
                     end
                     
                     1:
                     begin
+                        stall_count <= 0;
                         red_out   <= bram_read_in_0;
                         green_out <= bram_read_in_1;
                         blue_out  <= bram_read_in_2;

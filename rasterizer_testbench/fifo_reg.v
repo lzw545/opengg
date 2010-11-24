@@ -26,7 +26,7 @@ module fifo_reg( clk, color_empty, vertex_empty, raster_request,
   input clk;
   input color_empty;
   input vertex_empty;
-  input raster_request;
+  input dequeue;
   input [95:0] vertex_in;
   input [95:0] color_in;
 
@@ -50,51 +50,117 @@ module fifo_reg( clk, color_empty, vertex_empty, raster_request,
       case (state)
 	    0:
         begin
-        if (raster_request == 1)
-          begin
-          count <= 0;
-          end
-        if (color_empty == 0 && vertex_empty == 0 && count < 3)
+        if (dequeue == 1)
           begin
           ready <= 0;
-          count <= count+1;
-          vertex_rd_en <= 1;
-          color_rd_en <= 1;
+          count <= 0;
+          state <= 0;
+          vertex_out <= vertex_out;
+          vertex_out2 <= vertex_out2;
+          vertex_out3 <= vertex_out3;
+          color_out <= color_out;
+          color_out2 <= color_out2;
+          color_out3 <= color_out3;
+          vertex_rd_en <= 0;
+          color_rd_en <= 0;
+          end;
+        else if (count < 3)
+          begin
+          ready <= 0;
+          vertex_out <= vertex_out;
+          vertex_out2 <= vertex_out2;
+          vertex_out3 <= vertex_out3;
+          color_out <= color_out;
+          color_out2 <= color_out2;
+          color_out3 <= color_out3;
+          if (color_empty == 0 && vertex_empty == 0)
+            begin
+            count <= count+1;
+            vertex_rd_en <= 1;
+            color_rd_en <= 1;
+            vertex_out <= vertex_out;
+            vertex_out2 <= vertex_out2;
+            vertex_out3 <= vertex_out3;
+            color_out <= color_out;
+            color_out2 <= color_out2;
+            color_out3 <= color_out3;
             if (count == 0)
-            begin
-            state <= 1;
+              begin
+              state <= 1;
+              end
+            else if (count == 1)
+              begin
+              state <= 2;
+              end
+            else
+              begin
+              state <= 3;
+              end
             end
-          else if (count == 1)
+          else 
             begin
-            state <= 2;
+            count <= count;
+            state <= 0;
+            vertex_rd_en <= 0;
+            color_rd_en <= 0;
             end
-          else
-            begin
-            state <= 3;
-            end
-          end
+        else
+          begin
+          ready <= 1;
+          count <= 3;
+          state <= 0;
+          vertex_rd_en <= 0;
+          color_rd_en <= 0;
+          vertex_out <= vertex_out;
+          vertex_out2 <= vertex_out2;
+          vertex_out3 <= vertex_out3;
+          color_out <= color_out;
+          color_out2 <= color_out2;
+          color_out3 <= color_out3;
+          end;
         end
       1:	    
         begin
         vertex_out <= vertex_in;
         color_out <= color_in;
-        if (color_empty == 0 && vertex_empty == 0 && count < 3)
+        if (count < 3)
+          ready <= 0;
           begin
-          vertex_rd_en <= 1;
-          color_rd_en <= 1;
-          count <= count+1;
-          if (count == 1)
+          if (color_empty == 0 && vertex_empty == 0)
             begin
-            state <= 2;
+            count <= count+1;
+            vertex_rd_en <= 1;
+            color_rd_en <= 1;
+            vertex_out2 <= vertex_out2;
+            vertex_out3 <= vertex_out3;
+            color_out2 <= color_out2;
+            color_out3 <= color_out3;
+            if (count == 1)
+              begin
+              state <= 2;
+              end
+            else
+              begin 
+              state <= 3;
+              end
             end
           else
-            begin 
-            state <= 3;
-            end
-          end
+            begin
+            
+          
         else
           begin
+          ready <= 1;
+          count <= 3;
           state <= 0;
+          vertex_rd_en <= 0;
+          color_rd_en <= 0;
+          vertex_out <= vertex_out;
+          vertex_out2 <= vertex_out2;
+          vertex_out3 <= vertex_out3;
+          color_out <= color_out;
+          color_out2 <= color_out2;
+          color_out3 <= color_out3;
           end
         end 
 	    2: 
