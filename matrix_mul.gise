@@ -152,7 +152,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290509175" xil_pn:in_ck="7316036634112358608" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1290509175">
+    <transform xil_pn:end_ts="1290571479" xil_pn:in_ck="7316036634112358608" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1290571479">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="comp_3.v"/>
@@ -190,13 +190,9 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290507528" xil_pn:in_ck="7316036634112358608" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1290507528">
+    <transform xil_pn:end_ts="1290571482" xil_pn:in_ck="7316036634112358608" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1290571482">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForInputs"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="InputChanged"/>
-      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="comp_3.v"/>
       <outfile xil_pn:name="coordinate_transform_testbench.v"/>
       <outfile xil_pn:name="diff_select.v"/>
@@ -220,13 +216,10 @@
       <outfile xil_pn:name="matrix_row_comp.v"/>
       <outfile xil_pn:name="viewport_trans.v"/>
     </transform>
-    <transform xil_pn:end_ts="1290507531" xil_pn:in_ck="7316036634112358608" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="8455708100428513433" xil_pn:start_ts="1290507528">
+    <transform xil_pn:end_ts="1290571484" xil_pn:in_ck="7316036634112358608" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="8455708100428513433" xil_pn:start_ts="1290571482">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForInputs"/>
-      <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="InputChanged"/>
       <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="coordinate_transform_testbench_beh.prj"/>
       <outfile xil_pn:name="coordinate_transform_testbench_isim_beh.exe"/>
@@ -235,12 +228,9 @@
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1290507531" xil_pn:in_ck="-5689552975548212830" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="7629362564129759068" xil_pn:start_ts="1290507531">
+    <transform xil_pn:end_ts="1290571485" xil_pn:in_ck="-5689552975548212830" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="7629362564129759068" xil_pn:start_ts="1290571484">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForPredecessor"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="coordinate_transform_testbench_isim_beh.wdb"/>
       <outfile xil_pn:name="isim.cmd"/>
       <outfile xil_pn:name="isim.log"/>

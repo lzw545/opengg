@@ -114,8 +114,9 @@ module gl_decode( clk, opcode, imm, type,
                 0:
                     begin
                         matrix_mul_en <= 1;                     // enable modelview matrix multiply
-                        matrix_mul_type <= 1;                   // select 1x4 multiply mode
+                        matrix_mul_type <= 0;                   // select 1x4 multiply mode
                         matrix_mode_out <= 1;
+                        bram_addr_out <= bram_addr_in;
                         stall <= 1;
                         stall_count <= 9;
                     end
@@ -130,18 +131,18 @@ module gl_decode( clk, opcode, imm, type,
                 3:                                              
                     begin
                         stall_count <= stall_count - 1;
-                        perspective_div_en <= 1;
                         stall <= 0;
                     end
                 2:                                              // projection matrix multiply is done
                     begin
                         stall_count <= stall_count - 1;
-                        perspective_div_en <= 0;
+                        perspective_div_en <= 1;
                         stall <= 0;
                     end
 
                 1:                                              // perspective division is done
                     begin
+                        perspective_div_en <= 0;
                         stall_count <= stall_count - 1;
                     end
 
@@ -229,18 +230,18 @@ module gl_decode( clk, opcode, imm, type,
                 1:
                     begin
                         stall_count <= stall_count - 1;
-                        bram_addr_out <= bram_addr_out + 16;
+                        bram_addr_out <= bram_addr_out + 4;
                     end
                 2:
                     begin
                         stall_count <= stall_count - 1;
-                        bram_addr_out <= bram_addr_out + 16;
+                        bram_addr_out <= bram_addr_out + 4;
                         stall <= 0;
                     end
                 default:
                     begin
                         matrix_load_en <= 0;
-                        bram_addr_out <= bram_addr_out + 16;
+                        bram_addr_out <= bram_addr_out + 4;
                         stall_count <= stall_count - 1;
                     end
                 endcase
