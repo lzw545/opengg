@@ -1,0 +1,12 @@
+run
+-opt_level 2
+-opt_mode speed
+-ifmt mixed
+-ifn "D:\545\opengg\repo\MyProcessorIPLib\pcores\opengg_v1_00_a\devl\synthesis\opengg_xst.prj"
+-top opengg
+-p virtex5
+-ofn "D:\545\opengg\repo\MyProcessorIPLib\pcores\opengg_v1_00_a\devl\synthesis\opengg_xst.ngc"
+-iobuf NO
+-rtlview YES
+-hierarchy_separator /
+-work_lib opengg_v1_00_a

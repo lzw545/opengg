@@ -1,0 +1,9 @@
+-batch 
+-create opengg 
+-ver 1.00.a 
+-dir "D:\545\opengg\repo\MyProcessorIPLib" 
+-lang verilog 
+-bus plbv46 ms 
+-xps 
+-ise 
+-bfmsim "" "" 
