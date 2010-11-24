@@ -21,23 +21,27 @@
 module gl_rasterizer( clk, full, count_x, count_y, valid_pixel,
 		      raster_ready, fifo_ready, wr_data, wr_en,
           vertex_in1, vertex_in2, vertex_in3,
-		      color_in1, color_in2, color_in3);
+		      color_in1, color_in2, color_in3 );
 
 parameter VERTEX_TYPE_SIZE=96;
+parameter LINE_LEN=9;
+parameter COL_LEN=10;
 parameter COLOR_TYPE_SIZE=96;
 
     input clk;
   
+    /* writer domain */
     input full;
-    input fifo_ready;
-    
-    output reg [31:0] wr_data;
+    output reg [95:0] wr_data;
     output reg wr_en;
 
+    /* reading domain */
+    input fifo_ready;
     output reg raster_ready = 0;
     
+    /* unused ports */ 
     output reg [31:0] count_x;
-    output reg [31:0] count_y;
+    reg [31:0] count_y;
    
     output valid_pixel;
  
@@ -372,7 +376,8 @@ parameter COLOR_TYPE_SIZE=96;
           if (valid_pixel)
             begin
             wr_en <= 1;
-            wr_data <= {8'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0};
+            /* Pack data into fifo */
+            wr_data <= {08'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0};
             if (full == 0) 
               begin
               cx1_reg <= cx1_decr; 
@@ -390,6 +395,7 @@ parameter COLOR_TYPE_SIZE=96;
             end
           else
             begin
+            /* not valid pixel */
             wr_en <= 0;
             wr_data <= 0;
             cx1_reg <= cx1_decr; 
@@ -399,6 +405,7 @@ parameter COLOR_TYPE_SIZE=96;
             end
           end
         else
+          /* x is out of loop range, go to outer loop */
 		      begin
           wr_en <= 0;
           wr_data <= 0;
