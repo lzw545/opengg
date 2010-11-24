@@ -55,7 +55,7 @@ parameter C_MST_DWIDTH                   = 32;
 // FIFO interface
 input      [0 : RAST_FBW_FIFO_LEN-1]      fifo_data;
 input                                     fifo_empty;
-output                                    fifo_rd_en;
+output  reg                                  fifo_rd_en;
 
 // PLB interface
 input                                     PLB_clk;
@@ -64,7 +64,7 @@ output                                    IP2Bus_MstWr_Req;
 output     [0 : C_MST_AWIDTH-1]           IP2Bus_Mst_Addr;
 output     [0 : C_MST_DWIDTH/8-1]         IP2Bus_Mst_BE;
 output                                    IP2Bus_Mst_Lock;
-output                                    IP2Bus_Mst_Reset;
+output  reg                                  IP2Bus_Mst_Reset;
 input                                     Bus2IP_Mst_CmdAck;
 input                                     Bus2IP_Mst_Cmplt;
 input                                     Bus2IP_Mst_Error;
@@ -78,7 +78,7 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
 
 
 
-  reg      [0 : 3]                        state;
+  reg      [0 : 3]                        state = 0;
 
   // reader registers
   reg                                     go_write;
@@ -103,7 +103,6 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   assign IP2Bus_Mst_Lock                     = 0;
 //  assign IP2Bus_Mst_Reset                    = mst_reset;
   assign IP2Bus_MstWr_d[0 : C_MST_DWIDTH-1]  = color;
-  
   
   // writer state machine
 parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_RECVD=4;
@@ -160,18 +159,22 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
       mst_wr_req = 0;  
   
   // dequeue from fifo on trasition from IDLE to WRITE
-  assign fifo_rd_en = ( state == OFF_STATE && !fifo_empty );
+  always @ (posedge PLB_clk)
+	 fifo_rd_en <= ( state == OFF_STATE && !fifo_empty );
 
   // reset on error
-  assign IP2Bus_Mst_Reset = ( state == ERROR_RECVD );
+  always @ (posedge PLB_clk)
+    IP2Bus_Mst_Reset <= ( state == ERROR_RECVD );
   
   // assign line and col and color regs
   always @ (posedge PLB_clk)
     begin
       if ( fifo_rd_en && !fifo_empty )
-        // fifo_data is valid
-        line  <= fifo_data;
-        col   <= fifo_data;
-        color <= fifo_data;
+		  begin
+          // fifo_data is valid
+          line  <= fifo_data;
+          col   <= fifo_data;
+          color <= fifo_data;
+		  end
     end
 endmodule

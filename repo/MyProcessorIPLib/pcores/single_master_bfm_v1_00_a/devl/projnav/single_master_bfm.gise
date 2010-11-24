@@ -35,6 +35,10 @@
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="fbwriter_envsettings.html"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="fbwriter_summary.html"/>
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="fbwriter_xst.xrpt"/>
+    <file xil_pn:fileType="FILE_LOG" xil_pn:name="fuse.log"/>
+    <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="isim"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_CMD" xil_pn:name="isim.cmd"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_LOG" xil_pn:name="isim.log"/>
     <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="single_master_bfm.cmd_log"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="single_master_bfm.lso"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGC" xil_pn:name="single_master_bfm.ngc"/>
@@ -47,14 +51,71 @@
     <file xil_pn:fileType="FILE_NCD" xil_pn:name="single_master_bfm_guide.ncd" xil_pn:origination="imported"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="single_master_bfm_summary.html"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="single_master_bfm_vhdl.prj"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="test_beh.prj"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="test_isim_beh.exe"/>
+    <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="test_isim_beh.wdb"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="user_logic.prj"/>
     <file xil_pn:fileType="FILE_XST_STX" xil_pn:name="user_logic.stx"/>
     <file xil_pn:fileType="FILE_XST" xil_pn:name="user_logic.xst"/>
     <file xil_pn:fileType="FILE_FITTER_REPORT" xil_pn:name="webtalk_pn.xml"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_INI" xil_pn:name="xilinxsim.ini"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="xst"/>
   </files>
 
   <transforms xmlns="http://www.xilinx.com/XMLSchema">
+    <transform xil_pn:end_ts="1290568523" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1290568523">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1290568982" xil_pn:in_ck="7501209008761599888" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1290568982">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="../../hdl/verilog/fbwriter.v"/>
+      <outfile xil_pn:name="../../hdl/verilog/user_logic.v"/>
+      <outfile xil_pn:name="../../hdl/vhdl/single_master_bfm.vhd"/>
+      <outfile xil_pn:name="test.v"/>
+    </transform>
+    <transform xil_pn:end_ts="1290568523" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-4846834790194202313" xil_pn:start_ts="1290568523">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1290568523" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="6191898056132600101" xil_pn:start_ts="1290568523">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1290568523" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="3112192325758723281" xil_pn:start_ts="1290568523">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1290568982" xil_pn:in_ck="7501209008761599888" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1290568982">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="../../hdl/verilog/fbwriter.v"/>
+      <outfile xil_pn:name="../../hdl/verilog/user_logic.v"/>
+      <outfile xil_pn:name="../../hdl/vhdl/single_master_bfm.vhd"/>
+      <outfile xil_pn:name="test.v"/>
+    </transform>
+    <transform xil_pn:end_ts="1290568983" xil_pn:in_ck="7501209008761599888" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="6274676874761541653" xil_pn:start_ts="1290568982">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
+      <outfile xil_pn:name="fuse.log"/>
+      <outfile xil_pn:name="isim"/>
+      <outfile xil_pn:name="isim.log"/>
+      <outfile xil_pn:name="test_beh.prj"/>
+      <outfile xil_pn:name="test_isim_beh.exe"/>
+      <outfile xil_pn:name="xilinxsim.ini"/>
+    </transform>
+    <transform xil_pn:end_ts="1290568984" xil_pn:in_ck="4140465173363612911" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-7056148962383750105" xil_pn:start_ts="1290568983">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
+      <outfile xil_pn:name="isim.cmd"/>
+      <outfile xil_pn:name="isim.log"/>
+      <outfile xil_pn:name="test_isim_beh.wdb"/>
+    </transform>
     <transform xil_pn:end_ts="1290322229" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1290322229">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
@@ -87,16 +148,12 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="OutputRemoved"/>
       <outfile xil_pn:name=".lso"/>
       <outfile xil_pn:name="_xmsgs/xst.xmsgs"/>
-      <outfile xil_pn:name="fbwriter.lso"/>
-      <outfile xil_pn:name="fbwriter.ngc"/>
-      <outfile xil_pn:name="fbwriter.ngr"/>
-      <outfile xil_pn:name="fbwriter.prj"/>
-      <outfile xil_pn:name="fbwriter.stx"/>
-      <outfile xil_pn:name="fbwriter.syr"/>
-      <outfile xil_pn:name="fbwriter.xst"/>
-      <outfile xil_pn:name="fbwriter_xst.xrpt"/>
       <outfile xil_pn:name="webtalk_pn.xml"/>
       <outfile xil_pn:name="xst"/>
     </transform>
