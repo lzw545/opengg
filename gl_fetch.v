@@ -32,8 +32,8 @@ module gl_fetch(inst_out, inst_in, inst_addr,
     output reg  [(width-1):0]   inst_out;               // instruction output
     output reg  [(width-1):0]   inst_addr;              // instruction address (bram read)
     output reg  [(width-1):0]   decode_bram_addr;       // 
-    input       [(width-1):0]   inst_in;
-    input                       clk;
+    input       [(width-1):0]   inst_in;                // 
+    input                       clk;                    // 
     input                       stall;                  // stall
     input                       reset;
 
@@ -90,24 +90,33 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     begin
                         inst_addr <= inst_addr + 17;
                         inst_out <= inst_in;
+                        decode_bram_addr <= inst_addr + 1;
+                        tmp_stall <= 1;
                     end
                     //`OP_SCALE:
                     8'b00010111:
                     begin
                         inst_addr <= inst_addr + 17;
                         inst_out <= inst_in;
+                        decode_bram_addr <= inst_addr + 1;
+                        tmp_stall <= 1;
+
                     end
                     //`OP_TRANSLATE:
                     8'b00011000:
                     begin
                         inst_addr <= inst_addr + 17;
                         inst_out <= inst_in;
+                        decode_bram_addr <= inst_addr + 1;
+                        tmp_stall <= 1;
                     end
                     //`OP_VIEWPORT:
                     8'b00011001:
                     begin
                         inst_addr <= inst_addr + 5;
+                        decode_bram_addr <= inst_addr + 1;
                         inst_out <= inst_in;
+                        tmp_stall <= 1;
                     end
                     //`OP_FRUSTUM:
                     8'b00011010:

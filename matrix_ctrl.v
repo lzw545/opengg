@@ -68,14 +68,27 @@ module matrix_ctrl(clk, matrix_mode,
         state <= 0;
         
         // Hardcode identity matrices into both stacks
+        /*
         modelview_stack[3]  <= 127'h3F800000000000000000000000000000;
         modelview_stack[2]  <= 127'h000000003F8000000000000000000000;
         modelview_stack[1]  <= 127'h00000000000000003F80000000000000;
         modelview_stack[0]  <= 127'h0000000000000000000000003F800000;
+        
         projection_stack[3] <= 127'h3F800000000000000000000000000000;
         projection_stack[2] <= 127'h000000003F8000000000000000000000;
         projection_stack[1] <= 127'h00000000000000003F80000000000000;
         projection_stack[0] <= 127'h0000000000000000000000003F800000;
+        */
+        modelview_stack[3]  <= 127'h3F800000_00000000_00000000_00000000;
+        modelview_stack[2]  <= 127'h00000000_3F800000_00000000_00000000;
+        modelview_stack[1]  <= 127'h00000000_00000000_3F800000_C2200000;
+        modelview_stack[0]  <= 127'h00000000_00000000_00000000_3F800000;
+        
+        //    glFrustum(-1.0, 1.0, -h, h, 5.0, 60.0); where h = 480/640
+        projection_stack[3] <= 127'h40A00000_00000000_00000000_00000000;
+        projection_stack[2] <= 127'h00000000_40D55555_00000000_00000000;
+        projection_stack[1] <= 127'h00000000_00000000_BF9745D1_C12E8BA3;
+        projection_stack[0] <= 127'h00000000_00000000_BF800000_00000000;
     end
     
     wire [127:0] modelview_out0;

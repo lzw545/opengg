@@ -202,7 +202,7 @@ module gl_core_internal(clk1, clk2, reset,
     wire [31:0]         pd_z;
     wire [31:0]         pd_w;
     
-    wire [31:0]         pd_result_w;
+    wire [31:0]         pd_result_x;
     wire [31:0]         pd_result_y;
     wire [31:0]         pd_result_z;
     
@@ -246,13 +246,29 @@ module gl_core_internal(clk1, clk2, reset,
     wire [31:0] vt_addx2_result;
     wire [31:0] vt_addy2_result;
     
-    fp_mul vt_mulx  (.a(pd_vert_x), .b(v_width), .result(vt_mulx_result));
-    fp_add vt_addx  (.a(vt_mulx_result), .b(v_width), .result(vt_addx_result));
-    fp_add vt_addx2 (.a(v_x), .b(vt_addx_result), .result(vt_addx2_result));
+    fp_mul vt_mulx  ( .a(pd_vert_x), 
+                      .b(v_width), 
+                      .result(vt_mulx_result));
+                      
+    fp_add vt_addx  ( .a(vt_mulx_result), 
+                      .b(v_width), 
+                      .result(vt_addx_result));
+                      
+    fp_add vt_addx2 ( .a(v_x), 
+                      .b(vt_addx_result),
+                      .result(vt_addx2_result));
     
-    fp_mul vt_muly  (.a(pd_vert_y), .b(v_width), .result(vt_muly_result));
-    fp_add vt_addy  (.a(vt_muly_result), .b(v_width), .result(vt_addy_result));
-    fp_add vt_addy2 (.a(v_y), .b(vt_addy_result), .result(vt_addy2_result));
+    fp_mul vt_muly  ( .a(pd_vert_y),
+                      .b(v_width),
+                      .result(vt_muly_result));
+                      
+    fp_add vt_addy  ( .a(vt_muly_result), 
+                      .b(v_width),
+                      .result(vt_addy_result));
+                      
+    fp_add vt_addy2 ( .a(v_y),
+                      .b(vt_addy_result),
+                      .result(vt_addy2_result));
     
     wire [95:0] vertex_fifo_in;
     wire [95:0] color_fifo_in;
