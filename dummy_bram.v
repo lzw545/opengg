@@ -68,11 +68,19 @@ module dummy_bram(addr1, addr2, read0, read1, read2, read3, read4
         mem[1]= 32'h3F800000;   // r: 1
         mem[2]= 32'h3F000000;   // g: .5
         mem[3]= 32'h00000000;   // b: 0
-        mem[4]= 32'h80000303;   // Vertex
+        mem[4]= 32'h80000303;   // Vertex 1
         mem[5]= 32'h3F800000;   // x: 1   
         mem[6]= 32'h41200000;   // y: 10
-        mem[7]= 32'h40A00000;   // z: 5
-        mem[8]= 32'h00000010;   // Matrix_mode 0  
+        mem[7]= 32'h00000000;   // z: 0
+        mem[8]= 32'h80000303;   // Vertex 2 
+        mem[9]= 32'h41200000;   // x: 10   
+        mem[10]= 32'h3F800000;  // y: 1
+        mem[11]= 32'h00000000;  // z: 0
+		  mem[12]= 32'h80000303;  // Vertex 3
+        mem[13]= 32'h41200000;  // x: 1   
+        mem[14]= 32'h3F800000;  // y: 1
+        mem[15]= 32'h00000000;  // z: 0
+		  
     end
 
     assign read0 = mem[addr1];

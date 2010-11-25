@@ -81,7 +81,7 @@ module matrix_ctrl(clk, matrix_mode,
         */
         modelview_stack[3]  <= 127'h3F800000_00000000_00000000_00000000;
         modelview_stack[2]  <= 127'h00000000_3F800000_00000000_00000000;
-        modelview_stack[1]  <= 127'h00000000_00000000_3F800000_C2200000;
+        modelview_stack[1]  <= 127'h00000000_00000000_3F800000_00000000;
         modelview_stack[0]  <= 127'h00000000_00000000_00000000_3F800000;
         /*
         //    glFrustum(-1.0, 1.0, -h, h, 5.0, 60.0); where h = 480/640

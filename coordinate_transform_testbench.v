@@ -229,11 +229,11 @@ module coordinate_transform_testbench(
                       .result(vt_addx2_result));
     
     fp_mul vt_muly  ( .a(pd_vert_y),
-                      .b(v_width),
+                      .b(v_height),
                       .result(vt_muly_result));
                       
     fp_add vt_addy  ( .a(vt_muly_result), 
-                      .b(v_width),
+                      .b(v_height),
                       .result(vt_addy_result));
                       
     fp_add vt_addy2 ( .a(v_y),
@@ -243,7 +243,7 @@ module coordinate_transform_testbench(
     wire [95:0] vertex_fifo_in;
     wire [95:0] color_fifo_in;
     
-    assign vertex_fifo_in = {vt_addx2_result, vt_addy_result, 32'h0};
+    assign vertex_fifo_in = {vt_addx2_result, vt_addy2_result, 32'h0};
     assign color_fifo_in = {pd_red, pd_green, pd_blue};
     
     
