@@ -192,9 +192,14 @@ module coordinate_transform_testbench(
     begin
         if (perspective_div_en)
         begin
+        /*
             pd_vert_x <= pd_result_x;
             pd_vert_y <= pd_result_y;
             pd_vert_z <= pd_result_z;
+        */
+            pd_vert_x <= pd_x;
+            pd_vert_y <= pd_y;
+            pd_vert_z <= pd_z;
             // save color
             pd_red    <= red_out;
             pd_green  <= green_out;

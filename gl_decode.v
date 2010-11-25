@@ -91,8 +91,8 @@ module gl_decode( clk, opcode, imm, type,
         viewport_x          <= 0;
         viewport_y          <= 0;
         perspective_div_en  <= 0;
-        viewport_width      <= 32'h44200000;        // 640
-        viewport_height     <= 32'h43f00000;        // 480
+        viewport_width      <= 32'h43A00000;        // 320
+        viewport_height     <= 32'h43700000;        // 240
         stall               <= 0;
         stall_count         <= 0;
         red_out             <= 32'h00000000;        // default color is 0
