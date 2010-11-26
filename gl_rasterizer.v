@@ -18,14 +18,14 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module gl_rasterizer( clk, full, count_x, count_y, valid_pixel,
-		      raster_ready, fifo_ready, wr_data, wr_en,
+module gl_rasterizer( clk, full, wr_data, wr_en,
+		      raster_ready, fifo_ready,
           vertex_in1, vertex_in2, vertex_in3,
 		      color_in1, color_in2, color_in3 );
 
 parameter VERTEX_TYPE_SIZE=96;
-parameter LINE_LEN=9;
-parameter COL_LEN=10;
+parameter RES_HEIGHT=9;
+parameter RES_LEN=10;
 parameter COLOR_TYPE_SIZE=96;
 
     input clk;
@@ -39,19 +39,18 @@ parameter COLOR_TYPE_SIZE=96;
     input fifo_ready;
     output reg raster_ready = 0;
     
-    /* unused ports */ 
-    output reg [31:0] count_x;
-    reg [31:0] count_y;
+    reg [RES_HEIGHT:0] count_x;
+    reg [RES_LEN:0] count_y;
    
-    output valid_pixel;
+    wire valid_pixel;
  
-    input [COLOR_TYPE_SIZE-1:0]  color_in1;
-    input [COLOR_TYPE_SIZE-1:0]  color_in2;
-    input [COLOR_TYPE_SIZE-1:0]  color_in3;
+    input [COLOR_TYPE_SIZE-1:0] color_in1;
+    input [COLOR_TYPE_SIZE-1:0] color_in2;
+    input [COLOR_TYPE_SIZE-1:0] color_in3;
   
-    reg [COLOR_TYPE_SIZE-1:0]  color_1;
-    reg [COLOR_TYPE_SIZE-1:0]  color_2;
-    reg [COLOR_TYPE_SIZE-1:0]  color_3;
+    reg [COLOR_TYPE_SIZE-1:0] color_1;
+    reg [COLOR_TYPE_SIZE-1:0] color_2;
+    reg [COLOR_TYPE_SIZE-1:0] color_3;
     
     wire [31:0] red_1;
     wire [31:0] green_1;
@@ -92,22 +91,27 @@ parameter COLOR_TYPE_SIZE=96;
     wire [31:0] y2;
     wire [31:0] y3;
     
+    wire [31:0] minx;
+    wire [31:0] maxx;
+    wire [31:0] miny;
+    wire [31:0] maxy;
+    wire [31:0] minx_int_32;
+    wire [31:0] maxx_int_32;
+    wire [31:0] miny_int_32;
+    wire [31:0] maxy_int_32;
+    
+    wire [9:0] minx_int;
+    wire [9:0] maxx_int;
+    wire [8:0] miny_int;
+    wire [8:0] maxy_int;
+    
     wire [31:0] diff_x1x2;
     wire [31:0] diff_x2x3;
     wire [31:0] diff_x3x1;
     wire [31:0] diff_y1y2;
     wire [31:0] diff_y2y3;
     wire [31:0] diff_y3y1;
-    
-    wire [31:0] minx;
-    wire [31:0] maxx;
-    wire [31:0] miny;
-    wire [31:0] maxy;
-    wire [31:0] minx_int;
-    wire [31:0] maxx_int;
-    wire [31:0] miny_int;
-    wire [31:0] maxy_int;
-    
+        
     wire [31:0] diff_x1minx;
     wire [31:0] diff_x2minx;
     wire [31:0] diff_x3minx;
@@ -294,11 +298,17 @@ parameter COLOR_TYPE_SIZE=96;
     fp_sub reg_cx2(cx2, diff_y2y3, cx2_decr);
     fp_sub reg_cx3(cx3, diff_y3y1, cx3_decr);
 
-    f2i float_int_minx(minx, minx_int);
-    f2i float_int_maxx(maxx, maxx_int);
-    f2i float_int_miny(miny, miny_int);
-    f2i float_int_maxy(maxy, maxy_int);
-  
+    f2i float_int_minx(minx, minx_int_32);
+    f2i float_int_maxx(maxx, maxx_int_32);
+    f2i float_int_miny(miny, miny_int_32);
+    f2i float_int_maxy(maxy, maxy_int_32);
+    
+    assign minx_int = minx_int_32[9:0];
+    assign maxx_int = maxx_int_32[9:0];
+    
+    assign miny_int = miny_int_32[8:0];
+    assign maxy_int = maxy_int_32[8:0];
+
     always @ (posedge clk)
     begin
       case (state)
@@ -377,7 +387,7 @@ parameter COLOR_TYPE_SIZE=96;
             begin
             wr_en <= 1;
             /* Pack data into fifo */
-            wr_data <= {08'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0};
+            wr_data <= {{6'b0, count_x}, {7'b0, count_y}, 8'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0, 32'b0};
             if (full == 0) 
               begin
               cx1_reg <= cx1_decr; 

@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module fifo_reg( clk, color_empty, vertex_empty, raster_request,
+module fifo_reg( clk, color_empty, vertex_empty, dequeue,
                  vertex_in, color_in, vertex_out, vertex_out2, vertex_out3,
                  color_out, color_out2, color_out3, 
                  vertex_rd_en, color_rd_en, ready );
