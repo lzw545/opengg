@@ -239,12 +239,12 @@
     <transform xil_pn:end_ts="1290850173" xil_pn:in_ck="-6619433513335076361" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="7629362564129759068" xil_pn:start_ts="1290850173">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="coordinate_transform_testbench_isim_beh.wdb"/>
-      <outfile xil_pn:name="isim.cmd"/>
-      <outfile xil_pn:name="isim.log"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1289446445" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1289446445">
       <status xil_pn:value="SuccessfullyRun"/>
