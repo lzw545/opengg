@@ -46,6 +46,7 @@ module coordinate_transform_testbench(
     wire            matmul_matrix_mode_out;
     wire            matrix_mode_mux_sel;
     wire            perspective_div_en;
+    wire            fifo_write_en;
     wire [31:0]     fetch_inst_in;
     wire [31:0]     fetch_inst_out;
     wire [31:0]     fetch_inst_addr;
@@ -116,6 +117,7 @@ module coordinate_transform_testbench(
                   .matrix_mode_out(decode_matrix_mode_out),
                   .matrix_mode_mux_sel(matrix_mode_mux_sel),
                   .perspective_div_en(perspective_div_en),
+                  .fifo_write_en(fifo_write_en),
                   .stall(stall) );
     
     
@@ -194,14 +196,21 @@ module coordinate_transform_testbench(
     begin
         if (perspective_div_en)
         begin
-        /*
             pd_vert_x <= pd_result_x;
             pd_vert_y <= pd_result_y;
             pd_vert_z <= pd_result_z;
-        */
+
+            // save color
+            pd_red    <= red_out;
+            pd_green  <= green_out;
+            pd_blue   <= blue_out;
+        end
+        else
+        begin
             pd_vert_x <= pd_x;
             pd_vert_y <= pd_y;
             pd_vert_z <= pd_z;
+            
             // save color
             pd_red    <= red_out;
             pd_green  <= green_out;
@@ -248,6 +257,17 @@ module coordinate_transform_testbench(
     assign vertex_fifo_in = {vt_addx2_result, vt_addy2_result, 32'h0};
     assign color_fifo_in = {pd_red, pd_green, pd_blue};
     
+    reg [95:0] vertex_end;
+    reg [95:0] color_end;
+    
+    always @ (posedge clk)
+    begin
+        if (fifo_write_en)
+        begin
+            vertex_end <= vertex_fifo_in;
+            color_end <= color_fifo_in;
+        end
+    end
     
     always 
         #5 clk = ~clk;

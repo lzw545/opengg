@@ -31,6 +31,7 @@ module gl_decode( clk, opcode, imm, type,
                   matrix_mul_en, matrix_mul_type, matrix_mode_out,
                   matrix_mode_mux_sel,
                   perspective_div_en,
+                  fifo_write_en,
                   bram_mux_sel,
                   stall);
 
@@ -77,6 +78,9 @@ module gl_decode( clk, opcode, imm, type,
     /* Perspective Division control*/
     output reg                  perspective_div_en;
     
+    /* FIFO control */
+    output reg                  fifo_write_en;
+    
     /* Stall Control */
     output reg                  stall;
     reg [3:0]                   stall_count;
@@ -119,6 +123,9 @@ module gl_decode( clk, opcode, imm, type,
                 case (stall_count)
                 0:
                     begin
+                        matrix_load_id_en <= 0;
+                        fifo_write_en <= 0;
+
 						bram_mux_sel <= 0;
                         matrix_mul_en <= 1;                     // enable modelview matrix multiply
                         matrix_mul_type <= 0;                   // select 1x4 multiply mode
@@ -148,6 +155,7 @@ module gl_decode( clk, opcode, imm, type,
                 1:                                              // perspective division is done
                     begin
                         perspective_div_en <= 0;
+                        fifo_write_en <= 1;
                         matrix_mode_mux_sel <= 0;
                         stall_count <= stall_count - 1;
                     end
@@ -166,6 +174,9 @@ module gl_decode( clk, opcode, imm, type,
                 case (stall_count)
                     0:
                     begin
+                        matrix_load_id_en <= 0;
+                        fifo_write_en <= 0;
+
                         bram_mux_sel  <= 0;
                         bram_addr_out <= bram_addr_in;
                         stall_count   <= 1;
@@ -183,6 +194,9 @@ module gl_decode( clk, opcode, imm, type,
         //`OP_MATRIXMODE:
         8'b00010000:
             begin
+                matrix_load_id_en <= 0;
+                fifo_write_en <= 0;
+
                 curr_matrix_mode <= imm[0];
             end
         //`OP_MULTMATRIX:
@@ -191,6 +205,9 @@ module gl_decode( clk, opcode, imm, type,
                 case (stall_count)
                     0:
                     begin
+                        matrix_load_id_en <= 0;
+                        fifo_write_en <= 0;
+
                         matrix_mul_en <= 1;
                         matrix_mul_type <= 1;
                         bram_addr_out <= bram_addr_in;
@@ -222,6 +239,8 @@ module gl_decode( clk, opcode, imm, type,
         8'b00010010:
             begin
                 matrix_load_id_en <= 1;
+                fifo_write_en <= 0;
+
                 bram_mux_sel <= 0;
                 matrix_mode_out <= curr_matrix_mode;
             end
@@ -231,6 +250,10 @@ module gl_decode( clk, opcode, imm, type,
                 case (stall_count)
                 0:
                     begin
+                        matrix_load_id_en <= 0;
+                        fifo_write_en <= 0;
+
+                    
                         matrix_load_en <= 1;
                         stall <= 1;
                         stall_count <= 3;
@@ -260,18 +283,30 @@ module gl_decode( clk, opcode, imm, type,
         //`OP_PUSHMATRIX:
         8'b00010100:
             begin
+                matrix_load_id_en <= 0;
+                fifo_write_en <= 0;
+
+
                 matrix_mode_out <= curr_matrix_mode;
                 push_en <= 1;
             end
         //`OP_POPMATRIX:
         8'b00010101:
             begin
+                matrix_load_id_en <= 0;
+                fifo_write_en <= 0;
+
+
                 matrix_mode_out <= curr_matrix_mode;
                 pop_en <= 1;
             end
         //`OP_VIEWPORT:
         8'b00011001:
             begin
+                matrix_load_id_en <= 0;
+                fifo_write_en <= 0;
+
+
                 viewport_x      <= bram_read_in_0;
                 viewport_y      <= bram_read_in_1;
                 viewport_width  <= bram_read_in_2;
