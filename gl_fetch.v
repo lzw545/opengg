@@ -76,7 +76,7 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     begin
                         inst_addr <= inst_addr + 17;
                         inst_out <= inst_in;
-								decode_bram_addr <= inst_addr + 1;
+						decode_bram_addr <= inst_addr + 1;
                         tmp_stall <= 1;
                     end
                     //`OP_LOADMATRIX:
