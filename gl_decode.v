@@ -1,4 +1,4 @@
-                            `timescale 1ns / 1ps
+                        `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -29,6 +29,7 @@ module gl_decode( clk, opcode, imm, type,
                   red_out, green_out, blue_out,
                   matrix_load_en, matrix_load_id_en,
                   matrix_mul_en, matrix_mul_type, matrix_mode_out,
+                  matrix_mode_mux_sel,
                   perspective_div_en,
                   bram_mux_sel,
                   stall);
@@ -65,6 +66,7 @@ module gl_decode( clk, opcode, imm, type,
     /* Matrix stack, matrix multiply control signals */
     output reg                  push_en;
     output reg                  pop_en;
+    output reg                  matrix_mode_mux_sel; // select which matrix mode to use ( 0 decode out, 1 mat_mul )
     output reg                  matrix_load_en;
     output reg                  matrix_load_id_en;
     output reg                  matrix_mul_en;     // matrix multiply enable 
@@ -87,6 +89,7 @@ module gl_decode( clk, opcode, imm, type,
         matrix_mul_en       <= 0;
         matrix_mul_type     <= 0;
         matrix_mode_out     <= 0;
+        matrix_mode_mux_sel <= 0;
         curr_matrix_mode    <= 0;
         viewport_x          <= 0;
         viewport_y          <= 0;
@@ -116,7 +119,7 @@ module gl_decode( clk, opcode, imm, type,
                 case (stall_count)
                 0:
                     begin
-								bram_mux_sel <= 0;
+						bram_mux_sel <= 0;
                         matrix_mul_en <= 1;                     // enable modelview matrix multiply
                         matrix_mul_type <= 0;                   // select 1x4 multiply mode
                         matrix_mode_out <= 0;
@@ -124,7 +127,6 @@ module gl_decode( clk, opcode, imm, type,
                         stall <= 1;
                         stall_count <= 9;
                     end
-
                 6:                                              // modelview matrix multiply is done
                     begin
                         matrix_mode_out <= 1;						 // select projection matrix
@@ -146,6 +148,7 @@ module gl_decode( clk, opcode, imm, type,
                 1:                                              // perspective division is done
                     begin
                         perspective_div_en <= 0;
+                        matrix_mode_mux_sel <= 0;
                         stall_count <= stall_count - 1;
                     end
 
@@ -190,8 +193,8 @@ module gl_decode( clk, opcode, imm, type,
                     begin
                         matrix_mul_en <= 1;
                         matrix_mul_type <= 1;
-								bram_addr_out <= bram_addr_in;
-								bram_mux_sel <= 1;
+                        bram_addr_out <= bram_addr_in;
+                        bram_mux_sel <= 1;                      // let matrix_ctrl select the bram address
                         matrix_mode_out <= curr_matrix_mode;
                         stall <= 1;
                         stall_count <= 15;
@@ -219,7 +222,7 @@ module gl_decode( clk, opcode, imm, type,
         8'b00010010:
             begin
                 matrix_load_id_en <= 1;
-					 bram_mux_sel <= 0;
+                bram_mux_sel <= 0;
                 matrix_mode_out <= curr_matrix_mode;
             end
         //`OP_LOADMATRIX:

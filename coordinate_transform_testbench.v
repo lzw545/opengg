@@ -44,6 +44,7 @@ module coordinate_transform_testbench(
     wire            matrix_mul_type;
     wire            decode_matrix_mode_out;
     wire            matmul_matrix_mode_out;
+    wire            matrix_mode_mux_sel;
     wire            perspective_div_en;
     wire [31:0]     fetch_inst_in;
     wire [31:0]     fetch_inst_out;
@@ -113,6 +114,7 @@ module coordinate_transform_testbench(
                   .matrix_mul_en(matrix_mul_en), 
                   .matrix_mul_type(matrix_mul_type), 
                   .matrix_mode_out(decode_matrix_mode_out),
+                  .matrix_mode_mux_sel(matrix_mode_mux_sel),
                   .perspective_div_en(perspective_div_en),
                   .stall(stall) );
     

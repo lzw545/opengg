@@ -141,6 +141,11 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
                     bram_offset <= bram_offset + 4;
                     state <= 1;
                 end
+                else
+                begin
+                    matrix_write_en <= 0;
+                    state <= 0;
+                end
             end
             1:
             begin
