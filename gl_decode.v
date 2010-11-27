@@ -116,6 +116,7 @@ module gl_decode( clk, opcode, imm, type,
                 case (stall_count)
                 0:
                     begin
+								bram_mux_sel <= 0;
                         matrix_mul_en <= 1;                     // enable modelview matrix multiply
                         matrix_mul_type <= 0;                   // select 1x4 multiply mode
                         matrix_mode_out <= 0;
@@ -126,7 +127,7 @@ module gl_decode( clk, opcode, imm, type,
 
                 6:                                              // modelview matrix multiply is done
                     begin
-                        matrix_mode_out <= 1;
+                        matrix_mode_out <= 1;						 // select projection matrix
                         matrix_mul_en <= 1;
                         stall_count <= stall_count - 1;
                     end
@@ -189,6 +190,8 @@ module gl_decode( clk, opcode, imm, type,
                     begin
                         matrix_mul_en <= 1;
                         matrix_mul_type <= 1;
+								bram_addr_out <= bram_addr_in;
+								bram_mux_sel <= 1;
                         matrix_mode_out <= curr_matrix_mode;
                         stall <= 1;
                         stall_count <= 15;
@@ -216,6 +219,7 @@ module gl_decode( clk, opcode, imm, type,
         8'b00010010:
             begin
                 matrix_load_id_en <= 1;
+					 bram_mux_sel <= 0;
                 matrix_mode_out <= curr_matrix_mode;
             end
         //`OP_LOADMATRIX:
@@ -228,6 +232,7 @@ module gl_decode( clk, opcode, imm, type,
                         stall <= 1;
                         stall_count <= 3;
                         bram_addr_out <= bram_addr_in;
+								bram_mux_sel <= 0;
                         matrix_mode_out <= curr_matrix_mode;
                     end
                 1:
@@ -261,99 +266,6 @@ module gl_decode( clk, opcode, imm, type,
                 matrix_mode_out <= curr_matrix_mode;
                 pop_en <= 1;
             end
-        //`OP_ROTATE:
-        8'b00010110:
-            begin
-                case (stall_count)
-                    0:
-                    begin
-                        matrix_mul_en <= 1;
-                        matrix_mul_type <= 1;
-                        matrix_mode_out <= curr_matrix_mode;
-                        stall <= 1;
-                        stall_count <= 15;
-                    end
-                    
-                    2:
-                    begin
-                        stall <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-                    
-                    1:
-                    begin
-                        stall_count <= stall_count - 1;
-                    end
-                    
-                    default:
-                    begin
-                        matrix_mul_en <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-                endcase
-            end
-        //`OP_SCALE:
-        8'b00010111:
-            begin
-                case (stall_count)
-                    0:
-                    begin
-                        matrix_mul_en <= 1;
-                        matrix_mul_type <= 1;
-                        matrix_mode_out <= curr_matrix_mode;
-                        stall <= 1;
-                        stall_count <= 15;
-                    end
-                    
-                    2:
-                    begin
-                        stall <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-                    
-                    1:
-                    begin
-                        stall_count <= stall_count - 1;
-                    end
-                    
-                    default:
-                    begin
-                        matrix_mul_en <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-                endcase
-            end
-        //`OP_TRANSLATE:
-        8'b00011000:
-            begin
-                case (stall_count)
-                    0:
-                    begin
-                        matrix_mul_en <= 1;
-                        matrix_mul_type <= 1;
-                        matrix_mode_out <= curr_matrix_mode;
-                        stall <= 1;
-                        stall_count <= 15;
-                    end
-                    
-                    2:
-                    begin
-                        stall <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-                    
-                    1:
-                    begin
-                        stall_count <= stall_count - 1;
-                    end
-                    
-                    default:
-                    begin
-                        matrix_mul_en <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-                endcase
-            end        
         //`OP_VIEWPORT:
         8'b00011001:
             begin
@@ -361,10 +273,6 @@ module gl_decode( clk, opcode, imm, type,
                 viewport_y      <= bram_read_in_1;
                 viewport_width  <= bram_read_in_2;
                 viewport_height <= bram_read_in_3;
-            end
-        //`OP_FRUSTUM:
-        8'b00011010:
-            begin
             end
         endcase
     end

@@ -76,6 +76,8 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     begin
                         inst_addr <= inst_addr + 17;
                         inst_out <= inst_in;
+								decode_bram_addr <= inst_addr + 1;
+                        tmp_stall <= 1;
                     end
                     //`OP_LOADMATRIX:
                     8'b00010011:
@@ -89,7 +91,7 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     8'b00010110:
                     begin
                         inst_addr <= inst_addr + 17;
-                        inst_out <= inst_in;
+                        inst_out <= 32'h80001011;					// MULTMATRIX
                         decode_bram_addr <= inst_addr + 1;
                         tmp_stall <= 1;
                     end
@@ -97,7 +99,7 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     8'b00010111:
                     begin
                         inst_addr <= inst_addr + 17;
-                        inst_out <= inst_in;
+                        inst_out <= 32'h80001011;					// MULTMATRIX
                         decode_bram_addr <= inst_addr + 1;
                         tmp_stall <= 1;
 
@@ -106,7 +108,7 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     8'b00011000:
                     begin
                         inst_addr <= inst_addr + 17;
-                        inst_out <= inst_in;
+                        inst_out <= 32'h80001011;					// MULTMATRIX
                         decode_bram_addr <= inst_addr + 1;
                         tmp_stall <= 1;
                     end
@@ -121,8 +123,20 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     //`OP_FRUSTUM:
                     8'b00011010:
                     begin
-                        inst_addr <= inst_addr + 7;
-                        inst_out <= inst_in;
+                        inst_addr <= inst_addr + 17;
+                        inst_out <= 32'h80001011;					// MULTMATRIX
+                        decode_bram_addr <= inst_addr + 1;
+                        tmp_stall <= 1;
+
+                    end
+						  //`OP_ORTHO:
+                    8'b00011011:
+                    begin
+                        inst_addr <= inst_addr + 17;
+                        inst_out <= 32'h80001011;					// MULTMATRIX
+                        decode_bram_addr <= inst_addr + 1;
+                        tmp_stall <= 1;
+
                     end
                     default:
                     begin

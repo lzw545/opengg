@@ -73,12 +73,12 @@ module matrix_ctrl(clk, matrix_mode,
         modelview_stack[2]  <= 127'h000000003F8000000000000000000000;
         modelview_stack[1]  <= 127'h00000000000000003F80000000000000;
         modelview_stack[0]  <= 127'h0000000000000000000000003F800000;
-        
+        */
         projection_stack[3] <= 127'h3F800000000000000000000000000000;
         projection_stack[2] <= 127'h000000003F8000000000000000000000;
         projection_stack[1] <= 127'h00000000000000003F80000000000000;
         projection_stack[0] <= 127'h0000000000000000000000003F800000;
-        */
+        
         modelview_stack[3]  <= 127'h3F800000_00000000_00000000_00000000;
         modelview_stack[2]  <= 127'h00000000_3F800000_00000000_00000000;
         modelview_stack[1]  <= 127'h00000000_00000000_3F800000_00000000;
@@ -89,12 +89,13 @@ module matrix_ctrl(clk, matrix_mode,
         projection_stack[2] <= 127'h00000000_40D55555_00000000_00000000;
         projection_stack[1] <= 127'h00000000_00000000_BF9745D1_C12E8BA3;
         projection_stack[0] <= 127'h00000000_00000000_BF800000_00000000;
-        */
+        
         //    glOrtho(0, 640, 0 480, -1, 1)
         projection_stack[3] <= 127'h3B4B295F_00000000_00000000_BF800000;
         projection_stack[2] <= 127'h00000000_3B89A027_00000000_BF800000;
         projection_stack[1] <= 127'h00000000_00000000_BF800000_00000000;
         projection_stack[0] <= 127'h00000000_00000000_00000000_3F800000;
+		  */
     end
     
     wire [127:0] modelview_out0;
