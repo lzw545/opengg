@@ -148,7 +148,7 @@ module gl_decode( clk, opcode, imm, type,
                 2:                                              // projection matrix multiply is done
                     begin
                         stall_count <= stall_count - 1;
-                        perspective_div_en <= 1;
+								perspective_div_en <= 1;
                         stall <= 0;
                     end
 
