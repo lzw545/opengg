@@ -8,7 +8,10 @@
 <!-- Copyright (c) 1995-2010 Xilinx, Inc.  All rights reserved.    -->
 
 <messages>
-<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;D:/Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/srl_fifo_f.vhd&quot; into library proc_common_v3_00_a</arg>
+<msg type="info" file="ProjectMgmt" num="1574" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;/home/lzw/matrix_mul/repo/MyProcessorIPLib/pcores/opengg_v1_00_a/hdl/verilog/user_logic.v\&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;/home/lzw/matrix_mul/repo/MyProcessorIPLib/pcores/opengg_v1_00_a/hdl/vhdl/opengg.vhd&quot; into library work</arg>
 </msg>
 
 </messages>

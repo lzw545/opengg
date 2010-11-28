@@ -312,6 +312,11 @@ module gl_decode( clk, opcode, imm, type,
                 viewport_width  <= bram_read_in_2;
                 viewport_height <= bram_read_in_3;
             end
+        default:
+            begin
+                matrix_load_id_en <= 0;
+                fifo_write_en <= 0;
+            end
         endcase
     end
 endmodule

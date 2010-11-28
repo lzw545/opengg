@@ -10,95 +10,115 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="20" />
-   <wvobject fp_name="/top/out_rdy" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">out_rdy</obj_property>
-      <obj_property name="ObjectShortName">out_rdy</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/wr_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">wr_en</obj_property>
-      <obj_property name="ObjectShortName">wr_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/wr_data" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">wr_data[95:0]</obj_property>
-      <obj_property name="ObjectShortName">wr_data[95:0]</obj_property>
-      <obj_property name="Radix">BINARYRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/red" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">red[31:0]</obj_property>
-      <obj_property name="ObjectShortName">red[31:0]</obj_property>
-      <obj_property name="Radix">BINARYRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/blue" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">blue[31:0]</obj_property>
-      <obj_property name="ObjectShortName">blue[31:0]</obj_property>
+   <WVObjectSize size="39" />
+   <wvobject fp_name="/top/vin1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">vin1[95:0]</obj_property>
+      <obj_property name="ObjectShortName">vin1[95:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/top/GL_RAS/green" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">green[31:0]</obj_property>
-      <obj_property name="ObjectShortName">green[31:0]</obj_property>
+   <wvobject fp_name="/top/vin2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">vin2[95:0]</obj_property>
+      <obj_property name="ObjectShortName">vin2[95:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/top/GL_RAS/valid_pixel" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">valid_pixel</obj_property>
-      <obj_property name="ObjectShortName">valid_pixel</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/count_x" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">count_x[9:0]</obj_property>
-      <obj_property name="ObjectShortName">count_x[9:0]</obj_property>
+   <wvobject fp_name="/top/vin3" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">vin3[95:0]</obj_property>
+      <obj_property name="ObjectShortName">vin3[95:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/top/GL_RAS/count_y" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">count_y[10:0]</obj_property>
-      <obj_property name="ObjectShortName">count_y[10:0]</obj_property>
+   <wvobject fp_name="/top/cin1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cin1[95:0]</obj_property>
+      <obj_property name="ObjectShortName">cin1[95:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/top/GL_RAS/cx1_reg" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">cx1_reg[31:0]</obj_property>
-      <obj_property name="ObjectShortName">cx1_reg[31:0]</obj_property>
+   <wvobject fp_name="/top/cin2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cin2[95:0]</obj_property>
+      <obj_property name="ObjectShortName">cin2[95:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-      <obj_property name="CustomSignalColor">#0000ff</obj_property>
    </wvobject>
-   <wvobject fp_name="/top/GL_RAS/cx2_reg" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">cx2_reg[31:0]</obj_property>
-      <obj_property name="ObjectShortName">cx2_reg[31:0]</obj_property>
+   <wvobject fp_name="/top/cin3" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cin3[95:0]</obj_property>
+      <obj_property name="ObjectShortName">cin3[95:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-      <obj_property name="CustomSignalColor">#0000ff</obj_property>
    </wvobject>
-   <wvobject fp_name="/top/GL_RAS/cx3_reg" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">cx3_reg[31:0]</obj_property>
-      <obj_property name="ObjectShortName">cx3_reg[31:0]</obj_property>
+   <wvobject fp_name="/top/pixel_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data[95:0]</obj_property>
+      <obj_property name="ObjectShortName">pixel_data[95:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-      <obj_property name="CustomSignalColor">#0000ff</obj_property>
    </wvobject>
-   <wvobject fp_name="/top/GL_RAS/cy1_reg" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">cy1_reg[31:0]</obj_property>
-      <obj_property name="ObjectShortName">cy1_reg[31:0]</obj_property>
+   <wvobject fp_name="/top/color_wr_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">color_wr_data[95:0]</obj_property>
+      <obj_property name="ObjectShortName">color_wr_data[95:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-      <obj_property name="CustomSignalColor">#ffa500</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/cy2_reg" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">cy2_reg[31:0]</obj_property>
-      <obj_property name="ObjectShortName">cy2_reg[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-      <obj_property name="CustomSignalColor">#ffa500</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/cy3_reg" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">cy3_reg[31:0]</obj_property>
-      <obj_property name="ObjectShortName">cy3_reg[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-      <obj_property name="CustomSignalColor">#ffa500</obj_property>
    </wvobject>
    <wvobject fp_name="/top/vertex_wr_data" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">vertex_wr_data[95:0]</obj_property>
       <obj_property name="ObjectShortName">vertex_wr_data[95:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/color_rd_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">color_rd_data[95:0]</obj_property>
+      <obj_property name="ObjectShortName">color_rd_data[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/vertex_rd_data" type="array" db_ref_id="1">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">vertex_rd_data[95:0]</obj_property>
+      <obj_property name="ObjectShortName">vertex_rd_data[95:0]</obj_property>
+      <obj_property name="label">vertex_rd_data[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/color_empty" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">color_empty</obj_property>
+      <obj_property name="ObjectShortName">color_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/color_full" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">color_full</obj_property>
+      <obj_property name="ObjectShortName">color_full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/vertex_empty" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_empty</obj_property>
+      <obj_property name="ObjectShortName">vertex_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/vertex_full" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_full</obj_property>
+      <obj_property name="ObjectShortName">vertex_full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/fifo_peek/count" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">count[1:0]</obj_property>
+      <obj_property name="ObjectShortName">count[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/fifo_peek/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state[1:0]</obj_property>
+      <obj_property name="ObjectShortName">state[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/vertex_rd_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_rd_en</obj_property>
+      <obj_property name="ObjectShortName">vertex_rd_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/color_rd_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">color_rd_en</obj_property>
+      <obj_property name="ObjectShortName">color_rd_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/vertex_wr_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_wr_en</obj_property>
+      <obj_property name="ObjectShortName">vertex_wr_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/color_wr_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">color_wr_en</obj_property>
+      <obj_property name="ObjectShortName">color_wr_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/in_rdy" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">in_rdy</obj_property>
+      <obj_property name="ObjectShortName">in_rdy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/wr_pixel" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">wr_pixel</obj_property>
+      <obj_property name="ObjectShortName">wr_pixel</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/dequeue" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dequeue</obj_property>
+      <obj_property name="ObjectShortName">dequeue</obj_property>
    </wvobject>
    <wvobject fp_name="/top/clk1" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk1</obj_property>
@@ -108,12 +128,58 @@
       <obj_property name="ElementShortName">clk2</obj_property>
       <obj_property name="ObjectShortName">clk2</obj_property>
    </wvobject>
-   <wvobject fp_name="/top/color_empty" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">color_empty</obj_property>
-      <obj_property name="ObjectShortName">color_empty</obj_property>
+   <wvobject fp_name="/top/color_wr_data_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">color_wr_data_reg[95:0]</obj_property>
+      <obj_property name="ObjectShortName">color_wr_data_reg[95:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/top/vertex_empty" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">vertex_empty</obj_property>
-      <obj_property name="ObjectShortName">vertex_empty</obj_property>
+   <wvobject fp_name="/top/vertex_wr_data_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_wr_data_reg[95:0]</obj_property>
+      <obj_property name="ObjectShortName">vertex_wr_data_reg[95:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/color_wr_en_reg" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">color_wr_en_reg</obj_property>
+      <obj_property name="ObjectShortName">color_wr_en_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/vertex_wr_en_reg" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_wr_en_reg</obj_property>
+      <obj_property name="ObjectShortName">vertex_wr_en_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/ct_fifo_v/rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/ct_fifo_v/wr_clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">wr_clk</obj_property>
+      <obj_property name="ObjectShortName">wr_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/ct_fifo_v/rd_clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rd_clk</obj_property>
+      <obj_property name="ObjectShortName">rd_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/ct_fifo_v/din" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">din[95:0]</obj_property>
+      <obj_property name="ObjectShortName">din[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/ct_fifo_v/wr_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">wr_en</obj_property>
+      <obj_property name="ObjectShortName">wr_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/ct_fifo_v/rd_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rd_en</obj_property>
+      <obj_property name="ObjectShortName">rd_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/ct_fifo_v/dout" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dout[95:0]</obj_property>
+      <obj_property name="ObjectShortName">dout[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/ct_fifo_v/full" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">full</obj_property>
+      <obj_property name="ObjectShortName">full</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/ct_fifo_v/empty" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">empty</obj_property>
+      <obj_property name="ObjectShortName">empty</obj_property>
    </wvobject>
 </wave_config>

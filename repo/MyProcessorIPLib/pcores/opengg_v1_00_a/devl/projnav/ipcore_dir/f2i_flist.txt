@@ -1,0 +1,15 @@
+# Output products list for <f2i>
+_xmsgs/pn_parser.xmsgs
+f2i.asy
+f2i.gise
+f2i.ngc
+f2i.sym
+f2i.v
+f2i.veo
+f2i.vhd
+f2i.vho
+f2i.xco
+f2i.xise
+f2i_flist.txt
+f2i_readme.txt
+f2i_xmdf.tcl

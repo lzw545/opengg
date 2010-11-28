@@ -327,15 +327,16 @@ parameter COLOR_TYPE_SIZE=96;
         cx2_reg <= 0;
         cx3_reg <= 0;
         count_y <= miny_int - 1;
-        raster_ready <= 0;
         wr_en <= 0;
         wr_data <= 0;
         if (fifo_ready)
           begin
           state <= 1;
+          raster_ready <= 1;
           end
         else
           begin
+          raster_ready <= 0;
           state <= 0;
           end
         end
@@ -355,17 +356,16 @@ parameter COLOR_TYPE_SIZE=96;
         cy3_reg <= cy3_incr;
         count_y <= count_y + 1;
         count_x <= minx_int;
+        raster_ready <= 0;
         wr_en <= 0;
         wr_data <= 0;
         if (count_y <= maxy_int)
           begin
           state <= 2;
-          raster_ready <= 0;
           end
         else
           begin
           state <= 0;
-          raster_ready <= 1;
           end
         end
 	    2: 

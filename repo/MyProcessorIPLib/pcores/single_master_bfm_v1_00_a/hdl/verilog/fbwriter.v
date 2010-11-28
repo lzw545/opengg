@@ -19,6 +19,11 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module fbwriter(
+    // For Development
+    state,
+    
+    reset,
+
     fifo_data,
     fifo_empty,
     fifo_rd_en,
@@ -57,6 +62,8 @@ input      [0 : RAST_FBW_FIFO_LEN-1]      fifo_data;
 input                                     fifo_empty;
 output  reg                                  fifo_rd_en;
 
+input                                     reset;
+
 // PLB interface
 input                                     PLB_clk;
 output                                    IP2Bus_MstRd_Req;
@@ -78,7 +85,7 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
 
 
 
-  reg      [0 : 3]                        state = 0;
+output  reg      [0 : 3]                        state = 0;
 
   // reader registers
   reg                                     go_write;
@@ -86,7 +93,7 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   // writer registers
   reg      [0 : LINE_LEN-1]               line  = 'b0;
   reg      [0 : COL_LEN-1]                col   = 'b0;
-  reg      [0 : 31]                       color = 'hffff_ffff;
+  reg      [0 : 31]                       color = 'b0;
   reg                                     mst_wr_req;
 
   
@@ -101,23 +108,28 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   
   assign IP2Bus_Mst_BE[0 : C_MST_DWIDTH/8-1] = ~('b0);
   assign IP2Bus_Mst_Lock                     = 0;
-//  assign IP2Bus_Mst_Reset                    = mst_reset;
   assign IP2Bus_MstWr_d[0 : C_MST_DWIDTH-1]  = color;
   
   // writer state machine
-parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_RECVD=4;
+parameter OFF_STATE=0, FIFO_READ=5, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_RECVD=4;
 
   always @ (posedge PLB_clk)
     begin
       case (state)
         OFF_STATE:
-          if ( Bus2IP_Mst_Error )
+          if ( Bus2IP_Mst_Error || reset )
             state     <= ERROR_RECVD;
-          else if ( !fifo_empty )
-            state     <= PRESENT_STATE;
+          else if ( fifo_empty == 0 )
+            state     <= FIFO_READ;
           else
             state     <= OFF_STATE;
-                    
+        
+        FIFO_READ:
+          if ( Bus2IP_Mst_Error || reset )
+            state     <= ERROR_RECVD;
+          else
+            state     <= PRESENT_STATE;       
+        
         PRESENT_STATE: // data to ipif
           if ( Bus2IP_Mst_Error )
             state     <= ERROR_RECVD;
@@ -125,7 +137,7 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
             state     <= WAIT_FOR_ACK;
              
         WAIT_FOR_ACK:
-          if ( Bus2IP_Mst_Error )
+          if ( Bus2IP_Mst_Error || reset )
             state     <= ERROR_RECVD;
           else if ( Bus2IP_Mst_CmdAck && Bus2IP_Mst_Cmplt )
             state     <= OFF_STATE;
@@ -135,15 +147,15 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
             state     <= WAIT_FOR_ACK;
             
         WAIT_FOR_CMPLT:
-          if ( Bus2IP_Mst_Error )
+          if ( Bus2IP_Mst_Error || reset )
             state     <= ERROR_RECVD;
-          else if ( Bus2IP_Mst_CmdAck )
+          else if ( Bus2IP_Mst_Cmplt )
             state     <= OFF_STATE;
           else
             state     <= WAIT_FOR_CMPLT;
         
         ERROR_RECVD:
-          if ( Bus2IP_Mst_Error )
+          if ( Bus2IP_Mst_Error || reset )
             state     <= ERROR_RECVD;
           else
             state     <= OFF_STATE;
@@ -169,12 +181,13 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
   // assign line and col and color regs
   always @ (posedge PLB_clk)
     begin
-      if ( fifo_rd_en && !fifo_empty )
-		  begin
+      if ( (state == FIFO_READ) )
+	    begin
           // fifo_data is valid
-          line  <= fifo_data;
-          col   <= fifo_data;
-          color <= fifo_data;
-		  end
+          line  <= fifo_data[15-LINE_LEN+1:15];
+          col   <= fifo_data[31-COL_LEN+1:31];
+          color <= fifo_data[32:63];
+		end
     end
+ 
 endmodule
