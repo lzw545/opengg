@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="21" />
+   <WVObjectSize size="20" />
    <wvobject fp_name="/top/out_rdy" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">out_rdy</obj_property>
       <obj_property name="ObjectShortName">out_rdy</obj_property>
@@ -24,29 +24,24 @@
       <obj_property name="ObjectShortName">wr_data[95:0]</obj_property>
       <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
+   <wvobject fp_name="/top/GL_RAS/red" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">red[31:0]</obj_property>
+      <obj_property name="ObjectShortName">red[31:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/blue" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">blue[31:0]</obj_property>
+      <obj_property name="ObjectShortName">blue[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/green" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">green[31:0]</obj_property>
+      <obj_property name="ObjectShortName">green[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
    <wvobject fp_name="/top/GL_RAS/valid_pixel" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">valid_pixel</obj_property>
       <obj_property name="ObjectShortName">valid_pixel</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/minx_int_32" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">minx_int_32[31:0]</obj_property>
-      <obj_property name="ObjectShortName">minx_int_32[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/maxx_int_32" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">maxx_int_32[31:0]</obj_property>
-      <obj_property name="ObjectShortName">maxx_int_32[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/miny_int_32" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">miny_int_32[31:0]</obj_property>
-      <obj_property name="ObjectShortName">miny_int_32[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/GL_RAS/maxy_int_32" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">maxy_int_32[31:0]</obj_property>
-      <obj_property name="ObjectShortName">maxy_int_32[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/top/GL_RAS/count_x" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">count_x[9:0]</obj_property>
