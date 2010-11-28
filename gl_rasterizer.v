@@ -39,8 +39,8 @@ parameter COLOR_TYPE_SIZE=96;
     input fifo_ready;
     output reg raster_ready = 0;
     
-    reg [RES_HEIGHT:0] count_x;
-    reg [RES_LEN:0] count_y;
+    reg [RES_LEN-1:0] count_x;
+    reg [RES_HEIGHT-1:0] count_y;
    
     wire valid_pixel;
  

@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="36" />
+   <WVObjectSize size="41" />
    <wvobject fp_name="/core_test/bram_a_din" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">bram_a_din[31:0]</obj_property>
       <obj_property name="ObjectShortName">bram_a_din[31:0]</obj_property>
@@ -109,14 +109,38 @@
       <obj_property name="ObjectShortName">raster_ready</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/GL_RAS/count_x" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">count_x[9:0]</obj_property>
-      <obj_property name="ObjectShortName">count_x[9:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="ElementShortName">count_x[10:0]</obj_property>
+      <obj_property name="ObjectShortName">count_x[10:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/GL_RAS/count_y" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">count_y[10:0]</obj_property>
-      <obj_property name="ObjectShortName">count_y[10:0]</obj_property>
+      <obj_property name="ElementShortName">count_y[9:0]</obj_property>
+      <obj_property name="ObjectShortName">count_y[9:0]</obj_property>
       <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/minx" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">minx[31:0]</obj_property>
+      <obj_property name="ObjectShortName">minx[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/maxx" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">maxx[31:0]</obj_property>
+      <obj_property name="ObjectShortName">maxx[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/miny" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">miny[31:0]</obj_property>
+      <obj_property name="ObjectShortName">miny[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/maxy" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">maxy[31:0]</obj_property>
+      <obj_property name="ObjectShortName">maxy[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/full" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">full</obj_property>
+      <obj_property name="ObjectShortName">full</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/GL_RAS/state" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">state[1:0]</obj_property>
