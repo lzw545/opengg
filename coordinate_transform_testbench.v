@@ -275,11 +275,7 @@ module coordinate_transform_testbench(
     initial
     begin
         clk = 0;
-        fetch_rst <= 0;
-        #5
-        fetch_rst <= 1;
-        #10 
-        fetch_rst <= 0;
+        fetch_rst = 0;
     end
 
 endmodule
