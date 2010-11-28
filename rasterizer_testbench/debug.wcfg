@@ -3,35 +3,59 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="C:/opengg/rasterizer_testbench/top_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="C:/Users/Spin/Documents/opengg/rasterizer_testbench/top_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="glbl" />
             <top_module name="top" />
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="11" />
-   <wvobject fp_name="/top/clk" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">clk</obj_property>
-      <obj_property name="ObjectShortName">clk</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/y" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">y[31:0]</obj_property>
-      <obj_property name="ObjectShortName">y[31:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/x" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">x[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x[31:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top/t" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">t</obj_property>
-      <obj_property name="ObjectShortName">t</obj_property>
-   </wvobject>
+   <WVObjectSize size="21" />
    <wvobject fp_name="/top/out_rdy" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">out_rdy</obj_property>
       <obj_property name="ObjectShortName">out_rdy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/wr_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">wr_en</obj_property>
+      <obj_property name="ObjectShortName">wr_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/wr_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">wr_data[95:0]</obj_property>
+      <obj_property name="ObjectShortName">wr_data[95:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/valid_pixel" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">valid_pixel</obj_property>
+      <obj_property name="ObjectShortName">valid_pixel</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/minx_int_32" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">minx_int_32[31:0]</obj_property>
+      <obj_property name="ObjectShortName">minx_int_32[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/maxx_int_32" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">maxx_int_32[31:0]</obj_property>
+      <obj_property name="ObjectShortName">maxx_int_32[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/miny_int_32" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">miny_int_32[31:0]</obj_property>
+      <obj_property name="ObjectShortName">miny_int_32[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/maxy_int_32" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">maxy_int_32[31:0]</obj_property>
+      <obj_property name="ObjectShortName">maxy_int_32[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/count_x" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">count_x[9:0]</obj_property>
+      <obj_property name="ObjectShortName">count_x[9:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/GL_RAS/count_y" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">count_y[10:0]</obj_property>
+      <obj_property name="ObjectShortName">count_y[10:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/top/GL_RAS/cx1_reg" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">cx1_reg[31:0]</obj_property>
@@ -74,5 +98,26 @@
       <obj_property name="Radix">HEXRADIX</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
       <obj_property name="CustomSignalColor">#ffa500</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/vertex_wr_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_wr_data[95:0]</obj_property>
+      <obj_property name="ObjectShortName">vertex_wr_data[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/clk1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk1</obj_property>
+      <obj_property name="ObjectShortName">clk1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/clk2" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk2</obj_property>
+      <obj_property name="ObjectShortName">clk2</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/color_empty" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">color_empty</obj_property>
+      <obj_property name="ObjectShortName">color_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top/vertex_empty" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_empty</obj_property>
+      <obj_property name="ObjectShortName">vertex_empty</obj_property>
    </wvobject>
 </wave_config>
