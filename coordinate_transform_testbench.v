@@ -194,7 +194,7 @@ module coordinate_transform_testbench(
     
     always @ (posedge clk)
     begin
-        if (perspective_div_en)
+        /*if (perspective_div_en)
         begin
             pd_vert_x <= pd_result_x;
             pd_vert_y <= pd_result_y;
@@ -205,7 +205,7 @@ module coordinate_transform_testbench(
             pd_green  <= green_out;
             pd_blue   <= blue_out;
         end
-        else
+        else*/
         begin
             pd_vert_x <= pd_x;
             pd_vert_y <= pd_y;
