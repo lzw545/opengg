@@ -119,10 +119,10 @@ parameter OFF_STATE=0, FIFO_READ=5, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CM
         OFF_STATE:
           if ( Bus2IP_Mst_Error || reset )
             state     <= ERROR_RECVD;
-          else if ( fifo_empty == 0 )
-            state     <= FIFO_READ;
+          //else if ( fifo_empty == 0 )
+          //  state     <= FIFO_READ;
           else
-            state     <= OFF_STATE;
+            state     <= FIFO_READ;
         
         FIFO_READ:
           if ( Bus2IP_Mst_Error || reset )
@@ -180,13 +180,25 @@ parameter OFF_STATE=0, FIFO_READ=5, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CM
   
   // assign line and col and color regs
   always @ (posedge PLB_clk)
+  //always @ *
     begin
       if ( (state == FIFO_READ) )
 	    begin
           // fifo_data is valid
-          line  <= fifo_data[15-LINE_LEN+1:15];
-          col   <= fifo_data[31-COL_LEN+1:31];
-          color <= fifo_data[32:63];
+          //line  <= fifo_data[15-LINE_LEN+1:15];
+          //col   <= fifo_data[31-COL_LEN+1:31];
+          //color <= fifo_data[32:63];
+          col   <= col + 1;
+          
+          if( col == 'b0 )
+            line  <= line + 1;
+          else
+            line  <= line;
+            
+          if ( line == 'b0 && col == 'b0 )
+            color <= color + 1;
+          else
+            color <= color;
 		end
     end
  

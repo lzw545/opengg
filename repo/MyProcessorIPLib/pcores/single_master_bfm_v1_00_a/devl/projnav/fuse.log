@@ -1,25 +1,27 @@
-Running: D:\Xilinx\12.2\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/single_master_bfm_isim_beh.exe -prj D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/single_master_bfm_beh.prj work.single_master_bfm work.glbl 
-ISim M.63c (signature 0x7dea747)
-Number of CPUs detected in this system: 8
-Turning on mult-threading, number of parallel sub-compilation jobs: 16 
+Running: C:\Xilinx\12.2\ISE_DS\ISE\bin\nt\unwrapped\fuse.exe -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o C:/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/test_isim_beh.exe -prj C:/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/test_beh.prj work.test work.glbl 
+ISim M.63c (signature 0xb869381d)
+Number of CPUs detected in this system: 4
+Turning on mult-threading, number of parallel sub-compilation jobs: 8 
 Determining compilation order of HDL files
-Analyzing Verilog file \"D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../hdl/verilog/user_logic.v\" into library work
-Analyzing Verilog file \"D:/Xilinx/12.2/ISE_DS/ISE//verilog/src/glbl.v\" into library work
-Parsing VHDL file "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../../../../../../Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/proc_common_pkg.vhd" into library proc_common_v3_00_a
-Parsing VHDL file "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../../../../../../Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/or_muxcy.vhd" into library proc_common_v3_00_a
-Parsing VHDL file "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../../../../../../Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/family_support.vhd" into library proc_common_v3_00_a
-Parsing VHDL file "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../../../../../../Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/pselect_f.vhd" into library proc_common_v3_00_a
-Parsing VHDL file "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../../../../../../Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/or_gate128.vhd" into library proc_common_v3_00_a
-Parsing VHDL file "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../../../../../../Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/ipif_pkg.vhd" into library proc_common_v3_00_a
-Parsing VHDL file "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../../../../../../Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hdl/vhdl/counter_f.vhd" into library proc_common_v3_00_a
-Parsing VHDL file "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../../../../../../Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_slave_single_v1_01_a/hdl/vhdl/plb_address_decoder.vhd" into library plbv46_slave_single_v1_01_a
-Parsing VHDL file "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../../../../../../Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_slave_single_v1_01_a/hdl/vhdl/plb_slave_attachment.vhd" into library plbv46_slave_single_v1_01_a
-Parsing VHDL file "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../../../../../../Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_master_single_v1_01_a/hdl/vhdl/data_width_adapter.vhd" into library plbv46_master_single_v1_01_a
-Parsing VHDL file "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../../../../../../Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_master_single_v1_01_a/hdl/vhdl/data_mirror_128.vhd" into library plbv46_master_single_v1_01_a
-Parsing VHDL file "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../../../../../../Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_slave_single_v1_01_a/hdl/vhdl/plbv46_slave_single.vhd" into library plbv46_slave_single_v1_01_a
-Parsing VHDL file "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../../../../../../Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/plbv46_master_single_v1_01_a/hdl/vhdl/plbv46_master_single.vhd" into library plbv46_master_single_v1_01_a
-Parsing VHDL file "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../hdl/vhdl/single_master_bfm.vhd" into library work
+Analyzing Verilog file \"C:/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../hdl/verilog/fbwriter.v\" into library work
+Analyzing Verilog file \"C:/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../../../../../ipcore_dir/fifo128/fifo_generator_v6_2.v\" into library work
+Analyzing Verilog file \"C:/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/test.v\" into library work
+Analyzing Verilog file \"C:/Xilinx/12.2/ISE_DS/ISE//verilog/src/glbl.v\" into library work
 Starting static elaboration
-ERROR:HDLCompiler:1304 - "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../hdl/vhdl/single_master_bfm.vhd" Line 432: Verilog module port bus2ip_cs does not match with type std_logic_vector of component port
-ERROR:HDLCompiler:598 - "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/../../hdl/verilog/user_logic.v" Line 51: Module <user_logic(7,32,32,32,4,0,1,2,3)> ignored due to previous errors.
-ERROR:Simulator:777 - Static elaboration of top level VHDL design unit single_master_bfm in library work failed
+WARNING:HDLCompiler:1016 - "C:/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/test.v" Line 60: Port dout is not connected to this instance
+WARNING:HDLCompiler:1016 - "C:/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/test.v" Line 79: Port reset is not connected to this instance
+Completed static elaboration
+Fuse Memory Usage: 60916 KB
+Fuse CPU Usage: 171 ms
+Compiling module fifo_generator_v6_2_bhv_ver_as(C...
+Compiling module FIFO_GENERATOR_V6_2(C_DATA_COUNT...
+Compiling module fifo_generator_v6_2
+Compiling module fbwriter
+Compiling module test
+Compiling module glbl
+Time Resolution for simulation is 1ps.
+Waiting for 1 sub-compilation(s) to finish...
+Compiled 6 Verilog Units
+Built simulation executable C:/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/test_isim_beh.exe
+Fuse Memory Usage: 68152 KB
+Fuse CPU Usage: 358 ms

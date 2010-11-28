@@ -88,7 +88,7 @@ module user_logic
 ); // user_logic
 
 // -- ADD USER PARAMETERS BELOW THIS LINE ------------
-parameter TMP_LEN                        = 7;
+parameter TMP_LEN                        = 9;
 
 parameter RAST_FBW_FIFO_LEN              = 64;
 parameter FB_BASE_ADDR                   = 11'b1001_0000_000;
@@ -107,9 +107,7 @@ parameter C_NUM_REG                      = 4;
 
 // -- ADD USER PORTS BELOW THIS LINE -----------------
 
-//input      [0 : RAST_FBW_FIFO_LEN-1]      FBW_Din;
-//input                                     FBW_fifo_empty;
-//output                                    FBW_fifo_rd_en;
+//output [0 : DEBUG_LEN-1] debug;
 
 // -- ADD USER PORTS ABOVE THIS LINE -----------------
 
@@ -165,7 +163,7 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   wire                                      slv_write_ack;
   integer                                   byte_index, bit_index;
 
-  reg        [0 : 2]                        state = 'b0;
+  wire        [0 : 3]                       state_l;
   reg                                       mst_wr_req;
   reg                                       to_reset;
   reg                                       mst_reset;
@@ -173,24 +171,13 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   wire       [0 : TMP_LEN-1]                tmp;
   
   reg        [0 : 31]                       input_reg;
+  reg                                       fifo_empty = 1;
+  wire                                      fifo_rd_en;
   
   // writing
   reg        [0 : LINE_LEN-1]               line  = 'b0;
   reg        [0 : COL_LEN-1]                col   = 'b0;
-  reg        [0 : 31]                       color = 'hffff_ffff;
-  
-  // assign IPIF input wires
-  assign IP2Bus_MstRd_Req                    = 0;
-  assign IP2Bus_MstWr_Req                    = mst_wr_req;
-  assign IP2Bus_Mst_Addr[0 : 10]             = FB_BASE_ADDR;
-  assign IP2Bus_Mst_Addr[11:19]              = line;
-  assign IP2Bus_Mst_Addr[20:29]              = col;
-  assign IP2Bus_Mst_Addr[30:31]              = 'b0;
-  
-  assign IP2Bus_Mst_BE[0 : C_MST_DWIDTH/8-1] = ~('b0);
-  assign IP2Bus_Mst_Lock                     = 0;
-  assign IP2Bus_Mst_Reset                    = mst_reset;
-  assign IP2Bus_MstWr_d[0 : C_MST_DWIDTH-1]  = color;
+  reg        [0 : 31]                       color = 'hffcc_ffcc;
   
   // assign some inputs to be monitored by slv_reg1
   assign tmp[0]     = Bus2IP_Mst_CmdAck;
@@ -200,7 +187,8 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   assign tmp[4]     = Bus2IP_Mst_Cmd_Timeout;
   assign tmp[5]     = Bus2IP_MstRd_src_rdy_n;
   assign tmp[6]     = Bus2IP_MstWr_dst_rdy_n;
-  
+  assign tmp[7]     = fifo_empty;
+  assign tmp[8]     = fifo_rd_en;
   
   // --USER logic implementation added here
 
@@ -209,122 +197,36 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   always @ *
     begin
       slv_reg1              = tmp;
-      slv_reg1[13:15]       = state;
-    end
+      slv_reg1[12:15]       = state_l;
+    end   
+
+	fbwriter fbw (
+        .state(state_l),
+        
+        .reset( slv_reg0 == 0 ),
     
-  // start state machine
-parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_RECVD=4;
-
-/*
-  // line counter
-  always @ (posedge Bus2IP_Clk)
-    begin
-	   if( Bus2IP_Mst_Cmplt )
-		  begin
-		    if( line == 'd250 )
-				line = 'd100;
-			 else
-			   line = line + 1;
-		  end		  
-    end
-
-  // column counter
-  always @ (posedge Bus2IP_Clk)
-    begin
-	   if( Bus2IP_Mst_Cmplt )
-		  begin
-		    if( col == 'd250 )
-				col = 'd50;
-			 else
-			   col = col + 1;
-		  end		  
-    end
-*/
-
-  always @ (posedge Bus2IP_Clk)
-    begin
-      case (state)
-        OFF_STATE:
-          if ( slv_reg0 != 'b0 )
-            begin
-              mst_reset <= 0;
-              if ( line != input_reg[(15 - LINE_LEN + 1) : 15] || col != input_reg[(31 - COL_LEN + 1) : 31] )
-			    state     <= PRESENT_STATE;
-			  else
-			    state     <= OFF_STATE;
-            end
-          else
-            begin
-              mst_reset    <= 0;
-              mst_wr_req   <= 0;
-              state        <= OFF_STATE;
-            end
-            
-        PRESENT_STATE: // data to ipif
-          if ( slv_reg0 == 'b0 || Bus2IP_Mst_Error || to_reset )
-            begin
-              mst_wr_req <= 0;
-              mst_reset  <= 1;
-              state      <= OFF_STATE;
-            end
-          else
-            begin
-              mst_reset    <= 0;
-              mst_wr_req   <= 1;
-              line         <= input_reg[(15 - LINE_LEN + 1) : 15];
-			  col          <= input_reg[(31 - COL_LEN + 1) : 31];
-			  state        <= WAIT_FOR_ACK;
-            end
-             
-        WAIT_FOR_ACK:
-          if ( slv_reg0 == 'b0 || Bus2IP_Mst_Error || to_reset )
-            begin
-              mst_wr_req <= 0;
-              mst_reset  <= 1;
-              state      <= OFF_STATE;
-            end
-          else
-            begin
-              // CmdAck and Cmplt can arrive at different times
-              if ( Bus2IP_Mst_CmdAck && Bus2IP_Mst_Cmplt )
-                begin
-                  mst_wr_req <= 0;
-                  state      <= PRESENT_STATE;
-                end
-              else if ( Bus2IP_Mst_CmdAck )
-                begin
-                  mst_wr_req <= 0;
-                  state      <= WAIT_FOR_CMPLT;
-                end
-              else
-                begin
-                  mst_wr_req   <= 1;
-                  state        <= WAIT_FOR_ACK;
-                end
-            end
-
-        WAIT_FOR_CMPLT:
-          if ( slv_reg0 == 'b0 || Bus2IP_Mst_Error || to_reset )
-            begin
-              mst_wr_req <= 0;
-              mst_reset  <= 1;
-              state      <= OFF_STATE;
-            end	
-          else
-            begin
-              if ( Bus2IP_Mst_Cmplt )
-                begin
-                  mst_wr_req <= 0;
-                  state      <= PRESENT_STATE;
-                end
-              else
-                begin
-                  state      <= WAIT_FOR_CMPLT;
-                end
-            end
-            
-      endcase
-    end
+		.fifo_data({7'b0, line, 6'b0, row, color}), 
+		.fifo_empty(fifo_empty), 
+		.fifo_rd_en(fifo_rd_en), 
+		.PLB_clk(Bus2IP_Clk), 
+		.IP2Bus_MstRd_Req(IP2Bus_MstRd_Req), 
+		.IP2Bus_MstWr_Req(IP2Bus_MstWr_Req), 
+		.IP2Bus_Mst_Addr(IP2Bus_Mst_Addr), 
+		.IP2Bus_Mst_BE(IP2Bus_Mst_BE), 
+		.IP2Bus_Mst_Lock(IP2Bus_Mst_Lock), 
+		.IP2Bus_Mst_Reset(IP2Bus_Mst_Reset), 
+		.Bus2IP_Mst_CmdAck(Bus2IP_Mst_CmdAck), 
+		.Bus2IP_Mst_Cmplt(Bus2IP_Mst_Cmplt), 
+		.Bus2IP_Mst_Error(Bus2IP_Mst_Error), 
+		.Bus2IP_Mst_Rearbitrate(Bus2IP_Mst_Rearbitrate), 
+		.Bus2IP_Mst_Cmd_Timeout(Bus2IP_Mst_Cmd_Timeout), 
+		.Bus2IP_MstRd_d(Bus2IP_MstRd_d), 
+		.Bus2IP_MstRd_src_rdy_n(Bus2IP_MstRd_src_rdy_n), 
+		.IP2Bus_MstWr_d(IP2Bus_MstWr_d), 
+		.Bus2IP_MstWr_dst_rdy_n(Bus2IP_MstWr_dst_rdy_n)
+	); 
+	
+    
 
   // PLB SLAVE Interface
 
@@ -359,7 +261,7 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
 
       if ( Bus2IP_Reset == 1 )
         begin
-          slv_reg0  <= 'habcd_e000;
+          slv_reg0  <= 'h0;
         end
       else
         case ( slv_reg_write_sel )
@@ -368,27 +270,25 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
               if ( Bus2IP_BE[byte_index] == 1 )
                 for ( bit_index = byte_index*8; bit_index <= byte_index*8+7; bit_index = bit_index+1 )
                   slv_reg0[bit_index] <= Bus2IP_Data[bit_index];
-          4'b0010 : input_reg <= Bus2IP_Data;
-			          // begin
-			          //   line <= Bus2IP_Data[(15 - LINE_LEN - 1) : 15];
-						 //	 col  <= Bus2IP_Data[(31 - COL_LEN - 1) : 31];
-						 // end
+          4'b0010 :  begin
+                       input_reg <= Bus2IP_Data;
+                     end
           4'b0001 : color <= Bus2IP_Data;
           default : ;
         endcase
 
     end // SLAVE_REG_WRITE_PROC
+    
+  // respond to rd_en
+  always @ (posedge Bus2IP_Clk)
+    if ( fifo_rd_en && fifo_empty == 0 )
+      fifo_empty <= 1;
+    else if ( slv_write_ack )
+      fifo_empty <= 0;
+    else
+      fifo_empty <= fifo_empty;
 	 
-  
-  always @( posedge Bus2IP_Clk )
-    begin: SLAVE_RST_TRIGGER_PROC
-	   if ( slv_reg_write_sel == 4'b0100 )
-		  to_reset <= 1;
-		else
-		  to_reset <= 0;
-    end
-		  
-		  
+  	  
   // implement slave model register read mux
   //always @( slv_reg_read_sel or slv_reg0 or slv_reg1 )
   always @ *
@@ -400,8 +300,9 @@ parameter OFF_STATE=0, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_
         4'b0100 : slv_ip2bus_data <= slv_reg1;
         
         4'b0010 : slv_ip2bus_data <= IP2Bus_Mst_Addr;
-        4'b0001 : slv_ip2bus_data <= color;
-		  
+        //4'b0001 : slv_ip2bus_data <= color;
+		4'b0001 : slv_ip2bus_data <= IP2Bus_MstWr_d;
+        
         default : slv_ip2bus_data <= 0;
       endcase
 
