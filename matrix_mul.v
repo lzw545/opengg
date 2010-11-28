@@ -88,6 +88,7 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
         state = 0;
         counter = 0;
         vertex_step_2 = 0;
+        vector_result_a = 0;
         vector_write_out = 128'hDEADBEEF;
     end
     
@@ -117,28 +118,33 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
                     matrix_write_out_0 <= {mrc_result,96'h0};
                     state <= 1;
                     matrix_write_en <= 0;
-                    bram_offset <= bram_offset + 16;
+                    bram_offset <= bram_offset + 4;
                 end
                 else if (counter == 1)
                 begin
                     matrix_write_out_1 <= {mrc_result,96'h0};
                     matrix_write_en <= 0;
-                    bram_offset <= bram_offset + 16;
+                    bram_offset <= bram_offset + 4;
                     state <= 1;
                 end
                 else if (counter == 2)
                 begin
                     matrix_write_out_2 <= {mrc_result,96'h0};
                     matrix_write_en <= 0;
-                    bram_offset <= bram_offset + 16;
+                    bram_offset <= bram_offset + 4;
                     state <= 1;
                 end
                 else if (counter == 3)
                 begin
                     matrix_write_out_3 <= {mrc_result,96'h0};
                     matrix_write_en <= 0;
-                    bram_offset <= bram_offset + 16;
+                    bram_offset <= bram_offset + 4;
                     state <= 1;
+                end
+                else
+                begin
+                    matrix_write_en <= 0;
+                    state <= 0;
                 end
             end
             1:
@@ -160,7 +166,7 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
                     matrix_write_out_3 <= matrix_write_out_3 | {32'h0,mrc_result,64'h0};
                 end
                 state <= 2;
-                bram_offset <= bram_offset + 16;
+                bram_offset <= bram_offset + 4;
             end
             2:
             begin
@@ -181,7 +187,7 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
                     matrix_write_out_3 <= matrix_write_out_3 | {64'h0,mrc_result,32'h0};
                 end
                 state <= 3;
-                bram_offset <= bram_offset + 16;
+                bram_offset <= bram_offset + 4;
             end
             3:
             begin
@@ -203,7 +209,7 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
                     matrix_write_en <= 1;
                 end
                 bram_offset <= 0;
-                counter <= counter+1;
+                counter <= counter + 1;
                 state <= 0;
             end
             4:

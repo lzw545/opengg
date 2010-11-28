@@ -32,8 +32,8 @@ module gl_fetch(inst_out, inst_in, inst_addr,
     output reg  [(width-1):0]   inst_out;               // instruction output
     output reg  [(width-1):0]   inst_addr;              // instruction address (bram read)
     output reg  [(width-1):0]   decode_bram_addr;       // 
-    input       [(width-1):0]   inst_in;
-    input                       clk;
+    input       [(width-1):0]   inst_in;                // 
+    input                       clk;                    // 
     input                       stall;                  // stall
     input                       reset;
 
@@ -58,66 +58,89 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     //`OP_VERTEX:
                     8'b00000011:
                     begin
-                        inst_addr <= inst_addr + 16;
+                        inst_addr <= inst_addr + 4;
                         inst_out <= inst_in;
-                        decode_bram_addr <= inst_addr + 4;
+                        decode_bram_addr <= inst_addr + 1;
                         tmp_stall <= 1;
                     end
                     //`OP_COLOR:
                     8'b00000100:
                     begin
-                        inst_addr <= inst_addr + 16;
-                        decode_bram_addr <= inst_addr + 4;
+                        inst_addr <= inst_addr + 4;
+                        decode_bram_addr <= inst_addr + 1;
                         inst_out <= inst_in;
                         tmp_stall <= 1;
                     end
                     //`OP_MULTMATRIX:
                     8'b00010001:
                     begin
-                        inst_addr <= inst_addr + 68;
+                        inst_addr <= inst_addr + 17;
                         inst_out <= inst_in;
+						decode_bram_addr <= inst_addr + 1;
+                        tmp_stall <= 1;
                     end
                     //`OP_LOADMATRIX:
                     8'b00010011:
                     begin
-                        inst_addr <= inst_addr + 68;
+                        inst_addr <= inst_addr + 17;
                         inst_out <= inst_in;
-                        decode_bram_addr <= inst_addr + 4;
+                        decode_bram_addr <= inst_addr + 1;
                         tmp_stall <= 1;
                     end
                     //`OP_ROTATE:
                     8'b00010110:
                     begin
-                        inst_addr <= inst_addr + 68;
-                        inst_out <= inst_in;
+                        inst_addr <= inst_addr + 17;
+                        inst_out <= 32'h80001011;					// MULTMATRIX
+                        decode_bram_addr <= inst_addr + 1;
+                        tmp_stall <= 1;
                     end
                     //`OP_SCALE:
                     8'b00010111:
                     begin
-                        inst_addr <= inst_addr + 68;
-                        inst_out <= inst_in;
+                        inst_addr <= inst_addr + 17;
+                        inst_out <= 32'h80001011;					// MULTMATRIX
+                        decode_bram_addr <= inst_addr + 1;
+                        tmp_stall <= 1;
+
                     end
                     //`OP_TRANSLATE:
                     8'b00011000:
                     begin
-                        inst_addr <= inst_addr + 68;
-                        inst_out <= inst_in;
+                        inst_addr <= inst_addr + 17;
+                        inst_out <= 32'h80001011;					// MULTMATRIX
+                        decode_bram_addr <= inst_addr + 1;
+                        tmp_stall <= 1;
                     end
                     //`OP_VIEWPORT:
                     8'b00011001:
                     begin
-                        inst_addr <= inst_addr + 20;
+                        inst_addr <= inst_addr + 5;
+                        decode_bram_addr <= inst_addr + 1;
                         inst_out <= inst_in;
+                        tmp_stall <= 1;
                     end
                     //`OP_FRUSTUM:
                     8'b00011010:
                     begin
-                        inst_addr <= inst_addr + 28;
-                        inst_out <= inst_in;
+                        inst_addr <= inst_addr + 17;
+                        inst_out <= 32'h80001011;					// MULTMATRIX
+                        decode_bram_addr <= inst_addr + 1;
+                        tmp_stall <= 1;
+
+                    end
+						  //`OP_ORTHO:
+                    8'b00011011:
+                    begin
+                        inst_addr <= inst_addr + 17;
+                        inst_out <= 32'h80001011;					// MULTMATRIX
+                        decode_bram_addr <= inst_addr + 1;
+                        tmp_stall <= 1;
+
                     end
                     default:
                     begin
-                        inst_addr <= inst_addr + 4;
+                        inst_addr <= inst_addr + 1;
                         inst_out <= inst_in;
                     end
                 endcase

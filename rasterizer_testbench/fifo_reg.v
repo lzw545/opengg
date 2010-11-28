@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module fifo_reg( clk, color_empty, vertex_empty, raster_request,
+module fifo_reg( clk, color_empty, vertex_empty, dequeue,
                  vertex_in, color_in, vertex_out, vertex_out2, vertex_out3,
                  color_out, color_out2, color_out3, 
                  vertex_rd_en, color_rd_en, ready );
@@ -63,7 +63,7 @@ module fifo_reg( clk, color_empty, vertex_empty, raster_request,
           color_out3 <= color_out3;
           vertex_rd_en <= 0;
           color_rd_en <= 0;
-          end;
+          end
         else if (count < 3)
           begin
           ready <= 0;
@@ -104,6 +104,7 @@ module fifo_reg( clk, color_empty, vertex_empty, raster_request,
             vertex_rd_en <= 0;
             color_rd_en <= 0;
             end
+        end
         else
           begin
           ready <= 1;
@@ -117,24 +118,24 @@ module fifo_reg( clk, color_empty, vertex_empty, raster_request,
           color_out <= color_out;
           color_out2 <= color_out2;
           color_out3 <= color_out3;
-          end;
+          end
         end
       1:	    
         begin
         vertex_out <= vertex_in;
         color_out <= color_in;
+        vertex_out2 <= vertex_out2;
+        vertex_out3 <= vertex_out3;
+        color_out2 <= color_out2;
+        color_out3 <= color_out3;
         if (count < 3)
+          begin          
           ready <= 0;
-          begin
           if (color_empty == 0 && vertex_empty == 0)
             begin
             count <= count+1;
             vertex_rd_en <= 1;
             color_rd_en <= 1;
-            vertex_out2 <= vertex_out2;
-            vertex_out3 <= vertex_out3;
-            color_out2 <= color_out2;
-            color_out3 <= color_out3;
             if (count == 1)
               begin
               state <= 2;
@@ -146,8 +147,12 @@ module fifo_reg( clk, color_empty, vertex_empty, raster_request,
             end
           else
             begin
-            
-          
+            count <= count;
+            state <= state;
+            vertex_rd_en <= 0;
+            color_rd_en <= 0;
+            end
+          end
         else
           begin
           ready <= 1;
@@ -155,33 +160,54 @@ module fifo_reg( clk, color_empty, vertex_empty, raster_request,
           state <= 0;
           vertex_rd_en <= 0;
           color_rd_en <= 0;
-          vertex_out <= vertex_out;
-          vertex_out2 <= vertex_out2;
-          vertex_out3 <= vertex_out3;
-          color_out <= color_out;
-          color_out2 <= color_out2;
-          color_out3 <= color_out3;
           end
         end 
 	    2: 
         begin
         vertex_out2 <= vertex_in;
         color_out2 <= color_in;
-        if (color_empty == 0 && vertex_empty == 0 && count < 3)
+        vertex_out <= vertex_out;
+        vertex_out3 <= vertex_out3;
+        color_out <= color_out;
+        color_out3 <= color_out3;
+        if (count < 3)
           begin
+          ready <= 0;
+          if (color_empty == 0 && vertex_empty == 0 )
+            begin
+            state <= 3;
             count <= count+1;
             color_rd_en <= 1;
-            state <= 3;
+            vertex_rd_en <= 1;
+            end
+          else
+            begin
+            state <= state;
+            count <= count;
+            vertex_rd_en <= 0;
+            color_rd_en <= 0;
+            end
           end
         else
           begin
+          ready <= 1;
+          count <= 3;
           state <= 0;
+          vertex_rd_en <= 0;
+          color_rd_en <= 0;
           end
-        end 
+        end
       3:
         begin
         vertex_out3 <= vertex_in;
         color_out3 <= color_in;
+        vertex_out <= vertex_out;
+        vertex_out2 <= vertex_out2;
+        color_out <= color_out;
+        color_out2 <= color_out2;
+        count <= 3;
+        vertex_rd_en <= 0;
+        color_rd_en <= 0;
         state <= 0;
         ready <= 1;
         end
