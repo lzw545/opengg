@@ -33,6 +33,7 @@
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="fifo_reg.prj"/>
     <file xil_pn:fileType="FILE_XST_STX" xil_pn:name="fifo_reg.stx"/>
     <file xil_pn:fileType="FILE_XST" xil_pn:name="fifo_reg.xst"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="fifo_reg_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_LOG" xil_pn:name="fuse.log"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGDBUILD_LOG" xil_pn:name="gl_rasterizer.bld"/>
     <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="gl_rasterizer.cmd_log"/>
@@ -71,6 +72,7 @@
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="gl_rasterizer_xst.xrpt"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="isim"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_CMD" xil_pn:name="isim.cmd"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_LOG" xil_pn:name="isim.log"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="planAhead_run_1"/>
     <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="top.cmd_log"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="top.lso"/>
@@ -95,11 +97,11 @@
       <status xil_pn:value="FailedRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290937912" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1290937912">
+    <transform xil_pn:end_ts="1290945342" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1290945342">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290937912" xil_pn:in_ck="-7523023123109925184" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1290937912">
+    <transform xil_pn:end_ts="1290945342" xil_pn:in_ck="-7523023123109925184" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1290945342">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForInputs"/>
@@ -119,19 +121,19 @@
       <outfile xil_pn:name="fifo_reg.v"/>
       <outfile xil_pn:name="top.v"/>
     </transform>
-    <transform xil_pn:end_ts="1290937912" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-4861304912705368374" xil_pn:start_ts="1290937912">
+    <transform xil_pn:end_ts="1290945342" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-4861304912705368374" xil_pn:start_ts="1290945342">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290937912" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="-6202078932142294024" xil_pn:start_ts="1290937912">
+    <transform xil_pn:end_ts="1290945342" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="-6202078932142294024" xil_pn:start_ts="1290945342">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290937912" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="4321484428228268607" xil_pn:start_ts="1290937912">
+    <transform xil_pn:end_ts="1290945342" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="4321484428228268607" xil_pn:start_ts="1290945342">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290937912" xil_pn:in_ck="-7523023123109925184" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1290937912">
+    <transform xil_pn:end_ts="1290945342" xil_pn:in_ck="-7523023123109925184" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1290945342">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForInputs"/>
@@ -152,22 +154,31 @@
       <outfile xil_pn:name="fifo_reg.v"/>
       <outfile xil_pn:name="top.v"/>
     </transform>
-    <transform xil_pn:end_ts="1290937924" xil_pn:in_ck="-7523023123109925184" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="406954287610796891" xil_pn:start_ts="1290937912">
+    <transform xil_pn:end_ts="1290945354" xil_pn:in_ck="-7523023123109925184" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="406954287610796891" xil_pn:start_ts="1290945342">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForProperties"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="InputChanged"/>
-      <status xil_pn:value="OutputRemoved"/>
+      <status xil_pn:value="OutputChanged"/>
+      <outfile xil_pn:name="fuse.log"/>
+      <outfile xil_pn:name="isim"/>
+      <outfile xil_pn:name="isim.log"/>
+      <outfile xil_pn:name="top_beh.prj"/>
+      <outfile xil_pn:name="top_isim_beh.exe"/>
+      <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1290937925" xil_pn:in_ck="-7687737217945994994" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="7313424265073438607" xil_pn:start_ts="1290937924">
+    <transform xil_pn:end_ts="1290945355" xil_pn:in_ck="991066531070727678" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="7313424265073438607" xil_pn:start_ts="1290945354">
       <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="NotReadyToRun"/>
+      <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForProperties"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputChanged"/>
       <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1289774384" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1289774384">
