@@ -1,7 +1,7 @@
 ##############################################################
 #
 # Xilinx Core Generator version 12.2
-# Date: Sun Nov 28 06:15:16 2010
+# Date: Sun Nov 28 22:56:01 2010
 #
 ##############################################################
 #
@@ -50,7 +50,7 @@ CSET c_has_rdy=false
 CSET c_has_sclr=false
 CSET c_has_underflow=false
 CSET c_latency=0
-CSET c_mult_usage=Max_Usage
+CSET c_mult_usage=Full_Usage
 CSET c_optimization=Speed_Optimized
 CSET c_rate=1
 CSET c_result_exponent_width=8
@@ -62,4 +62,4 @@ CSET operation_type=Multiply
 CSET result_precision_type=Single
 # END Parameters
 GENERATE
-# CRC: 2ac27172
+# CRC: 3ea808d3

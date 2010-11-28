@@ -8,7 +8,7 @@
 <!-- Copyright (c) 1995-2010 Xilinx, Inc.  All rights reserved.    -->
 
 <messages>
-<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/ajlau/Desktop/OpenGG/opengg/repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/tmp/_cg/fifo_96.vhd&quot; into library work</arg>
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/ajlau/Desktop/OpenGG/opengg/repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/tmp/_cg/fp_sub.vhd&quot; into library work</arg>
 </msg>
 
 </messages>

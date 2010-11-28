@@ -1,5 +1,5 @@
 # Output products list for <fp_add>
-_xmsgs/pn_parser.xmsgs
+_xmsgs\pn_parser.xmsgs
 fp_add.asy
 fp_add.gise
 fp_add.ngc

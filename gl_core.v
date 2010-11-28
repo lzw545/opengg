@@ -229,11 +229,11 @@ module gl_core_internal(clk1, clk2, reset,
     assign pd_y = vertex_result[95:64];
     assign pd_z = vertex_result[63:32];
     assign pd_w = vertex_result[31:0];
-    
+    /*
     fp_div pd_div1(.a(pd_x), .b(pd_w), .result(pd_result_x));
     fp_div pd_div2(.a(pd_y), .b(pd_w), .result(pd_result_y));
     fp_div pd_div3(.a(pd_z), .b(pd_w), .result(pd_result_z));
-    
+    */
     always @ (posedge clk1)
     begin
         /*if (perspective_div_en)

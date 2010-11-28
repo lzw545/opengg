@@ -1,5 +1,5 @@
 The following files were generated for 'fp_sub' in directory 
-/home/lzw/matrix_mul/repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/
+C:\Users\ajlau\Desktop\OpenGG\opengg\repo\MyProcessorIPLib\pcores\opengg_v1_00_a\devl\projnav\ipcore_dir\
 
 fp_sub.asy:
    Graphical symbol information file. Used by the ISE tools and some
