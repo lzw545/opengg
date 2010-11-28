@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="12" />
+   <WVObjectSize size="20" />
    <wvobject fp_name="/core_test/bram_a_din" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">bram_a_din[31:0]</obj_property>
       <obj_property name="ObjectShortName">bram_a_din[31:0]</obj_property>
@@ -44,6 +44,7 @@
    <wvobject fp_name="/core_test/core/pixel_data" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">pixel_data[95:0]</obj_property>
       <obj_property name="ObjectShortName">pixel_data[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/wr_pixel" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">wr_pixel</obj_property>
@@ -54,6 +55,18 @@
       <obj_property name="ObjectShortName">fetch_inst_addr[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
+   <wvobject fp_name="/core_test/core/in_rdy" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">in_rdy</obj_property>
+      <obj_property name="ObjectShortName">in_rdy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/vertex_empty" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_empty</obj_property>
+      <obj_property name="ObjectShortName">vertex_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/color_empty" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">color_empty</obj_property>
+      <obj_property name="ObjectShortName">color_empty</obj_property>
+   </wvobject>
    <wvobject fp_name="/core_test/core/fetch_inst_out" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">fetch_inst_out[31:0]</obj_property>
       <obj_property name="ObjectShortName">fetch_inst_out[31:0]</obj_property>
@@ -62,6 +75,28 @@
    <wvobject fp_name="/core_test/core/fetch_inst_in" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">fetch_inst_in[31:0]</obj_property>
       <obj_property name="ObjectShortName">fetch_inst_in[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/color_rd_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">color_rd_en</obj_property>
+      <obj_property name="ObjectShortName">color_rd_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/vertex_rd_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_rd_en</obj_property>
+      <obj_property name="ObjectShortName">vertex_rd_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/dequeue" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dequeue</obj_property>
+      <obj_property name="ObjectShortName">dequeue</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/color_rd_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">color_rd_data[95:0]</obj_property>
+      <obj_property name="ObjectShortName">color_rd_data[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/vertex_rd_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_rd_data[95:0]</obj_property>
+      <obj_property name="ObjectShortName">vertex_rd_data[95:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
 </wave_config>
