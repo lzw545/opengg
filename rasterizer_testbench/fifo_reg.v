@@ -44,6 +44,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
 
   reg [1:0] count = 0;
   reg [1:0] state = 0;
+  reg hack = 0;
   
   always @ (posedge clk)
     begin
@@ -63,6 +64,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
           color_out3 <= color_out3;
           vertex_rd_en <= 1;
           color_rd_en <= 1;
+          hack <= 0;
           end
         else if (count < 3)
           begin
@@ -73,7 +75,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
           color_out <= color_out;
           color_out2 <= color_out2;
           color_out3 <= color_out3;
-          if (color_empty == 0 && vertex_empty == 0)
+          if (color_empty == 0 && vertex_empty == 0 && hack == 1)
             begin
             count <= count+1;
             vertex_rd_en <= 1;
@@ -84,6 +86,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
             color_out <= color_out;
             color_out2 <= color_out2;
             color_out3 <= color_out3;
+            hack <= 0;
             if (count == 0)
               begin
               state <= 1;
@@ -99,12 +102,13 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
             end
           else 
             begin
+            hack <= 1;
             count <= count;
             state <= 0;
             vertex_rd_en <= 0;
             color_rd_en <= 0;
             end
-        end
+          end
         else
           begin
           ready <= 1;
@@ -118,6 +122,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
           color_out <= color_out;
           color_out2 <= color_out2;
           color_out3 <= color_out3;
+          hack = 0;
           end
         end
       1:	    
@@ -131,11 +136,12 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
         if (count < 3)
           begin          
           ready <= 0;
-          if (color_empty == 0 && vertex_empty == 0)
+          if (color_empty == 0 && vertex_empty == 0 && hack == 1)
             begin
             count <= count+1;
             vertex_rd_en <= 1;
             color_rd_en <= 1;
+            hack <= 0;
             if (count == 1)
               begin
               state <= 2;
@@ -151,6 +157,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
             state <= state;
             vertex_rd_en <= 0;
             color_rd_en <= 0;
+            hack <= 1;
             end
           end
         else
@@ -160,6 +167,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
           state <= 0;
           vertex_rd_en <= 0;
           color_rd_en <= 0;
+          hack <= 0;
           end
         end 
 	    2: 
@@ -173,12 +181,13 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
         if (count < 3)
           begin
           ready <= 0;
-          if (color_empty == 0 && vertex_empty == 0 )
+          if (color_empty == 0 && vertex_empty == 0 && hack == 1)
             begin
             state <= 3;
             count <= count+1;
             color_rd_en <= 1;
             vertex_rd_en <= 1;
+            hack <= 0;
             end
           else
             begin
@@ -186,6 +195,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
             count <= count;
             vertex_rd_en <= 0;
             color_rd_en <= 0;
+            hack <= 1;
             end
           end
         else
@@ -195,6 +205,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
           state <= 0;
           vertex_rd_en <= 0;
           color_rd_en <= 0;
+          hack <= 0;
           end
         end
       3:
@@ -208,8 +219,20 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
         count <= 3;
         vertex_rd_en <= 0;
         color_rd_en <= 0;
-        state <= 0;
-        ready <= 1;
+        if (hack == 1)
+          begin
+          hack <= 0;
+          state <= 0;
+          ready <= 1;
+          count <= 0;
+          end
+        else
+          begin
+          ready <= 0;
+          state <= 3;
+          count <= 3;
+          hack <= 1;
+          end
         end
       endcase
   end	
