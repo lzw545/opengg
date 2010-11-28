@@ -1,4 +1,4 @@
-                            `timescale 1ns / 1ps
+                        `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -29,7 +29,9 @@ module gl_decode( clk, opcode, imm, type,
                   red_out, green_out, blue_out,
                   matrix_load_en, matrix_load_id_en,
                   matrix_mul_en, matrix_mul_type, matrix_mode_out,
+                  matrix_mode_mux_sel,
                   perspective_div_en,
+                  fifo_write_en,
                   bram_mux_sel,
                   stall);
 
@@ -65,6 +67,7 @@ module gl_decode( clk, opcode, imm, type,
     /* Matrix stack, matrix multiply control signals */
     output reg                  push_en;
     output reg                  pop_en;
+    output reg                  matrix_mode_mux_sel; // select which matrix mode to use ( 0 decode out, 1 mat_mul )
     output reg                  matrix_load_en;
     output reg                  matrix_load_id_en;
     output reg                  matrix_mul_en;     // matrix multiply enable 
@@ -74,6 +77,9 @@ module gl_decode( clk, opcode, imm, type,
 
     /* Perspective Division control*/
     output reg                  perspective_div_en;
+    
+    /* FIFO control */
+    output reg                  fifo_write_en;
     
     /* Stall Control */
     output reg                  stall;
@@ -87,6 +93,7 @@ module gl_decode( clk, opcode, imm, type,
         matrix_mul_en       <= 0;
         matrix_mul_type     <= 0;
         matrix_mode_out     <= 0;
+        matrix_mode_mux_sel <= 0;
         curr_matrix_mode    <= 0;
         viewport_x          <= 0;
         viewport_y          <= 0;
@@ -116,6 +123,10 @@ module gl_decode( clk, opcode, imm, type,
                 case (stall_count)
                 0:
                     begin
+                        matrix_load_id_en <= 0;
+                        fifo_write_en <= 0;
+
+						bram_mux_sel <= 0;
                         matrix_mul_en <= 1;                     // enable modelview matrix multiply
                         matrix_mul_type <= 0;                   // select 1x4 multiply mode
                         matrix_mode_out <= 0;
@@ -123,10 +134,9 @@ module gl_decode( clk, opcode, imm, type,
                         stall <= 1;
                         stall_count <= 9;
                     end
-
                 6:                                              // modelview matrix multiply is done
                     begin
-                        matrix_mode_out <= 1;
+                        matrix_mode_out <= 1;						 // select projection matrix
                         matrix_mul_en <= 1;
                         stall_count <= stall_count - 1;
                     end
@@ -145,6 +155,8 @@ module gl_decode( clk, opcode, imm, type,
                 1:                                              // perspective division is done
                     begin
                         perspective_div_en <= 0;
+                        fifo_write_en <= 1;
+                        matrix_mode_mux_sel <= 0;
                         stall_count <= stall_count - 1;
                     end
 
@@ -162,6 +174,9 @@ module gl_decode( clk, opcode, imm, type,
                 case (stall_count)
                     0:
                     begin
+                        matrix_load_id_en <= 0;
+                        fifo_write_en <= 0;
+
                         bram_mux_sel  <= 0;
                         bram_addr_out <= bram_addr_in;
                         stall_count   <= 1;
@@ -179,6 +194,9 @@ module gl_decode( clk, opcode, imm, type,
         //`OP_MATRIXMODE:
         8'b00010000:
             begin
+                matrix_load_id_en <= 0;
+                fifo_write_en <= 0;
+
                 curr_matrix_mode <= imm[0];
             end
         //`OP_MULTMATRIX:
@@ -187,8 +205,13 @@ module gl_decode( clk, opcode, imm, type,
                 case (stall_count)
                     0:
                     begin
+                        matrix_load_id_en <= 0;
+                        fifo_write_en <= 0;
+
                         matrix_mul_en <= 1;
                         matrix_mul_type <= 1;
+                        bram_addr_out <= bram_addr_in;
+                        bram_mux_sel <= 1;                      // let matrix_ctrl select the bram address
                         matrix_mode_out <= curr_matrix_mode;
                         stall <= 1;
                         stall_count <= 15;
@@ -216,6 +239,9 @@ module gl_decode( clk, opcode, imm, type,
         8'b00010010:
             begin
                 matrix_load_id_en <= 1;
+                fifo_write_en <= 0;
+
+                bram_mux_sel <= 0;
                 matrix_mode_out <= curr_matrix_mode;
             end
         //`OP_LOADMATRIX:
@@ -224,10 +250,15 @@ module gl_decode( clk, opcode, imm, type,
                 case (stall_count)
                 0:
                     begin
+                        matrix_load_id_en <= 0;
+                        fifo_write_en <= 0;
+
+                    
                         matrix_load_en <= 1;
                         stall <= 1;
                         stall_count <= 3;
                         bram_addr_out <= bram_addr_in;
+								bram_mux_sel <= 0;
                         matrix_mode_out <= curr_matrix_mode;
                     end
                 1:
@@ -252,119 +283,34 @@ module gl_decode( clk, opcode, imm, type,
         //`OP_PUSHMATRIX:
         8'b00010100:
             begin
+                matrix_load_id_en <= 0;
+                fifo_write_en <= 0;
+
+
                 matrix_mode_out <= curr_matrix_mode;
                 push_en <= 1;
             end
         //`OP_POPMATRIX:
         8'b00010101:
             begin
+                matrix_load_id_en <= 0;
+                fifo_write_en <= 0;
+
+
                 matrix_mode_out <= curr_matrix_mode;
                 pop_en <= 1;
             end
-        //`OP_ROTATE:
-        8'b00010110:
-            begin
-                case (stall_count)
-                    0:
-                    begin
-                        matrix_mul_en <= 1;
-                        matrix_mul_type <= 1;
-                        matrix_mode_out <= curr_matrix_mode;
-                        stall <= 1;
-                        stall_count <= 15;
-                    end
-                    
-                    2:
-                    begin
-                        stall <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-                    
-                    1:
-                    begin
-                        stall_count <= stall_count - 1;
-                    end
-                    
-                    default:
-                    begin
-                        matrix_mul_en <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-                endcase
-            end
-        //`OP_SCALE:
-        8'b00010111:
-            begin
-                case (stall_count)
-                    0:
-                    begin
-                        matrix_mul_en <= 1;
-                        matrix_mul_type <= 1;
-                        matrix_mode_out <= curr_matrix_mode;
-                        stall <= 1;
-                        stall_count <= 15;
-                    end
-                    
-                    2:
-                    begin
-                        stall <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-                    
-                    1:
-                    begin
-                        stall_count <= stall_count - 1;
-                    end
-                    
-                    default:
-                    begin
-                        matrix_mul_en <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-                endcase
-            end
-        //`OP_TRANSLATE:
-        8'b00011000:
-            begin
-                case (stall_count)
-                    0:
-                    begin
-                        matrix_mul_en <= 1;
-                        matrix_mul_type <= 1;
-                        matrix_mode_out <= curr_matrix_mode;
-                        stall <= 1;
-                        stall_count <= 15;
-                    end
-                    
-                    2:
-                    begin
-                        stall <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-                    
-                    1:
-                    begin
-                        stall_count <= stall_count - 1;
-                    end
-                    
-                    default:
-                    begin
-                        matrix_mul_en <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-                endcase
-            end        
         //`OP_VIEWPORT:
         8'b00011001:
             begin
+                matrix_load_id_en <= 0;
+                fifo_write_en <= 0;
+
+
                 viewport_x      <= bram_read_in_0;
                 viewport_y      <= bram_read_in_1;
                 viewport_width  <= bram_read_in_2;
                 viewport_height <= bram_read_in_3;
-            end
-        //`OP_FRUSTUM:
-        8'b00011010:
-            begin
             end
         endcase
     end

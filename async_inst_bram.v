@@ -18,9 +18,9 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module inst_bram( BRAM_rst, BRAM_clk, BRAM_en, BRAM_wen, 
-                  BRAM_addr, BRAM_din, BRAM_dout,
-                  clk, addr1, addr2, read0, read1, read2, read3, read4 );
+module async_inst_bram( BRAM_rst, BRAM_clk, BRAM_en, BRAM_wen, 
+                        BRAM_addr, BRAM_din, BRAM_dout,
+                        addr1, addr2, read0, read1, read2, read3, read4 );
     
     input              BRAM_rst;
     input              BRAM_clk;
@@ -30,18 +30,23 @@ module inst_bram( BRAM_rst, BRAM_clk, BRAM_en, BRAM_wen,
     output [0:31]      BRAM_din;
     input  [0:31]      BRAM_dout;
     
-    input              clk;
     input  [31:0]      addr1;
     input  [31:0]      addr2;
-    output reg [31:0]  read0;
-    output reg [31:0]  read1;
-    output reg [31:0]  read2;
-    output reg [31:0]  read3;
-    output reg [31:0]  read4;
+    output [31:0]      read0;
+    output [31:0]      read1;
+    output [31:0]      read2;
+    output [31:0]      read3;
+    output [31:0]      read4;
         
     reg    [31:0]  mem [1023:0];  
     
     wire   [0:9]   addr;
+    
+    assign read0 = mem[addr1];
+    assign read1 = mem[addr2];
+    assign read2 = mem[addr2+1];
+    assign read3 = mem[addr2+2];
+    assign read4 = mem[addr2+3];
     
     assign addr     = BRAM_addr [20:29];
     assign BRAM_din = mem[addr];
@@ -51,15 +56,6 @@ module inst_bram( BRAM_rst, BRAM_clk, BRAM_en, BRAM_wen,
     begin
         if (wen)
             mem[addr] <= BRAM_dout;
-    end
-    
-    always @ (posedge clk)
-    begin
-        read0 <= mem[addr1];
-        read1 <= mem[addr2];
-        read2 <= mem[addr2+1];
-        read3 <= mem[addr2+2];
-        read4 <= mem[addr2+3];
     end
     
 endmodule

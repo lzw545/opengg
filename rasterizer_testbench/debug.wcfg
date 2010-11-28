@@ -22,6 +22,7 @@
    <wvobject fp_name="/top/GL_RAS/wr_data" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">wr_data[95:0]</obj_property>
       <obj_property name="ObjectShortName">wr_data[95:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/top/GL_RAS/valid_pixel" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">valid_pixel</obj_property>
