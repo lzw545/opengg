@@ -48,10 +48,13 @@
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_REPORT" xil_pn:name="comp_3.syr"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="comp_3.xst"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="comp_3_stx_beh.prj"/>
-    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="coordinate_transform_testbench_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="coordinate_transform_testbench_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="coordinate_transform_testbench_isim_beh.wdb"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="coordinate_transform_testbench_stx_beh.prj"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="core_test_beh.prj"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="core_test_isim_beh.exe"/>
+    <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="core_test_isim_beh.wdb"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="core_test_stx_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="dummy_bram_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="dummy_bram_stx_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="fetch_decode_testbench_isim_beh.exe"/>
@@ -177,16 +180,17 @@
   </files>
 
   <transforms xmlns="http://www.xilinx.com/XMLSchema">
-    <transform xil_pn:end_ts="1290898766" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1290898766">
+    <transform xil_pn:end_ts="1290929643" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1290929643">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290898766" xil_pn:in_ck="8240531959439180243" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1290898766">
+    <transform xil_pn:end_ts="1290931340" xil_pn:in_ck="-4907637307655889853" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1290931340">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="async_inst_bram.v"/>
       <outfile xil_pn:name="comp_3.v"/>
       <outfile xil_pn:name="coordinate_transform_testbench.v"/>
+      <outfile xil_pn:name="core_test.v"/>
       <outfile xil_pn:name="diff_select.v"/>
       <outfile xil_pn:name="dummy_bram.v"/>
       <outfile xil_pn:name="fetch_decode_testbench.v"/>
@@ -196,10 +200,12 @@
       <outfile xil_pn:name="gl_fetch.v"/>
       <outfile xil_pn:name="gl_rasterizer.v"/>
       <outfile xil_pn:name="inst_bram.v"/>
+      <outfile xil_pn:name="ipcore_dir/f2i.v"/>
       <outfile xil_pn:name="ipcore_dir/fifo_96.v"/>
       <outfile xil_pn:name="ipcore_dir/fp_add.v"/>
       <outfile xil_pn:name="ipcore_dir/fp_div.v"/>
       <outfile xil_pn:name="ipcore_dir/fp_mul.v"/>
+      <outfile xil_pn:name="ipcore_dir/fp_sub.v"/>
       <outfile xil_pn:name="mat_mul_testbench.v"/>
       <outfile xil_pn:name="mat_mul_testbench2.v"/>
       <outfile xil_pn:name="mat_testbench.v"/>
@@ -207,26 +213,28 @@
       <outfile xil_pn:name="matrix_ctrl_testbench.v"/>
       <outfile xil_pn:name="matrix_mul.v"/>
       <outfile xil_pn:name="matrix_row_comp.v"/>
+      <outfile xil_pn:name="rasterizer_testbench/fifo_reg.v"/>
       <outfile xil_pn:name="viewport_trans.v"/>
     </transform>
-    <transform xil_pn:end_ts="1290898766" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-5596742607622111559" xil_pn:start_ts="1290898766">
+    <transform xil_pn:end_ts="1290929643" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="3201976763045618879" xil_pn:start_ts="1290929643">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290898766" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="5794204687764644391" xil_pn:start_ts="1290898766">
+    <transform xil_pn:end_ts="1290929643" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="4668215030568983213" xil_pn:start_ts="1290929643">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290898766" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="-4210952536735280971" xil_pn:start_ts="1290898766">
+    <transform xil_pn:end_ts="1290929643" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="-4210952536735280971" xil_pn:start_ts="1290929643">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290898766" xil_pn:in_ck="8240531959439180243" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1290898766">
+    <transform xil_pn:end_ts="1290931343" xil_pn:in_ck="-4907637307655889853" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1290931342">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="async_inst_bram.v"/>
       <outfile xil_pn:name="comp_3.v"/>
       <outfile xil_pn:name="coordinate_transform_testbench.v"/>
+      <outfile xil_pn:name="core_test.v"/>
       <outfile xil_pn:name="diff_select.v"/>
       <outfile xil_pn:name="dummy_bram.v"/>
       <outfile xil_pn:name="fetch_decode_testbench.v"/>
@@ -236,10 +244,12 @@
       <outfile xil_pn:name="gl_fetch.v"/>
       <outfile xil_pn:name="gl_rasterizer.v"/>
       <outfile xil_pn:name="inst_bram.v"/>
+      <outfile xil_pn:name="ipcore_dir/f2i.v"/>
       <outfile xil_pn:name="ipcore_dir/fifo_96.v"/>
       <outfile xil_pn:name="ipcore_dir/fp_add.v"/>
       <outfile xil_pn:name="ipcore_dir/fp_div.v"/>
       <outfile xil_pn:name="ipcore_dir/fp_mul.v"/>
+      <outfile xil_pn:name="ipcore_dir/fp_sub.v"/>
       <outfile xil_pn:name="mat_mul_testbench.v"/>
       <outfile xil_pn:name="mat_mul_testbench2.v"/>
       <outfile xil_pn:name="mat_testbench.v"/>
@@ -247,22 +257,25 @@
       <outfile xil_pn:name="matrix_ctrl_testbench.v"/>
       <outfile xil_pn:name="matrix_mul.v"/>
       <outfile xil_pn:name="matrix_row_comp.v"/>
+      <outfile xil_pn:name="rasterizer_testbench/fifo_reg.v"/>
       <outfile xil_pn:name="viewport_trans.v"/>
     </transform>
-    <transform xil_pn:end_ts="1290898776" xil_pn:in_ck="8240531959439180243" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="8455708100428513433" xil_pn:start_ts="1290898766">
+    <transform xil_pn:end_ts="1290931349" xil_pn:in_ck="-4907637307655889853" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-7885478225960728283" xil_pn:start_ts="1290931343">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="coordinate_transform_testbench_beh.prj"/>
-      <outfile xil_pn:name="coordinate_transform_testbench_isim_beh.exe"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
+      <outfile xil_pn:name="core_test_beh.prj"/>
+      <outfile xil_pn:name="core_test_isim_beh.exe"/>
       <outfile xil_pn:name="fuse.log"/>
       <outfile xil_pn:name="isim"/>
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1290898777" xil_pn:in_ck="4554712313557787143" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="7629362564129759068" xil_pn:start_ts="1290898776">
+    <transform xil_pn:end_ts="1290931350" xil_pn:in_ck="7762899168397095033" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-2959074503137244984" xil_pn:start_ts="1290931349">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="coordinate_transform_testbench_isim_beh.wdb"/>
+      <outfile xil_pn:name="core_test_isim_beh.wdb"/>
       <outfile xil_pn:name="isim.cmd"/>
       <outfile xil_pn:name="isim.log"/>
     </transform>
@@ -300,6 +313,7 @@
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputAdded"/>
       <status xil_pn:value="InputChanged"/>
       <status xil_pn:value="OutputRemoved"/>
     </transform>

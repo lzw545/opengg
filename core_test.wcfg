@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/lzw/matrix_mul/core_test_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="core_test" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="12" />
+   <wvobject fp_name="/core_test/bram_a_din" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">bram_a_din[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_a_din[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/clk1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk1</obj_property>
+      <obj_property name="ObjectShortName">clk1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/clk2" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk2</obj_property>
+      <obj_property name="ObjectShortName">clk2</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/bram_clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">bram_clk</obj_property>
+      <obj_property name="ObjectShortName">bram_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/fifo_write_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">fifo_write_en</obj_property>
+      <obj_property name="ObjectShortName">fifo_write_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/vertex_fifo_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_fifo_in[95:0]</obj_property>
+      <obj_property name="ObjectShortName">vertex_fifo_in[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/color_fifo_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">color_fifo_in[95:0]</obj_property>
+      <obj_property name="ObjectShortName">color_fifo_in[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/pixel_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data[95:0]</obj_property>
+      <obj_property name="ObjectShortName">pixel_data[95:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/wr_pixel" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">wr_pixel</obj_property>
+      <obj_property name="ObjectShortName">wr_pixel</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/fetch_inst_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fetch_inst_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fetch_inst_addr[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/fetch_inst_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fetch_inst_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fetch_inst_out[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/fetch_inst_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fetch_inst_in[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fetch_inst_in[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+</wave_config>
