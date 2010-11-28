@@ -22,7 +22,8 @@
 
 module gl_core_internal(clk1, clk2, reset, 
                         bram_a_clk, bram_a_en, bram_a_write_en, bram_a_rst, 
-                        bram_a_addr, bram_a_din, bram_a_dout);
+                        bram_a_addr, bram_a_din, bram_a_dout,
+                        pixel_fifo_rd_clk, pixel_fifo_dout, pixel_fifo_empty, pixel_fifo_rd_en);
 
     
     input           clk1;                           // coordinate transform clk
@@ -37,6 +38,12 @@ module gl_core_internal(clk1, clk2, reset,
     input  [31:0]   bram_a_addr;                    // bram address port
     output [31:0]   bram_a_din;                     // data from bram
     input  [31:0]   bram_a_dout;                    // data to bram
+   
+    /* Pixel Fifo Control */
+    input           pixel_fifo_rd_clk;              // clk
+    output [31:0]   pixel_fifo_dout;                // data out
+    output          pixel_fifo_empty;               // fifo empty
+    input           pixel_fifo_rd_en;               // dequeue signal
     
     /* BRAM Control (Port B) */
     wire            bram_mux_sel;
@@ -81,8 +88,6 @@ module gl_core_internal(clk1, clk2, reset,
     wire [127:0]    mc_write_in_2;                  // matrix_ctrl write in
     wire [127:0]    mc_write_in_3;                  // matrix_ctrl write in
     wire [127:0]    mc_data_in;                     // matrix_ctrl input line for push
-    
-    reg             fetch_rst;
     
     /* Asynchronous BRAM */
     async_inst_bram inst_bram ( .BRAM_rst(bram_a_rst), 
@@ -320,7 +325,7 @@ module gl_core_internal(clk1, clk2, reset,
     wire [95:0] cin2;
     wire [95:0] cin3;
 
-    wire [95:0] pixel_data;
+    wire dequeue;
 
     wire [95:0] color_rd_data;
     wire [95:0] vertex_rd_data;
@@ -336,11 +341,13 @@ module gl_core_internal(clk1, clk2, reset,
     wire in_rdy;
     wire out_rdy;  
 
-    wire wr_pixel;
-    wire fb_full;
-    wire dequeue;
+    /* Pixel Buffer Control */
+    wire [95:0] pixel_data;
+    wire pixel_wen;
+    wire pixel_full;
+
     
-    fifo_96 vertex_fifo(.rst(1'b0),
+    fifo_96 vertex_fifo(.rst(reset),
                         .wr_clk(clk1),
                         .rd_clk(clk2),
                         .din(vertex_fifo_in),
@@ -351,7 +358,7 @@ module gl_core_internal(clk1, clk2, reset,
                         .empty(vertex_empty) 
                       );
                         
-    fifo_96 color_fifo( .rst(1'b0),
+    fifo_96 color_fifo( .rst(reset),
                         .wr_clk(clk1),
                         .rd_clk(clk2),
                         .din(color_fifo_in),
@@ -379,10 +386,12 @@ module gl_core_internal(clk1, clk2, reset,
                           .color_out3(cin3)
                        );
     
+
+    
     gl_rasterizer GL_RAS(   .clk(clk2), 
-                            .full(0),
+                            .full(pixel_full),
                             .wr_data(pixel_data), 
-                            .wr_en(wr_pixel),
+                            .wr_en(pixel_wen),
                             .raster_ready(dequeue), 
                             .fifo_ready(in_rdy),
                             .vertex_in1(vin1),
@@ -392,6 +401,24 @@ module gl_core_internal(clk1, clk2, reset,
                             .color_in2(cin2),
                             .color_in3(cin3)
                        );
+                       
+                       
+    /*********************************************/
+    /*  Output to FBWriter                       */
+    /*********************************************/   
+    
+    fifo_96 pixel_fifo( .rst(reset),
+                        .wr_clk(clk2),
+                        .rd_clk(pixel_fifo_rd_clk),
+                        .din(pixel_data),
+                        .wr_en(pixel_wen),
+                        .rd_en(pixel_fifo_rd_en),
+                        .dout(pixel_fifo_dout),
+                        .full(pixel_full),
+                        .empty(pixel_fifo_empty) 
+                      );
+    
+    
 endmodule
 
 

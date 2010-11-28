@@ -54,12 +54,19 @@ module matrix_ctrl(clk, matrix_mode,
     output [127:0]  peek_out_2;
     output [127:0]  peek_out_3;
     
-    reg    [6:0]    modelview_sp;
-    reg    [6:0]    projection_sp;
+    //reg    [6:0]    modelview_sp;
+    //reg    [6:0]    projection_sp;
     
     reg    [2:0]    state;
 
-    reg    [127:0]  modelview_stack  [127:0];       // 2048 bytes (32 matrices) (infer BRAM?!?)
+    //reg    [127:0]  modelview_stack  [127:0];       // 2048 bytes (32 matrices) (infer BRAM?!?)
+    //reg    [127:0]  projection_stack [7:0];         // 128 bytes (2 matrices)
+    
+    
+    reg    [2:0]    modelview_sp;
+    reg    [2:0]    projection_sp;
+    
+    reg    [127:0]  modelview_stack  [7:0];       // 2048 bytes (32 matrices) (infer BRAM?!?)
     reg    [127:0]  projection_stack [7:0];         // 128 bytes (2 matrices)
     
     initial begin
@@ -74,7 +81,7 @@ module matrix_ctrl(clk, matrix_mode,
         modelview_stack[1]  <= 127'h00000000000000003F80000000000000;
         modelview_stack[0]  <= 127'h0000000000000000000000003F800000;
         */
-        
+        /*
         projection_stack[3] <= 127'h3F800000_00000000_00000000_00000000;
         projection_stack[2] <= 127'h00000000_3F800000_00000000_00000000;
         projection_stack[1] <= 127'h00000000_00000000_3F800000_00000000;
@@ -84,7 +91,7 @@ module matrix_ctrl(clk, matrix_mode,
         modelview_stack[2]  <= 127'h00000000_3F800000_00000000_00000000;
         modelview_stack[1]  <= 127'h00000000_00000000_3F800000_00000000;
         modelview_stack[0]  <= 127'h00000000_00000000_00000000_3F800000;
-        
+        */
         /*
         //    glFrustum(-1.0, 1.0, -h, h, 5.0, 60.0); where h = 480/640
         projection_stack[3] <= 127'h40A00000_00000000_00000000_00000000;
