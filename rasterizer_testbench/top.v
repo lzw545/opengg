@@ -25,8 +25,8 @@ module top(    );
   
   reg [95:0] color_wr_data_reg;
   reg [95:0] vertex_wr_data_reg;
-  reg [95:0] color_wr_en_reg;
-  reg [95:0] vertex_wr_en_reg;
+  reg color_wr_en_reg;
+  reg vertex_wr_en_reg;
   
   wire [95:0] vin1;
   wire [95:0] vin2;
@@ -59,7 +59,6 @@ module top(    );
   assign color_wr_en = color_wr_en_reg;
   
   wire in_rdy;
-  wire out_ready;
   
   wire wr_pixel;
   wire fb_full;
@@ -85,7 +84,7 @@ module top(    );
                         .full(fb_full),
                         .wr_data(pixel_data), 
                         .wr_en(wr_pixel),
-                        .raster_ready(out_rdy), 
+                        .raster_ready(dequeue), 
                         .fifo_ready(in_rdy),
                         .vertex_in1(vin1),
                         .vertex_in2(vin2),
@@ -154,7 +153,6 @@ module top(    );
     begin
     clk1 <= 0;
     clk2 <= 0;
-    /*
     color_wr_en_reg <= 0;
     vertex_wr_en_reg <= 0;
     #10
@@ -163,7 +161,7 @@ module top(    );
     vertex_wr_data_reg <= 96'h3F800000_3F800000_00000000;
     vertex_wr_en_reg <= 1;
     #10
-    color_wr_data_reg <= 0; 
+    color_wr_data_reg <= 96'h3F800000_3F800000_3F800000; 
     vertex_wr_data_reg <= 96'h3F800000_41200000_00000000;
     #10
     color_wr_data_reg <= 0;
@@ -172,7 +170,7 @@ module top(    );
     vertex_wr_data_reg <= 96'h3F800000_3F800000_00000000;
     color_wr_data_reg <= 0;
     #10
-    color_wr_data_reg <= 0; 
+    color_wr_data_reg <= 96'h3F800000_3F800000_3F800000; 
     vertex_wr_data_reg <= 96'h3F800000_41200000_00000000;
     #10
     color_wr_data_reg <= 0;
@@ -182,12 +180,12 @@ module top(    );
     vertex_wr_data_reg <= 96'h3F800000_3F800000_00000000;
     color_wr_data_reg <= 0;
     #10
-    color_wr_data_reg <= 0; 
+    color_wr_data_reg <= 96'h3F800000_3F800000_3F800000; 
     vertex_wr_data_reg <= 96'h3F800000_41200000_00000000;
     #10
     color_wr_data_reg <= 0;
     vertex_wr_data_reg <= 96'h41200000_3F800000_00000000;
-    */
+  
     end
 
 endmodule
