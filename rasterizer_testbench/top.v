@@ -66,21 +66,21 @@ module top(    );
   wire dequeue;
   
   wire out_rdy;   
-  
+  /*
     gl_rasterizer GL_RAS( .clk(clk2), 
                         .full(0),
                         .wr_data(pixel_data), 
                         .wr_en(wr_pixel),
                         .raster_ready(out_rdy), 
-                        .fifo_ready(1),
+                        .fifo_ready(1'b1),
                         .vertex_in1(96'h3F800000_3F800000_00000000),
                         .vertex_in2(96'h3F800000_41200000_00000000),
                         .vertex_in3(96'h41200000_3F800000_00000000),
-                        .color_in1(0),
-                        .color_in2(0),
-                        .color_in3(0)
+                        .color_in1(96'b0),
+                        .color_in2(96'h3F800000_3F800000_3F800000),
+                        .color_in3(96'b0)
                       );
- /* 
+  */
   gl_rasterizer GL_RAS( .clk(clk2), 
                         .full(fb_full),
                         .wr_data(pixel_data), 
@@ -94,7 +94,7 @@ module top(    );
                         .color_in2(cin2),
                         .color_in3(cin3)
                       );
-/*             
+        
   fifo_reg fifo_peek( .clk(clk2), 
                       .ready(in_rdy), 
                       .color_empty(color_empty), 
@@ -133,7 +133,7 @@ module top(    );
                       .full(vertex_full),
                       .empty(vertex_empty) 
                     );
-  */
+  
   always #5
     begin
     clk1 = ~clk1;

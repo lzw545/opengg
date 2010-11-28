@@ -268,9 +268,9 @@ parameter COLOR_TYPE_SIZE=96;
     fp_add blue_out_0(blue_add1, blue_add2, blue_add12);
     fp_add blue_out(blue_add12, blue_add3, blue_f);
     
-    fp_mul red_norm(red_f, 32'h42fe0000, red_n);
-    fp_mul green_norm(green_f, 32'h42fe0000, green_n);
-    fp_mul blue_norm(blue_f, 32'h42fe0000, blue_n);
+    fp_mul red_norm(red_f, 32'h427c0000, red_n);
+    fp_mul green_norm(green_f, 32'h427c0000, green_n);
+    fp_mul blue_norm(blue_f, 32'h427c0000, blue_n);
 
     f2i red_int(red_n, red);
     f2i green_int(green_n, green);
