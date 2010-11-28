@@ -23,17 +23,17 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
                  color_out, color_out2, color_out3, 
                  vertex_rd_en, color_rd_en, ready );
 
-  input clk;
-  input color_empty;
-  input vertex_empty;
-  input dequeue;
-  input [95:0] vertex_in;
-  input [95:0] color_in;
+  input             clk;
+  input             color_empty;
+  input             vertex_empty;
+  input             dequeue;
+  input [95:0]      vertex_in;
+  input [95:0]      color_in;
 
-  output reg vertex_rd_en;
-  output reg color_rd_en;
+  output reg        vertex_rd_en;
+  output reg        color_rd_en;
   
-  output reg ready = 0;
+  output reg        ready;
   
   output reg [95:0] vertex_out;
   output reg [95:0] vertex_out2;
@@ -42,9 +42,17 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
   output reg [95:0] color_out2;
   output reg [95:0] color_out3;
 
-  reg [1:0] count = 0;
-  reg [1:0] state = 0;
-  reg hack = 0;
+  reg [1:0]         count;
+  reg [1:0]         state;
+  reg               hack;
+  
+  initial 
+  begin
+    count <= 0;
+    state <= 0;
+    hack  <= 0;
+    ready <= 0;
+  end
   
   always @ (posedge clk)
     begin
@@ -122,7 +130,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
           color_out <= color_out;
           color_out2 <= color_out2;
           color_out3 <= color_out3;
-          hack = 0;
+          hack <= 0;
           end
         end
       1:	    

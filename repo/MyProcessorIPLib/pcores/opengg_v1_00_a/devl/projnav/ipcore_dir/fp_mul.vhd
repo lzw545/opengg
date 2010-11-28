@@ -75,7 +75,7 @@ end component;
 			c_has_divide_by_zero => 0,
 			c_has_overflow => 0,
 			c_xdevicefamily => "virtex5",
-			c_mult_usage => 3,
+			c_mult_usage => 2,
 			c_has_rdy => 0,
 			c_result_fraction_width => 24,
 			c_has_divide => 0,
