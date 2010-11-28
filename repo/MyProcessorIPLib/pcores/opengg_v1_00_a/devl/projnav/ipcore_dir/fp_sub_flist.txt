@@ -1,0 +1,15 @@
+# Output products list for <fp_sub>
+_xmsgs/pn_parser.xmsgs
+fp_sub.asy
+fp_sub.gise
+fp_sub.ngc
+fp_sub.sym
+fp_sub.v
+fp_sub.veo
+fp_sub.vhd
+fp_sub.vho
+fp_sub.xco
+fp_sub.xise
+fp_sub_flist.txt
+fp_sub_readme.txt
+fp_sub_xmdf.tcl
