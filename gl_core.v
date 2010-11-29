@@ -389,7 +389,7 @@ module gl_core_internal(clk1, clk2, reset,
 
     
     gl_rasterizer GL_RAS(   .clk(clk2), 
-                            .full(1'b1),
+                            .full(pixel_full),
                             .wr_data(pixel_data), 
                             .wr_en(pixel_wen),
                             .raster_ready(dequeue), 
