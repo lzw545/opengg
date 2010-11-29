@@ -179,9 +179,9 @@ parameter OFF_STATE=0, FIFO_READ=5, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CM
     IP2Bus_Mst_Reset <= ( state == ERROR_RECVD );
   
   // assign line and col and color regs
-  always @ (posedge PLB_clk)
+  always @ *
     begin
-      if ( (state == FIFO_READ) )
+      if ( (state == PRESENT_STATE) )
 	    begin
           // fifo_data is valid
           line  <= fifo_data[15-LINE_LEN+1:15];
