@@ -135,7 +135,7 @@ module gl_core_internal(clk1, clk2, reset,
     assign  imm         = fetch_inst_out[30:8];
     assign  inst_type   = fetch_inst_out[31];
     
-    gl_decode  dc (.clk(clk1), .opcode(opcode), .imm(imm), .type(inst_type), 
+    gl_decode  dc (.rst(reset), .clk(clk1), .opcode(opcode), .imm(imm), .type(inst_type), 
                   .bram_addr_out(decode_addr_out),
                   .bram_mux_sel(bram_mux_sel),
                   .bram_addr_in(decode_bram_addr),

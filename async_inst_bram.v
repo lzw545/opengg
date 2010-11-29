@@ -39,7 +39,7 @@ module async_inst_bram( BRAM_rst, BRAM_clk, BRAM_en, BRAM_wen,
     output [31:0]      read4;
         
     //reg    [31:0]  mem [1023:0]; 
-    reg    [31:0]  mem [127:0];     
+    reg    [31:0]  mem [42:0];     
     
     wire   [0:9]   addr;
     
@@ -71,28 +71,28 @@ module async_inst_bram( BRAM_rst, BRAM_clk, BRAM_en, BRAM_wen,
         mem[7]=32'h3B888889;
         mem[8]=32'h00000000;
         mem[9]=32'h00000000;
-        mem[10]=32'h00000000;
-        mem[11]=32'h00000000;
-        mem[12]=32'hBF800000;
-        mem[13]=32'h0;
-        mem[14]=32'hBF800000;
-        mem[15]=32'hBF800000;
-        mem[16]=32'h0;
-        mem[17]=32'h3F800000;
+        mem[10]= 32'h00000000;
+        mem[11]= 32'h00000000;
+        mem[12]= 32'hBF800000;
+        mem[13]= 32'h0;
+        mem[14]= 32'hBF800000;
+        mem[15]= 32'hBF800000;
+        mem[16]= 32'h0;
+        mem[17]= 32'h3F800000;
         mem[18]= 32'h80000304;   // Color
         mem[19]= 32'h3F800000;   // r: 1
         mem[20]= 32'h00000000;   // g: 0
         mem[21]= 32'h00000000;   // b: 0
         mem[22]= 32'h80000303;   // Vertex 1
         mem[23]= 32'h3F800000;   // x: 1   
-        mem[24]= 32'h41200000;   // y: 10
+        mem[24]= 32'h42C80000;   // y: 100
         mem[25]= 32'h00000000;   // z: 0
         mem[26]= 32'h80000304;   // Color
         mem[27]= 32'h00000000;   // r: 0
         mem[28]= 32'h3F800000;   // g: 1
         mem[29]= 32'h00000000;   // b: 0
         mem[30]= 32'h80000303;   // Vertex 2 
-        mem[31]= 32'h41200000;   // x: 10   
+        mem[31]= 32'h42C80000;   // x: 100   
         mem[32]= 32'h3F800000;   // y: 1
         mem[33]= 32'h00000000;   // z: 0
         mem[34]= 32'h80000304;   // Color
@@ -103,6 +103,7 @@ module async_inst_bram( BRAM_rst, BRAM_clk, BRAM_en, BRAM_wen,
         mem[39]= 32'h3F800000;   // x: 1   
         mem[40]= 32'h3F800000;   // y: 1
         mem[41]= 32'h00000000;   // z: 0
+        mem[42]= 32'h0;
 		  
     end
     
