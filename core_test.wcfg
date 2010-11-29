@@ -3,14 +3,14 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="C:/Users/ajlau/Desktop/OpenGG/opengg/core_test_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="C:/Users/ajlau/Desktop/opengg/core_test_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="core_test" />
             <top_module name="glbl" />
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="47" />
+   <WVObjectSize size="55" />
    <wvobject fp_name="/core_test/bram_a_din" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">bram_a_din[31:0]</obj_property>
       <obj_property name="ObjectShortName">bram_a_din[31:0]</obj_property>
@@ -104,16 +104,6 @@
       <obj_property name="ElementShortName">raster_ready</obj_property>
       <obj_property name="ObjectShortName">raster_ready</obj_property>
    </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/count_x" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">count_x[9:0]</obj_property>
-      <obj_property name="ObjectShortName">count_x[9:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/count_y" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">count_y[8:0]</obj_property>
-      <obj_property name="ObjectShortName">count_y[8:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
    <wvobject fp_name="/core_test/core/GL_RAS/minx" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">minx[31:0]</obj_property>
       <obj_property name="ObjectShortName">minx[31:0]</obj_property>
@@ -137,10 +127,6 @@
    <wvobject fp_name="/core_test/core/GL_RAS/full" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">full</obj_property>
       <obj_property name="ObjectShortName">full</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/state" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">state[1:0]</obj_property>
-      <obj_property name="ObjectShortName">state[1:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/in_rdy" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">in_rdy</obj_property>
@@ -215,8 +201,59 @@
       <obj_property name="ObjectShortName">pixel_data[95:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/count_x" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">count_x[9:0]</obj_property>
+      <obj_property name="ObjectShortName">count_x[9:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/count_y" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">count_y[8:0]</obj_property>
+      <obj_property name="ObjectShortName">count_y[8:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/pixel_wen" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_wen</obj_property>
+      <obj_property name="ObjectShortName">pixel_wen</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/pixel_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data[95:0]</obj_property>
+      <obj_property name="ObjectShortName">pixel_data[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fifo_empty" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">fifo_empty</obj_property>
+      <obj_property name="ObjectShortName">fifo_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/pixel_fifo_empty" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_fifo_empty</obj_property>
+      <obj_property name="ObjectShortName">pixel_fifo_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/pixel_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pixel_data[95:0]</obj_property>
+      <obj_property name="ObjectShortName">pixel_data[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbw_state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fbw_state[3:0]</obj_property>
+      <obj_property name="ObjectShortName">fbw_state[3:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fb_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fb_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fb_addr[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fb_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fb_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fb_data[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
    <wvobject fp_name="/core_test/pixel_fifo_rd_en" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">pixel_fifo_rd_en</obj_property>
       <obj_property name="ObjectShortName">pixel_fifo_rd_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fb_req" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">fb_req</obj_property>
+      <obj_property name="ObjectShortName">fb_req</obj_property>
    </wvobject>
 </wave_config>

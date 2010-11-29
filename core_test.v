@@ -43,11 +43,11 @@ module core_test(
     assign test4 = test1[16:31];
     
     always 
-        #10 clk1 = ~clk1;
+        #70 clk1 = ~clk1;
     always 
-        #5 clk2 = ~clk2;
+        #50 clk2 = ~clk2;
     always 
-        #10 bram_clk = ~bram_clk;
+        #5 bram_clk = ~bram_clk;
     
     reg fb_ack;
     wire fb_req;
@@ -78,7 +78,7 @@ module core_test(
                             .bram_a_addr(32'h0), 
                             .bram_a_din(bram_a_din), 
                             .bram_a_dout(32'h0),
-                            .pixel_fifo_rd_clk(clk1), 
+                            .pixel_fifo_rd_clk(bram_clk), 
                             .pixel_fifo_dout(pixel_data), 
                             .pixel_fifo_empty(fifo_empty), 
                             .pixel_fifo_rd_en(pixel_fifo_rd_en)
@@ -98,7 +98,10 @@ module core_test(
         end
     end
     
+    wire [3:0] fbw_state;
+    
     fbwriter fbwriter(
+                .state(fbw_state),
                 .reset(1'b0),
                 .fifo_data(pixel_data),
                 .fifo_empty(fifo_empty),
