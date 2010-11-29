@@ -387,7 +387,7 @@ parameter COLOR_TYPE_SIZE=96;
             begin
             wr_en <= 1;
             /* Pack data into fifo */
-            wr_data <= {{6'b0, count_x}, {7'b0, count_y}, 8'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0, 32'b0};
+            wr_data <= {{7'b0, count_y}, {6'b0, count_x}, 8'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0, 32'b0};
             if (full == 0) 
               begin
               cx1_reg <= cx1_decr; 
