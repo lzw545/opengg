@@ -60,7 +60,7 @@ parameter C_MST_DWIDTH                   = 32;
 // FIFO interface
 input      [0 : RAST_FBW_FIFO_LEN-1]      fifo_data;
 input                                     fifo_empty;
-output  reg                               fifo_rd_en;
+output reg                                fifo_rd_en = 0;
 
 input                                     reset;
 
@@ -91,16 +91,15 @@ output  reg      [0 : 3]                        state = 0;
   reg                                     go_write;
   
   // writer registers
-  reg      [0 : LINE_LEN-1]               line  = 'b0;
-  reg      [0 : COL_LEN-1]                col   = 'b0;
-  reg      [0 : 31]                       color = 'b0;
-  reg                                     mst_wr_req;
+  wire     [0 : LINE_LEN-1]               line  = fifo_data[15-LINE_LEN+1:15];
+  wire     [0 : COL_LEN-1]                col   = fifo_data[31-COL_LEN+1:31];
+  wire     [0 : 31]                       color = fifo_data[32:63];
+  reg                                    completed = 1;
 
   
 
   // assign IPIF input wires
   assign IP2Bus_MstRd_Req                    = 0;
-  assign IP2Bus_MstWr_Req                    = mst_wr_req;
   assign IP2Bus_Mst_Addr[0 : 10]             = FB_BASE_ADDR;
   assign IP2Bus_Mst_Addr[11:19]              = line;
   assign IP2Bus_Mst_Addr[20:29]              = col;
@@ -113,81 +112,44 @@ output  reg      [0 : 3]                        state = 0;
   // writer state machine
 parameter OFF_STATE=0, FIFO_READ=5, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_RECVD=4;
 
+  FDRSE FDRS_IP2Bus_MstWr_Req (.Q(IP2Bus_MstWr_Req),.CE(1'b0),.C(PLB_clk),.D(1'b0),
+                               .R(Bus2IP_Mst_CmdAck | Bus2IP_Reset | reset), .S(fifo_rd_en));
+                             
+  //FDRSE FDRS_completed (.Q(completed),.CE(1'b0),.C(PLB_clk),.D(1'b1),
+  //                      .S(Bus2IP_Mst_Cmplt| Bus2IP_Reset | reset), .R(IP2Bus_MstRd_Req));
+  
   always @ (posedge PLB_clk)
     begin
-      case (state)
-        OFF_STATE:
-          if ( Bus2IP_Mst_Error || reset )
-            state     <= ERROR_RECVD;
-          else if ( fifo_empty == 0 )
-            state     <= FIFO_READ;
-          else
-            state     <= OFF_STATE;
-        
-        FIFO_READ:
-          if ( Bus2IP_Mst_Error || reset )
-            state     <= ERROR_RECVD;
-          else
-            state     <= PRESENT_STATE;       
-        
-        PRESENT_STATE: // data to ipif
-          if ( Bus2IP_Mst_Error )
-            state     <= ERROR_RECVD;
-          else
-            state     <= WAIT_FOR_ACK;
-             
-        WAIT_FOR_ACK:
-          if ( Bus2IP_Mst_Error || reset )
-            state     <= ERROR_RECVD;
-          else if ( Bus2IP_Mst_CmdAck && Bus2IP_Mst_Cmplt )
-            state     <= OFF_STATE;
-          else if ( Bus2IP_Mst_CmdAck )
-            state     <= WAIT_FOR_CMPLT;
-          else
-            state     <= WAIT_FOR_ACK;
-            
-        WAIT_FOR_CMPLT:
-          if ( Bus2IP_Mst_Error || reset )
-            state     <= ERROR_RECVD;
-          else if ( Bus2IP_Mst_Cmplt )
-            state     <= OFF_STATE;
-          else
-            state     <= WAIT_FOR_CMPLT;
-        
-        ERROR_RECVD:
-          if ( Bus2IP_Mst_Error || reset )
-            state     <= ERROR_RECVD;
-          else
-            state     <= OFF_STATE;
-            
-      endcase
-    end
+	   if ( reset || Bus2IP_Reset ) 
+		  completed <= 1;
+		else if ( Bus2IP_Mst_Cmplt ) 
+		  completed <= 1;
+      else if ( completed && IP2Bus_MstWr_Req )
+		  completed <= 0;
+		else
+		  completed <= completed;
+	 end
   
-  // request signal
-  always @ *
-    if ( state == PRESENT_STATE  || state == WAIT_FOR_ACK )
-      mst_wr_req = 1;
-    else
-      mst_wr_req = 0;  
-  
-  // dequeue from fifo on trasition from IDLE to WRITE
   always @ (posedge PLB_clk)
-	fifo_rd_en <= ( state == OFF_STATE && !fifo_empty );
-
-  // reset on error
-  always @ (posedge PLB_clk)
-    IP2Bus_Mst_Reset <= ( state == ERROR_RECVD );
-  
+    begin
+      if ( reset || Bus2IP_Reset )
+        fifo_rd_en <= 0;
+      else if ( !fifo_empty && completed && !fifo_rd_en )
+        fifo_rd_en <= 1;
+      else
+        fifo_rd_en <= 0;
+	 end
+  /*
   // assign line and col and color regs
-  always @ (posedge PLB_clk)
+  always @ *
     begin
-      if ( (state == FIFO_READ) )
-	    begin
+      //if ( (state == PRESENT_STATE) )
+       //begin
           // fifo_data is valid
-          line  <= fifo_data[15-LINE_LEN+1:15];
-          col   <= fifo_data[31-COL_LEN+1:31];
-          color <= fifo_data[32:63];
-		end
-    end
+          line  = fifo_data[15-LINE_LEN+1:15];
+          col   = fifo_data[31-COL_LEN+1:31];
+          color = fifo_data[32:63];
+      //end
+    end */
  
 endmodule
