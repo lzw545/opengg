@@ -35,7 +35,7 @@ module core_test(
     wire [95:0] pixel_data;
     
     wire fifo_empty;
-    reg pixel_fifo_rd_en;
+    wire pixel_fifo_rd_en;
     
     assign test1 = test;
     assign test2 = test;
@@ -49,39 +49,28 @@ module core_test(
     always 
         #10 bram_clk = ~bram_clk;
     
-    reg state;
+    reg fb_ack;
+    wire fb_req;
+    wire [31:0] fb_addr;
+    wire [31:0] fb_data; 
+    
+    reg core_reset;
     
     initial begin
         clk1 <= 0;
         clk2 <= 0;
         bram_clk <= 0;
         test <= 32'hABCD;
-        pixel_fifo_rd_en <= 0;
-        state <= 0;
-    end
-    
-    
-    
-    always @ (posedge clk1)
-    begin
-        if (state == 0)
-        begin
-            if (~fifo_empty)
-            begin
-                pixel_fifo_rd_en <= 1;
-                state <= 1;
-            end
-        end
-        else if (state == 1)
-        begin
-            pixel_fifo_rd_en <= 0;
-            state <= 0;
-        end
+        core_reset <= 0;
+        # 100
+        core_reset <= 1;
+        # 10
+        core_reset <= 0;
     end
     
     gl_core_internal core ( .clk1(clk1), 
                             .clk2(clk2), 
-                            .reset(1'b0), 
+                            .reset(core_reset), 
                             .bram_a_clk(bram_clk), 
                             .bram_a_en(1'b1), 
                             .bram_a_write_en(4'b0), 
@@ -94,5 +83,36 @@ module core_test(
                             .pixel_fifo_empty(fifo_empty), 
                             .pixel_fifo_rd_en(pixel_fifo_rd_en)
                           );
+    
+
+    
+    always @ (posedge bram_clk)
+    begin
+        if (fb_req)
+        begin
+            fb_ack <= 1;
+        end
+        else
+        begin
+            fb_ack <= 0;
+        end
+    end
+    
+    fbwriter fbwriter(
+                .reset(1'b0),
+                .fifo_data(pixel_data),
+                .fifo_empty(fifo_empty),
+                .fifo_rd_en(pixel_fifo_rd_en),
+                
+                .PLB_clk(bram_clk),
+                .IP2Bus_MstWr_Req(fb_req),
+                .IP2Bus_Mst_Addr(fb_addr),
+                
+                .Bus2IP_Mst_CmdAck(fb_ack),
+                .Bus2IP_Mst_Cmplt(fb_ack),
+                .IP2Bus_MstWr_d(fb_data)
+                
+                
+    );
 
 endmodule

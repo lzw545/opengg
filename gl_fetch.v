@@ -154,6 +154,7 @@ module gl_fetch(inst_out, inst_in, inst_addr,
             begin
                 inst_addr <= text_start;
                 inst_out <= reset_value;
+                tmp_stall <= 0;
             end
     end
 endmodule

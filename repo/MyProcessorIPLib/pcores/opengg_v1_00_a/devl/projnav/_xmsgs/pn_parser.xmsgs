@@ -8,44 +8,5 @@
 <!-- Copyright (c) 1995-2010 Xilinx, Inc.  All rights reserved.    -->
 
 <messages>
-<msg type="info" file="ProjectMgmt" num="1574" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/ajlau/Desktop/OpenGG/opengg/async_inst_bram.v\&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1574" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/ajlau/Desktop/OpenGG/opengg/gl_core.v\&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1065" >&quot;<arg fmt="%s" index="1">C:/Users/ajlau/Desktop/OpenGG/opengg/gl_core.v</arg>&quot; Line <arg fmt="%d" index="2">21</arg>. <arg fmt="%s" index="3">Include file found: &apos;C:/Users/ajlau/Desktop/OpenGG/opengg/gl_defines.v&apos; in file &quot;C:/Users/ajlau/Desktop/OpenGG/opengg/gl_core.v&quot; line 21
-</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1574" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/ajlau/Desktop/OpenGG/opengg/gl_decode.v\&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1065" >&quot;<arg fmt="%s" index="1">C:/Users/ajlau/Desktop/OpenGG/opengg/gl_decode.v</arg>&quot; Line <arg fmt="%d" index="2">22</arg>. <arg fmt="%s" index="3">Include file found: &apos;C:/Users/ajlau/Desktop/OpenGG/opengg/gl_defines.v&apos; in file &quot;C:/Users/ajlau/Desktop/OpenGG/opengg/gl_decode.v&quot; line 22
-</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1574" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/ajlau/Desktop/OpenGG/opengg/gl_fetch.v\&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1065" >&quot;<arg fmt="%s" index="1">C:/Users/ajlau/Desktop/OpenGG/opengg/gl_fetch.v</arg>&quot; Line <arg fmt="%d" index="2">21</arg>. <arg fmt="%s" index="3">Include file found: &apos;C:/Users/ajlau/Desktop/OpenGG/opengg/gl_defines.v&apos; in file &quot;C:/Users/ajlau/Desktop/OpenGG/opengg/gl_fetch.v&quot; line 21
-</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1574" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/ajlau/Desktop/OpenGG/opengg/gl_rasterizer.v\&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1574" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/ajlau/Desktop/OpenGG/opengg/matrix_ctrl.v\&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1574" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/ajlau/Desktop/OpenGG/opengg/matrix_mul.v\&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1574" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/ajlau/Desktop/OpenGG/opengg/matrix_row_comp.v\&quot; into library work</arg>
-</msg>
-
-<msg type="info" file="ProjectMgmt" num="1574" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/ajlau/Desktop/OpenGG/opengg/rasterizer_testbench/fifo_reg.v\&quot; into library work</arg>
-</msg>
-
 </messages>
 

@@ -21,7 +21,7 @@
 
 `include "gl_defines.v"
 
-module gl_decode( clk, opcode, imm, type, 
+module gl_decode( rst, clk, opcode, imm, type, 
                   bram_addr_out, bram_addr_in,
                   bram_read_in_0, bram_read_in_1, bram_read_in_2, bram_read_in_3,
                   viewport_x, viewport_y, viewport_width, viewport_height,
@@ -38,6 +38,7 @@ module gl_decode( clk, opcode, imm, type,
     parameter
         reset_value = 0;
         
+    input                       rst;
     input                       clk;
     
     input   [7:0]               opcode;
@@ -110,213 +111,223 @@ module gl_decode( clk, opcode, imm, type,
     end
     
     always@(posedge clk) begin
-        case(opcode)
-        `OP_BEGIN:
-            begin 
-            end
-        `OP_END:
-            begin
-            end
-        //`OP_VERTEX:
-        8'b00000011:
-            begin
-                case (stall_count)
-                0:
-                    begin
-                        matrix_load_id_en <= 0;
-                        fifo_write_en <= 0;
-
-						bram_mux_sel <= 0;
-                        matrix_mul_en <= 1;                     // enable modelview matrix multiply
-                        matrix_mul_type <= 0;                   // select 1x4 multiply mode
-                        matrix_mode_out <= 0;
-                        bram_addr_out <= bram_addr_in;
-                        stall <= 1;
-                        stall_count <= 9;
-                    end
-                6:                                              // modelview matrix multiply is done
-                    begin
-                        matrix_mode_out <= 1;						 // select projection matrix
-                        matrix_mul_en <= 1;
-                        stall_count <= stall_count - 1;
-                    end
-
-                3:                                              
-                    begin
-                        stall_count <= stall_count - 1;
-                    end
-                2:                                              // projection matrix multiply is done
-                    begin
-                        stall_count <= stall_count - 1;
-								perspective_div_en <= 1;
-                        stall <= 0;
-                    end
-
-                1:                                              // perspective division is done
-                    begin
-                        perspective_div_en <= 0;
-                        fifo_write_en <= 1;
-                        matrix_mode_mux_sel <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-
-                default:
-                    begin
-                        matrix_mul_en <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-
-                endcase
-            end
-        //`OP_COLOR:
-        8'b00000100:
-            begin
-                case (stall_count)
+        if (rst)
+        begin
+            matrix_load_id_en <= 0;
+            fifo_write_en <= 0;
+            stall <= 0;
+            stall_count <= 0;
+        end
+        else
+        begin
+            case(opcode)
+            `OP_BEGIN:
+                begin 
+                end
+            `OP_END:
+                begin
+                end
+            //`OP_VERTEX:
+            8'b00000011:
+                begin
+                    case (stall_count)
                     0:
-                    begin
-                        matrix_load_id_en <= 0;
-                        fifo_write_en <= 0;
+                        begin
+                            matrix_load_id_en <= 0;
+                            fifo_write_en <= 0;
 
-                        bram_mux_sel  <= 0;
-                        bram_addr_out <= bram_addr_in;
-                        stall_count   <= 1;
-                    end
-                    
-                    1:
-                    begin
-                        stall_count <= 0;
-                        red_out   <= bram_read_in_0;
-                        green_out <= bram_read_in_1;
-                        blue_out  <= bram_read_in_2;
-                    end
-                endcase
-            end
-        //`OP_MATRIXMODE:
-        8'b00010000:
-            begin
-                matrix_load_id_en <= 0;
-                fifo_write_en <= 0;
+                            bram_mux_sel <= 0;
+                            matrix_mul_en <= 1;                     // enable modelview matrix multiply
+                            matrix_mul_type <= 0;                   // select 1x4 multiply mode
+                            matrix_mode_out <= 0;
+                            bram_addr_out <= bram_addr_in;
+                            stall <= 1;
+                            stall_count <= 9;
+                        end
+                    6:                                              // modelview matrix multiply is done
+                        begin
+                            matrix_mode_out <= 1;						 // select projection matrix
+                            matrix_mul_en <= 1;
+                            stall_count <= stall_count - 1;
+                        end
 
-                curr_matrix_mode <= imm[0];
-            end
-        //`OP_MULTMATRIX:
-        8'b00010001:
-            begin
-                case (stall_count)
-                    0:
-                    begin
-                        matrix_load_id_en <= 0;
-                        fifo_write_en <= 0;
+                    3:                                              
+                        begin
+                            stall_count <= stall_count - 1;
+                        end
+                    2:                                              // projection matrix multiply is done
+                        begin
+                            stall_count <= stall_count - 1;
+                                    perspective_div_en <= 1;
+                            stall <= 0;
+                        end
 
-                        matrix_mul_en <= 1;
-                        matrix_mul_type <= 1;
-                        bram_addr_out <= bram_addr_in;
-                        bram_mux_sel <= 1;                      // let matrix_ctrl select the bram address
-                        matrix_mode_out <= curr_matrix_mode;
-                        stall <= 1;
-                        stall_count <= 15;
-                    end
-                    
-                    2:
-                    begin
-                        stall <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-                    
-                    1:
-                    begin
-                        stall_count <= stall_count - 1;
-                    end
-                    
+                    1:                                              // perspective division is done
+                        begin
+                            perspective_div_en <= 0;
+                            fifo_write_en <= 1;
+                            matrix_mode_mux_sel <= 0;
+                            stall_count <= stall_count - 1;
+                        end
+
                     default:
-                    begin
-                        matrix_mul_en <= 0;
-                        stall_count <= stall_count - 1;
-                    end
-                endcase
-            end
-        //`OP_LOADID:
-        8'b00010010:
-            begin
-                matrix_load_id_en <= 1;
-                fifo_write_en <= 0;
+                        begin
+                            matrix_mul_en <= 0;
+                            stall_count <= stall_count - 1;
+                        end
 
-                bram_mux_sel <= 0;
-                matrix_mode_out <= curr_matrix_mode;
-            end
-        //`OP_LOADMATRIX:
-        8'b00010011:
-            begin
-                case (stall_count)
-                0:
-                    begin
-                        matrix_load_id_en <= 0;
-                        fifo_write_en <= 0;
+                    endcase
+                end
+            //`OP_COLOR:
+            8'b00000100:
+                begin
+                    case (stall_count)
+                        0:
+                        begin
+                            matrix_load_id_en <= 0;
+                            fifo_write_en <= 0;
 
-                    
-                        matrix_load_en <= 1;
-                        stall <= 1;
-                        stall_count <= 3;
-                        bram_addr_out <= bram_addr_in;
-								bram_mux_sel <= 0;
-                        matrix_mode_out <= curr_matrix_mode;
-                    end
-                1:
-                    begin
-                        stall_count <= stall_count - 1;
-                        bram_addr_out <= bram_addr_out + 4;
-                    end
-                2:
-                    begin
-                        stall_count <= stall_count - 1;
-                        bram_addr_out <= bram_addr_out + 4;
-                        stall <= 0;
-                    end
-                default:
-                    begin
-                        matrix_load_en <= 0;
-                        bram_addr_out <= bram_addr_out + 4;
-                        stall_count <= stall_count - 1;
-                    end
-                endcase
-            end
-        //`OP_PUSHMATRIX:
-        8'b00010100:
-            begin
-                matrix_load_id_en <= 0;
-                fifo_write_en <= 0;
+                            bram_mux_sel  <= 0;
+                            bram_addr_out <= bram_addr_in;
+                            stall_count   <= 1;
+                        end
+                        
+                        1:
+                        begin
+                            stall_count <= 0;
+                            red_out   <= bram_read_in_0;
+                            green_out <= bram_read_in_1;
+                            blue_out  <= bram_read_in_2;
+                        end
+                    endcase
+                end
+            //`OP_MATRIXMODE:
+            8'b00010000:
+                begin
+                    matrix_load_id_en <= 0;
+                    fifo_write_en <= 0;
+
+                    curr_matrix_mode <= imm[0];
+                end
+            //`OP_MULTMATRIX:
+            8'b00010001:
+                begin
+                    case (stall_count)
+                        0:
+                        begin
+                            matrix_load_id_en <= 0;
+                            fifo_write_en <= 0;
+
+                            matrix_mul_en <= 1;
+                            matrix_mul_type <= 1;
+                            bram_addr_out <= bram_addr_in;
+                            bram_mux_sel <= 1;                      // let matrix_ctrl select the bram address
+                            matrix_mode_out <= curr_matrix_mode;
+                            stall <= 1;
+                            stall_count <= 15;
+                        end
+                        
+                        2:
+                        begin
+                            stall <= 0;
+                            stall_count <= stall_count - 1;
+                        end
+                        
+                        1:
+                        begin
+                            stall_count <= stall_count - 1;
+                        end
+                        
+                        default:
+                        begin
+                            matrix_mul_en <= 0;
+                            stall_count <= stall_count - 1;
+                        end
+                    endcase
+                end
+            //`OP_LOADID:
+            8'b00010010:
+                begin
+                    matrix_load_id_en <= 1;
+                    fifo_write_en <= 0;
+
+                    bram_mux_sel <= 0;
+                    matrix_mode_out <= curr_matrix_mode;
+                end
+            //`OP_LOADMATRIX:
+            8'b00010011:
+                begin
+                    case (stall_count)
+                    0:
+                        begin
+                            matrix_load_id_en <= 0;
+                            fifo_write_en <= 0;
+
+                        
+                            matrix_load_en <= 1;
+                            stall <= 1;
+                            stall_count <= 3;
+                            bram_addr_out <= bram_addr_in;
+                                    bram_mux_sel <= 0;
+                            matrix_mode_out <= curr_matrix_mode;
+                        end
+                    1:
+                        begin
+                            stall_count <= stall_count - 1;
+                            bram_addr_out <= bram_addr_out + 4;
+                        end
+                    2:
+                        begin
+                            stall_count <= stall_count - 1;
+                            bram_addr_out <= bram_addr_out + 4;
+                            stall <= 0;
+                        end
+                    default:
+                        begin
+                            matrix_load_en <= 0;
+                            bram_addr_out <= bram_addr_out + 4;
+                            stall_count <= stall_count - 1;
+                        end
+                    endcase
+                end
+            //`OP_PUSHMATRIX:
+            8'b00010100:
+                begin
+                    matrix_load_id_en <= 0;
+                    fifo_write_en <= 0;
 
 
-                matrix_mode_out <= curr_matrix_mode;
-                push_en <= 1;
-            end
-        //`OP_POPMATRIX:
-        8'b00010101:
-            begin
-                matrix_load_id_en <= 0;
-                fifo_write_en <= 0;
+                    matrix_mode_out <= curr_matrix_mode;
+                    push_en <= 1;
+                end
+            //`OP_POPMATRIX:
+            8'b00010101:
+                begin
+                    matrix_load_id_en <= 0;
+                    fifo_write_en <= 0;
 
 
-                matrix_mode_out <= curr_matrix_mode;
-                pop_en <= 1;
-            end
-        //`OP_VIEWPORT:
-        8'b00011001:
-            begin
-                matrix_load_id_en <= 0;
-                fifo_write_en <= 0;
+                    matrix_mode_out <= curr_matrix_mode;
+                    pop_en <= 1;
+                end
+            //`OP_VIEWPORT:
+            8'b00011001:
+                begin
+                    matrix_load_id_en <= 0;
+                    fifo_write_en <= 0;
 
 
-                viewport_x      <= bram_read_in_0;
-                viewport_y      <= bram_read_in_1;
-                viewport_width  <= bram_read_in_2;
-                viewport_height <= bram_read_in_3;
-            end
-        default:
-            begin
-                matrix_load_id_en <= 0;
-                fifo_write_en <= 0;
-            end
-        endcase
+                    viewport_x      <= bram_read_in_0;
+                    viewport_y      <= bram_read_in_1;
+                    viewport_width  <= bram_read_in_2;
+                    viewport_height <= bram_read_in_3;
+                end
+            default:
+                begin
+                    matrix_load_id_en <= 0;
+                    fifo_write_en <= 0;
+                end
+            endcase
+        end
     end
 endmodule
