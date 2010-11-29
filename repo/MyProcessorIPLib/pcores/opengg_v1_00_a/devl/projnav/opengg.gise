@@ -21,8 +21,119 @@
 
   <sourceproject xmlns="http://www.xilinx.com/XMLSchema" xil_pn:fileType="FILE_XISE" xil_pn:name="opengg.xise"/>
 
-  <files xmlns="http://www.xilinx.com/XMLSchema"/>
+  <files xmlns="http://www.xilinx.com/XMLSchema">
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name=".lso"/>
+    <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="_ngo"/>
+    <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/map.xmsgs"/>
+    <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/ngdbuild.xmsgs"/>
+    <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/par.xmsgs"/>
+    <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/trce.xmsgs"/>
+    <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/xst.xmsgs"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="async_inst_bram.prj"/>
+    <file xil_pn:fileType="FILE_XST_STX" xil_pn:name="async_inst_bram.stx"/>
+    <file xil_pn:fileType="FILE_XST" xil_pn:name="async_inst_bram.xst"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGDBUILD_LOG" xil_pn:name="gl_core_internal.bld"/>
+    <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="gl_core_internal.cmd_log"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="gl_core_internal.lso"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NCD" xil_pn:name="gl_core_internal.ncd" xil_pn:subbranch="Par"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGC" xil_pn:name="gl_core_internal.ngc"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGD" xil_pn:name="gl_core_internal.ngd"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGR" xil_pn:name="gl_core_internal.ngr"/>
+    <file xil_pn:fileType="FILE_PAD_MISC" xil_pn:name="gl_core_internal.pad"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_PAR_REPORT" xil_pn:name="gl_core_internal.par" xil_pn:subbranch="Par"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_PCF" xil_pn:name="gl_core_internal.pcf" xil_pn:subbranch="Map"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="gl_core_internal.prj"/>
+    <file xil_pn:fileType="FILE_TRCE_MISC" xil_pn:name="gl_core_internal.ptwx"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_STX" xil_pn:name="gl_core_internal.stx"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_REPORT" xil_pn:name="gl_core_internal.syr"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_TIMING_TXT_REPORT" xil_pn:name="gl_core_internal.twr" xil_pn:subbranch="Par"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_TIMING_XML_REPORT" xil_pn:name="gl_core_internal.twx" xil_pn:subbranch="Par"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_UNROUTES" xil_pn:name="gl_core_internal.unroutes" xil_pn:subbranch="Par"/>
+    <file xil_pn:fileType="FILE_XPI" xil_pn:name="gl_core_internal.xpi"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="gl_core_internal.xst"/>
+    <file xil_pn:fileType="FILE_HTML" xil_pn:name="gl_core_internal_envsettings.html"/>
+    <file xil_pn:fileType="FILE_NCD" xil_pn:name="gl_core_internal_guide.ncd" xil_pn:origination="imported"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_MAP_REPORT" xil_pn:name="gl_core_internal_map.map" xil_pn:subbranch="Map"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_MAP_REPORT" xil_pn:name="gl_core_internal_map.mrp" xil_pn:subbranch="Map"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NCD" xil_pn:name="gl_core_internal_map.ncd" xil_pn:subbranch="Map"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGM" xil_pn:name="gl_core_internal_map.ngm" xil_pn:subbranch="Map"/>
+    <file xil_pn:fileType="FILE_XRPT" xil_pn:name="gl_core_internal_map.xrpt"/>
+    <file xil_pn:fileType="FILE_XRPT" xil_pn:name="gl_core_internal_ngdbuild.xrpt"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_PAD_EXCEL_REPORT" xil_pn:name="gl_core_internal_pad.csv" xil_pn:subbranch="Par"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_PAD_TXT_REPORT" xil_pn:name="gl_core_internal_pad.txt" xil_pn:subbranch="Par"/>
+    <file xil_pn:fileType="FILE_XRPT" xil_pn:name="gl_core_internal_par.xrpt"/>
+    <file xil_pn:fileType="FILE_HTML" xil_pn:name="gl_core_internal_summary.html"/>
+    <file xil_pn:fileType="FILE_FITTER_REPORT" xil_pn:name="gl_core_internal_summary.xml"/>
+    <file xil_pn:fileType="FILE_WEBTALK" xil_pn:name="gl_core_internal_usage.xml"/>
+    <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="opengg.cmd_log"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="opengg.lso"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGC" xil_pn:name="opengg.ngc"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGR" xil_pn:name="opengg.ngr"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="opengg.prj"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_STX" xil_pn:name="opengg.stx"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_REPORT" xil_pn:name="opengg.syr"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="opengg.xst"/>
+    <file xil_pn:fileType="FILE_HTML" xil_pn:name="opengg_envsettings.html"/>
+    <file xil_pn:fileType="FILE_HTML" xil_pn:name="opengg_summary.html"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="opengg_vhdl.prj"/>
+    <file xil_pn:fileType="FILE_XRPT" xil_pn:name="opengg_xst.xrpt"/>
+    <file xil_pn:fileType="FILE_FITTER_REPORT" xil_pn:name="webtalk_pn.xml"/>
+    <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="xlnx_auto_0_xdb"/>
+    <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="xst"/>
+  </files>
 
-  <transforms xmlns="http://www.xilinx.com/XMLSchema"/>
+  <transforms xmlns="http://www.xilinx.com/XMLSchema">
+    <transform xil_pn:end_ts="1290987875" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1290987875">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1290997381" xil_pn:name="TRAN_schematicsToHdl" xil_pn:prop_ck="6618379915579685156" xil_pn:start_ts="1290997381">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1290997381" xil_pn:name="TRAN_regenerateCores" xil_pn:prop_ck="6021235139471253931" xil_pn:start_ts="1290997381">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1290997381" xil_pn:name="TRAN_SubProjectAbstractToPreProxy" xil_pn:start_ts="1290997381">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1290997381" xil_pn:name="TRAN_xawsTohdl" xil_pn:prop_ck="-421078204611854218" xil_pn:start_ts="1290997381">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1290997381" xil_pn:name="TRAN_SubProjectPreToStructuralProxy" xil_pn:prop_ck="-8458126479482839362" xil_pn:start_ts="1290997381">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1290997381" xil_pn:name="TRAN_platgen" xil_pn:prop_ck="-2296953173687596555" xil_pn:start_ts="1290997381">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1291000829" xil_pn:in_ck="-4481342738875995103" xil_pn:name="TRANEXT_xstsynthesize_virtex5" xil_pn:prop_ck="4766196063296672945" xil_pn:start_ts="1291000300">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="WarningsGenerated"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name=".lso"/>
+      <outfile xil_pn:name="_xmsgs/xst.xmsgs"/>
+      <outfile xil_pn:name="opengg.lso"/>
+      <outfile xil_pn:name="opengg.ngc"/>
+      <outfile xil_pn:name="opengg.ngr"/>
+      <outfile xil_pn:name="opengg.prj"/>
+      <outfile xil_pn:name="opengg.stx"/>
+      <outfile xil_pn:name="opengg.syr"/>
+      <outfile xil_pn:name="opengg.xst"/>
+      <outfile xil_pn:name="opengg_vhdl.prj"/>
+      <outfile xil_pn:name="opengg_xst.xrpt"/>
+      <outfile xil_pn:name="webtalk_pn.xml"/>
+      <outfile xil_pn:name="xst"/>
+    </transform>
+    <transform xil_pn:end_ts="1290990757" xil_pn:name="TRAN_compileBCD2" xil_pn:prop_ck="-6719904106657735015" xil_pn:start_ts="1290990757">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForProperties"/>
+    </transform>
+  </transforms>
 
 </generated_project>

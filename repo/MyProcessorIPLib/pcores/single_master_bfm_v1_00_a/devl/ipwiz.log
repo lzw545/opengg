@@ -1,18 +1,25 @@
-Parsing PAO project file successfully ...
+Mapping logical library work (line 14) to current logical library
+single_master_bfm_v1_00_a ...
+Mapping logical library work (line 15) to current logical library
+single_master_bfm_v1_00_a ...
+Parsing XST project file successfully ...
 Analyzing HDL source files ...
 Analyzing HDL source files successfully ...
+WARNING:EDK:2028 - Option "CORE_STATE" in
+   D:\545\opengg\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a\data\sin
+   gle_master_bfm_v2_1_0.mpd line 17  is deprecated. Please use Option
+   ARCH_SUPPORT_MAP instead. 
 HDL language for the peripheral (top level) design unit single_master_bfm is
 vhdl ...
+WARNING:EDK:2221 - Project file
+   D:\545\opengg\repo\MyProcessorIPLib\pcores/single_master_bfm.prj already
+   exists, will be overwrite and removed afterward ...
 INFO:EDK:3391 - Create temporary xst project file:
-   D:\545\repo\MyProcessorIPLib\pcores/single_master_bfm.prj
+   D:\545\opengg\repo\MyProcessorIPLib\pcores/single_master_bfm.prj
 WARNING:HDLParsers:3497 - Ignoring Verilog File
-   "D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/hdl/verilog/us
-   er_logic.v"
-Compiling vhdl file
-"D:/Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hd
-l/vhdl/family_support.vhd" in Library proc_common_v3_00_a.
-Package <family_support> compiled.
-Package body <family_support> compiled.
+   "D:/545/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/hdl/ver
+   ilog/user_logic.v"
+WARNING:HDLParsers:3497 - Ignoring Verilog File "D:/545/opengg/fbwriter.v"
 Compiling vhdl file
 "D:/Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hd
 l/vhdl/proc_common_pkg.vhd" in Library proc_common_v3_00_a.
@@ -20,41 +27,19 @@ Package <proc_common_pkg> compiled.
 Package body <proc_common_pkg> compiled.
 Compiling vhdl file
 "D:/Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hd
-l/vhdl/muxf_struct_f.vhd" in Library proc_common_v3_00_a.
-Entity <muxf_struct> compiled.
-Entity <muxf_struct> (Architecture <imp>) compiled.
-Entity <muxf_struct_f> compiled.
-Entity <muxf_struct_f> (Architecture <imp>) compiled.
-Compiling vhdl file
-"D:/Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hd
-l/vhdl/cntr_incr_decr_addn_f.vhd" in Library proc_common_v3_00_a.
-Entity <cntr_incr_decr_addn_f> compiled.
-Entity <cntr_incr_decr_addn_f> (Architecture <imp>) compiled.
-Compiling vhdl file
-"D:/Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hd
-l/vhdl/dynshreg_f.vhd" in Library proc_common_v3_00_a.
-Entity <dynshreg_f> compiled.
-Entity <dynshreg_f> (Architecture <behavioral>) compiled.
-Compiling vhdl file
-"D:/Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hd
 l/vhdl/or_muxcy.vhd" in Library proc_common_v3_00_a.
 Entity <or_muxcy> compiled.
 Entity <or_muxcy> (Architecture <implementation>) compiled.
 Compiling vhdl file
 "D:/Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hd
-l/vhdl/srl_fifo_rbu_f.vhd" in Library proc_common_v3_00_a.
-Entity <srl_fifo_rbu_f> compiled.
-Entity <srl_fifo_rbu_f> (Architecture <imp>) compiled.
+l/vhdl/family_support.vhd" in Library proc_common_v3_00_a.
+Package <family_support> compiled.
+Package body <family_support> compiled.
 Compiling vhdl file
 "D:/Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hd
 l/vhdl/counter_f.vhd" in Library proc_common_v3_00_a.
 Entity <counter_f> compiled.
 Entity <counter_f> (Architecture <imp>) compiled.
-Compiling vhdl file
-"D:/Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hd
-l/vhdl/srl_fifo_f.vhd" in Library proc_common_v3_00_a.
-Entity <srl_fifo_f> compiled.
-Entity <srl_fifo_f> (Architecture <imp>) compiled.
 Compiling vhdl file
 "D:/Xilinx/12.2/ISE_DS/EDK/hw/XilinxProcessorIPLib/pcores/proc_common_v3_00_a/hd
 l/vhdl/pselect_f.vhd" in Library proc_common_v3_00_a.
@@ -102,8 +87,8 @@ plbv46_master_single_v1_01_a.
 Entity <plbv46_master_single> compiled.
 Entity <plbv46_master_single> (Architecture <implementation>) compiled.
 Compiling vhdl file
-"D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/hdl/vhdl/single_m
-aster_bfm.vhd" in Library single_master_bfm_v1_00_a.
+"D:/545/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/hdl/vhdl/s
+ingle_master_bfm.vhd" in Library single_master_bfm_v1_00_a.
 Entity <single_master_bfm> compiled.
 Entity <single_master_bfm> (Architecture <IMP>) compiled.
 
@@ -114,7 +99,7 @@ INFO:EDK:1607 - IPTYPE set to value : PERIPHERAL
 INFO:EDK:1511 - IMP_NETLIST set to value : TRUE
 INFO:EDK:1486 - HDL set to value : VHDL
 WARNING:EDK:3590 - Unable to delete temporary project file
-   D:\545\repo\MyProcessorIPLib\pcores\single_master_bfm.prj : 13
+   D:\545\opengg\repo\MyProcessorIPLib\pcores\single_master_bfm.prj : 13
 WARNING:EDK:2065 - PARAMETER:_NUM_SLAVES - SLAVE PLBV46 parameter is not defined
    in the HDL source
 WARNING:EDK:2065 - PARAMETER:_NUM_SLAVES - MASTER PLBV46 parameter is not
@@ -309,13 +294,18 @@ INFO:EDK:1470 - Get attribute value CONSTANT from previous MPD file.
 INFO:EDK:1470 - Get attribute value (0, 1) from previous MPD file.
 INFO:EDK:1470 - Get attribute value (32, 64, 128) from previous MPD file.
 Copying file user_logic.v to
-D:\545\repo\MyProcessorIPLib\pcores/single_master_bfm_v1_00_a/hdl/verilog/ ...
+D:\545\opengg\repo\MyProcessorIPLib\pcores/single_master_bfm_v1_00_a/hdl/verilog
+/ ...
+Copying file fbwriter.v to
+D:\545\opengg\repo\MyProcessorIPLib\pcores/single_master_bfm_v1_00_a/hdl/verilog
+/ ...
 Copying file single_master_bfm.vhd to
-D:\545\repo\MyProcessorIPLib\pcores/single_master_bfm_v1_00_a/hdl/vhdl/ ...
+D:\545\opengg\repo\MyProcessorIPLib\pcores/single_master_bfm_v1_00_a/hdl/vhdl/
+...
 
 Thank you for using Create and Import Peripheral Wizard! Please find your
 imported peripheral under
-D:\545\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a.
+D:\545\opengg\repo\MyProcessorIPLib\pcores\single_master_bfm_v1_00_a.
 
 Summary:
 
@@ -334,6 +324,7 @@ The following HDL source files will be copied into the
 single_master_bfm_v1_00_a\hdl\verilog directory:
 
   - user_logic.v
+  - fbwriter.v
 
 The following HDL source files will be copied into the
 single_master_bfm_v1_00_a\hdl\vhdl directory:

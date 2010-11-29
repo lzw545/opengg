@@ -198,14 +198,21 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
     begin
       slv_reg1              = tmp;
       slv_reg1[12:15]       = state_l;
-    end   
+    end
+	
+	
+  always @ *
+    begin
+	  line = input_reg[15-LINE_LEN+1:15];
+	  col  = input_reg[31-COL_LEN+1:31];
+	end
 
 	fbwriter fbw (
         .state(state_l),
         
         .reset( slv_reg0 == 0 ),
     
-		.fifo_data({7'b0, line, 6'b0, row, color}), 
+		.fifo_data({7'b0, line, 6'b0, col, color}), 
 		.fifo_empty(fifo_empty), 
 		.fifo_rd_en(fifo_rd_en), 
 		.PLB_clk(Bus2IP_Clk), 
@@ -301,7 +308,7 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
         
         4'b0010 : slv_ip2bus_data <= IP2Bus_Mst_Addr;
         //4'b0001 : slv_ip2bus_data <= color;
-		4'b0001 : slv_ip2bus_data <= IP2Bus_MstWr_d;
+		  4'b0001 : slv_ip2bus_data <= IP2Bus_MstWr_d;
         
         default : slv_ip2bus_data <= 0;
       endcase

@@ -1,7 +1,7 @@
 ##############################################################################
-## Filename:          D:/545/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/data/single_master_bfm_v2_1_0.pao
+## Filename:          D:\545\repo\MyProcessorIPLib\pcores/single_master_bfm_v1_00_a/data/single_master_bfm_v2_1_0.pao
 ## Description:       Peripheral Analysis Order
-## Date:              Tue Nov 09 21:47:50 2010 (by Create and Import Peripheral Wizard)
+## Date:              Wed Nov 10 13:39:35 2010 (by Create and Import Peripheral Wizard)
 ##############################################################################
 
 lib proc_common_v3_00_a proc_common_pkg vhdl
@@ -22,5 +22,6 @@ lib proc_common_v3_00_a muxf_struct_f vhdl
 lib proc_common_v3_00_a dynshreg_f vhdl
 lib proc_common_v3_00_a srl_fifo_rbu_f vhdl
 lib proc_common_v3_00_a srl_fifo_f vhdl
+lib single_master_bfm_v1_00_a fbwriter verilog
 lib single_master_bfm_v1_00_a user_logic verilog
 lib single_master_bfm_v1_00_a single_master_bfm vhdl
