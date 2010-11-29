@@ -32,6 +32,10 @@ module core_test(
     wire [0:15] test4;
     
     wire [31:0] bram_a_din;
+    wire [95:0] pixel_data;
+    
+    wire fifo_empty;
+    reg pixel_fifo_rd_en;
     
     assign test1 = test;
     assign test2 = test;
@@ -45,14 +49,34 @@ module core_test(
     always 
         #10 bram_clk = ~bram_clk;
     
+    reg state;
+    
     initial begin
         clk1 <= 0;
         clk2 <= 0;
         bram_clk <= 0;
         test <= 32'hABCD;
-        
-        
-        
+        pixel_fifo_rd_en <= 0;
+        state <= 0;
+    end
+    
+    
+    
+    always @ (posedge clk1)
+    begin
+        if (state == 0)
+        begin
+            if (~fifo_empty)
+            begin
+                pixel_fifo_rd_en <= 1;
+                state <= 1;
+            end
+        end
+        else if (state == 1)
+        begin
+            pixel_fifo_rd_en <= 0;
+            state <= 0;
+        end
     end
     
     gl_core_internal core ( .clk1(clk1), 
@@ -64,7 +88,11 @@ module core_test(
                             .bram_a_rst(1'b0), 
                             .bram_a_addr(32'h0), 
                             .bram_a_din(bram_a_din), 
-                            .bram_a_dout(32'h0)
+                            .bram_a_dout(32'h0),
+                            .pixel_fifo_rd_clk(clk1), 
+                            .pixel_fifo_dout(pixel_data), 
+                            .pixel_fifo_empty(fifo_empty), 
+                            .pixel_fifo_rd_en(pixel_fifo_rd_en)
                           );
 
 endmodule
