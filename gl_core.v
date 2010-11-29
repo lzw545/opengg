@@ -41,7 +41,7 @@ module gl_core_internal(clk1, clk2, reset,
    
     /* Pixel Fifo Control */
     input           pixel_fifo_rd_clk;              // clk
-    output [31:0]   pixel_fifo_dout;                // data out
+    output [95:0]   pixel_fifo_dout;                // data out
     output          pixel_fifo_empty;               // fifo empty
     input           pixel_fifo_rd_en;               // dequeue signal
     

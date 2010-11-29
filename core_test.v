@@ -25,7 +25,18 @@ module core_test(
     reg clk2;
     reg bram_clk;
     
+    reg  [31:0] test;
+    wire [0:31] test1;
+    wire [31:0] test2;
+    wire [15:0] test3;
+    wire [0:15] test4;
+    
     wire [31:0] bram_a_din;
+    
+    assign test1 = test;
+    assign test2 = test;
+    assign test3 = test2[15:0];
+    assign test4 = test1[16:31];
     
     always 
         #10 clk1 = ~clk1;
@@ -38,6 +49,8 @@ module core_test(
         clk1 <= 0;
         clk2 <= 0;
         bram_clk <= 0;
+        test <= 32'hABCD;
+        
         
         
     end
