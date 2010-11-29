@@ -60,7 +60,7 @@ parameter C_MST_DWIDTH                   = 32;
 // FIFO interface
 input      [0 : RAST_FBW_FIFO_LEN-1]      fifo_data;
 input                                     fifo_empty;
-output  reg                                  fifo_rd_en;
+output  reg                               fifo_rd_en;
 
 input                                     reset;
 
@@ -172,7 +172,7 @@ parameter OFF_STATE=0, FIFO_READ=5, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CM
   
   // dequeue from fifo on trasition from IDLE to WRITE
   always @ (posedge PLB_clk)
-	 fifo_rd_en <= ( state == OFF_STATE && !fifo_empty );
+	fifo_rd_en <= ( state == OFF_STATE && !fifo_empty );
 
   // reset on error
   always @ (posedge PLB_clk)

@@ -207,7 +207,8 @@ entity opengg is
   port
   (
     -- ADD USER PORTS BELOW THIS LINE ------------------
-    --USER ports added here
+    clk1                           : in  std_logic;
+	 clk2                           : in  std_logic;
     -- ADD USER PORTS ABOVE THIS LINE ------------------
 
     -- DO NOT EDIT BELOW THIS LINE ---------------------
@@ -407,7 +408,6 @@ architecture IMP of opengg is
     generic
     (
       -- ADD USER GENERICS BELOW THIS LINE ---------------
-      --USER generics added here
       -- ADD USER GENERICS ABOVE THIS LINE ---------------
 
       -- DO NOT EDIT BELOW THIS LINE ---------------------
@@ -421,7 +421,8 @@ architecture IMP of opengg is
     port
     (
       -- ADD USER PORTS BELOW THIS LINE ------------------
-      --USER ports added here
+      clk1                           : in  std_logic;
+      clk2                           : in  std_logic;
       -- ADD USER PORTS ABOVE THIS LINE ------------------
 
       -- DO NOT EDIT BELOW THIS LINE ---------------------
@@ -615,7 +616,8 @@ begin
     port map
     (
       -- MAP USER PORTS BELOW THIS LINE ------------------
-      --USER ports mapped here
+      clk1                           => clk1,
+		clk2                           => clk2,
       -- MAP USER PORTS ABOVE THIS LINE ------------------
 
       Bus2IP_Clk                     => ipif_Bus2IP_Clk,
