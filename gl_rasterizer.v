@@ -23,10 +23,11 @@ module gl_rasterizer( clk, full, wr_data, wr_en,
           vertex_in1, vertex_in2, vertex_in3,
 		      color_in1, color_in2, color_in3 );
 
-parameter VERTEX_TYPE_SIZE=96;
-parameter RES_HEIGHT=9;
-parameter RES_LEN=10;
-parameter COLOR_TYPE_SIZE=96;
+parameter VERTEX_TYPE_SIZE = 96;
+parameter COLOR_TYPE_SIZE = 96;
+parameter LINE_LEN = 9;
+parameter COL_LEN = 10;
+
 
     input clk;
   
@@ -39,8 +40,8 @@ parameter COLOR_TYPE_SIZE=96;
     input fifo_ready;
     output reg raster_ready = 0;
     
-    reg [RES_LEN-1:0] count_x;
-    reg [RES_HEIGHT-1:0] count_y;
+    reg [COL_LEN-1:0] count_x;
+    reg [LINE_LEN-1:0] count_y;
    
     wire valid_pixel;
     wire [1:0] state_net;
@@ -304,11 +305,11 @@ parameter COLOR_TYPE_SIZE=96;
     f2i float_int_miny(miny, miny_int_32);
     f2i float_int_maxy(maxy, maxy_int_32);
     
-    assign minx_int = minx_int_32[9:0];
-    assign maxx_int = maxx_int_32[9:0];
+    assign minx_int = minx_int_32[COL_LEN-1:0];
+    assign maxx_int = maxx_int_32[COL_LEN-1:0];
     
-    assign miny_int = miny_int_32[8:0];
-    assign maxy_int = maxy_int_32[8:0];
+    assign miny_int = miny_int_32[LINE_LEN-1:0];
+    assign maxy_int = maxy_int_32[LINE_LEN-1:0];
 
     assign state_net = state;
       
@@ -342,7 +343,7 @@ parameter COLOR_TYPE_SIZE=96;
           state <= 0;       
           raster_ready <= 1;
           end
-        end
+        end 
       1:	    
         begin
         vertex_1 <= vertex_1;
@@ -359,10 +360,9 @@ parameter COLOR_TYPE_SIZE=96;
         cy3_reg <= cy3_incr;
         count_y <= count_y + 1;
         count_x <= minx_int;
-        raster_ready <= 0;
         wr_en <= 0;
         wr_data <= 0;
-        if (count_y <= maxy_int)
+        if (count_y < maxy_int)
           begin
           state <= 2;
           raster_ready <= 0;
@@ -392,7 +392,7 @@ parameter COLOR_TYPE_SIZE=96;
             begin
             wr_en <= 1;
             /* Pack data into fifo */
-            wr_data <= {{7'b0, count_y}, {6'b0, count_x}, 8'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0, 32'b0};
+            wr_data <= {7'b0, count_y, 6'b0, count_x, 8'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0, 32'b0};
             if (full == 0) 
               begin
               cx1_reg <= cx1_decr; 
