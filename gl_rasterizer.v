@@ -43,6 +43,7 @@ parameter COLOR_TYPE_SIZE=96;
     reg [RES_HEIGHT-1:0] count_y;
    
     wire valid_pixel;
+    wire [1:0] state_net;
  
     input [COLOR_TYPE_SIZE-1:0] color_in1;
     input [COLOR_TYPE_SIZE-1:0] color_in2;
@@ -206,7 +207,7 @@ parameter COLOR_TYPE_SIZE=96;
     wire [31:0] alpha_beta;
     wire [31:0] sum;
  
-    assign valid_pixel = !(alpha[31] | beta[31] | gamma[31]);
+    assign valid_pixel = !((alpha[31] && (alpha[30:0] != 31'b0)) | (beta[31] && (beta[30:0] != 31'b0)) | (gamma[31] && (gamma[30:0] != 31'b0)));
 
     fp_mul alpha_mult_1(diff_y2y3, diff_x1x2, alpha_1);
     fp_mul alpha_mult_2(diff_y1y2, diff_x2x3, alpha_2);
@@ -309,6 +310,8 @@ parameter COLOR_TYPE_SIZE=96;
     assign miny_int = miny_int_32[8:0];
     assign maxy_int = maxy_int_32[8:0];
 
+    assign state_net = state;
+    
     always @ (posedge clk)
     begin
       case (state)
