@@ -70,8 +70,8 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
           color_out <= color_out;
           color_out2 <= color_out2;
           color_out3 <= color_out3;
-          vertex_rd_en <= 1;
-          color_rd_en <= 1;
+          vertex_rd_en <= 0;
+          color_rd_en <= 0;
           hack <= 0;
           end
         else if (count < 3)
