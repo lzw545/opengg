@@ -54,14 +54,14 @@ module user_logic
   clk1,
   clk2,
   
-  /*
+  
   bram_a_clk,
   bram_a_en,
   bram_a_write_en,
   bram_a_rst, 
   bram_a_addr,
   bram_a_din,
-  bram_a_dout,*/
+  bram_a_dout,
   // -- ADD USER PORTS ABOVE THIS LINE ---------------
 
   // -- DO NOT EDIT BELOW THIS LINE ------------------
@@ -113,14 +113,14 @@ parameter C_NUM_REG                      = 4;
     input           clk1;                           // coordinate transform clk
     input           clk2;                           // raster clk
 	 
-    /* BRAM Control Signals from PLB (Port A) 
+    /* BRAM Control Signals from PLB (Port A) */
     input           bram_a_clk;                     // bram clk
     input           bram_a_en;                      // bram enable
     input  [3:0]    bram_a_write_en;                // bram write enable
     input           bram_a_rst;                     // bram reset
     input  [31:0]   bram_a_addr;                    // bram address port
     output [31:0]   bram_a_din;                     // data from bram
-    input  [31:0]   bram_a_dout;                    // data to bram */
+    input  [31:0]   bram_a_dout;                    // data to bram 
    	 
 // -- ADD USER PORTS ABOVE THIS LINE -----------------
 
@@ -179,24 +179,32 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   gl_core_internal core (.clk1(clk1),
                          .clk2(clk2),
                          .reset( slv_reg0 == 0 ),
-//                   bram_a_clk, bram_a_en, bram_a_write_en, bram_a_rst, bram_a_addr, bram_a_din, bram_a_dout,
 						 
-	      					 .pixel_fifo_rd_clk(Bus2IP_Clk),
- 	      				    .pixel_fifo_dout(pixel_fifo_dout),
-	      					 .pixel_fifo_empty(pixel_fifo_empty),
-	      					 .pixel_fifo_rd_en(pixel_fifo_rd_en) );
+                         .bram_a_clk(bram_a_clk),
+						 .bram_a_en(bram_a_en), 
+						 .bram_a_write_en(bram_a_write_en), 
+						 .bram_a_rst(bram_a_rst),
+						 .bram_a_addr(bram_a_addr), 
+						 .bram_a_din(bram_a_din),
+						 .bram_a_dout(bram_a_dout),
+						 
+	      				 .pixel_fifo_rd_clk(Bus2IP_Clk),
+ 	      				 .pixel_fifo_dout(pixel_fifo_dout),
+	      				 .pixel_fifo_empty(pixel_fifo_empty),
+	      				 .pixel_fifo_rd_en(pixel_fifo_rd_en) );
 
 
 
-	fbwriter fbw (
-      .state(state_l),
-        
+	fbwriter fbw (        
       .reset( slv_reg0 == 0 ),
     
 		.fifo_data(pixel_fifo_dout), 
 		.fifo_empty(pixel_fifo_empty), 
 		.fifo_rd_en(pixel_fifo_rd_en), 
-		.PLB_clk(Bus2IP_Clk), 
+		
+		.PLB_clk(Bus2IP_Clk),
+		
+		.Bus2IP_Reset(Bus2IP_Reset),
 		.IP2Bus_MstRd_Req(IP2Bus_MstRd_Req), 
 		.IP2Bus_MstWr_Req(IP2Bus_MstWr_Req), 
 		.IP2Bus_Mst_Addr(IP2Bus_Mst_Addr), 

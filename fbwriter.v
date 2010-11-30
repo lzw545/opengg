@@ -20,8 +20,6 @@
 //////////////////////////////////////////////////////////////////////////////////
 module fbwriter(
     // For Development
-    state,
-    
     reset,
 
     fifo_data,
@@ -74,7 +72,7 @@ output                                    IP2Bus_MstWr_Req;
 output     [0 : C_MST_AWIDTH-1]           IP2Bus_Mst_Addr;
 output     [0 : C_MST_DWIDTH/8-1]         IP2Bus_Mst_BE;
 output                                    IP2Bus_Mst_Lock;
-output  reg                                  IP2Bus_Mst_Reset;
+output                                    IP2Bus_Mst_Reset;
 input                                     Bus2IP_Mst_CmdAck;
 input                                     Bus2IP_Mst_Cmplt;
 input                                     Bus2IP_Mst_Error;
@@ -86,27 +84,18 @@ output     [0 : C_MST_DWIDTH-1]           IP2Bus_MstWr_d;
 input                                     Bus2IP_MstWr_dst_rdy_n;
 
 
-
-
-output  reg      [0 : 3]                        state = 0;
-
-  // reader registers
-  reg                                     go_write;
-  
-  // writer registers
-  //wire     [0 : LINE_LEN-1]               line  = fifo_data[15-LINE_LEN+1:15];
-  //wire     [0 : COL_LEN-1]                col   = fifo_data[31-COL_LEN+1:31];
-  //wire     [0 : 31]                       color = fifo_data[32:63];
-  
+  // writer registers  
   reg     [0 : LINE_LEN-1]               line;
   reg     [0 : COL_LEN-1]                col;
   reg     [0 : 31]                       color;
   reg                                    completed;
 
+  reg                                    wr_req;
   
 
   // assign IPIF input wires
   assign IP2Bus_MstRd_Req                    = 0;
+  assign IP2Bus_MstWr_Req                    = wr_req;
   assign IP2Bus_Mst_Addr[0 : 10]             = FB_BASE_ADDR;
   assign IP2Bus_Mst_Addr[11:19]              = line;
   assign IP2Bus_Mst_Addr[20:29]              = col;
@@ -115,16 +104,7 @@ output  reg      [0 : 3]                        state = 0;
   assign IP2Bus_Mst_BE[0 : C_MST_DWIDTH/8-1] = ~('b0);
   assign IP2Bus_Mst_Lock                     = 0;
   assign IP2Bus_MstWr_d[0 : C_MST_DWIDTH-1]  = color;
-  
-  // writer state machine
-parameter OFF_STATE=0, FIFO_READ=5, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_RECVD=4;
-
-  //FDRSE FDRS_IP2Bus_MstWr_Req (.Q(IP2Bus_MstWr_Req),.CE(1'b0),.C(PLB_clk),.D(1'b0),
-  //                             .R(Bus2IP_Mst_CmdAck | Bus2IP_Reset | reset), .S(fifo_rd_en));
-                             
-  //FDRSE FDRS_completed (.Q(completed),.CE(1'b0),.C(PLB_clk),.D(1'b1),
-  //                      .S(Bus2IP_Mst_Cmplt| Bus2IP_Reset | reset), .R(IP2Bus_MstRd_Req));
-  
+    
   always @ (posedge PLB_clk)
     begin
 	   if ( reset || Bus2IP_Reset ) 
@@ -147,21 +127,32 @@ parameter OFF_STATE=0, FIFO_READ=5, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CM
       else
         fifo_rd_en <= 0;
 	 end
+
+  // HACK!
+  reg fifo_rd_en_delayed;
+  always @ (posedge PLB_clk)
+    fifo_rd_en_delayed <= fifo_rd_en;
   
   // assign line and col and color regs
   always @ (posedge PLB_clk)
     begin
 	   if ( reset || Bus2IP_Reset )
 		  begin
-          line  <= 'h0;
-          col   <= 'h0;
-          color <= 'h0;
+          line   <= 'h0;
+          col    <= 'h0;
+          color  <= 'h0;
+			 wr_req <= 0;
 		  end
-	   else if( fifo_rd_en )
+	   else if ( fifo_rd_en_delayed )
 		  begin
-          line  <= fifo_data[15-LINE_LEN+1:15];
-          col   <= fifo_data[31-COL_LEN+1:31];
-          color <= fifo_data[32:63];
+          line   <= fifo_data[15-LINE_LEN+1:15];
+          col    <= fifo_data[31-COL_LEN+1:31];
+          color  <= fifo_data[32:63];
+			 wr_req <= 1;
+		  end
+		else if ( Bus2IP_Mst_CmdAck )
+		  begin
+		    wr_req <= 0;
 		  end
     end 
  

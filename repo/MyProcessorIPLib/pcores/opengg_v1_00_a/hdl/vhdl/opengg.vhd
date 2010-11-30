@@ -208,7 +208,16 @@ entity opengg is
   (
     -- ADD USER PORTS BELOW THIS LINE ------------------
     clk1                           : in  std_logic;
-	 clk2                           : in  std_logic;
+    clk2                           : in  std_logic;
+	
+	BRAM_Rst          : in std_logic;
+    BRAM_Clk          : in std_logic;
+    BRAM_EN           : in std_logic;
+    BRAM_WEN          : in std_logic_vector(0 to (C_SPLB_NATIVE_DWIDTH/8)-1);
+    BRAM_Addr         : in std_logic_vector(0 to C_SPLB_AWIDTH-1);
+    BRAM_Din          : out  std_logic_vector(0 to C_SPLB_NATIVE_DWIDTH-1);
+    BRAM_Dout         : in std_logic_vector(0 to C_SPLB_NATIVE_DWIDTH-1);
+	
     -- ADD USER PORTS ABOVE THIS LINE ------------------
 
     -- DO NOT EDIT BELOW THIS LINE ---------------------
@@ -423,6 +432,14 @@ architecture IMP of opengg is
       -- ADD USER PORTS BELOW THIS LINE ------------------
       clk1                           : in  std_logic;
       clk2                           : in  std_logic;
+	  
+	  bram_a_rst          : in std_logic;
+      bram_a_clk          : in std_logic;
+      bram_a_en           : in std_logic;
+      bram_a_write_en     : in std_logic_vector(0 to (C_SPLB_NATIVE_DWIDTH/8)-1);
+      bram_a_addr         : in std_logic_vector(0 to C_SPLB_AWIDTH-1);
+      bram_a_din          : out  std_logic_vector(0 to C_SPLB_NATIVE_DWIDTH-1);
+      bram_a_dout         : in std_logic_vector(0 to C_SPLB_NATIVE_DWIDTH-1);
       -- ADD USER PORTS ABOVE THIS LINE ------------------
 
       -- DO NOT EDIT BELOW THIS LINE ---------------------
@@ -618,6 +635,14 @@ begin
       -- MAP USER PORTS BELOW THIS LINE ------------------
       clk1                           => clk1,
 		clk2                           => clk2,
+		
+	  bram_a_rst  => BRAM_Rst,
+      bram_a_clk  => BRAM_Clk,
+      bram_a_en   => BRAM_EN,
+      bram_a_write_en  => BRAM_WEN,
+      bram_a_addr => BRAM_Addr,
+      bram_a_din  => BRAM_Din,
+      bram_a_dout => BRAM_Dout,
       -- MAP USER PORTS ABOVE THIS LINE ------------------
 
       Bus2IP_Clk                     => ipif_Bus2IP_Clk,
