@@ -29,6 +29,8 @@ module fbwriter(
     fifo_rd_en,
     
     PLB_clk,
+	 
+	 Bus2IP_Reset,    
     IP2Bus_MstRd_Req,
     IP2Bus_MstWr_Req,
     IP2Bus_Mst_Addr,
@@ -66,6 +68,7 @@ input                                     reset;
 
 // PLB interface
 input                                     PLB_clk;
+input                                     Bus2IP_Reset;
 output                                    IP2Bus_MstRd_Req;
 output                                    IP2Bus_MstWr_Req;
 output     [0 : C_MST_AWIDTH-1]           IP2Bus_Mst_Addr;
@@ -91,10 +94,14 @@ output  reg      [0 : 3]                        state = 0;
   reg                                     go_write;
   
   // writer registers
-  wire     [0 : LINE_LEN-1]               line  = fifo_data[15-LINE_LEN+1:15];
-  wire     [0 : COL_LEN-1]                col   = fifo_data[31-COL_LEN+1:31];
-  wire     [0 : 31]                       color = fifo_data[32:63];
-  reg                                    completed = 1;
+  //wire     [0 : LINE_LEN-1]               line  = fifo_data[15-LINE_LEN+1:15];
+  //wire     [0 : COL_LEN-1]                col   = fifo_data[31-COL_LEN+1:31];
+  //wire     [0 : 31]                       color = fifo_data[32:63];
+  
+  reg     [0 : LINE_LEN-1]               line;
+  reg     [0 : COL_LEN-1]                col;
+  reg     [0 : 31]                       color;
+  reg                                    completed;
 
   
 
@@ -112,8 +119,8 @@ output  reg      [0 : 3]                        state = 0;
   // writer state machine
 parameter OFF_STATE=0, FIFO_READ=5, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CMPLT=3, ERROR_RECVD=4;
 
-  FDRSE FDRS_IP2Bus_MstWr_Req (.Q(IP2Bus_MstWr_Req),.CE(1'b0),.C(PLB_clk),.D(1'b0),
-                               .R(Bus2IP_Mst_CmdAck | Bus2IP_Reset | reset), .S(fifo_rd_en));
+  //FDRSE FDRS_IP2Bus_MstWr_Req (.Q(IP2Bus_MstWr_Req),.CE(1'b0),.C(PLB_clk),.D(1'b0),
+  //                             .R(Bus2IP_Mst_CmdAck | Bus2IP_Reset | reset), .S(fifo_rd_en));
                              
   //FDRSE FDRS_completed (.Q(completed),.CE(1'b0),.C(PLB_clk),.D(1'b1),
   //                      .S(Bus2IP_Mst_Cmplt| Bus2IP_Reset | reset), .R(IP2Bus_MstRd_Req));
@@ -134,22 +141,28 @@ parameter OFF_STATE=0, FIFO_READ=5, PRESENT_STATE=1, WAIT_FOR_ACK=2, WAIT_FOR_CM
     begin
       if ( reset || Bus2IP_Reset )
         fifo_rd_en <= 0;
+		// want to make fifo_rd_en a pulse
       else if ( !fifo_empty && completed && !fifo_rd_en )
         fifo_rd_en <= 1;
       else
         fifo_rd_en <= 0;
 	 end
-  /*
+  
   // assign line and col and color regs
-  always @ *
+  always @ (posedge PLB_clk)
     begin
-      //if ( (state == PRESENT_STATE) )
-       //begin
-          // fifo_data is valid
-          line  = fifo_data[15-LINE_LEN+1:15];
-          col   = fifo_data[31-COL_LEN+1:31];
-          color = fifo_data[32:63];
-      //end
-    end */
+	   if ( reset || Bus2IP_Reset )
+		  begin
+          line  <= 'h0;
+          col   <= 'h0;
+          color <= 'h0;
+		  end
+	   else if( fifo_rd_en )
+		  begin
+          line  <= fifo_data[15-LINE_LEN+1:15];
+          col   <= fifo_data[31-COL_LEN+1:31];
+          color <= fifo_data[32:63];
+		  end
+    end 
  
 endmodule
