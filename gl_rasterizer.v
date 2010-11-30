@@ -311,7 +311,7 @@ parameter COLOR_TYPE_SIZE=96;
     assign maxy_int = maxy_int_32[8:0];
 
     assign state_net = state;
-    
+      
     always @ (posedge clk)
     begin
       case (state)
@@ -331,16 +331,16 @@ parameter COLOR_TYPE_SIZE=96;
         cx3_reg <= 0;
         count_y <= miny_int - 1;
         wr_en <= 0;
-        wr_data <= 0;
+        wr_data <= 0;          
         if (fifo_ready)
           begin
-          state <= 1;
-          raster_ready <= 1;
+          state <= 1;        
+          raster_ready <= 0;
           end
         else
           begin
-          raster_ready <= 0;
-          state <= 0;
+          state <= 0;       
+          raster_ready <= 1;
           end
         end
       1:	    
@@ -365,10 +365,12 @@ parameter COLOR_TYPE_SIZE=96;
         if (count_y <= maxy_int)
           begin
           state <= 2;
+          raster_ready <= 0;
           end
         else
           begin
           state <= 0;
+          raster_ready <= 1;
           end
         end
 	    2: 
