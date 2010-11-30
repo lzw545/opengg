@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="58" />
+   <WVObjectSize size="57" />
    <wvobject fp_name="/core_test/bram_a_din" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">bram_a_din[31:0]</obj_property>
       <obj_property name="ObjectShortName">bram_a_din[31:0]</obj_property>
@@ -67,6 +67,36 @@
       <obj_property name="ElementShortName">color_rd_en</obj_property>
       <obj_property name="ObjectShortName">color_rd_en</obj_property>
    </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/x1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">x1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">x1[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/x2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">x2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">x2[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/x3" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">x3[31:0]</obj_property>
+      <obj_property name="ObjectShortName">x3[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/y1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">y1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">y1[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/y2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">y2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">y2[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/y3" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">y3[31:0]</obj_property>
+      <obj_property name="ObjectShortName">y3[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
    <wvobject fp_name="/core_test/core/fifo_peek/vertex_out" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">vertex_out[95:0]</obj_property>
       <obj_property name="ObjectShortName">vertex_out[95:0]</obj_property>
@@ -95,6 +125,22 @@
    <wvobject fp_name="/core_test/core/GL_RAS/wr_data" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">wr_data[95:0]</obj_property>
       <obj_property name="ObjectShortName">wr_data[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/vertex_1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_1[95:0]</obj_property>
+      <obj_property name="ObjectShortName">vertex_1[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/vertex_2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_2[95:0]</obj_property>
+      <obj_property name="ObjectShortName">vertex_2[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/vertex_3" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">vertex_3[95:0]</obj_property>
+      <obj_property name="ObjectShortName">vertex_3[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/GL_RAS/wr_en" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">wr_en</obj_property>
@@ -131,6 +177,10 @@
    <wvobject fp_name="/core_test/core/in_rdy" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">in_rdy</obj_property>
       <obj_property name="ObjectShortName">in_rdy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/fifo_peek/count" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">count[1:0]</obj_property>
+      <obj_property name="ObjectShortName">count[1:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/fifo_peek/dequeue" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">dequeue</obj_property>
@@ -176,22 +226,6 @@
       <obj_property name="ObjectShortName">vertex_rd_data[95:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/core_test/fifo_empty" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fifo_empty</obj_property>
-      <obj_property name="ObjectShortName">fifo_empty</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/clk1" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">clk1</obj_property>
-      <obj_property name="ObjectShortName">clk1</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/clk2" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">clk2</obj_property>
-      <obj_property name="ObjectShortName">clk2</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/bram_clk" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">bram_clk</obj_property>
-      <obj_property name="ObjectShortName">bram_clk</obj_property>
-   </wvobject>
    <wvobject fp_name="/core_test/test" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">test[31:0]</obj_property>
       <obj_property name="ObjectShortName">test[31:0]</obj_property>
@@ -204,7 +238,7 @@
    <wvobject fp_name="/core_test/core/GL_RAS/count_x" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">count_x[9:0]</obj_property>
       <obj_property name="ObjectShortName">count_x[9:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/GL_RAS/count_y" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">count_y[8:0]</obj_property>
@@ -218,6 +252,7 @@
    <wvobject fp_name="/core_test/core/GL_RAS/alpha" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">alpha[31:0]</obj_property>
       <obj_property name="ObjectShortName">alpha[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/GL_RAS/beta" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">beta[31:0]</obj_property>
@@ -226,50 +261,16 @@
    <wvobject fp_name="/core_test/core/GL_RAS/gamma" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">gamma[31:0]</obj_property>
       <obj_property name="ObjectShortName">gamma[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/GL_RAS/sum" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">sum[31:0]</obj_property>
+      <obj_property name="ObjectShortName">sum[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/pixel_data" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">pixel_data[95:0]</obj_property>
       <obj_property name="ObjectShortName">pixel_data[95:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/fifo_empty" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fifo_empty</obj_property>
-      <obj_property name="ObjectShortName">fifo_empty</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/pixel_fifo_empty" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">pixel_fifo_empty</obj_property>
-      <obj_property name="ObjectShortName">pixel_fifo_empty</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/pixel_data" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">pixel_data[95:0]</obj_property>
-      <obj_property name="ObjectShortName">pixel_data[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/fbw_state" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">fbw_state[3:0]</obj_property>
-      <obj_property name="ObjectShortName">fbw_state[3:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/fb_addr" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">fb_addr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">fb_addr[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/fb_data" type="array" db_ref_id="1">
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="ElementShortName">fb_data[31:0]</obj_property>
-      <obj_property name="ObjectShortName">fb_data[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-      <obj_property name="label">fb_data[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/pixel_fifo_rd_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">pixel_fifo_rd_en</obj_property>
-      <obj_property name="ObjectShortName">pixel_fifo_rd_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/fb_req" type="logic" db_ref_id="1">
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="ElementShortName">fb_req</obj_property>
-      <obj_property name="ObjectShortName">fb_req</obj_property>
-      <obj_property name="label">fb_req</obj_property>
    </wvobject>
 </wave_config>
