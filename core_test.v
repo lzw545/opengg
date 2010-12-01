@@ -114,7 +114,6 @@ module core_test(
                 .Bus2IP_Mst_Cmplt(fb_ack),
                 .IP2Bus_MstWr_d(fb_data)
                 
-                
     );
 
 endmodule

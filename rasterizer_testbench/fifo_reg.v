@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+            `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module fifo_reg( clk, color_empty, vertex_empty, dequeue,
+module fifo_reg( clk, color_empty, vertex_empty, dequeue, flush,
                  vertex_in, color_in, vertex_out, vertex_out2, vertex_out3,
                  color_out, color_out2, color_out3, 
                  vertex_rd_en, color_rd_en, ready );
@@ -32,7 +32,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
 
   output reg        vertex_rd_en;
   output reg        color_rd_en;
-  
+  output reg        flush;
   output reg        ready;
     
   output reg [95:0] vertex_out;
@@ -66,6 +66,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
       case (state)
 	    0:
         begin
+        flush <= 0;
         if (dequeue == 1 && count == 3)
           begin
           ready <= 1;
@@ -135,16 +136,27 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
           hack <= 0;
           end
         end
-      1:	    
+      1:
         begin
-        vertex_next <= vertex_in;
-        color_next <= color_in;
-        vertex_next2 <= vertex_next2;
-        vertex_next3 <= vertex_next3;
-        color_next2 <= color_next2;
-        color_next3 <= color_next3;
-        if (count < 3)
-          begin          
+        if (vertex_in == 96'hFFFFFFFF_FFFFFFFF_FFFFFFFF && color_in == 96'hFFFFFFFF_FFFFFFFF_FFFFFFFF)
+          begin
+          state <= 0;
+          flush <= 1;
+          count <= 0;
+          state <= 0;
+          vertex_rd_en <= 0;
+          color_rd_en <= 0;
+          hack <= 0;
+          end
+        else if (count < 3)
+          begin
+          vertex_next <= vertex_in;
+          color_next <= color_in;
+          vertex_next2 <= vertex_next2;
+          vertex_next3 <= vertex_next3;
+          color_next2 <= color_next2;
+          color_next3 <= color_next3;       
+          flush <= 0;
           ready <= 0;
           if (color_empty == 0 && vertex_empty == 0 && hack == 1)
             begin
@@ -172,6 +184,12 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
           end
         else
           begin
+          vertex_next <= vertex_in;
+          color_next <= color_in;
+          vertex_next2 <= vertex_next2;
+          vertex_next3 <= vertex_next3;
+          color_next2 <= color_next2;
+          color_next3 <= color_next3;
           ready <= 1;
           count <= 3;
           state <= 0;
@@ -182,6 +200,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
         end 
 	    2: 
         begin
+        flush <= 0;
         vertex_next2 <= vertex_in;
         color_next2 <= color_in;
         vertex_next <= vertex_next;
@@ -220,6 +239,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue,
         end
       3:
         begin
+        flush <= 0;
         vertex_next3 <= vertex_in;
         color_next3 <= color_in;
         vertex_next <= vertex_next;
