@@ -3,14 +3,14 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="C:/Users/Spin/Documents/opengg/core_test_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="/home/lzw/matrix_mul/core_test_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="core_test" />
             <top_module name="glbl" />
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="61" />
+   <WVObjectSize size="59" />
    <wvobject fp_name="/core_test/bram_a_din" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">bram_a_din[31:0]</obj_property>
       <obj_property name="ObjectShortName">bram_a_din[31:0]</obj_property>
@@ -58,14 +58,6 @@
    <wvobject fp_name="/core_test/core/fifo_peek/count" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">count[1:0]</obj_property>
       <obj_property name="ObjectShortName">count[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_peek/vertex_rd_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">vertex_rd_en</obj_property>
-      <obj_property name="ObjectShortName">vertex_rd_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_peek/color_rd_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">color_rd_en</obj_property>
-      <obj_property name="ObjectShortName">color_rd_en</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/GL_RAS/x1" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">x1[31:0]</obj_property>

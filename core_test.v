@@ -101,7 +101,6 @@ module core_test(
     wire [3:0] fbw_state;
     
     fbwriter fbwriter(
-                .state(fbw_state),
                 .reset(1'b0),
                 .fifo_data(pixel_data),
                 .fifo_empty(fifo_empty),
