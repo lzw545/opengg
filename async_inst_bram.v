@@ -39,7 +39,7 @@ module async_inst_bram( BRAM_rst, BRAM_clk, BRAM_en, BRAM_wen,
     output [31:0]      read4;
         
     //reg    [31:0]  mem [1023:0]; 
-    reg    [31:0]  mem [50:0];     
+    reg    [31:0]  mem [49:0];     
     
     wire   [0:9]   addr;
     
