@@ -22,6 +22,7 @@
 `define OP_END          8'b00000010
 `define OP_VERTEX       8'b00000011
 `define OP_COLOR        8'b00000100
+`define OP_FLUSH        8'b00000101
 
 `define OP_MATRIXMODE   8'b00010000
 `define OP_MULTMATRIX   8'b00010001

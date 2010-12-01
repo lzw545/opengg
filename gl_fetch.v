@@ -129,7 +129,7 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                         tmp_stall <= 1;
 
                     end
-						  //`OP_ORTHO:
+                    //`OP_ORTHO:
                     8'b00011011:
                     begin
                         inst_addr <= inst_addr + 17;

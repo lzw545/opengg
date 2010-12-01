@@ -127,6 +127,8 @@ module gl_decode( rst, clk, opcode, imm, type,
             `OP_END:
                 begin
                 end
+            //`OP_FLUSH:
+            
             //`OP_VERTEX:
             8'b00000011:
                 begin
