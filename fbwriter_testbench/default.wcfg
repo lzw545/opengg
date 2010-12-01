@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="C:/opengg/fbwriter_testbench/test_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="test" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="15" />
+   <wvobject fp_name="/test/IP2Bus_MstWr_d" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">IP2Bus_MstWr_d[0:31]</obj_property>
+      <obj_property name="ObjectShortName">IP2Bus_MstWr_d[0:31]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test/reset" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test/fifo_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fifo_data[0:95]</obj_property>
+      <obj_property name="ObjectShortName">fifo_data[0:95]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test/PLB_clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">PLB_clk</obj_property>
+      <obj_property name="ObjectShortName">PLB_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test/fifo_empty" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">fifo_empty</obj_property>
+      <obj_property name="ObjectShortName">fifo_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test/fifo_rd_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">fifo_rd_en</obj_property>
+      <obj_property name="ObjectShortName">fifo_rd_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test/uut/completed" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">completed</obj_property>
+      <obj_property name="ObjectShortName">completed</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test/Bus2IP_Mst_CmdAck" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">Bus2IP_Mst_CmdAck</obj_property>
+      <obj_property name="ObjectShortName">Bus2IP_Mst_CmdAck</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test/Bus2IP_Mst_Cmplt" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">Bus2IP_Mst_Cmplt</obj_property>
+      <obj_property name="ObjectShortName">Bus2IP_Mst_Cmplt</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test/IP2Bus_MstWr_Req" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">IP2Bus_MstWr_Req</obj_property>
+      <obj_property name="ObjectShortName">IP2Bus_MstWr_Req</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test/uut/line" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">line[0:8]</obj_property>
+      <obj_property name="ObjectShortName">line[0:8]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test/uut/col" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">col[0:9]</obj_property>
+      <obj_property name="ObjectShortName">col[0:9]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test/uut/flush_line" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">flush_line[0:8]</obj_property>
+      <obj_property name="ObjectShortName">flush_line[0:8]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test/uut/flush_col" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">flush_col[0:9]</obj_property>
+      <obj_property name="ObjectShortName">flush_col[0:9]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test/IP2Bus_Mst_Addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">IP2Bus_Mst_Addr[0:31]</obj_property>
+      <obj_property name="ObjectShortName">IP2Bus_Mst_Addr[0:31]</obj_property>
+   </wvobject>
+</wave_config>

@@ -93,6 +93,13 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   reg                                    wr_req = 0;
   
 
+  reg     [0 : LINE_LEN-1]               flush_line = 0;
+  reg     [0 : COL_LEN-1]                flush_col = 0;
+  
+  wire flush_done = (flush_line == 'b0) && (flush_col == 'b0);
+  wire flushed = (line == 'b0) && (col == 'b0) && flush_done;
+
+
   // assign IPIF input wires
   assign IP2Bus_MstRd_Req                    = 0;
   assign IP2Bus_MstWr_Req                    = wr_req;
@@ -122,7 +129,7 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
       if ( reset || Bus2IP_Reset )
         fifo_rd_en <= 0;
 		// want to make fifo_rd_en a pulse
-      else if ( !fifo_empty && completed && !fifo_rd_en )
+      else if ( !fifo_empty && completed && !fifo_rd_en && flush_done)
         fifo_rd_en <= 1;
       else
         fifo_rd_en <= 0;
@@ -133,27 +140,72 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   always @ (posedge PLB_clk)
     fifo_rd_en_delayed <= fifo_rd_en;
   
+  // flush line counter  
+  always @ (posedge PLB_clk)
+    if ( reset || Bus2IP_Reset )
+      flush_line <= 9'd0;
+    else if ( fifo_rd_en_delayed && fifo_data == ~('b0) )
+      flush_line <= 9'd9;
+    else if ( Bus2IP_Mst_Cmplt && !flush_done && flush_col == 'b0 )
+      flush_line <= flush_line - 1;
+    else 
+      flush_line <= flush_line;
+  
+  // flush col counter  
+  always @ (posedge PLB_clk)
+    if ( reset || Bus2IP_Reset )
+      flush_col <= 'd0;
+    else if ( fifo_rd_en_delayed && (fifo_data == ~('b0)) )
+      flush_col <= 10'd19;
+    else if ( Bus2IP_Mst_Cmplt && !flush_done )
+      if ( flush_col == 'b0 )
+        flush_col <= 10'd19;
+      else
+        flush_col <= flush_col - 1;
+    else 
+      flush_col <= flush_col;
+  
+  
   // assign line and col and color regs
   always @ (posedge PLB_clk)
     begin
 	   if ( reset || Bus2IP_Reset )
 		  begin
-          line   <= 'h0;
-          col    <= 'h0;
-          color  <= 'h0;
-			 wr_req <= 0;
-		  end
-	   else if ( fifo_rd_en_delayed )
-		  begin
-          line   <= fifo_data[15-LINE_LEN+1:15];
-          col    <= fifo_data[31-COL_LEN+1:31];
-          color  <= fifo_data[32:63];
-			 wr_req <= 1;
-		  end
-		else if ( Bus2IP_Mst_CmdAck )
-		  begin
+            line   <= 'h0;
+            col    <= 'h0;
+            color  <= 'h0;
 		    wr_req <= 0;
 		  end
+	   else if ( Bus2IP_Mst_CmdAck )
+		 begin
+		   wr_req <= 0;
+		 end
+       else if ( !flushed && !flush_done && completed )
+	     begin
+           line   <= flush_line;
+           col    <= flush_col;
+           color  <= 'd0;
+           wr_req <= 1;
+         end
+       else if ( fifo_rd_en_delayed )
+		  begin
+            if ( fifo_data == ~('b0) )
+              begin
+              // start flush operation
+                line   <= 'd9;
+                col    <= 'd19;
+                color  <= 'd0;
+                wr_req <= 1;
+              end
+            else            
+              begin
+                line   <= fifo_data[15-LINE_LEN+1:15];
+                col    <= fifo_data[31-COL_LEN+1:31];
+                color  <= fifo_data[32:63];
+		        wr_req <= 1;
+              end
+		  end
+          
     end 
  
 endmodule
