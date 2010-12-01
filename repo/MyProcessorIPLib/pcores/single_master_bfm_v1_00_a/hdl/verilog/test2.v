@@ -26,7 +26,7 @@ module test2;
 
 	// Inputs
 	reg reset;
-	reg [0:95] fifo_data;
+	reg [0:95] fifo_data = ~('b0);
 	reg fifo_empty;
 	reg PLB_clk;
 	reg Bus2IP_Reset;
@@ -115,11 +115,12 @@ module test2;
     else
       fifo_empty <= fifo_empty; 
 		
-  always #900
+  always @ (posedge IP2Bus_MstWr_Req)
     begin
+      #40
       Bus2IP_Mst_CmdAck = ~Bus2IP_Mst_CmdAck;
-	   Bus2IP_Mst_Cmplt  = ~Bus2IP_Mst_Cmplt;
-      #100
+	  Bus2IP_Mst_Cmplt  = ~Bus2IP_Mst_Cmplt;
+      #40
       Bus2IP_Mst_CmdAck = ~Bus2IP_Mst_CmdAck;
 	  Bus2IP_Mst_Cmplt  = ~Bus2IP_Mst_Cmplt;
     end
