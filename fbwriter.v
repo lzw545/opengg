@@ -88,9 +88,9 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   reg     [0 : LINE_LEN-1]               line;
   reg     [0 : COL_LEN-1]                col;
   reg     [0 : 31]                       color;
-  reg                                    completed;
+  reg                                    completed = 1;
 
-  reg                                    wr_req;
+  reg                                    wr_req = 0;
   
 
   // assign IPIF input wires
