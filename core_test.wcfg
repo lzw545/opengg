@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="61" />
+   <WVObjectSize size="68" />
    <wvobject fp_name="/core_test/bram_a_din" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">bram_a_din[31:0]</obj_property>
       <obj_property name="ObjectShortName">bram_a_din[31:0]</obj_property>
@@ -264,6 +264,35 @@
       <obj_property name="ElementShortName">count_y[8:0]</obj_property>
       <obj_property name="ObjectShortName">count_y[8:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/pixel_fifo/dout" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dout[95:0]</obj_property>
+      <obj_property name="ObjectShortName">dout[95:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/fifo_rd_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">fifo_rd_en</obj_property>
+      <obj_property name="ObjectShortName">fifo_rd_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fifo_empty" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">fifo_empty</obj_property>
+      <obj_property name="ObjectShortName">fifo_empty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/wr_req" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">wr_req</obj_property>
+      <obj_property name="ObjectShortName">wr_req</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/line" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">line[0:8]</obj_property>
+      <obj_property name="ObjectShortName">line[0:8]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/col" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">col[0:9]</obj_property>
+      <obj_property name="ObjectShortName">col[0:9]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/color" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">color[0:31]</obj_property>
+      <obj_property name="ObjectShortName">color[0:31]</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/pixel_wen" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">pixel_wen</obj_property>
