@@ -27,7 +27,7 @@
  * Peek: Combinational, data_out_temp
  *
  */
-module matrix_ctrl(clk, matrix_mode, 
+module matrix_ctrl(clk, reset, matrix_mode, 
                    pop_en, push_en, 
                    data_in, write_en, load_en, load_id_en,
                    peek_out_0, peek_out_1, peek_out_2, peek_out_3,
@@ -35,6 +35,8 @@ module matrix_ctrl(clk, matrix_mode,
     );
 
     input           clk;
+    input           reset;
+    
     input           matrix_mode;                    // 1 bit: 0 = modelview; 1 = projection
     input           pop_en;
     input           push_en;                        // for glPushMatrix
@@ -144,111 +146,136 @@ module matrix_ctrl(clk, matrix_mode,
                            
     always @ (posedge clk)
     begin
-        case (state)
-            0:                                              // load row 0, modelview
-            begin
-                if (load_id_en)
+        if (reset)
+        begin
+            projection_stack[7] <= 127'h00000000_00000000_00000000_00000000;
+            projection_stack[6] <= 127'h00000000_00000000_00000000_00000000;
+            projection_stack[5] <= 127'h00000000_00000000_00000000_00000000;
+            projection_stack[4] <= 127'h00000000_00000000_00000000_00000000;
+            
+            modelview_stack[7]  <= 127'h00000000_00000000_00000000_00000000;
+            modelview_stack[6]  <= 127'h00000000_00000000_00000000_00000000;
+            modelview_stack[5]  <= 127'h00000000_00000000_00000000_00000000;
+            modelview_stack[4]  <= 127'h00000000_00000000_00000000_00000000;
+            
+            projection_stack[3] <= 127'h3B4CCCCD_00000000_00000000_BF800000;
+            projection_stack[2] <= 127'h00000000_3B888889_00000000_BF800000;
+            projection_stack[1] <= 127'h00000000_00000000_BDD79436_BF8D7943;
+            projection_stack[0] <= 127'h00000000_00000000_00000000_3F800000;
+            
+            modelview_stack[3]  <= 127'h3F800000_00000000_00000000_00000000;
+            modelview_stack[2]  <= 127'h00000000_3F800000_00000000_00000000;
+            modelview_stack[1]  <= 127'h00000000_00000000_3F800000_00000000;
+            modelview_stack[0]  <= 127'h00000000_00000000_00000000_3F800000;
+        end
+        else
+        begin
+            case (state)
+                0:                                              // load row 0, modelview
                 begin
-                    if (matrix_mode)
+                    if (load_id_en)
                     begin
-                        projection_stack[projection_sp]   <= 127'h3F800000000000000000000000000000;
-                        projection_stack[projection_sp-1] <= 127'h000000003F8000000000000000000000;
-                        projection_stack[projection_sp-2] <= 127'h00000000000000003F80000000000000;
-                        projection_stack[projection_sp-3] <= 127'h0000000000000000000000003F800000;
+                        if (matrix_mode)
+                        begin
+                            projection_stack[projection_sp]   <= 127'h3F800000000000000000000000000000;
+                            projection_stack[projection_sp-1] <= 127'h000000003F8000000000000000000000;
+                            projection_stack[projection_sp-2] <= 127'h00000000000000003F80000000000000;
+                            projection_stack[projection_sp-3] <= 127'h0000000000000000000000003F800000;
+                        end
+                        else
+                        begin
+                            modelview_stack[modelview_sp]    <= 127'h3F800000000000000000000000000000;
+                            modelview_stack[modelview_sp-1]  <= 127'h000000003F8000000000000000000000;
+                            modelview_stack[modelview_sp-2]  <= 127'h00000000000000003F80000000000000;
+                            modelview_stack[modelview_sp-3]  <= 127'h0000000000000000000000003F800000;
+                        end
+                    end
+                    else if (load_en)
+                    begin
+                        if (matrix_mode)
+                        begin
+                            projection_stack[projection_sp+4] <= data_in;
+                            projection_sp <= projection_sp+4;
+                            state <= 4;
+                        end
+                        else
+                        begin
+                            modelview_stack[modelview_sp+4] <= data_in;
+                            modelview_sp <= modelview_sp+4;
+                            state <= state+1;
+                        end
+                    end
+                    else if (pop_en)
+                    begin
+                        if (matrix_mode)
+                        begin
+                            projection_sp <= projection_sp-4;
+                            state <= 0;
+                        end
+                        else
+                        begin
+                            modelview_sp <= modelview_sp-4;
+                            state <= 0;
+                        end
+                    end
+                    else if (write_en)
+                    begin
+                        if (matrix_mode)
+                        begin
+                            projection_stack[projection_sp]   <= write_in_0;
+                            projection_stack[projection_sp-1] <= write_in_1;
+                            projection_stack[projection_sp-2] <= write_in_2;
+                            projection_stack[projection_sp-3] <= write_in_3;
+                        end
+                        else
+                        begin
+                            modelview_stack[modelview_sp]   <= write_in_0;
+                            modelview_stack[modelview_sp-1] <= write_in_1;
+                            modelview_stack[modelview_sp-2] <= write_in_2;
+                            modelview_stack[modelview_sp-3] <= write_in_3;
+                        end
                     end
                     else
                     begin
-                        modelview_stack[modelview_sp]    <= 127'h3F800000000000000000000000000000;
-                        modelview_stack[modelview_sp-1]  <= 127'h000000003F8000000000000000000000;
-                        modelview_stack[modelview_sp-2]  <= 127'h00000000000000003F80000000000000;
-                        modelview_stack[modelview_sp-3]  <= 127'h0000000000000000000000003F800000;
-                    end
-                end
-                else if (load_en)
-                begin
-                    if (matrix_mode)
-                    begin
-                        projection_stack[projection_sp+4] <= data_in;
-                        projection_sp <= projection_sp+4;
-                        state <= 4;
-                    end
-                    else
-                    begin
-                        modelview_stack[modelview_sp+4] <= data_in;
-                        modelview_sp <= modelview_sp+4;
-                        state <= state+1;
-                    end
-                end
-                else if (pop_en)
-                begin
-                    if (matrix_mode)
-                    begin
-                        projection_sp <= projection_sp-4;
                         state <= 0;
                     end
-                    else
-                    begin
-                        modelview_sp <= modelview_sp-4;
-                        state <= 0;
-                    end
                 end
-                else if (write_en)
+                1:                                              // load row 1, modelview
                 begin
-                    if (matrix_mode)
-                    begin
-                        projection_stack[projection_sp]   <= write_in_0;
-                        projection_stack[projection_sp-1] <= write_in_1;
-                        projection_stack[projection_sp-2] <= write_in_2;
-                        projection_stack[projection_sp-3] <= write_in_3;
-                    end
-                    else
-                    begin
-                        modelview_stack[modelview_sp]   <= write_in_0;
-                        modelview_stack[modelview_sp-1] <= write_in_1;
-                        modelview_stack[modelview_sp-2] <= write_in_2;
-                        modelview_stack[modelview_sp-3] <= write_in_3;
-                    end
+                    modelview_stack[modelview_sp-1] <= data_in;
+                    state <= 2;
                 end
-                else
+                2:                                              // load row 2, modelview
+                begin
+                    modelview_stack[modelview_sp-2] <= data_in;
+                    state <= 3;
+                end
+                3:                                              // load row 3, modelview
+                begin
+                    modelview_stack[modelview_sp-3] <= data_in;
+                    state <= 0;
+                end
+                4:                                              // load row 1, projection
+                begin
+                    projection_stack[projection_sp-1] <= data_in;
+                    state <= 5;
+                end
+                5:                                              // load row 2, projection
+                begin
+                    projection_stack[projection_sp-2] <= data_in;
+                    state <= 6;
+                end
+                6:                                              // load row 3, projection
+                begin
+                    projection_stack[projection_sp-3] <= data_in;
+                    state <= 0;
+                end
+                default:
                 begin
                     state <= 0;
                 end
-            end
-            1:                                              // load row 1, modelview
-            begin
-                modelview_stack[modelview_sp-1] <= data_in;
-                state <= 2;
-            end
-            2:                                              // load row 2, modelview
-            begin
-                modelview_stack[modelview_sp-2] <= data_in;
-                state <= 3;
-            end
-            3:                                              // load row 3, modelview
-            begin
-                modelview_stack[modelview_sp-3] <= data_in;
-                state <= 0;
-            end
-            4:                                              // load row 1, projection
-            begin
-                projection_stack[projection_sp-1] <= data_in;
-                state <= 5;
-            end
-            5:                                              // load row 2, projection
-            begin
-                projection_stack[projection_sp-2] <= data_in;
-                state <= 6;
-            end
-            6:                                              // load row 3, projection
-            begin
-                projection_stack[projection_sp-3] <= data_in;
-                state <= 0;
-            end
-            default:
-            begin
-                state <= 0;
-            end
-        endcase
+            endcase
+        end
     end
     
 endmodule

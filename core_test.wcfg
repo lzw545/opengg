@@ -3,14 +3,14 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="C:/Users/Spin/Documents/opengg/core_test_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="/home/lzw/matrix_mul/core_test_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="core_test" />
             <top_module name="glbl" />
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="68" />
+   <WVObjectSize size="70" />
    <wvobject fp_name="/core_test/bram_a_din" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">bram_a_din[31:0]</obj_property>
       <obj_property name="ObjectShortName">bram_a_din[31:0]</obj_property>
@@ -26,6 +26,10 @@
    <wvobject fp_name="/core_test/bram_clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">bram_clk</obj_property>
       <obj_property name="ObjectShortName">bram_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core_reset" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">core_reset</obj_property>
+      <obj_property name="ObjectShortName">core_reset</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/fifo_write_en" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">fifo_write_en</obj_property>
@@ -66,6 +70,10 @@
    <wvobject fp_name="/core_test/core/fifo_peek/color_rd_en" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">color_rd_en</obj_property>
       <obj_property name="ObjectShortName">color_rd_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/fifo_reg_flush" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">fifo_reg_flush</obj_property>
+      <obj_property name="ObjectShortName">fifo_reg_flush</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/GL_RAS/x1" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">x1[31:0]</obj_property>

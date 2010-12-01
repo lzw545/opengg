@@ -105,16 +105,6 @@ module gl_core_internal(clk1, clk2, reset,
                                 .read3(bram_read_2), 
                                 .read4(bram_read_3));
     
-    /*
-    dummy_bram bram(.addr1(fetch_inst_addr),
-                    .addr2(bram_mux_sel ? matrix_mul_addr_out : decode_addr_out),
-                    .read0(fetch_inst_in),
-                    .read1(bram_read_0), 
-                    .read2(bram_read_1), 
-                    .read3(bram_read_2), 
-                    .read4(bram_read_3));
-    */
-    
     gl_fetch fetch(.inst_out(fetch_inst_out), 
                    .inst_in(fetch_inst_in), 
                    .inst_addr(fetch_inst_addr), 
@@ -172,6 +162,7 @@ module gl_core_internal(clk1, clk2, reset,
     assign data_in = {bram_read_0, bram_read_1, bram_read_2, bram_read_3};
     
     matrix_ctrl matctr( .clk(clk1), 
+                        .reset(reset),
                         .matrix_mode(decode_matrix_mode_out), 
                         .pop_en(pop_en), 
                         .push_en(push_en), 
@@ -190,6 +181,7 @@ module gl_core_internal(clk1, clk2, reset,
     
     
     matrix_mul matmul(  .clk(clk1), 
+                        .reset(reset),
                         .en(matrix_mul_en), 
                         .matrix_mode_in(matrix_mode), 
                         .matrix_mode_out(matmul_matrix_mode_out),
@@ -352,6 +344,7 @@ module gl_core_internal(clk1, clk2, reset,
     wire pixel_wen;
     wire pixel_full;
 
+    wire fifo_reg_flush;
     
     fifo_96 vertex_fifo(.rst(reset),
                         .wr_clk(clk1),
@@ -382,6 +375,7 @@ module gl_core_internal(clk1, clk2, reset,
                           .vertex_in(vertex_rd_data), 
                           .color_in(color_rd_data),
                           .dequeue(dequeue), 
+                          .flush(fifo_reg_flush),
                           .vertex_rd_en(vertex_rd_en), 
                           .color_rd_en(color_rd_en),
                           .vertex_out(vin1), 

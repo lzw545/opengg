@@ -62,9 +62,9 @@ module core_test(
         bram_clk <= 0;
         test <= 32'hABCD;
         core_reset <= 0;
-        # 100
+        # 5000
         core_reset <= 1;
-        # 10
+        # 500
         core_reset <= 0;
     end
     

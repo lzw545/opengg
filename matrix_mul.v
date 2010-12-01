@@ -21,7 +21,7 @@
 
 // Assumes 
 
-module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type, 
+module matrix_mul(clk, reset, en, matrix_mode_in, matrix_mode_out, mul_type, 
                   bram_addr_in, bram_addr_out, 
                   bram_read_in_0, bram_read_in_1, bram_read_in_2, bram_read_in_3,
                   matrix_peek_0, matrix_peek_1, matrix_peek_2, matrix_peek_3,
@@ -31,6 +31,8 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
     );
     
     input           clk;                // clock
+    input           reset;              // reset
+    
     input           en;                 // enable is high for 1 clock cycle
     input           matrix_mode_in;     // specifies the matrix mode: 0 = modelview; 1 = projection
     input           mul_type;           // specifies 4x4 * 4x4 (1) or 4x4 * 4x1 (0)
@@ -82,14 +84,14 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
     matrix_row_comp mrc(.result(mrc_result), .a(mrc_a), .b(mrc_b));
     
     initial begin
-        bram_offset = 0;
-        matrix_write_en = 0;
-        matrix_mode_out = 0;
-        state = 0;
-        counter = 0;
-        vertex_step_2 = 0;
-        vector_result_a = 0;
-        vector_write_out = 128'hDEADBEEF;
+        bram_offset <= 0;
+        matrix_write_en <= 0;
+        matrix_mode_out <= 0;
+        state <= 0;
+        counter <= 0;
+        vertex_step_2 <= 0;
+        vector_result_a <= 0;
+        vector_write_out <= 128'hDEADBEEF;
     end
     
     /*
@@ -101,166 +103,179 @@ module matrix_mul(clk, en, matrix_mode_in, matrix_mode_out, mul_type,
      */
     always @ (posedge clk)
     begin
-        case(state)
-            0:
-            begin
-                if (en && mul_type == 0)                        // vertex multiplication
+        if (reset)
+        begin
+            bram_offset <= 0;
+            matrix_write_en <= 0;
+            matrix_mode_out <= 0;
+            state <= 0;
+            counter <= 0;
+            vertex_step_2 <= 0;
+            vector_result_a <= 0;
+        end
+        else
+        begin    
+            case(state)
+                0:
                 begin
-                    matrix_mode_out <= 0;
-                    vector_result_a <= {mrc_result,96'h0};
-                    state <= 4;
-                    matrix_write_en <= 0;
+                    if (en && mul_type == 0)                        // vertex multiplication
+                    begin
+                        matrix_mode_out <= 0;
+                        vector_result_a <= {mrc_result,96'h0};
+                        state <= 4;
+                        matrix_write_en <= 0;
+                        counter <= counter + 1;
+                    end
+                    else if (en && counter == 0)                    // matrix multiplication
+                    begin
+                        matrix_mode_out <= matrix_mode_in;
+                        matrix_write_out_0 <= {mrc_result,96'h0};
+                        state <= 1;
+                        matrix_write_en <= 0;
+                        bram_offset <= bram_offset + 4;
+                    end
+                    else if (counter == 1)
+                    begin
+                        matrix_write_out_1 <= {mrc_result,96'h0};
+                        matrix_write_en <= 0;
+                        bram_offset <= bram_offset + 4;
+                        state <= 1;
+                    end
+                    else if (counter == 2)
+                    begin
+                        matrix_write_out_2 <= {mrc_result,96'h0};
+                        matrix_write_en <= 0;
+                        bram_offset <= bram_offset + 4;
+                        state <= 1;
+                    end
+                    else if (counter == 3)
+                    begin
+                        matrix_write_out_3 <= {mrc_result,96'h0};
+                        matrix_write_en <= 0;
+                        bram_offset <= bram_offset + 4;
+                        state <= 1;
+                    end
+                    else
+                    begin
+                        matrix_write_en <= 0;
+                        state <= 0;
+                    end
+                end
+                1:
+                begin
+                    if (counter == 0)
+                    begin
+                        matrix_write_out_0 <= matrix_write_out_0 | {32'h0,mrc_result,64'h0};
+                    end
+                    else if (counter == 1)
+                    begin
+                        matrix_write_out_1 <= matrix_write_out_1 | {32'h0,mrc_result,64'h0};
+                    end
+                    else if (counter == 2)
+                    begin
+                        matrix_write_out_2 <= matrix_write_out_2 | {32'h0,mrc_result,64'h0};
+                    end
+                    else if (counter == 3)
+                    begin
+                        matrix_write_out_3 <= matrix_write_out_3 | {32'h0,mrc_result,64'h0};
+                    end
+                    state <= 2;
+                    bram_offset <= bram_offset + 4;
+                end
+                2:
+                begin
+                    if (counter == 0)
+                    begin
+                        matrix_write_out_0 <= matrix_write_out_0 | {64'h0,mrc_result,32'h0};
+                    end
+                    else if (counter == 1)
+                    begin
+                        matrix_write_out_1 <= matrix_write_out_1 | {64'h0,mrc_result,32'h0};
+                    end
+                    else if (counter == 2)
+                    begin
+                        matrix_write_out_2 <= matrix_write_out_2 | {64'h0,mrc_result,32'h0};
+                    end
+                    else if (counter == 3)
+                    begin
+                        matrix_write_out_3 <= matrix_write_out_3 | {64'h0,mrc_result,32'h0};
+                    end
+                    state <= 3;
+                    bram_offset <= bram_offset + 4;
+                end
+                3:
+                begin
+                    if (counter == 0)
+                    begin
+                        matrix_write_out_0 <= matrix_write_out_0 | {96'h0,mrc_result};
+                    end
+                    else if (counter == 1)
+                    begin
+                        matrix_write_out_1 <= matrix_write_out_1 | {96'h0,mrc_result};
+                    end
+                    else if (counter == 2)
+                    begin
+                        matrix_write_out_2 <= matrix_write_out_2 | {96'h0,mrc_result};
+                    end
+                    else if (counter == 3)
+                    begin
+                        matrix_write_out_3 <= matrix_write_out_3 | {96'h0,mrc_result};
+                        matrix_write_en <= 1;
+                    end
+                    bram_offset <= 0;
                     counter <= counter + 1;
-                end
-                else if (en && counter == 0)                    // matrix multiplication
-                begin
-                    matrix_mode_out <= matrix_mode_in;
-                    matrix_write_out_0 <= {mrc_result,96'h0};
-                    state <= 1;
-                    matrix_write_en <= 0;
-                    bram_offset <= bram_offset + 4;
-                end
-                else if (counter == 1)
-                begin
-                    matrix_write_out_1 <= {mrc_result,96'h0};
-                    matrix_write_en <= 0;
-                    bram_offset <= bram_offset + 4;
-                    state <= 1;
-                end
-                else if (counter == 2)
-                begin
-                    matrix_write_out_2 <= {mrc_result,96'h0};
-                    matrix_write_en <= 0;
-                    bram_offset <= bram_offset + 4;
-                    state <= 1;
-                end
-                else if (counter == 3)
-                begin
-                    matrix_write_out_3 <= {mrc_result,96'h0};
-                    matrix_write_en <= 0;
-                    bram_offset <= bram_offset + 4;
-                    state <= 1;
-                end
-                else
-                begin
-                    matrix_write_en <= 0;
                     state <= 0;
                 end
-            end
-            1:
-            begin
-                if (counter == 0)
+                4:
                 begin
-                    matrix_write_out_0 <= matrix_write_out_0 | {32'h0,mrc_result,64'h0};
+                    vector_result_a <= vector_result_a | {32'h0,mrc_result,64'h0};
+                    state <= 5;
+                    counter <= counter + 1;
                 end
-                else if (counter == 1)
+                5:
                 begin
-                    matrix_write_out_1 <= matrix_write_out_1 | {32'h0,mrc_result,64'h0};
+                    vector_result_a <= vector_result_a | {64'h0,mrc_result,32'h0};
+                    state <= 6;
+                    counter <= counter + 1;
                 end
-                else if (counter == 2)
+                6:
                 begin
-                    matrix_write_out_2 <= matrix_write_out_2 | {32'h0,mrc_result,64'h0};
+                    vector_result_a <= vector_result_a | {96'h0,mrc_result};
+                    state <= 7;
+                    vertex_step_2 <= 1;
+                    counter <= counter + 1;
+                    matrix_mode_out <= 0;           // projection
                 end
-                else if (counter == 3)
+                7:
                 begin
-                    matrix_write_out_3 <= matrix_write_out_3 | {32'h0,mrc_result,64'h0};
+                    vector_write_out <= {mrc_result,96'h0};
+                    state <= 8;
+                    counter <= counter + 1;
                 end
-                state <= 2;
-                bram_offset <= bram_offset + 4;
-            end
-            2:
-            begin
-                if (counter == 0)
+                8:
                 begin
-                    matrix_write_out_0 <= matrix_write_out_0 | {64'h0,mrc_result,32'h0};
+                    vector_write_out <= vector_write_out | {32'h0,mrc_result,64'h0};
+                    state <= 9;
+                    counter <= counter + 1;
                 end
-                else if (counter == 1)
+                9:
                 begin
-                    matrix_write_out_1 <= matrix_write_out_1 | {64'h0,mrc_result,32'h0};
+                    vector_write_out <= vector_write_out | {64'h0,mrc_result,32'h0};
+                    state <= 10;
+                    counter <= counter + 1;
                 end
-                else if (counter == 2)
+                10:
                 begin
-                    matrix_write_out_2 <= matrix_write_out_2 | {64'h0,mrc_result,32'h0};
+                    vector_write_out <= vector_write_out | {96'h0,mrc_result};
+                    state <= 0;
+                    counter <= counter + 1;
+                    vertex_step_2 <= 0;
                 end
-                else if (counter == 3)
+                default:
                 begin
-                    matrix_write_out_3 <= matrix_write_out_3 | {64'h0,mrc_result,32'h0};
                 end
-                state <= 3;
-                bram_offset <= bram_offset + 4;
-            end
-            3:
-            begin
-                if (counter == 0)
-                begin
-                    matrix_write_out_0 <= matrix_write_out_0 | {96'h0,mrc_result};
-                end
-                else if (counter == 1)
-                begin
-                    matrix_write_out_1 <= matrix_write_out_1 | {96'h0,mrc_result};
-                end
-                else if (counter == 2)
-                begin
-                    matrix_write_out_2 <= matrix_write_out_2 | {96'h0,mrc_result};
-                end
-                else if (counter == 3)
-                begin
-                    matrix_write_out_3 <= matrix_write_out_3 | {96'h0,mrc_result};
-                    matrix_write_en <= 1;
-                end
-                bram_offset <= 0;
-                counter <= counter + 1;
-                state <= 0;
-            end
-            4:
-            begin
-                vector_result_a <= vector_result_a | {32'h0,mrc_result,64'h0};
-                state <= 5;
-                counter <= counter + 1;
-            end
-            5:
-            begin
-                vector_result_a <= vector_result_a | {64'h0,mrc_result,32'h0};
-                state <= 6;
-                counter <= counter + 1;
-            end
-            6:
-            begin
-                vector_result_a <= vector_result_a | {96'h0,mrc_result};
-                state <= 7;
-                vertex_step_2 <= 1;
-                counter <= counter + 1;
-                matrix_mode_out <= 0;           // projection
-            end
-            7:
-            begin
-                vector_write_out <= {mrc_result,96'h0};
-                state <= 8;
-                counter <= counter + 1;
-            end
-            8:
-            begin
-                vector_write_out <= vector_write_out | {32'h0,mrc_result,64'h0};
-                state <= 9;
-                counter <= counter + 1;
-            end
-            9:
-            begin
-                vector_write_out <= vector_write_out | {64'h0,mrc_result,32'h0};
-                state <= 10;
-                counter <= counter + 1;
-            end
-            10:
-            begin
-                vector_write_out <= vector_write_out | {96'h0,mrc_result};
-                state <= 0;
-                counter <= counter + 1;
-                vertex_step_2 <= 0;
-            end
-            default
-            begin
-            end
-        endcase
+            endcase
+        end
     end
 
     
