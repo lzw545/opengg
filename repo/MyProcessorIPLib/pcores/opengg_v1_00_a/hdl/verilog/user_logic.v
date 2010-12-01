@@ -181,7 +181,7 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
                          .reset( slv_reg0 == 0 ),
 						 
                          .bram_a_clk(bram_a_clk),
-						 .bram_a_en(bram_a_en), 
+			      			 .bram_a_en(bram_a_en), 
 						 .bram_a_write_en(bram_a_write_en), 
 						 .bram_a_rst(bram_a_rst),
 						 .bram_a_addr(bram_a_addr), 

@@ -4,9 +4,9 @@
 // Company: 
 // Engineer:
 //
-// Create Date:   21:55:45 11/23/2010
+// Create Date:   06:42:07 11/30/2010
 // Design Name:   fbwriter
-// Module Name:   D:/545/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/devl/projnav/test.v
+// Module Name:   D:/545/opengg/repo/MyProcessorIPLib/pcores/single_master_bfm_v1_00_a/hdl/verilog/test2.v
 // Project Name:  single_master_bfm
 // Target Device:  
 // Tool versions:  
@@ -22,14 +22,14 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module test;
+module test2;
 
 	// Inputs
-	//wire [0:95] fifo_data;
-   reg [0:95] fifo_data  = {7'b0, 9'h5, 6'b0, 10'h66, 32'habcd_e111, 32'b0};
-	reg fifo_empty = 1;
-	//wire fifo_empty;
+	reg reset;
+	reg [0:95] fifo_data;
+	reg fifo_empty;
 	reg PLB_clk;
+	reg Bus2IP_Reset;
 	reg Bus2IP_Mst_CmdAck;
 	reg Bus2IP_Mst_Cmplt;
 	reg Bus2IP_Mst_Error;
@@ -48,42 +48,15 @@ module test;
 	wire IP2Bus_Mst_Lock;
 	wire IP2Bus_Mst_Reset;
 	wire [0:31] IP2Bus_MstWr_d;
-    wire [0:3] state;
-    
-    reg wr_clk = 0;
-    reg rst = 0;
-    reg [0:95] din = {7'b0, 9'h5, 6'b0, 10'h66, 32'habcd_e111, 32'b0};
-    reg wr_en = 1;
-    
-    wire [3:0] rd_data_count;
-    wire [3:0] wr_data_count;
-    /*
-    fifo_generator_v6_2 fifo (
-	.rst(rst),
-	.wr_clk(wr_clk),
-	.rd_clk(PLB_clk),
-	.din(din), // Bus [127 : 0] 
-	.wr_en(wr_en),
-	.rd_en(fifo_rd_en),
- 	.dout({fifo_data, 64'b0}), // Bus [127 : 0] 
-	.full(full),
-	.wr_ack(wr_ack),
-	.overflow(overflow),
-	.empty(fifo_empty),
-	.valid(valid),
-	.underflow(underflow),
-	.rd_data_count(rd_data_count), // Bus [3 : 0] 
-	.wr_data_count(wr_data_count)); // Bus [3 : 0] */
-
 
 	// Instantiate the Unit Under Test (UUT)
 	fbwriter uut (
-        .state( state ),
-        
+		.reset(reset), 
 		.fifo_data(fifo_data), 
 		.fifo_empty(fifo_empty), 
 		.fifo_rd_en(fifo_rd_en), 
 		.PLB_clk(PLB_clk), 
+		.Bus2IP_Reset(Bus2IP_Reset), 
 		.IP2Bus_MstRd_Req(IP2Bus_MstRd_Req), 
 		.IP2Bus_MstWr_Req(IP2Bus_MstWr_Req), 
 		.IP2Bus_Mst_Addr(IP2Bus_Mst_Addr), 
@@ -100,43 +73,14 @@ module test;
 		.IP2Bus_MstWr_d(IP2Bus_MstWr_d), 
 		.Bus2IP_MstWr_dst_rdy_n(Bus2IP_MstWr_dst_rdy_n)
 	);
-	
-	always #100
-	  begin
-	    PLB_clk = ~PLB_clk;
-	  end
-
-    always #200
-      begin
-        wr_clk = ~wr_clk;
-      end
- /*     
-	always @ (posedge wr_clk)
-      begin
-        if ( !full )
-          din = din + 1;
-      end*/
-      
-     
-    always @ (posedge PLB_clk)
-      begin
-        if ( fifo_rd_en )
-          fifo_data = fifo_data + fifo_data;
-      end
-    
-    
-    
-  always @ (posedge PLB_clk)
-    if ( fifo_rd_en && fifo_empty == 0 )
-      fifo_empty <= 1;
-    else if ( state == 0 )
-      fifo_empty <= 0;
-    else
-      fifo_empty <= fifo_empty; 
 
 	initial begin
 		// Initialize Inputs
+		reset = 1;
+		fifo_data = 0;
+		fifo_empty = 0;
 		PLB_clk = 0;
+		Bus2IP_Reset = 0;
 		Bus2IP_Mst_CmdAck = 0;
 		Bus2IP_Mst_Cmplt = 0;
 		Bus2IP_Mst_Error = 0;
@@ -145,25 +89,40 @@ module test;
 		Bus2IP_MstRd_d = 0;
 		Bus2IP_MstRd_src_rdy_n = 0;
 		Bus2IP_MstWr_dst_rdy_n = 0;
-		
-		rst = 1;
 
 		// Wait 100 ns for global reset to finish
-		#100;        
-
-      rst = 0;
+		#100;
+        
+		// Add stimulus here
+		reset = 0;
 
 	end
+  	
+	always #20
+	  begin
+	    PLB_clk = ~PLB_clk;
+	  end
+	
+  always @ (posedge PLB_clk)
+    if ( fifo_rd_en )
+	   fifo_data[0:63] = fifo_data[0:63] + 1;
     
-    
+  always @ (posedge PLB_clk)
+    if ( fifo_rd_en && fifo_empty == 0 )
+      fifo_empty <= 1;
+    else if ( Bus2IP_Mst_Cmplt )
+      fifo_empty <= 0;
+    else
+      fifo_empty <= fifo_empty; 
+		
   always #900
     begin
       Bus2IP_Mst_CmdAck = ~Bus2IP_Mst_CmdAck;
-	  Bus2IP_Mst_Cmplt  = ~Bus2IP_Mst_Cmplt;
+	   Bus2IP_Mst_Cmplt  = ~Bus2IP_Mst_Cmplt;
       #100
       Bus2IP_Mst_CmdAck = ~Bus2IP_Mst_CmdAck;
 	  Bus2IP_Mst_Cmplt  = ~Bus2IP_Mst_Cmplt;
     end
-    
+	 
 endmodule
 
