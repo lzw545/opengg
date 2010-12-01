@@ -225,11 +225,15 @@
   </files>
 
   <transforms xmlns="http://www.xilinx.com/XMLSchema">
-    <transform xil_pn:end_ts="1291188596" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1291188596">
+    <transform xil_pn:end_ts="1291196109" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1291196109">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
+<<<<<<< HEAD
     <transform xil_pn:end_ts="1291197148" xil_pn:in_ck="-4834874850093277294" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1291197148">
+=======
+    <transform xil_pn:end_ts="1291196110" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1291196109">
+>>>>>>> b82a38ae83fec38ca6e2ef547133473f5e5b0722
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="async_inst_bram.v"/>
@@ -261,22 +265,34 @@
       <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fp_sub.v"/>
       <outfile xil_pn:name="viewport_trans.v"/>
     </transform>
+<<<<<<< HEAD
     <transform xil_pn:end_ts="1291195454" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="3201976763045618879" xil_pn:start_ts="1291195454">
+=======
+    <transform xil_pn:end_ts="1291196110" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="3201976763045618879" xil_pn:start_ts="1291196110">
+>>>>>>> b82a38ae83fec38ca6e2ef547133473f5e5b0722
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForProperties"/>
     </transform>
+<<<<<<< HEAD
     <transform xil_pn:end_ts="1291195454" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="4668215030568983213" xil_pn:start_ts="1291195454">
+=======
+    <transform xil_pn:end_ts="1291196110" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="4668215030568983213" xil_pn:start_ts="1291196110">
+>>>>>>> b82a38ae83fec38ca6e2ef547133473f5e5b0722
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForProperties"/>
     </transform>
-    <transform xil_pn:end_ts="1291188596" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="4915677564661794408" xil_pn:start_ts="1291188596">
+    <transform xil_pn:end_ts="1291196110" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="4915677564661794408" xil_pn:start_ts="1291196110">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForProperties"/>
     </transform>
+<<<<<<< HEAD
     <transform xil_pn:end_ts="1291196294" xil_pn:in_ck="-4834874850093277294" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1291196294">
+=======
+    <transform xil_pn:end_ts="1291196110" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1291196110">
+>>>>>>> b82a38ae83fec38ca6e2ef547133473f5e5b0722
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForInputs"/>
@@ -313,6 +329,7 @@
       <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fp_sub.v"/>
       <outfile xil_pn:name="viewport_trans.v"/>
     </transform>
+<<<<<<< HEAD
     <transform xil_pn:end_ts="1291196302" xil_pn:in_ck="-4834874850093277294" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-7885478225960728283" xil_pn:start_ts="1291196294">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
@@ -322,6 +339,11 @@
       <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="InputChanged"/>
       <status xil_pn:value="OutputChanged"/>
+=======
+    <transform xil_pn:end_ts="1291196125" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-7885478225960728283" xil_pn:start_ts="1291196110">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+>>>>>>> b82a38ae83fec38ca6e2ef547133473f5e5b0722
       <outfile xil_pn:name="core_test_beh.prj"/>
       <outfile xil_pn:name="core_test_isim_beh.exe"/>
       <outfile xil_pn:name="fuse.log"/>
@@ -329,7 +351,11 @@
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
+<<<<<<< HEAD
     <transform xil_pn:end_ts="1291196302" xil_pn:in_ck="-5554929432034713356" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-2629055017825637190" xil_pn:start_ts="1291196302">
+=======
+    <transform xil_pn:end_ts="1291196126" xil_pn:in_ck="8580034272641124120" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-2629055017825637190" xil_pn:start_ts="1291196125">
+>>>>>>> b82a38ae83fec38ca6e2ef547133473f5e5b0722
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForProperties"/>
