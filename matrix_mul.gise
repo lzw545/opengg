@@ -131,6 +131,7 @@
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="gl_rasterizer.xst"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="gl_rasterizer_envsettings.html"/>
     <file xil_pn:fileType="FILE_NCD" xil_pn:name="gl_rasterizer_guide.ncd" xil_pn:origination="imported"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="gl_rasterizer_isim_beh.exe"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_MAP_REPORT" xil_pn:name="gl_rasterizer_map.map" xil_pn:subbranch="Map"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_MAP_REPORT" xil_pn:name="gl_rasterizer_map.mrp" xil_pn:subbranch="Map"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NCD" xil_pn:name="gl_rasterizer_map.ncd" xil_pn:subbranch="Map"/>
@@ -140,6 +141,7 @@
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_PAD_EXCEL_REPORT" xil_pn:name="gl_rasterizer_pad.csv" xil_pn:subbranch="Par"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_PAD_TXT_REPORT" xil_pn:name="gl_rasterizer_pad.txt" xil_pn:subbranch="Par"/>
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="gl_rasterizer_par.xrpt"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="gl_rasterizer_stx_beh.prj"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="gl_rasterizer_summary.html"/>
     <file xil_pn:fileType="FILE_FITTER_REPORT" xil_pn:name="gl_rasterizer_summary.xml"/>
     <file xil_pn:fileType="FILE_WEBTALK" xil_pn:name="gl_rasterizer_usage.xml"/>
@@ -194,6 +196,7 @@
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_STX" xil_pn:name="matrix_mul.stx"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_REPORT" xil_pn:name="matrix_mul.syr"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="matrix_mul.xst"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="matrix_mul_beh.prj"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="matrix_mul_envsettings.html"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="matrix_mul_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="matrix_mul_isim_beh.wdb"/>
@@ -222,16 +225,19 @@
   </files>
 
   <transforms xmlns="http://www.xilinx.com/XMLSchema">
-    <transform xil_pn:end_ts="1291182857" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1291182857">
+    <transform xil_pn:end_ts="1291196109" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1291196109">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1291183793" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1291183793">
+<<<<<<< HEAD
+    <transform xil_pn:end_ts="1291197148" xil_pn:in_ck="-4834874850093277294" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1291197148">
+=======
+    <transform xil_pn:end_ts="1291196110" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1291196109">
+>>>>>>> b82a38ae83fec38ca6e2ef547133473f5e5b0722
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="async_inst_bram.v"/>
       <outfile xil_pn:name="comp_3.v"/>
-      <outfile xil_pn:name="coordinate_transform_testbench.v"/>
       <outfile xil_pn:name="core_test.v"/>
       <outfile xil_pn:name="diff_select.v"/>
       <outfile xil_pn:name="dummy_bram.v"/>
@@ -259,24 +265,43 @@
       <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fp_sub.v"/>
       <outfile xil_pn:name="viewport_trans.v"/>
     </transform>
-    <transform xil_pn:end_ts="1291182857" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="3201976763045618879" xil_pn:start_ts="1291182857">
+<<<<<<< HEAD
+    <transform xil_pn:end_ts="1291195454" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="3201976763045618879" xil_pn:start_ts="1291195454">
+=======
+    <transform xil_pn:end_ts="1291196110" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="3201976763045618879" xil_pn:start_ts="1291196110">
+>>>>>>> b82a38ae83fec38ca6e2ef547133473f5e5b0722
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForProperties"/>
     </transform>
-    <transform xil_pn:end_ts="1291182857" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="4668215030568983213" xil_pn:start_ts="1291182857">
+<<<<<<< HEAD
+    <transform xil_pn:end_ts="1291195454" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="4668215030568983213" xil_pn:start_ts="1291195454">
+=======
+    <transform xil_pn:end_ts="1291196110" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="4668215030568983213" xil_pn:start_ts="1291196110">
+>>>>>>> b82a38ae83fec38ca6e2ef547133473f5e5b0722
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForProperties"/>
     </transform>
-    <transform xil_pn:end_ts="1291182857" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="4915677564661794408" xil_pn:start_ts="1291182857">
+    <transform xil_pn:end_ts="1291196110" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="4915677564661794408" xil_pn:start_ts="1291196110">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForProperties"/>
     </transform>
-    <transform xil_pn:end_ts="1291183794" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1291183793">
+<<<<<<< HEAD
+    <transform xil_pn:end_ts="1291196294" xil_pn:in_ck="-4834874850093277294" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1291196294">
+=======
+    <transform xil_pn:end_ts="1291196110" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1291196110">
+>>>>>>> b82a38ae83fec38ca6e2ef547133473f5e5b0722
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="async_inst_bram.v"/>
       <outfile xil_pn:name="comp_3.v"/>
-      <outfile xil_pn:name="coordinate_transform_testbench.v"/>
       <outfile xil_pn:name="core_test.v"/>
       <outfile xil_pn:name="diff_select.v"/>
       <outfile xil_pn:name="dummy_bram.v"/>
@@ -304,9 +329,21 @@
       <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fp_sub.v"/>
       <outfile xil_pn:name="viewport_trans.v"/>
     </transform>
-    <transform xil_pn:end_ts="1291183811" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-7885478225960728283" xil_pn:start_ts="1291183794">
+<<<<<<< HEAD
+    <transform xil_pn:end_ts="1291196302" xil_pn:in_ck="-4834874850093277294" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-7885478225960728283" xil_pn:start_ts="1291196294">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForProperties"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="OutputChanged"/>
+=======
+    <transform xil_pn:end_ts="1291196125" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-7885478225960728283" xil_pn:start_ts="1291196110">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+>>>>>>> b82a38ae83fec38ca6e2ef547133473f5e5b0722
       <outfile xil_pn:name="core_test_beh.prj"/>
       <outfile xil_pn:name="core_test_isim_beh.exe"/>
       <outfile xil_pn:name="fuse.log"/>
@@ -314,9 +351,17 @@
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1291183812" xil_pn:in_ck="8580034272641124120" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-2629055017825637190" xil_pn:start_ts="1291183811">
+<<<<<<< HEAD
+    <transform xil_pn:end_ts="1291196302" xil_pn:in_ck="-5554929432034713356" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-2629055017825637190" xil_pn:start_ts="1291196302">
+=======
+    <transform xil_pn:end_ts="1291196126" xil_pn:in_ck="8580034272641124120" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-2629055017825637190" xil_pn:start_ts="1291196125">
+>>>>>>> b82a38ae83fec38ca6e2ef547133473f5e5b0722
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForProperties"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="core_test_isim_beh.wdb"/>
       <outfile xil_pn:name="isim.cmd"/>
       <outfile xil_pn:name="isim.log"/>
@@ -325,42 +370,11 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1291025980" xil_pn:name="TRAN_schematicsToHdl" xil_pn:prop_ck="286356795642427905" xil_pn:start_ts="1291025980">
-      <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-    </transform>
-    <transform xil_pn:end_ts="1291025980" xil_pn:name="TRAN_regenerateCores" xil_pn:prop_ck="4915677564661794408" xil_pn:start_ts="1291025980">
-      <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-    </transform>
-    <transform xil_pn:end_ts="1291025980" xil_pn:name="TRAN_SubProjectAbstractToPreProxy" xil_pn:start_ts="1291025980">
-      <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-    </transform>
-    <transform xil_pn:end_ts="1291025980" xil_pn:name="TRAN_xawsTohdl" xil_pn:prop_ck="7342460182370619219" xil_pn:start_ts="1291025980">
-      <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-    </transform>
-    <transform xil_pn:end_ts="1291025980" xil_pn:name="TRAN_SubProjectPreToStructuralProxy" xil_pn:prop_ck="-8458126479482839362" xil_pn:start_ts="1291025980">
-      <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-    </transform>
-    <transform xil_pn:end_ts="1291025980" xil_pn:name="TRAN_platgen" xil_pn:prop_ck="-4745100932641209166" xil_pn:start_ts="1291025980">
-      <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-    </transform>
-    <transform xil_pn:end_ts="1291025991" xil_pn:in_ck="5509354355529838579" xil_pn:name="TRANEXT_xstsynthesize_virtex5" xil_pn:prop_ck="-6490798047358739570" xil_pn:start_ts="1291025980">
-      <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForInputs"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="InputChanged"/>
-      <status xil_pn:value="OutputRemoved"/>
-    </transform>
     <transform xil_pn:end_ts="1291002341" xil_pn:name="TRAN_compileBCD2" xil_pn:prop_ck="3017713074295523711" xil_pn:start_ts="1291002341">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForProperties"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
     </transform>
   </transforms>
 

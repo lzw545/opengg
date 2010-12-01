@@ -21,7 +21,8 @@
 
 `include "gl_defines.v"
 
-module gl_decode( rst, clk, opcode, imm, type, 
+module gl_decode( rst, clk, decode_stall, 
+                  opcode, imm, type, 
                   bram_addr_out, bram_addr_in,
                   bram_read_in_0, bram_read_in_1, bram_read_in_2, bram_read_in_3,
                   viewport_x, viewport_y, viewport_width, viewport_height,
@@ -33,13 +34,16 @@ module gl_decode( rst, clk, opcode, imm, type,
                   perspective_div_en,
                   fifo_write_en,
                   bram_mux_sel,
-                  stall);
+                  stall,
+                  flush);
 
     parameter
         reset_value = 0;
-        
+    
+    /* Decode Control */    
     input                       rst;
     input                       clk;
+    input                       decode_stall;
     
     input   [7:0]               opcode;
     input   [22:0]              imm;
@@ -86,6 +90,9 @@ module gl_decode( rst, clk, opcode, imm, type,
     output reg                  stall;
     reg [3:0]                   stall_count;
     
+    /* Flush */
+    output reg                  flush;
+    
     initial begin
         push_en             <= 0;
         pop_en              <= 0;
@@ -117,18 +124,29 @@ module gl_decode( rst, clk, opcode, imm, type,
             fifo_write_en <= 0;
             stall <= 0;
             stall_count <= 0;
+            flush <= 0;
+        end
+        else if (decode_stall)
+        begin
+            
         end
         else
         begin
             case(opcode)
+            /*
             `OP_BEGIN:
                 begin 
                 end
             `OP_END:
                 begin
                 end
+            */
             //`OP_FLUSH:
-            
+            8'b00000101:
+                begin
+                    flush <= 1;
+                    fifo_write_en <= 1;
+                end
             //`OP_VERTEX:
             8'b00000011:
                 begin
@@ -137,6 +155,7 @@ module gl_decode( rst, clk, opcode, imm, type,
                         begin
                             matrix_load_id_en <= 0;
                             fifo_write_en <= 0;
+                            flush <= 0;
 
                             bram_mux_sel <= 0;
                             matrix_mul_en <= 1;                     // enable modelview matrix multiply
@@ -160,7 +179,7 @@ module gl_decode( rst, clk, opcode, imm, type,
                     2:                                              // projection matrix multiply is done
                         begin
                             stall_count <= stall_count - 1;
-                                    perspective_div_en <= 1;
+                            perspective_div_en <= 1;
                             stall <= 0;
                         end
 
@@ -188,6 +207,7 @@ module gl_decode( rst, clk, opcode, imm, type,
                         begin
                             matrix_load_id_en <= 0;
                             fifo_write_en <= 0;
+                            flush <= 0;
 
                             bram_mux_sel  <= 0;
                             bram_addr_out <= bram_addr_in;
@@ -208,6 +228,7 @@ module gl_decode( rst, clk, opcode, imm, type,
                 begin
                     matrix_load_id_en <= 0;
                     fifo_write_en <= 0;
+                    flush <= 0;
 
                     curr_matrix_mode <= imm[0];
                 end
@@ -219,6 +240,7 @@ module gl_decode( rst, clk, opcode, imm, type,
                         begin
                             matrix_load_id_en <= 0;
                             fifo_write_en <= 0;
+                            flush <= 0;
 
                             matrix_mul_en <= 1;
                             matrix_mul_type <= 1;
@@ -252,6 +274,7 @@ module gl_decode( rst, clk, opcode, imm, type,
                 begin
                     matrix_load_id_en <= 1;
                     fifo_write_en <= 0;
+                    flush <= 0;
 
                     bram_mux_sel <= 0;
                     matrix_mode_out <= curr_matrix_mode;
@@ -264,7 +287,7 @@ module gl_decode( rst, clk, opcode, imm, type,
                         begin
                             matrix_load_id_en <= 0;
                             fifo_write_en <= 0;
-
+                            flush <= 0;
                         
                             matrix_load_en <= 1;
                             stall <= 1;
@@ -297,7 +320,7 @@ module gl_decode( rst, clk, opcode, imm, type,
                 begin
                     matrix_load_id_en <= 0;
                     fifo_write_en <= 0;
-
+                    flush <= 0;
 
                     matrix_mode_out <= curr_matrix_mode;
                     push_en <= 1;
@@ -307,7 +330,7 @@ module gl_decode( rst, clk, opcode, imm, type,
                 begin
                     matrix_load_id_en <= 0;
                     fifo_write_en <= 0;
-
+                    flush <= 0;
 
                     matrix_mode_out <= curr_matrix_mode;
                     pop_en <= 1;
@@ -317,7 +340,7 @@ module gl_decode( rst, clk, opcode, imm, type,
                 begin
                     matrix_load_id_en <= 0;
                     fifo_write_en <= 0;
-
+                    flush <= 0;
 
                     viewport_x      <= bram_read_in_0;
                     viewport_y      <= bram_read_in_1;
@@ -328,6 +351,7 @@ module gl_decode( rst, clk, opcode, imm, type,
                 begin
                     matrix_load_id_en <= 0;
                     fifo_write_en <= 0;
+                    flush <= 0;
                 end
             endcase
         end

@@ -127,7 +127,6 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                         inst_out <= 32'h80001011;					// MULTMATRIX
                         decode_bram_addr <= inst_addr + 1;
                         tmp_stall <= 1;
-
                     end
                     //`OP_ORTHO:
                     8'b00011011:
@@ -136,7 +135,12 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                         inst_out <= 32'h80001011;					// MULTMATRIX
                         decode_bram_addr <= inst_addr + 1;
                         tmp_stall <= 1;
-
+                    end
+                    //`OP_JMP:
+                    8'b00000110:
+                    begin
+                        inst_addr <= 0;
+                        inst_out <= inst_in;
                     end
                     default:
                     begin

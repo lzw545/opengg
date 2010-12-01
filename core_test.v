@@ -62,10 +62,12 @@ module core_test(
         bram_clk <= 0;
         test <= 32'hABCD;
         core_reset <= 0;
-        # 100
+        /*
+        # 5000
         core_reset <= 1;
-        # 10
+        # 500
         core_reset <= 0;
+        */
     end
     
     gl_core_internal core ( .clk1(clk1), 
@@ -113,7 +115,6 @@ module core_test(
                 .Bus2IP_Mst_CmdAck(fb_ack),
                 .Bus2IP_Mst_Cmplt(fb_ack),
                 .IP2Bus_MstWr_d(fb_data)
-                
                 
     );
 

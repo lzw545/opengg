@@ -1,4 +1,4 @@
-                    `timescale 1ns / 1ps
+                `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -105,16 +105,6 @@ module gl_core_internal(clk1, clk2, reset,
                                 .read3(bram_read_2), 
                                 .read4(bram_read_3));
     
-    /*
-    dummy_bram bram(.addr1(fetch_inst_addr),
-                    .addr2(bram_mux_sel ? matrix_mul_addr_out : decode_addr_out),
-                    .read0(fetch_inst_in),
-                    .read1(bram_read_0), 
-                    .read2(bram_read_1), 
-                    .read3(bram_read_2), 
-                    .read4(bram_read_3));
-    */
-    
     gl_fetch fetch(.inst_out(fetch_inst_out), 
                    .inst_in(fetch_inst_in), 
                    .inst_addr(fetch_inst_addr), 
@@ -131,11 +121,14 @@ module gl_core_internal(clk1, clk2, reset,
     wire [31:0] green_out;
     wire [31:0] blue_out;
     
+    wire        flush;
+    
     assign  opcode      = fetch_inst_out[7:0];
     assign  imm         = fetch_inst_out[30:8];
     assign  inst_type   = fetch_inst_out[31];
     
-    gl_decode  dc (.rst(reset), .clk(clk1), .opcode(opcode), .imm(imm), .type(inst_type), 
+    gl_decode dc (.rst(reset), .clk(clk1), .decode_stall(fifo_full), 
+                  .opcode(opcode), .imm(imm), .type(inst_type), 
                   .bram_addr_out(decode_addr_out),
                   .bram_mux_sel(bram_mux_sel),
                   .bram_addr_in(decode_bram_addr),
@@ -160,7 +153,8 @@ module gl_core_internal(clk1, clk2, reset,
                   .matrix_mode_mux_sel(matrix_mode_mux_sel),
                   .perspective_div_en(perspective_div_en),
                   .fifo_write_en(fifo_write_en),
-                  .stall(stall) );
+                  .stall(stall),
+                  .flush(flush));
     
     
     wire [127:0] data_in;
@@ -168,6 +162,7 @@ module gl_core_internal(clk1, clk2, reset,
     assign data_in = {bram_read_0, bram_read_1, bram_read_2, bram_read_3};
     
     matrix_ctrl matctr( .clk(clk1), 
+                        .reset(reset),
                         .matrix_mode(decode_matrix_mode_out), 
                         .pop_en(pop_en), 
                         .push_en(push_en), 
@@ -186,6 +181,7 @@ module gl_core_internal(clk1, clk2, reset,
     
     
     matrix_mul matmul(  .clk(clk1), 
+                        .reset(reset),
                         .en(matrix_mul_en), 
                         .matrix_mode_in(matrix_mode), 
                         .matrix_mode_out(matmul_matrix_mode_out),
@@ -296,9 +292,11 @@ module gl_core_internal(clk1, clk2, reset,
     wire [95:0] vertex_fifo_in;
     wire [95:0] color_fifo_in;
     
-    assign vertex_fifo_in = {vt_addx2_result, vt_addy2_result, 32'h0};
-    assign color_fifo_in = {pd_red, pd_green, pd_blue};
-    
+    assign vertex_fifo_in = flush ? 96'hFFFFFFFF_FFFFFFFF_FFFFFFFF :
+                                    {vt_addx2_result, vt_addy2_result, 32'h0};
+    assign color_fifo_in = flush ? 96'hFFFFFFFF_FFFFFFFF_FFFFFFFF :
+                                    {pd_red, pd_green, pd_blue};
+    /*
     reg [95:0] vertex_end;
     reg [95:0] color_end;
     
@@ -307,11 +305,11 @@ module gl_core_internal(clk1, clk2, reset,
     begin
         if (fifo_write_en)
         begin
-            vertex_end <= vertex_fifo_in;
-            color_end <= color_fifo_in;
+            vertex_end <=  vertex_fifo_in;
+            color_end <= flush ? 96'hFFFFFFFF_FFFFFFFF_FFFFFFFF : color_fifo_in;
         end
     end
-    
+    */
     
     /*********************************************/
     /*  RASTERIZER                               */
@@ -346,6 +344,7 @@ module gl_core_internal(clk1, clk2, reset,
     wire pixel_wen;
     wire pixel_full;
 
+    wire fifo_reg_flush;
     
     fifo_96 vertex_fifo(.rst(reset),
                         .wr_clk(clk1),
@@ -376,6 +375,7 @@ module gl_core_internal(clk1, clk2, reset,
                           .vertex_in(vertex_rd_data), 
                           .color_in(color_rd_data),
                           .dequeue(dequeue), 
+                          .flush(fifo_reg_flush),
                           .vertex_rd_en(vertex_rd_en), 
                           .color_rd_en(color_rd_en),
                           .vertex_out(vin1), 
@@ -386,10 +386,11 @@ module gl_core_internal(clk1, clk2, reset,
                           .color_out3(cin3)
                        );
     
-
+    wire raster_state;
     
     gl_rasterizer GL_RAS(   .clk(clk2), 
                             .full(pixel_full),
+                            .state(raster_state),
                             .wr_data(pixel_data), 
                             .wr_en(pixel_wen),
                             .raster_ready(dequeue), 
