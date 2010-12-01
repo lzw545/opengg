@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module gl_rasterizer( clk, full, wr_data, wr_en,
+module gl_rasterizer( clk, full, state, wr_data, wr_en,
 		      raster_ready, fifo_ready,
           vertex_in1, vertex_in2, vertex_in3,
 		      color_in1, color_in2, color_in3 );
@@ -84,7 +84,7 @@ parameter COL_LEN = 10;
     reg [VERTEX_TYPE_SIZE-1:0]  vertex_2;
     reg [VERTEX_TYPE_SIZE-1:0]  vertex_3;
 
-    reg [1:0] state = 0;
+    output reg [1:0] state = 0;
     
     wire [31:0] x1;
     wire [31:0] x2;
@@ -422,17 +422,14 @@ parameter COL_LEN = 10;
         else
           /* x is out of loop range, go to outer loop */
 		      begin
-          wr_en <= 0;
-          wr_data <= 0;
+              wr_en <= 0;
+              wr_data <= 0;
 		      state <= 1;
-          cx1_reg <= cx1_reg; 
-          cx2_reg <= cx2_reg; 
-          cx3_reg <= cx3_reg; 
-          count_x <= count_x;
+              cx1_reg <= cx1_reg; 
+              cx2_reg <= cx2_reg; 
+              cx3_reg <= cx3_reg; 
+              count_x <= count_x;
 		      end
-        end
-	    default:
-        begin
         end
       endcase
   end	
