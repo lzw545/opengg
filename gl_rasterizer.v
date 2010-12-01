@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module gl_rasterizer( clk, full, wr_data, wr_en, flush,
+module gl_rasterizer( clk, full, wr_data, wr_en,
 		      raster_ready, fifo_ready,
           vertex_in1, vertex_in2, vertex_in3,
 		      color_in1, color_in2, color_in3 );
@@ -30,7 +30,7 @@ parameter COL_LEN = 10;
 
 
     input clk;
-    input flush;
+  
     /* writer domain */
     input full;
     output reg [95:0] wr_data;
@@ -330,25 +330,16 @@ parameter COL_LEN = 10;
         cx1_reg <= 0;
         cx2_reg <= 0;
         cx3_reg <= 0;
-        count_y <= miny_int - 1;        
+        count_y <= miny_int - 1;
+        wr_en <= 0;
+        wr_data <= 0;          
         if (fifo_ready)
           begin
           state <= 1;        
           raster_ready <= 0;
-          wr_en <= 0;
-          wr_data <= 0;  
-          end
-        else if (flush)
-          begin
-          wr_en <= 1;
-          wr_data <= 96'hFFFFFFFF_FFFFFFFF_FFFFFFFF;  
-          state <= 0;       
-          raster_ready <= 1;
           end
         else
           begin
-          wr_en <= 0;
-          wr_data <= 0;  
           state <= 0;       
           raster_ready <= 1;
           end

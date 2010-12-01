@@ -157,6 +157,7 @@
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="inst_bram_summary.html"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="isim"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_CMD" xil_pn:name="isim.cmd"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_LOG" xil_pn:name="isim.log"/>
     <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="mat_mul_testbench.cmd_log"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="mat_mul_testbench.lso"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="mat_mul_testbench.prj"/>
@@ -223,56 +224,11 @@
   </files>
 
   <transforms xmlns="http://www.xilinx.com/XMLSchema">
-    <transform xil_pn:end_ts="1291192853" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1291192853">
+    <transform xil_pn:end_ts="1291196109" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1291196109">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1291192853" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1291192853">
-      <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="async_inst_bram.v"/>
-      <outfile xil_pn:name="comp_3.v"/>
-      <outfile xil_pn:name="coordinate_transform_testbench.v"/>
-      <outfile xil_pn:name="core_test.v"/>
-      <outfile xil_pn:name="diff_select.v"/>
-      <outfile xil_pn:name="dummy_bram.v"/>
-      <outfile xil_pn:name="fbwriter.v"/>
-      <outfile xil_pn:name="fetch_decode_testbench.v"/>
-      <outfile xil_pn:name="gl_core.v"/>
-      <outfile xil_pn:name="gl_decode.v"/>
-      <outfile xil_pn:name="gl_defines.v"/>
-      <outfile xil_pn:name="gl_fetch.v"/>
-      <outfile xil_pn:name="gl_rasterizer.v"/>
-      <outfile xil_pn:name="inst_bram.v"/>
-      <outfile xil_pn:name="mat_mul_testbench.v"/>
-      <outfile xil_pn:name="mat_mul_testbench2.v"/>
-      <outfile xil_pn:name="mat_testbench.v"/>
-      <outfile xil_pn:name="matrix_ctrl.v"/>
-      <outfile xil_pn:name="matrix_ctrl_testbench.v"/>
-      <outfile xil_pn:name="matrix_mul.v"/>
-      <outfile xil_pn:name="matrix_row_comp.v"/>
-      <outfile xil_pn:name="rasterizer_testbench/fifo_reg.v"/>
-      <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/f2i.v"/>
-      <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fifo_96.v"/>
-      <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fp_add.v"/>
-      <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fp_div.v"/>
-      <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fp_mul.v"/>
-      <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fp_sub.v"/>
-      <outfile xil_pn:name="viewport_trans.v"/>
-    </transform>
-    <transform xil_pn:end_ts="1291192853" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="3201976763045618879" xil_pn:start_ts="1291192853">
-      <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-    </transform>
-    <transform xil_pn:end_ts="1291192853" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="4668215030568983213" xil_pn:start_ts="1291192853">
-      <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-    </transform>
-    <transform xil_pn:end_ts="1291192853" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="4915677564661794408" xil_pn:start_ts="1291192853">
-      <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-    </transform>
-    <transform xil_pn:end_ts="1291192853" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1291192853">
+    <transform xil_pn:end_ts="1291196110" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1291196109">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="async_inst_bram.v"/>
@@ -305,20 +261,67 @@
       <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fp_sub.v"/>
       <outfile xil_pn:name="viewport_trans.v"/>
     </transform>
-    <transform xil_pn:end_ts="1291192873" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-7885478225960728283" xil_pn:start_ts="1291192853">
+    <transform xil_pn:end_ts="1291196110" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="3201976763045618879" xil_pn:start_ts="1291196110">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1291196110" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="4668215030568983213" xil_pn:start_ts="1291196110">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1291196110" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="4915677564661794408" xil_pn:start_ts="1291196110">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1291196110" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1291196110">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="async_inst_bram.v"/>
+      <outfile xil_pn:name="comp_3.v"/>
+      <outfile xil_pn:name="coordinate_transform_testbench.v"/>
+      <outfile xil_pn:name="core_test.v"/>
+      <outfile xil_pn:name="diff_select.v"/>
+      <outfile xil_pn:name="dummy_bram.v"/>
+      <outfile xil_pn:name="fbwriter.v"/>
+      <outfile xil_pn:name="fetch_decode_testbench.v"/>
+      <outfile xil_pn:name="gl_core.v"/>
+      <outfile xil_pn:name="gl_decode.v"/>
+      <outfile xil_pn:name="gl_defines.v"/>
+      <outfile xil_pn:name="gl_fetch.v"/>
+      <outfile xil_pn:name="gl_rasterizer.v"/>
+      <outfile xil_pn:name="inst_bram.v"/>
+      <outfile xil_pn:name="mat_mul_testbench.v"/>
+      <outfile xil_pn:name="mat_mul_testbench2.v"/>
+      <outfile xil_pn:name="mat_testbench.v"/>
+      <outfile xil_pn:name="matrix_ctrl.v"/>
+      <outfile xil_pn:name="matrix_ctrl_testbench.v"/>
+      <outfile xil_pn:name="matrix_mul.v"/>
+      <outfile xil_pn:name="matrix_row_comp.v"/>
+      <outfile xil_pn:name="rasterizer_testbench/fifo_reg.v"/>
+      <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/f2i.v"/>
+      <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fifo_96.v"/>
+      <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fp_add.v"/>
+      <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fp_div.v"/>
+      <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fp_mul.v"/>
+      <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fp_sub.v"/>
+      <outfile xil_pn:name="viewport_trans.v"/>
+    </transform>
+    <transform xil_pn:end_ts="1291196125" xil_pn:in_ck="5213957528194737112" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-7885478225960728283" xil_pn:start_ts="1291196110">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="core_test_beh.prj"/>
       <outfile xil_pn:name="core_test_isim_beh.exe"/>
       <outfile xil_pn:name="fuse.log"/>
       <outfile xil_pn:name="isim"/>
+      <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1291192873" xil_pn:in_ck="8580034272641124120" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-2629055017825637190" xil_pn:start_ts="1291192873">
+    <transform xil_pn:end_ts="1291196126" xil_pn:in_ck="8580034272641124120" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-2629055017825637190" xil_pn:start_ts="1291196125">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="core_test_isim_beh.wdb"/>
       <outfile xil_pn:name="isim.cmd"/>
+      <outfile xil_pn:name="isim.log"/>
     </transform>
     <transform xil_pn:end_ts="1290894357" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1290894357">
       <status xil_pn:value="SuccessfullyRun"/>
