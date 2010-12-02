@@ -93,6 +93,10 @@
     <transform xil_pn:end_ts="1291190699" xil_pn:in_ck="-132309379795950213" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1291190699">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="../../../../../../async_inst_bram.v"/>
       <outfile xil_pn:name="../../../../../../comp_3.v"/>
       <outfile xil_pn:name="../../../../../../fbwriter.v"/>
@@ -136,38 +140,48 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290997381" xil_pn:name="TRAN_schematicsToHdl" xil_pn:prop_ck="6618379915579685156" xil_pn:start_ts="1290997381">
+    <transform xil_pn:end_ts="1291198048" xil_pn:name="TRAN_schematicsToHdl" xil_pn:prop_ck="6618379915579685156" xil_pn:start_ts="1291198048">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290997381" xil_pn:name="TRAN_regenerateCores" xil_pn:prop_ck="6021235139471253931" xil_pn:start_ts="1290997381">
+    <transform xil_pn:end_ts="1291198048" xil_pn:name="TRAN_regenerateCores" xil_pn:prop_ck="6021235139471253931" xil_pn:start_ts="1291198048">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290997381" xil_pn:name="TRAN_SubProjectAbstractToPreProxy" xil_pn:start_ts="1290997381">
+    <transform xil_pn:end_ts="1291198048" xil_pn:name="TRAN_SubProjectAbstractToPreProxy" xil_pn:start_ts="1291198048">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290997381" xil_pn:name="TRAN_xawsTohdl" xil_pn:prop_ck="-421078204611854218" xil_pn:start_ts="1290997381">
+    <transform xil_pn:end_ts="1291198048" xil_pn:name="TRAN_xawsTohdl" xil_pn:prop_ck="-421078204611854218" xil_pn:start_ts="1291198048">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290997381" xil_pn:name="TRAN_SubProjectPreToStructuralProxy" xil_pn:prop_ck="-8458126479482839362" xil_pn:start_ts="1290997381">
+    <transform xil_pn:end_ts="1291198048" xil_pn:name="TRAN_SubProjectPreToStructuralProxy" xil_pn:prop_ck="-8458126479482839362" xil_pn:start_ts="1291198048">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1290997381" xil_pn:name="TRAN_platgen" xil_pn:prop_ck="-2296953173687596555" xil_pn:start_ts="1290997381">
+    <transform xil_pn:end_ts="1291198048" xil_pn:name="TRAN_platgen" xil_pn:prop_ck="-2296953173687596555" xil_pn:start_ts="1291198048">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1291000829" xil_pn:in_ck="-4481342738875995103" xil_pn:name="TRANEXT_xstsynthesize_virtex5" xil_pn:prop_ck="4766196063296672945" xil_pn:start_ts="1291000300">
+    <transform xil_pn:end_ts="1291198890" xil_pn:in_ck="-132309379795950213" xil_pn:name="TRANEXT_xstsynthesize_virtex5" xil_pn:prop_ck="4766196063296672945" xil_pn:start_ts="1291198048">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForInputs"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="InputChanged"/>
-      <status xil_pn:value="OutputRemoved"/>
+      <outfile xil_pn:name="_xmsgs/xst.xmsgs"/>
+      <outfile xil_pn:name="opengg.lso"/>
+      <outfile xil_pn:name="opengg.ngc"/>
+      <outfile xil_pn:name="opengg.ngr"/>
+      <outfile xil_pn:name="opengg.prj"/>
+      <outfile xil_pn:name="opengg.stx"/>
+      <outfile xil_pn:name="opengg.syr"/>
+      <outfile xil_pn:name="opengg.xst"/>
+      <outfile xil_pn:name="opengg_vhdl.prj"/>
+      <outfile xil_pn:name="opengg_xst.xrpt"/>
+      <outfile xil_pn:name="webtalk_pn.xml"/>
+      <outfile xil_pn:name="xst"/>
     </transform>
     <transform xil_pn:end_ts="1290990757" xil_pn:name="TRAN_compileBCD2" xil_pn:prop_ck="-6719904106657735015" xil_pn:start_ts="1290990757">
       <status xil_pn:value="SuccessfullyRun"/>

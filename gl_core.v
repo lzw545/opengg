@@ -396,6 +396,7 @@ module gl_core_internal(clk1, clk2, reset,
     
     gl_rasterizer GL_RAS(   .clk(clk2), 
                             .full(pixel_full),
+                            .flush(fifo_reg_flush),
                             .state(raster_state),
                             .wr_data(pixel_data), 
                             .wr_en(pixel_wen),

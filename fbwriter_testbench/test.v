@@ -77,7 +77,7 @@ module test;
 	initial begin
 		// Initialize Inputs
 		reset = 1;
-		fifo_data = ~('d3);
+		fifo_data = {~(30'd3), ~(66'd0)};
 		fifo_empty = 1;
 		PLB_clk = 0;
 		Bus2IP_Reset = 0;
@@ -105,7 +105,7 @@ module test;
 	  end      
   always @ (posedge PLB_clk)
     if ( fifo_rd_en )
-      fifo_data <= fifo_data + 1;
+      fifo_data[0:29] <= fifo_data[0:29] + 1;
     
   always @ (posedge PLB_clk)
     if ( fifo_rd_en && fifo_empty == 0 )

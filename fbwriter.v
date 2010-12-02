@@ -28,7 +28,7 @@ module fbwriter(
     
     PLB_clk,
 	 
-	 Bus2IP_Reset,    
+	Bus2IP_Reset,    
     IP2Bus_MstRd_Req,
     IP2Bus_MstWr_Req,
     IP2Bus_Mst_Addr,
@@ -97,8 +97,6 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   reg     [0 : COL_LEN-1]                flush_col = 0;
   
   wire flush_done = (flush_line == 'b0) && (flush_col == 'b0);
-  wire flushed = (line == 'b0) && (col == 'b0) && flush_done;
-
 
   // assign IPIF input wires
   assign IP2Bus_MstRd_Req                    = 0;
@@ -145,7 +143,7 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
     if ( reset || Bus2IP_Reset )
       flush_line <= 9'd0;
     else if ( fifo_rd_en_delayed && fifo_data == ~('b0) )
-      flush_line <= 9'd9;
+      flush_line <= 9'd439;
     else if ( Bus2IP_Mst_Cmplt && !flush_done && flush_col == 'b0 )
       flush_line <= flush_line - 1;
     else 
@@ -156,10 +154,10 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
     if ( reset || Bus2IP_Reset )
       flush_col <= 'd0;
     else if ( fifo_rd_en_delayed && (fifo_data == ~('b0)) )
-      flush_col <= 10'd19;
+      flush_col <= 10'd639;
     else if ( Bus2IP_Mst_Cmplt && !flush_done )
       if ( flush_col == 'b0 )
-        flush_col <= 10'd19;
+        flush_col <= 10'd639;
       else
         flush_col <= flush_col - 1;
     else 
@@ -180,7 +178,7 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
 		 begin
 		   wr_req <= 0;
 		 end
-       else if ( !flushed && !flush_done && completed )
+       else if ( !flush_done && completed )
 	     begin
            line   <= flush_line;
            col    <= flush_col;
@@ -192,8 +190,8 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
             if ( fifo_data == ~('b0) )
               begin
               // start flush operation
-                line   <= 'd9;
-                col    <= 'd19;
+                line   <= 'd479;
+                col    <= 'd639;
                 color  <= 'd0;
                 wr_req <= 1;
               end
