@@ -336,7 +336,7 @@ module gl_core_internal(clk1, clk2, reset,
     wire pixel_full;
 
     wire fifo_reg_flush;
-    
+    /*
     reg fifo_fail;
     initial begin
         fifo_fail <= 0;
@@ -350,13 +350,14 @@ module gl_core_internal(clk1, clk2, reset,
         fifo_fail <= 0;
     end
     assign fifo_full = fifo_fail;
-    //assign fifo_full = vertex_full || color_full;
+    */
+    assign fifo_full = vertex_full || color_full;
     
     fifo_96 vertex_fifo(.rst(reset),
                         .wr_clk(clk1),
                         .rd_clk(clk2),
                         .din(vertex_fifo_in),
-                        .wr_en(fifo_write_en),
+                        .wr_en(fifo_full ? 1'b0 : fifo_write_en),
                         .rd_en(vertex_rd_en),
                         .dout(vertex_rd_data),
                         .full(vertex_full),
@@ -367,7 +368,7 @@ module gl_core_internal(clk1, clk2, reset,
                         .wr_clk(clk1),
                         .rd_clk(clk2),
                         .din(color_fifo_in),
-                        .wr_en(fifo_write_en),
+                        .wr_en(fifo_full ? 1'b0 :fifo_write_en),
                         .rd_en(color_rd_en),
                         .dout(color_rd_data),
                         .full(color_full),
