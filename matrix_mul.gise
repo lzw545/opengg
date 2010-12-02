@@ -69,6 +69,10 @@
     <transform xil_pn:end_ts="1291266097" xil_pn:in_ck="-4834874850093277294" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1291266096">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="async_inst_bram.v"/>
       <outfile xil_pn:name="comp_3.v"/>
       <outfile xil_pn:name="core_test.v"/>
@@ -113,6 +117,11 @@
     <transform xil_pn:end_ts="1291266097" xil_pn:in_ck="-4834874850093277294" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1291266097">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="async_inst_bram.v"/>
       <outfile xil_pn:name="comp_3.v"/>
       <outfile xil_pn:name="core_test.v"/>
@@ -145,6 +154,10 @@
     <transform xil_pn:end_ts="1291266111" xil_pn:in_ck="-4834874850093277294" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-7885478225960728283" xil_pn:start_ts="1291266097">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForProperties"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="InputChanged"/>
       <outfile xil_pn:name="core_test_beh.prj"/>
       <outfile xil_pn:name="core_test_isim_beh.exe"/>
       <outfile xil_pn:name="fuse.log"/>
@@ -154,8 +167,12 @@
     <transform xil_pn:end_ts="1291266111" xil_pn:in_ck="-527472152789273747" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-2629055017825637190" xil_pn:start_ts="1291266111">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="core_test_isim_beh.wdb"/>
-      <outfile xil_pn:name="isim.cmd"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForProperties"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1291197839" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1291197839">
       <status xil_pn:value="SuccessfullyRun"/>
