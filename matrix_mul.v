@@ -21,7 +21,8 @@
 
 // Assumes 
 
-module matrix_mul(clk, reset, en, matrix_mode_in, matrix_mode_out, mul_type, 
+module matrix_mul(clk, reset, fifo_full, en, 
+                  matrix_mode_in, matrix_mode_out, mul_type, 
                   bram_addr_in, bram_addr_out, 
                   bram_read_in_0, bram_read_in_1, bram_read_in_2, bram_read_in_3,
                   matrix_peek_0, matrix_peek_1, matrix_peek_2, matrix_peek_3,
@@ -32,6 +33,7 @@ module matrix_mul(clk, reset, en, matrix_mode_in, matrix_mode_out, mul_type,
     
     input           clk;                // clock
     input           reset;              // reset
+    input           fifo_full;          // fifos are full
     
     input           en;                 // enable is high for 1 clock cycle
     input           matrix_mode_in;     // specifies the matrix mode: 0 = modelview; 1 = projection
@@ -112,6 +114,16 @@ module matrix_mul(clk, reset, en, matrix_mode_in, matrix_mode_out, mul_type,
             counter <= 0;
             vertex_step_2 <= 0;
             vector_result_a <= 0;
+        end
+        else if (fifo_full)
+        begin
+            bram_offset <= bram_offset;
+            matrix_write_en <= matrix_write_en;
+            matrix_mode_out <= matrix_mode_out;
+            state <= state;
+            counter <= counter;
+            vertex_step_2 <= vertex_step_2;
+            vector_result_a <= vector_result_a;
         end
         else
         begin    

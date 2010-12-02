@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="70" />
+   <WVObjectSize size="72" />
    <wvobject fp_name="/core_test/bram_a_din" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">bram_a_din[31:0]</obj_property>
       <obj_property name="ObjectShortName">bram_a_din[31:0]</obj_property>
@@ -30,6 +30,10 @@
    <wvobject fp_name="/core_test/core_reset" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">core_reset</obj_property>
       <obj_property name="ObjectShortName">core_reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/fifo_full" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">fifo_full</obj_property>
+      <obj_property name="ObjectShortName">fifo_full</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/fifo_write_en" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">fifo_write_en</obj_property>
@@ -54,6 +58,21 @@
       <obj_property name="ElementShortName">fetch_inst_addr[31:0]</obj_property>
       <obj_property name="ObjectShortName">fetch_inst_addr[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/dc/opcode" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">opcode[7:0]</obj_property>
+      <obj_property name="ObjectShortName">opcode[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/fetch_inst_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fetch_inst_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fetch_inst_out[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/fetch_inst_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fetch_inst_in[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fetch_inst_in[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/fifo_peek/state" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">state[1:0]</obj_property>
@@ -201,16 +220,6 @@
    <wvobject fp_name="/core_test/core/color_empty" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">color_empty</obj_property>
       <obj_property name="ObjectShortName">color_empty</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fetch_inst_out" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">fetch_inst_out[31:0]</obj_property>
-      <obj_property name="ObjectShortName">fetch_inst_out[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fetch_inst_in" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">fetch_inst_in[31:0]</obj_property>
-      <obj_property name="ObjectShortName">fetch_inst_in[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/color_rd_en" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">color_rd_en</obj_property>

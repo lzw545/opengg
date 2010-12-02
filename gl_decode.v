@@ -128,7 +128,10 @@ module gl_decode( rst, clk, decode_stall,
         end
         else if (decode_stall)
         begin
-            
+            fifo_write_en <= fifo_write_en;
+            stall <= stall;
+            stall_count <= stall_count;
+            flush <= flush;
         end
         else
         begin
@@ -269,6 +272,43 @@ module gl_decode( rst, clk, decode_stall,
                         end
                     endcase
                 end
+            //`OP_ROTATE:
+            8'b00010110:
+                begin
+                    case (stall_count)
+                        0:
+                        begin
+                            matrix_load_id_en <= 0;
+                            fifo_write_en <= 0;
+                            flush <= 0;
+
+                            matrix_mul_en <= 1;
+                            matrix_mul_type <= 1;
+                            bram_addr_out <= bram_addr_in;
+                            bram_mux_sel <= 1;                      // let matrix_ctrl select the bram address
+                            matrix_mode_out <= 0;                   // modelview
+                            stall <= 1;
+                            stall_count <= 15;
+                        end
+                        
+                        2:
+                        begin
+                            stall <= 0;
+                            stall_count <= stall_count - 1;
+                        end
+                        
+                        1:
+                        begin
+                            stall_count <= stall_count - 1;
+                        end
+                        
+                        default:
+                        begin
+                            matrix_mul_en <= 0;
+                            stall_count <= stall_count - 1;
+                        end
+                    endcase
+                end
             //`OP_LOADID:
             8'b00010010:
                 begin
@@ -293,7 +333,7 @@ module gl_decode( rst, clk, decode_stall,
                             stall <= 1;
                             stall_count <= 3;
                             bram_addr_out <= bram_addr_in;
-                                    bram_mux_sel <= 0;
+                            bram_mux_sel <= 0;
                             matrix_mode_out <= curr_matrix_mode;
                         end
                     1:

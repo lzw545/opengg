@@ -61,13 +61,9 @@ module core_test(
         clk2 <= 0;
         bram_clk <= 0;
         test <= 32'hABCD;
-        core_reset <= 0;
-        /*
-        # 5000
         core_reset <= 1;
         # 500
         core_reset <= 0;
-        */
     end
     
     gl_core_internal core ( .clk1(clk1), 

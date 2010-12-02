@@ -21,10 +21,9 @@
 `include "gl_defines.v"
 module gl_fetch(inst_out, inst_in, inst_addr,
                 decode_bram_addr,
-                clk, stall, reset);
+                clk, stall, reset, fifo_full);
 
     parameter
-        //text_start = 32'hA0000000,
         text_start = 0,
         width = 32,
         reset_value = 0;
@@ -33,8 +32,10 @@ module gl_fetch(inst_out, inst_in, inst_addr,
     output reg  [(width-1):0]   inst_addr;              // instruction address (bram read)
     output reg  [(width-1):0]   decode_bram_addr;       // 
     input       [(width-1):0]   inst_in;                // 
+    
     input                       clk;                    // 
     input                       stall;                  // stall
+    input                       fifo_full;              // vertex and color fifo full
     input                       reset;
 
     reg                         tmp_stall;              // temporary stall
@@ -48,11 +49,22 @@ module gl_fetch(inst_out, inst_in, inst_addr,
     
     
     always @ (posedge clk) begin
-        if (tmp_stall)
+        if (reset)                             // Reset
+            begin
+                inst_addr <= text_start;
+                inst_out <= reset_value;
+                tmp_stall <= 0;
+            end
+        else if (tmp_stall)
             begin
                 tmp_stall <= 0;
             end
-        else if (~reset && ~stall)                   // Normal Operation
+        else if (stall || fifo_full)           // Stall
+            begin
+                inst_addr <= inst_addr;
+                inst_out <= inst_out;
+            end
+        else                                   // Normal Operation
             begin
                 case (inst_in[7:0])
                     //`OP_VERTEX:
@@ -91,7 +103,7 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     8'b00010110:
                     begin
                         inst_addr <= inst_addr + 17;
-                        inst_out <= 32'h80001011;					// MULTMATRIX
+                        inst_out <= 32'h80001016;					// Rotate
                         decode_bram_addr <= inst_addr + 1;
                         tmp_stall <= 1;
                     end
@@ -99,7 +111,7 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     8'b00010111:
                     begin
                         inst_addr <= inst_addr + 17;
-                        inst_out <= 32'h80001011;					// MULTMATRIX
+                        inst_out <= 32'h80001016;					// Rotate
                         decode_bram_addr <= inst_addr + 1;
                         tmp_stall <= 1;
 
@@ -108,7 +120,7 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     8'b00011000:
                     begin
                         inst_addr <= inst_addr + 17;
-                        inst_out <= 32'h80001011;					// MULTMATRIX
+                        inst_out <= 32'h80001016;					// Rotate
                         decode_bram_addr <= inst_addr + 1;
                         tmp_stall <= 1;
                     end
@@ -149,16 +161,6 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     end
                 endcase
             end
-        else if (~reset)                        // Stall
-            begin
-                inst_addr <= inst_addr;
-                inst_out <= inst_out;
-            end
-        else                                    // Reset
-            begin
-                inst_addr <= text_start;
-                inst_out <= reset_value;
-                tmp_stall <= 0;
-            end
+
     end
 endmodule

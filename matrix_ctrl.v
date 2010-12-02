@@ -27,7 +27,8 @@
  * Peek: Combinational, data_out_temp
  *
  */
-module matrix_ctrl(clk, reset, matrix_mode, 
+module matrix_ctrl(clk, reset, fifo_full,
+                   matrix_mode, 
                    pop_en, push_en, 
                    data_in, write_en, load_en, load_id_en,
                    peek_out_0, peek_out_1, peek_out_2, peek_out_3,
@@ -36,6 +37,7 @@ module matrix_ctrl(clk, reset, matrix_mode,
 
     input           clk;
     input           reset;
+    input           fifo_full;
     
     input           matrix_mode;                    // 1 bit: 0 = modelview; 1 = projection
     input           pop_en;
@@ -168,7 +170,10 @@ module matrix_ctrl(clk, reset, matrix_mode,
             modelview_stack[1]  <= 127'h00000000_00000000_3F800000_00000000;
             modelview_stack[0]  <= 127'h00000000_00000000_00000000_3F800000;
         end
-        else
+        else if (fifo_full)
+        begin
+            state <= state;
+        end
         begin
             case (state)
                 0:                                              // load row 0, modelview
