@@ -143,7 +143,7 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
     if ( reset || Bus2IP_Reset )
       flush_line <= 9'd0;
     else if ( fifo_rd_en_delayed && fifo_data == ~('b0) )
-      flush_line <= 9'd439;
+      flush_line <= 9'd479;
     else if ( Bus2IP_Mst_Cmplt && !flush_done && flush_col == 'b0 )
       flush_line <= flush_line - 1;
     else 
@@ -187,6 +187,7 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
          end
        else if ( fifo_rd_en_delayed )
 		  begin
+		    // combinationally read whether it's a flush command
             if ( fifo_data == ~('b0) )
               begin
               // start flush operation
