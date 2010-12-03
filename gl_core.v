@@ -376,6 +376,7 @@ module gl_core_internal(clk1, clk2, reset,
                       );
     
     fifo_reg fifo_peek(   .clk(clk2), 
+                          .reset(reset),
                           .ready(in_rdy), 
                           .color_empty(color_empty), 
                           .vertex_empty(vertex_empty), 

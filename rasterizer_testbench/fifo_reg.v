@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module fifo_reg( clk, color_empty, vertex_empty, dequeue, flush,
+module fifo_reg( clk, reset, color_empty, vertex_empty, dequeue, flush,
                  vertex_in, color_in, vertex_out, vertex_out2, vertex_out3,
                  color_out, color_out2, color_out3, 
                  vertex_rd_en, color_rd_en, ready );
@@ -58,7 +58,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue, flush,
   begin
     count <= 0;
     state <= 0;
-    hack  <= 0
+    hack  <= 0;
     flush <= 0;
     ready <= 0;
   end
