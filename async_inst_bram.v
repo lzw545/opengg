@@ -38,7 +38,7 @@ module async_inst_bram( BRAM_rst, BRAM_clk, BRAM_en, BRAM_wen,
     output [31:0]      read3;
     output [31:0]      read4;
         
-    reg    [31:0]  mem [511:0]; 
+    reg    [31:0]  mem [383:0]; 
     //reg    [31:0]  mem [44:0];     
     
     wire   [0:9]   addr;
@@ -90,7 +90,7 @@ module async_inst_bram( BRAM_rst, BRAM_clk, BRAM_en, BRAM_wen,
         mem[21]= 32'h80000303;   // Vertex 1
         mem[22]= 32'h3F800000;   // x: 1   
         mem[23]= 32'h41200000;   // y: 10
-        mem[24]= 32'h00000000;   // z: 0
+        mem[24]= 32'h3F800000;   // z: 1
         mem[25]= 32'h80000304;   // Color
         mem[26]= 32'h00000000;   // r: 0
         mem[27]= 32'h3F800000;   // g: 1
@@ -98,7 +98,7 @@ module async_inst_bram( BRAM_rst, BRAM_clk, BRAM_en, BRAM_wen,
         mem[29]= 32'h80000303;   // Vertex 2 
         mem[30]= 32'h41200000;   // x: 10   
         mem[31]= 32'h3F800000;   // y: 1
-        mem[32]= 32'h00000000;   // z: 0
+        mem[32]= 32'h41200000;   // z: 10
         mem[33]= 32'h80000304;   // Color
         mem[34]= 32'h00000000;   // r: 0
         mem[35]= 32'h00000000;   // g: 0
@@ -108,7 +108,7 @@ module async_inst_bram( BRAM_rst, BRAM_clk, BRAM_en, BRAM_wen,
         mem[39]= 32'h3F800000;   // y: 1
         mem[40]= 32'h00000000;   // z: 0
         mem[41]= 32'h00000005;   // Flush
-        mem[42]= 32'h00001106;   // Jump
+        mem[42]= 32'h00000006;   // Jump
         mem[43]= 32'h0;
 		/*
         mem[0]= 32'h80000304;   // Color

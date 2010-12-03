@@ -32,15 +32,14 @@
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_STX" xil_pn:name="async_inst_bram.stx"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_REPORT" xil_pn:name="async_inst_bram.syr"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="async_inst_bram.xst"/>
+    <file xil_pn:fileType="FILE_HTML" xil_pn:name="async_inst_bram_envsettings.html"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="async_inst_bram_summary.html"/>
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="async_inst_bram_xst.xrpt"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGR" xil_pn:name="comp_3.ngr"/>
-    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="core_test_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="core_test_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="core_test_isim_beh.wdb"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="core_test_stx_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="fifo_reg_isim_beh.exe"/>
-    <file xil_pn:fileType="FILE_LOG" xil_pn:name="fuse.log"/>
     <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="gl_core_internal.cmd_log"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="gl_core_internal.lso"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGC" xil_pn:name="gl_core_internal.ngc"/>
@@ -54,9 +53,7 @@
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="gl_core_internal_stx_beh.prj"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="gl_core_internal_summary.html"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGR" xil_pn:name="gl_rasterizer.ngr"/>
-    <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="isim"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_CMD" xil_pn:name="isim.cmd"/>
-    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_LOG" xil_pn:name="isim.log"/>
     <file xil_pn:fileType="FILE_FITTER_REPORT" xil_pn:name="webtalk_pn.xml"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_INI" xil_pn:name="xilinxsim.ini"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="xst"/>
@@ -67,13 +64,14 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1291359747" xil_pn:in_ck="-4834874850093277294" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1291359747">
+    <transform xil_pn:end_ts="1291408114" xil_pn:in_ck="1838479837798573046" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1291408114">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="InputAdded"/>
       <outfile xil_pn:name="async_inst_bram.v"/>
       <outfile xil_pn:name="comp_3.v"/>
       <outfile xil_pn:name="core_test.v"/>
-      <outfile xil_pn:name="diff_select.v"/>
       <outfile xil_pn:name="dummy_bram.v"/>
       <outfile xil_pn:name="fbwriter.v"/>
       <outfile xil_pn:name="fetch_decode_testbench.v"/>
@@ -111,18 +109,13 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1291358950" xil_pn:in_ck="-4834874850093277294" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1291358950">
+    <transform xil_pn:end_ts="1291408197" xil_pn:in_ck="1838479837798573046" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1291408197">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForInputs"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="InputAdded"/>
-      <status xil_pn:value="InputChanged"/>
-      <status xil_pn:value="OutputChanged"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
       <outfile xil_pn:name="async_inst_bram.v"/>
       <outfile xil_pn:name="comp_3.v"/>
       <outfile xil_pn:name="core_test.v"/>
-      <outfile xil_pn:name="diff_select.v"/>
       <outfile xil_pn:name="dummy_bram.v"/>
       <outfile xil_pn:name="fbwriter.v"/>
       <outfile xil_pn:name="fetch_decode_testbench.v"/>
@@ -148,29 +141,18 @@
       <outfile xil_pn:name="repo/MyProcessorIPLib/pcores/opengg_v1_00_a/devl/projnav/ipcore_dir/fp_sub.v"/>
       <outfile xil_pn:name="viewport_trans.v"/>
     </transform>
-    <transform xil_pn:end_ts="1291358959" xil_pn:in_ck="-4834874850093277294" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-7885478225960728283" xil_pn:start_ts="1291358950">
-      <status xil_pn:value="SuccessfullyRun"/>
+    <transform xil_pn:end_ts="1291408199" xil_pn:in_ck="1838479837798573046" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-7885478225960728283" xil_pn:start_ts="1291408197">
+      <status xil_pn:value="FailedRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="InputChanged"/>
-      <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="core_test_beh.prj"/>
-      <outfile xil_pn:name="core_test_isim_beh.exe"/>
-      <outfile xil_pn:name="fuse.log"/>
-      <outfile xil_pn:name="isim"/>
-      <outfile xil_pn:name="isim.log"/>
-      <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1291358959" xil_pn:in_ck="-1574350098849875939" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-2629055017825637190" xil_pn:start_ts="1291358959">
-      <status xil_pn:value="SuccessfullyRun"/>
+    <transform xil_pn:end_ts="1291407986" xil_pn:in_ck="-1574350098849875939" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-2629055017825637190" xil_pn:start_ts="1291407985">
+      <status xil_pn:value="AbortedRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="InputRemoved"/>
-      <status xil_pn:value="OutputRemoved"/>
+      <status xil_pn:value="OutOfDateForced"/>
+      <outfile xil_pn:name="core_test_isim_beh.wdb"/>
+      <outfile xil_pn:name="isim.cmd"/>
     </transform>
     <transform xil_pn:end_ts="1291197839" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1291197839">
       <status xil_pn:value="SuccessfullyRun"/>
@@ -200,14 +182,26 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1291200659" xil_pn:in_ck="-5056844258935623955" xil_pn:name="TRANEXT_xstsynthesize_virtex5" xil_pn:prop_ck="2193190965885785454" xil_pn:start_ts="1291200633">
+    <transform xil_pn:end_ts="1291385515" xil_pn:in_ck="-1148153088856442927" xil_pn:name="TRANEXT_xstsynthesize_virtex5" xil_pn:prop_ck="2193190965885785454" xil_pn:start_ts="1291385251">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForInputs"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputAdded"/>
       <status xil_pn:value="InputChanged"/>
-      <status xil_pn:value="OutputRemoved"/>
+      <outfile xil_pn:name=".lso"/>
+      <outfile xil_pn:name="_xmsgs/xst.xmsgs"/>
+      <outfile xil_pn:name="async_inst_bram.lso"/>
+      <outfile xil_pn:name="async_inst_bram.ngc"/>
+      <outfile xil_pn:name="async_inst_bram.ngr"/>
+      <outfile xil_pn:name="async_inst_bram.prj"/>
+      <outfile xil_pn:name="async_inst_bram.stx"/>
+      <outfile xil_pn:name="async_inst_bram.syr"/>
+      <outfile xil_pn:name="async_inst_bram.xst"/>
+      <outfile xil_pn:name="async_inst_bram_xst.xrpt"/>
+      <outfile xil_pn:name="gl_core_internal.ngr"/>
+      <outfile xil_pn:name="webtalk_pn.xml"/>
+      <outfile xil_pn:name="xst"/>
     </transform>
   </transforms>
 

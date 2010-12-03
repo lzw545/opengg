@@ -105,10 +105,16 @@ module matrix_ctrl(clk, reset, fifo_full,
         modelview_stack[6]  <= 127'h00000000_3F800000_00000000_00000000;
         modelview_stack[5]  <= 127'h00000000_00000000_3F800000_00000000;
         modelview_stack[4]  <= 127'h00000000_00000000_00000000_3F800000;
-        
+        /*
         projection_stack[3] <= 127'h3B4CCCCD_00000000_00000000_BF800000;
         projection_stack[2] <= 127'h00000000_3B888889_00000000_BF800000;
         projection_stack[1] <= 127'h00000000_00000000_BDD79436_BF8D7943;
+        projection_stack[0] <= 127'h00000000_00000000_00000000_3F800000;
+        */
+        
+        projection_stack[3] <= 127'h3B4CCCCD_00000000_00000000_BF800000;
+        projection_stack[2] <= 127'h00000000_3B888889_00000000_BF800000;
+        projection_stack[1] <= 127'h00000000_00000000_BB88D180_BF8088D1;
         projection_stack[0] <= 127'h00000000_00000000_00000000_3F800000;
         
         modelview_stack[3]  <= 127'h3F800000_00000000_00000000_00000000;

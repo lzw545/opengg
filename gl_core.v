@@ -293,11 +293,22 @@ module gl_core_internal(clk1, clk2, reset,
                       .b(vt_addy_result),
                       .result(vt_addy2_result));
     
+    wire [31:0] vt_mulz_result;
+    wire [31:0] vt_addz_result;
+    
+    fp_mul2 vt_mulz  ( .a(pd_vert_z),
+                      .b(32'h436f8000),
+                      .result(vt_mulz_result) );
+                      
+    fp_add vt_addz  ( .a(vt_mulz_result),
+                      .b(32'h43708000),
+                      .result(vt_addz_result) );
+    
     wire [95:0] vertex_fifo_in;
     wire [95:0] color_fifo_in;
     
     assign vertex_fifo_in = flush ? 96'hFFFFFFFF_FFFFFFFF_FFFFFFFF :
-                                    {vt_addx2_result, vt_addy2_result, 32'h0};
+                                    {vt_addx2_result, vt_addy2_result, vt_addz_result};
     assign color_fifo_in = flush ? 96'hFFFFFFFF_FFFFFFFF_FFFFFFFF :
                                     {pd_red, pd_green, pd_blue};
 
@@ -394,7 +405,7 @@ module gl_core_internal(clk1, clk2, reset,
                           .color_out3(cin3)
                        );
     
-    wire raster_state;
+    wire [1:0] raster_state;
     
     gl_rasterizer GL_RAS(   .clk(clk2), 
                             .full(pixel_full),
