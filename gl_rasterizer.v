@@ -28,7 +28,6 @@ parameter COLOR_TYPE_SIZE = 96;
 parameter LINE_LEN = 9;
 parameter COL_LEN = 10;
 
-
     input clk;
     input flush;
 

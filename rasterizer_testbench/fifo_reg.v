@@ -27,6 +27,7 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue, flush,
   input             color_empty;
   input             vertex_empty;
   input             dequeue;
+  input             reset;
   input [95:0]      vertex_in;
   input [95:0]      color_in;
 
@@ -57,14 +58,25 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue, flush,
   begin
     count <= 0;
     state <= 0;
-    hack  <= 0;
+    hack  <= 0
+    flush <= 0;
     ready <= 0;
   end
-  
+ 
   always @ (posedge clk)
     begin
-      case (state)
-	    0:
+      if (reset) 
+        begin
+        state <= 0;
+        count <= 0;
+        hack <= 0;
+        ready <= 0;
+        flush <= 0;
+        end
+      else
+        begin
+        case (state)
+        0:
         begin
         if (dequeue == 1 && count == 3)
           begin
@@ -268,5 +280,6 @@ module fifo_reg( clk, color_empty, vertex_empty, dequeue, flush,
           end
         end
       endcase
+      end
   end	
 endmodule
