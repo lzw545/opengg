@@ -79,7 +79,7 @@ parameter COL_LEN = 10;
     input [VERTEX_TYPE_SIZE-1:0]  vertex_in1;
     input [VERTEX_TYPE_SIZE-1:0]  vertex_in2;
     input [VERTEX_TYPE_SIZE-1:0]  vertex_in3;
-    
+   
     reg [VERTEX_TYPE_SIZE-1:0]  vertex_1;
     reg [VERTEX_TYPE_SIZE-1:0]  vertex_2;
     reg [VERTEX_TYPE_SIZE-1:0]  vertex_3;
@@ -92,7 +92,10 @@ parameter COL_LEN = 10;
     wire [31:0] y1;
     wire [31:0] y2;
     wire [31:0] y3;
-    
+    wire [31:0] z1;
+    wire [31:0] z2;
+    wire [31:0] z3;
+      
     wire [31:0] minx;
     wire [31:0] maxx;
     wire [31:0] miny;
@@ -168,6 +171,10 @@ parameter COL_LEN = 10;
     assign x3 = vertex_in3[95:64];
     assign y3 = vertex_in3[63:32];
 
+    assign z1 = vertex_in1[31:0];
+    assign z2 = vertex_in2[31:0];
+    assign z3 = vertex_in3[31:0];
+
     fp_sub subtract_x1(.a(x1), .b(x2), .result(diff_x1x2));
     fp_sub subtract_x2(.a(x2), .b(x3), .result(diff_x2x3));
     fp_sub subtract_x3(.a(x3), .b(x1), .result(diff_x3x1));
@@ -205,8 +212,11 @@ parameter COL_LEN = 10;
     wire [31:0] gamma_2;
     wire [31:0] gamma_cons;
 
+    wire [31:0] az1;
+    wire [31:0] az2;
+    wire [31:0] az3;
     wire [31:0] alpha_beta;
-    wire [31:0] sum;
+    wire [31:0] final_z;
  
     assign valid_pixel = !((alpha[31] && (alpha[30:0] != 31'b0)) | (beta[31] && (beta[30:0] != 31'b0)) | (gamma[31] && (gamma[30:0] != 31'b0)));
 
@@ -249,14 +259,17 @@ parameter COL_LEN = 10;
     wire [31:0] green_n;
     wire [31:0] green;
 
+    fp_mul alpha_z(alpha, z1, az1); 
     fp_mul alpha_red(alpha, red_1, red_add1);
     fp_mul beta_red(beta, red_2, red_add2);
     fp_mul gamma_red(gamma, red_3, red_add3);
 
+    fp_mul beta_z(beta, z2, az2); 
     fp_mul alpha_green(alpha, green_1, green_add1);
     fp_mul beta_green(beta, green_2, green_add2);
     fp_mul gamma_green(gamma, green_3, green_add3);
     
+    fp_mul gamma_z(gamma, z3, az3); 
     fp_mul alpha_blue(alpha, blue_1, blue_add1);
     fp_mul beta_blue(beta, blue_2, blue_add2);
     fp_mul gamma_blue(gamma, blue_3, blue_add3);
@@ -278,8 +291,8 @@ parameter COL_LEN = 10;
     f2i green_int(green_n, green);
     f2i blue_int(blue_n, blue);
     
-    fp_add final(alpha, beta, alpha_beta);
-    fp_add final2(gamma, alpha_beta, sum);
+    fp_add final(az1, az2, alpha_beta);
+    fp_add final2(az3, alpha_beta, final_z);
 
     fp_mul mult_dy12(diff_y1y2, diff_x1minx, cy1_mul1);
     fp_mul mult_dx12(diff_x1x2, diff_minyy1, cy1_mul2);
@@ -401,7 +414,7 @@ parameter COL_LEN = 10;
             begin
             wr_en <= 1;
             /* Pack data into fifo */
-            wr_data <= {7'b0, count_y, 6'b0, count_x, 8'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0, 32'b0};
+            wr_data <= {7'b0, count_y, 6'b0, count_x, 8'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0, final_z};
             if (full == 0) 
               begin
               cx1_reg <= cx1_decr; 
