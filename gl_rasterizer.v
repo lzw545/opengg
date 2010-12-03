@@ -216,7 +216,8 @@ parameter COL_LEN = 10;
     wire [31:0] az2;
     wire [31:0] az3;
     wire [31:0] alpha_beta;
-    wire [31:0] final_z;
+    wire [31:0] final_z_f;
+    wire [31:0] final_z_i;
  
     assign valid_pixel = !((alpha[31] && (alpha[30:0] != 31'b0)) | (beta[31] && (beta[30:0] != 31'b0)) | (gamma[31] && (gamma[30:0] != 31'b0)));
 
@@ -292,7 +293,7 @@ parameter COL_LEN = 10;
     f2i blue_int(blue_n, blue);
     
     fp_add final(az1, az2, alpha_beta);
-    fp_add final2(az3, alpha_beta, final_z);
+    fp_add final2(az3, alpha_beta, final_z_f);
 
     fp_mul mult_dy12(diff_y1y2, diff_x1minx, cy1_mul1);
     fp_mul mult_dx12(diff_x1x2, diff_minyy1, cy1_mul2);
@@ -317,6 +318,7 @@ parameter COL_LEN = 10;
     f2i float_int_maxx(maxx, maxx_int_32);
     f2i float_int_miny(miny, miny_int_32);
     f2i float_int_maxy(maxy, maxy_int_32);
+    f2i float_int_z(final_z_f, final_z_i);
     
     assign minx_int = minx_int_32[COL_LEN-1:0];
     assign maxx_int = maxx_int_32[COL_LEN-1:0];
@@ -414,7 +416,7 @@ parameter COL_LEN = 10;
             begin
             wr_en <= 1;
             /* Pack data into fifo */
-            wr_data <= {7'b0, count_y, 6'b0, count_x, 8'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0, final_z};
+            wr_data <= {7'b0, count_y, 6'b0, count_x, 8'b0, red[5:0], 2'b0, green[5:0], 2'b0, blue[5:0], 2'b0, final_z_i};
             if (full == 0) 
               begin
               cx1_reg <= cx1_decr; 
