@@ -47,10 +47,18 @@ module fbwriter(
     );
 
 
-parameter FB_BASE_ADDR                   = 11'b1001_0000_000;
+parameter FB_BASE_ADDR                   = 10'b1001_0000_00;
+parameter FB_CNTL_ADDR                   = 32'h40A0_8000;
 parameter RAST_FBW_FIFO_LEN              = 96;
 parameter LINE_LEN                       = 9;
 parameter COL_LEN                        = 10;
+
+parameter FLUSH_COL                      = 'd639;
+parameter FLUSH_LINE                     = 'd479;
+
+//parameter FLUSH_COL                      = 'd20;
+//parameter FLUSH_LINE                     = 'd10;
+
 
 // PLB Parameters
 parameter C_MST_AWIDTH                   = 32;
@@ -89,6 +97,9 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   reg     [0 : COL_LEN-1]                col;
   reg     [0 : 31]                       color;
   reg                                    completed = 1;
+  
+  reg                                    buffer;
+  reg                                    swap;
 
   reg                                    wr_req = 0;
   
@@ -101,10 +112,13 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
   // assign IPIF input wires
   assign IP2Bus_MstRd_Req                    = 0;
   assign IP2Bus_MstWr_Req                    = wr_req;
-  assign IP2Bus_Mst_Addr[0 : 10]             = FB_BASE_ADDR;
-  assign IP2Bus_Mst_Addr[11:19]              = line;
-  assign IP2Bus_Mst_Addr[20:29]              = col;
-  assign IP2Bus_Mst_Addr[30:31]              = 'b0;
+  //assign IP2Bus_Mst_Addr[0 : 10]             = FB_BASE_ADDR;
+  //assign IP2Bus_Mst_Addr[11:19]              = line;
+  //assign IP2Bus_Mst_Addr[20:29]              = col;
+  //assign IP2Bus_Mst_Addr[30:31]              = 'b0;
+  
+  assign IP2Bus_Mst_Addr = (swap ? FB_CNTL_ADDR : {FB_BASE_ADDR, buffer, line, col, 2'b0} );
+  
   
   assign IP2Bus_Mst_BE[0 : C_MST_DWIDTH/8-1] = ~('b0);
   assign IP2Bus_Mst_Lock                     = 0;
@@ -143,7 +157,7 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
     if ( reset || Bus2IP_Reset )
       flush_line <= 9'd0;
     else if ( fifo_rd_en_delayed && fifo_data == ~('b0) )
-      flush_line <= 9'd479;
+      flush_line <= FLUSH_LINE;
     else if ( Bus2IP_Mst_Cmplt && !flush_done && flush_col == 'b0 )
       flush_line <= flush_line - 1;
     else 
@@ -154,14 +168,40 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
     if ( reset || Bus2IP_Reset )
       flush_col <= 'd0;
     else if ( fifo_rd_en_delayed && (fifo_data == ~('b0)) )
-      flush_col <= 10'd639;
+      flush_col <= FLUSH_COL+1;
     else if ( Bus2IP_Mst_Cmplt && !flush_done )
       if ( flush_col == 'b0 )
-        flush_col <= 10'd639;
+        flush_col <= FLUSH_COL;
       else
         flush_col <= flush_col - 1;
     else 
       flush_col <= flush_col;
+  
+  reg flushing;
+  always @ (posedge PLB_clk)
+    begin
+	   if ( reset || Bus2IP_Reset )
+		 begin
+           flushing <= 0;
+           buffer   <= 0;
+         end    
+       else if (fifo_rd_en_delayed && (fifo_data == ~('b0)))
+         begin
+           flushing <= 1;
+           buffer   <= ~buffer;
+         end
+       else if ( flush_done && flushing )
+         begin
+           // flip the buffer at the end of the flush
+           flushing <= 0;
+           buffer   <= buffer;
+         end
+       else 
+         begin
+           flushing <= flushing;
+           buffer   <= buffer;
+         end         
+     end
   
   
   // assign line and col and color regs
@@ -173,12 +213,14 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
             col    <= 'h0;
             color  <= 'h0;
 		    wr_req <= 0;
+            swap   <= 0;
 		  end
 	   else if ( Bus2IP_Mst_CmdAck )
 		 begin
 		   wr_req <= 0;
+           swap   <= 0;
 		 end
-       else if ( !flush_done && completed )
+       else if ( !flush_done && completed && !swap )
 	     begin
            line   <= flush_line;
            col    <= flush_col;
@@ -191,10 +233,13 @@ input                                     Bus2IP_MstWr_dst_rdy_n;
             if ( fifo_data == ~('b0) )
               begin
               // start flush operation
-                line   <= 'd479;
-                col    <= 'd639;
-                color  <= 'd0;
+                //line   <= 'd479;
+                //line   <= FLUSH_LINE;
+                //col    <= 'd640; // give one request to change the controller
+                //col    <= FLUSH_COL + 1;
+                color  <= {FB_BASE_ADDR, buffer, 21'b0};
                 wr_req <= 1;
+                swap   <= 1;
               end
             else            
               begin
