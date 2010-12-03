@@ -260,17 +260,17 @@ parameter COL_LEN = 10;
     wire [31:0] green_n;
     wire [31:0] green;
 
-    fp_mul alpha_z(alpha, z1, az1); 
+    fp_mul2 alpha_z(alpha, z1, az1); 
     fp_mul alpha_red(alpha, red_1, red_add1);
     fp_mul beta_red(beta, red_2, red_add2);
     fp_mul gamma_red(gamma, red_3, red_add3);
 
-    fp_mul beta_z(beta, z2, az2); 
+    fp_mul2 beta_z(beta, z2, az2); 
     fp_mul alpha_green(alpha, green_1, green_add1);
     fp_mul beta_green(beta, green_2, green_add2);
     fp_mul gamma_green(gamma, green_3, green_add3);
     
-    fp_mul gamma_z(gamma, z3, az3); 
+    fp_mul2 gamma_z(gamma, z3, az3); 
     fp_mul alpha_blue(alpha, blue_1, blue_add1);
     fp_mul beta_blue(beta, blue_2, blue_add2);
     fp_mul gamma_blue(gamma, blue_3, blue_add3);
