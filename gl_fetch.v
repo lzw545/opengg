@@ -39,6 +39,9 @@ module gl_fetch(inst_out, inst_in, inst_addr,
     input                       reset;
 
     reg                         tmp_stall;              // temporary stall
+    wire [31:0]                 jmp_addr;
+    
+    assign jmp_addr = {9'h0 , inst_in[30:8]};
     
     initial begin
         inst_addr        <= text_start;
@@ -151,7 +154,7 @@ module gl_fetch(inst_out, inst_in, inst_addr,
                     //`OP_JMP:
                     8'b00000110:
                     begin
-                        inst_addr <= 0;
+                        inst_addr <= jmp_addr;
                         inst_out <= inst_in;
                     end
                     default:

@@ -108,7 +108,7 @@ module async_inst_bram( BRAM_rst, BRAM_clk, BRAM_en, BRAM_wen,
         mem[39]= 32'h3F800000;   // y: 1
         mem[40]= 32'h00000000;   // z: 0
         mem[41]= 32'h00000005;   // Flush
-        mem[42]= 32'h00000006;   // Jump
+        mem[42]= 32'h00001106;   // Jump
         mem[43]= 32'h0;
 		/*
         mem[0]= 32'h80000304;   // Color

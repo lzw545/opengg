@@ -67,10 +67,10 @@ module matrix_ctrl(clk, reset, fifo_full,
     //reg    [127:0]  projection_stack [7:0];         // 128 bytes (2 matrices)
     
     
-    reg    [3:0]    modelview_sp;
+    reg    [2:0]    modelview_sp;
     reg    [2:0]    projection_sp;
     
-    reg    [127:0]  modelview_stack  [15:0];       // 2048 bytes (32 matrices) (infer BRAM?!?)
+    reg    [127:0]  modelview_stack  [7:0];       // 2048 bytes (32 matrices) (infer BRAM?!?)
     reg    [127:0]  projection_stack [7:0];         // 128 bytes (2 matrices)
     
     initial begin
@@ -90,6 +90,7 @@ module matrix_ctrl(clk, reset, fifo_full,
         projection_stack[5] <= 127'h00000000_00000000_00000000_00000000;
         projection_stack[4] <= 127'h00000000_00000000_00000000_00000000;
         
+        /*
         modelview_stack[15] <= 127'h3F800000_00000000_00000000_00000000;
         modelview_stack[14] <= 127'h00000000_3F800000_00000000_00000000;
         modelview_stack[13] <= 127'h00000000_00000000_3F800000_00000000;
@@ -99,7 +100,7 @@ module matrix_ctrl(clk, reset, fifo_full,
         modelview_stack[10] <= 127'h00000000_3F800000_00000000_00000000;
         modelview_stack[9]  <= 127'h00000000_00000000_3F800000_00000000;
         modelview_stack[8]  <= 127'h00000000_00000000_00000000_3F800000;
-        
+        */
         modelview_stack[7]  <= 127'h3F800000_00000000_00000000_00000000;
         modelview_stack[6]  <= 127'h00000000_3F800000_00000000_00000000;
         modelview_stack[5]  <= 127'h00000000_00000000_3F800000_00000000;
