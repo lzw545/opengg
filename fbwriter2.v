@@ -49,7 +49,7 @@ module fbwriter2(
 
 parameter FB_BASE_ADDR                   = 9'b1001_0000_0;
 parameter FB_CNTL_ADDR                   = 32'h40A0_8000;
-parameter DMA_CNTL_ADDR                  = 32'h0;
+parameter DMA_CNTL_ADDR                  = 32'hC000_0000;
 
 parameter RAST_FBW_FIFO_LEN              = 96;
 parameter LINE_LEN                       = 9;
@@ -280,7 +280,7 @@ parameter DEQUE=0, DVI_REG=1, DMA_SA=2, DMA_DA=3, DMA_LEN=4, READ_ZB=5, WRITE_FB
           rd_req <= 0;
           wr_req <= 0;
         end
-      else
+      else if ( completed ) // or Bus2IP_Mst_Cmplt [not sure...]
         case ( state )
           READ_ZB: begin
             rd_req <= 1;
@@ -323,15 +323,13 @@ parameter DEQUE=0, DVI_REG=1, DMA_SA=2, DMA_DA=3, DMA_LEN=4, READ_ZB=5, WRITE_FB
           color  <= 'h0;
           z      <= 'h0;
         end
-   else if ( fifo_rd_en_delayed )
-      begin            
+      else if ( fifo_rd_en_delayed )
         begin
           line   <= fifo_data[15-LINE_LEN+1:15];
           col    <= fifo_data[31-COL_LEN+1:31];
           color  <= fifo_data[32:63];
           z      <= fifo_data[64:95];
         end
-      end          
     end 
  
 endmodule
