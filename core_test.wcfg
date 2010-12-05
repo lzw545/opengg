@@ -3,14 +3,14 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="C:/opengg/core_test_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="/home/lzw/matrix_mul/core_test_isim_beh1.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="core_test" />
             <top_module name="glbl" />
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="73" />
+   <WVObjectSize size="75" />
    <wvobject fp_name="/core_test/bram_a_din" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">bram_a_din[31:0]</obj_property>
       <obj_property name="ObjectShortName">bram_a_din[31:0]</obj_property>
@@ -72,6 +72,21 @@
    <wvobject fp_name="/core_test/core/fetch_inst_in" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">fetch_inst_in[31:0]</obj_property>
       <obj_property name="ObjectShortName">fetch_inst_in[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/pd_vert_z" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pd_vert_z[31:0]</obj_property>
+      <obj_property name="ObjectShortName">pd_vert_z[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/vt_mulz_result" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">vt_mulz_result[31:0]</obj_property>
+      <obj_property name="ObjectShortName">vt_mulz_result[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/core/vt_addz_result" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">vt_addz_result[31:0]</obj_property>
+      <obj_property name="ObjectShortName">vt_addz_result[31:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/fifo_peek/state" type="array" db_ref_id="1">
@@ -333,11 +348,6 @@
    <wvobject fp_name="/core_test/core/GL_RAS/gamma" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">gamma[31:0]</obj_property>
       <obj_property name="ObjectShortName">gamma[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/sum" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">sum[31:0]</obj_property>
-      <obj_property name="ObjectShortName">sum[31:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/pixel_data" type="array" db_ref_id="1">
