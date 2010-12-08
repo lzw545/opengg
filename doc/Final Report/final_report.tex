@@ -103,11 +103,15 @@ The graphics accelerator can be broken down into five major components:
 
 \item Xilinx ISE Design Suite 12.2
 
+READ: OS and Libraries Document Collection and EDK Concept, Tools, and Techniques
+
 \item Git
 
 \item Windows XP
 
 \item Ubuntu
+
+Initially, wanted machine to be primary machine for development.  Unfortunately, the usb drivers for the JTAG cable never came into fruition, so board programming was relegated to the Windows machine.  Much of the simulation and core development still happened on the Ubuntu box.  Also held a git repository that was later moved to github.  It was used as an easy way to transfer files between group members because Windows networked file system is unusable.  
 
 \end{itemize}
 
@@ -127,6 +131,9 @@ The trace is generated from simple hand-generated C programs. Conditionals, loop
 The main function of the script is to parse each GL call, generate a 32-bit hex value that corresponds to the instruction code defined in the ISA, and output the hex value to a file. If there are argument parameters in the call, each parameter is translated into its hex representation and printed on subsequent lines in the file. The output is an OPNGG hex file (*.gg). Each line of the file is one hex value, either corresponding to an instruction call or one of several 32-bit arguments encoded in hex (single precision floating point , unsigned integer, etc.)
 
 \subsubsection{Instruction Assembler}
+The Microblaze processor is critical for programming the accelerator.  To program the instruction cache, the Microblaze reads off a file containing the graphical program and copies in data.  The file resides on the Compact Flash and its format guaranteed by the Perl Parser; the assembler does not check the format of the executable.  The SDK's XilFATFS is a library that allows the Microblaze to read files on the Compact Flash.  For the most part, it follows the C convention for file handling.  The instruction BRAM has an interface identical to that of the Xilinx BRAM cores.  This is so that a PLB to BRAM interface core, provided by Xilinx, can be used to allow the Microblaze to write directly into our module's BRAM.  
+
+
 \section{Instruction Set Architecture}
 
 \subsection{Specification}
@@ -207,7 +214,7 @@ With some factoring, this is implemented using three floating point multipliers 
 
 \subsection{DVI Controller}
 
-The reference design for the XUPV5 contained a DVI controller that displays a frame buffer on DDR2 SDRAM.  The core outputs a 640 by 480 video over the DVI port of the board.  The core reads a line of the SDRAM frame buffer over the PLB bus and stores it locally in BRAM. Since the frame buffer is any 2MB region in the PLB address space, the frame buffer does not actually have to reside in SDRAM.  Any mapped address can be used as a frame buffer, which demonstrates some of the flexibility of the PLB.  The DVI controller has control registers mapped on the DCR bus interface.  In order for other elements in the system to configure the controller, there is a PLB/DCR bridge.
+The reference design for the XUPV5 contained a DVI controller that displays a frame buffer on DDR2 SDRAM.  The core outputs a 640 by 480 video over the DVI port of the board.  The core reads a line of the SDRAM frame buffer over the PLB bus and stores it locally in BRAM. Since the frame buffer is any 2MB region in the PLB address space, the frame buffer does not actually have to reside in SDRAM.  Any mapped address can be used as a frame buffer, which demonstrates some of the flexibility of the PLB.  The DVI controller has control registers mapped on the DCR bus interface.  In order for other elements in the system to configure the controller, there is a PLB/DCR bridge what maps the DCR space to a part of the system PLB address space.
 
 
 \subsection{PLB IPIF}
@@ -221,19 +228,30 @@ Using the PLB actually offered great flexibility in the interconnect of cores.  
 \subsection{Floating Point vs. Fixed Point}
 \subsection{Synchronization}
 \subsection{External Cores}
-It soon became apparent we could not do everything. The decision to conform to the Xilinx tool chain was 
+
+It soon became apparent we could not do everything. The decision to conform to the Xilinx tool chain stemmed partially from the convenience of provided Xilinx cores and generated cores from CoreGEN.  The framework provided by the Xilinx EDK had some advantages.  It has a way to run C code a soft processor, the Microblaze.  It provides the interconnecting bus structure, PLB.  The reference design also contains the Multi-Port Memory Controller (MPMC) which provides an accessible interface for the DD2 SDRAM.  
+
+\subsubsection{CoreGEN}
+CoreGEN allows us to generate different types of modules.  It is a tool provided by Xilinx included in their design suite and provides blackbox *.v and *.ngc files for usage in your projects.  They provide a variety different, commonly used cores, that is, if it is not a custom type of hardware, you can probably find it in CoreGEN.  Most of the modules in the reference design actually comes from CoreGEN, including the versatile MPMC.  The floating point units used throughout our design were generated to specific parameters.  It was useful to specify usage of DSP48E slices instead of logic slices.  CoreGEN also allowed us to specify latency, which became extremely important.  The FIFO's were also generated by CoreGEN.  It was nice to be able to specify what kind of hardware resources each would consume, whether Block RAM, Distributed RAM or built-in units.  Note that the built-in units may not simulate as easily; simply generate Block RAM modules for simulation and regenerate the cores with the same project file when moving back to synthesis.
 
 
 \section{Individual Contributions}
 \subsection{Andrew Lau}
 My primary responsibilities for this project were the implementation of the vertex transformation pipeline and the integration and testing of the various parts of the pipeline. The first few weeks of the project were spent working closely with Alan to design the front end of the pipeline, specifically how to use GLSim to talk to the pipeline. This idea was quickly squashed as we found that GLSim was deprecated and had not been updated since 2002. \\
+
 \subsection{Alan Zhu}
 \subsection{Nathan Wan}
+
+One Man Tools Team
+Web/SDK work
+PLB and System Design
 
 \section{Status and Future Work}
 \subsection{Tool Chain}
 \subsection{CPU Integration}
 \subsection{Shader}
+A very interesting project would be to work on a graphics shader.  OpenGL ES 2.0 relies primary on the shader to replace many fixed function units in the pipeline.  
+
 \subsection{MPMC}
 \subsection{vsync Timing}
 
