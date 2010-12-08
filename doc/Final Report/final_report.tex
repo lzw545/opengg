@@ -218,17 +218,22 @@ The reference design for the XUPV5 contained a DVI controller that displays a fr
 
 
 \subsection{PLB IPIF}
-
+fbwriter
 Using the PLB actually offered great flexibility in the interconnect of cores.  Although it restricted the project in some ways, requiring the use of particular 
+
+\subsection{Frame and Z Buffers}	
 
 \subsection{DMA}
 
+The DMA module was a late addition to the project.  It is an effort to increase the speed of the flush operation.  Previously, the fbwriter would zero out each pixel individually, requiring far more PLB transactions than necessary.  The fbwriter can program the flush operation to the DMA, which in turn will flush not only the frame buffer but the z-buffer, since they are contiguous in memory.
 
 \section{Major Design Decisions}
 \subsection{Floating Point vs. Fixed Point}
-\subsection{Synchronization}
-\subsection{External Cores}
 
+\subsection{Synchronization}
+With the division of work, and division of operational units of the pipeline, we clearly needed an intuitive, robust mechanism to synchronize the RTL.  fbwriter needs to operate on the PLB bus, so it conformed to the clock of the PLB bus.  Note also that per OpenGG instruction, the rasterization unit has more work than the coordinate transform.  The rasterization unit needs at least one clock cycle for each pixel in the bounding box in the process of horizontal scanline; that means it can vary on the size of the triangle.  The transformation unit has a fixed number of cycles per instruction; it does not vary on the size of the triangle drawn.  Clocking these units independently became extremely convenient.  Using clock independent FIFO's, data can be passed across clock domains safely and efficiently.  The unit will stall only when the queue is full, which is as good as can be expected.
+
+\subsection{External Cores}
 It soon became apparent we could not do everything. The decision to conform to the Xilinx tool chain stemmed partially from the convenience of provided Xilinx cores and generated cores from CoreGEN.  The framework provided by the Xilinx EDK had some advantages.  It has a way to run C code a soft processor, the Microblaze.  It provides the interconnecting bus structure, PLB.  The reference design also contains the Multi-Port Memory Controller (MPMC) which provides an accessible interface for the DD2 SDRAM.  
 
 \subsubsection{CoreGEN}
@@ -242,17 +247,31 @@ My primary responsibilities for this project were the implementation of the vert
 \subsection{Alan Zhu}
 \subsection{Nathan Wan}
 
+My main responsibilities involved the interfaces for the pipeline and the tool set.
+
+
 One Man Tools Team
-Web/SDK work
-PLB and System Design
+Webserver/SDK work
+I was mainly in charge of any software that ran on the Microblaze processor.  When we were considering a web-server front-end for our accelerator, I was working with the lwip library on the SDK trying to get the webserver running.  The current design uses an assembler to get data from Perl Parser to the pipeline.
+
+As the build engineer, I was left with most of the decisions on the system level.   
+
+On the final day, with pressure to bring down EDK utilization, I took SRAM out of the project.  Unbeknownst to me, SRAM actually contained configuration data necessary for the Microblaze to run.  That left us with a broken build pretty close to demo time. 
 
 \section{Status and Future Work}
+
 \subsection{Tool Chain}
+If I recall correctly, no guidance on the Xilinx Design Suite because we were encouraged to look for alternatives.  That is, we were not to be restricted to Xilinx tools.  Yet, no alternatives were found, none were found by other classmates.  Getting a tool chain or build process up early is a huge key to success.  This should be a priority for every group. 	
+
 \subsection{CPU Integration}
+Use Instruction Cache as a ring buffer for instructions.  Interrupt Microblaze every time the cache is consumed.
+
 \subsection{Shader}
-A very interesting project would be to work on a graphics shader.  OpenGL ES 2.0 relies primary on the shader to replace many fixed function units in the pipeline.  
+A very interesting project would be to work on a graphics shader.  OpenGL ES 2.0 relies primary on the shader to replace many fixed function units in the pipeline.  Although most of those units are effect units, and unimplemented in our implementation, the project would be interesting as it is the main unit in GPGPU Frameworks.  It also requires a microkernel to run in hardware, which would make for a interesting fusion of OS and hardware.
 
 \subsection{MPMC}
+DMA, P2P PLB, PLB alternative
+
 \subsection{vsync Timing}
 
 \section{Class Impression/Improvements}
