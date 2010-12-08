@@ -50,7 +50,8 @@ module core_test(
         #5 bram_clk = ~bram_clk;
     
     reg fb_ack;
-    wire fb_req;
+    wire fb_rd_req;
+    wire fb_wr_req;
     wire [31:0] fb_addr;
     wire [31:0] fb_data; 
     
@@ -86,7 +87,7 @@ module core_test(
     
     always @ (posedge bram_clk)
     begin
-        if (fb_req)
+        if (fb_rd_req || fb_wr_req)
         begin
             fb_ack <= 1;
         end
@@ -98,18 +99,20 @@ module core_test(
     
     wire [3:0] fbw_state;
     
-    fbwriter fbwriter(
-                .reset(1'b0),
+    fbwriter2 fbwriter(
+                .reset(core_reset),
                 .fifo_data(pixel_data),
                 .fifo_empty(fifo_empty),
                 .fifo_rd_en(pixel_fifo_rd_en),
                 
                 .PLB_clk(bram_clk),
-                .IP2Bus_MstWr_Req(fb_req),
+                .IP2Bus_MstRd_Req(fb_rd_req),
+                .IP2Bus_MstWr_Req(fb_wr_req),
                 .IP2Bus_Mst_Addr(fb_addr),
-                
+
                 .Bus2IP_Mst_CmdAck(fb_ack),
                 .Bus2IP_Mst_Cmplt(fb_ack),
+                .Bus2IP_MstRd_d(32'b0),
                 .IP2Bus_MstWr_d(fb_data)
                 
     );

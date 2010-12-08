@@ -120,9 +120,9 @@ We chose to implement an OpenGL pipeline because it is a well known industry sta
 \subsection{Interface to Pipeline}
 
 \subsubsection{Perl Parser}
-In order for the pipeline to accept graphical language calls, a Perl script was written that takes human readable trace of OpenGL calls and outputs a hex representation of the program. \\
+In order for the pipeline to accept graphical language calls, a Perl script was written that takes human readable trace of OpenGL calls and outputs a hex representation of the program. 
 
-The trace is generated from simple hand-generated C programs. Conditionals, loops, and variables are unrolled and substituted so that what remains is strictly OpenGL calls and data in the form of actual numeric values. These traces correspond to the calls that would be made by a C library such as GLSim.\\
+The trace is generated from simple hand-generated C programs. Conditionals, loops, and variables are unrolled and substituted so that what remains is strictly OpenGL calls and data in the form of actual numeric values. These traces correspond to the calls that would be made by a C library such as GLSim.
 
 The main function of the script is to parse each GL call, generate a 32-bit hex value that corresponds to the instruction code defined in the ISA, and output the hex value to a file. If there are argument parameters in the call, each parameter is translated into its hex representation and printed on subsequent lines in the file. The output is an OPNGG hex file (*.gg). Each line of the file is one hex value, either corresponding to an instruction call or one of several 32-bit arguments encoded in hex (single precision floating point , unsigned integer, etc.)
 
@@ -144,7 +144,7 @@ Content & Type & Data & Opcode \\ \hline
 \caption{Instruction word}
 \end{table}
 
-Each supported function is translated by the Perl parser into the follow instruction words. The \emph{data} field indicates to the fetch unit to expect a certain number of floats following the instruction word if the \emph{type} field is set.
+Each supported function is translated by the Perl parser into the follow instruction words. The \emph{data} field indicates to the fetch unit to expect a certain number of floats following the instruction word if the \emph{type} field is set. \\
 
 \begin{table}[h]
 \begin{center}
@@ -173,13 +173,47 @@ glOrtho (int left, int right, int bottom, int top, int near, int far) & 1 & 6 & 
 \caption{OpenGL routine to opcode mappings}
 \end{table}
 
+\section{Fetch and Decode}
+\subsection{Instruction Cache}
+The instruction cache consists of 512 entries of 32-bit words and supports 5 reads and 1 write - concurrently serving the fetch, decode, and instruction assembler through a BRAM controller on the PLB. It is currently implemented in logic, with a combinational read. Further work would be needed to move the instruction cache into block RAM, requiring a clocked read.
+
+\subsection{Fetch Unit}
+The fetch unit reads one 32-bit word per cycle from the instruction cache, stalling if the vertex and color FIFOs are full and during matrix operations.
+
+\subsection{Decode Unit}
+The decode unit generates control signals for the matrix stacks, matrix multipliers, perspective division, and viewport transformation. It also reads 4 32-bit words from the instruction cache for use in the latter pipeline stages.
+
+\section{Matrix Operations}
+The pipeline implements two 16x16 matrix stacks
+\subsection{•}
+
 \section{Coordinate Transformation}
-\subsection{Matrix Operations}
+Each vertex that gets passed into Coordinate Transformation goes through a series of transformations so that it ends up in the correct range to be displayed on the screen.
+
+\subsection{Eye Coordinates}
+
 
 \subsection{Perspective Division}
+Perspective division yields coordinates known as \emph{normalized device coordinates}, with their range normalized to $(-1,1)$ for all 3 axes.\\
+\begin{figure}[h]
+\[
+\begin{pmatrix}
+x_{ndc} \\
+y_{ndc} \\
+z_{ndc}
+\end{pmatrix}
+= M_{projection} \cdot
+\begin{pmatrix}
+x_{clip}/w_{clip} \\
+y_{clip}/w_{clip} \\
+z_{clip}/w_{clip}
+\end{pmatrix}
+\]
+\caption{Perspective Division}
+\end{figure}
 
 \subsection{Viewport Transformation}
-Viewport transformation scales and translates the normalized device coordinates to fit the rendering screen. The results $(x_{w},y_{w},z_{w})$ are passed to the rasterizer. The transformation is given by: \\
+Viewport transformation scales and translates the \emph{normalized device coordinates} to fit the rendering screen. The results $(x_{w},y_{w},z_{w})$ are passed to the rasterizer. The transformation is given by: \\
 \begin{figure}[h]
 \[
 \begin{pmatrix}
@@ -226,7 +260,7 @@ It soon became apparent we could not do everything. The decision to conform to t
 
 \section{Individual Contributions}
 \subsection{Andrew Lau}
-My primary responsibilities for this project were the implementation of the vertex transformation pipeline and the integration and testing of the various parts of the pipeline. The first few weeks of the project were spent working closely with Alan to design the front end of the pipeline, specifically how to use GLSim to talk to the pipeline. This idea was quickly squashed as we found that GLSim was deprecated and had not been updated since 2002. \\
+My primary responsibilities for this project were the implementation of the vertex transformation pipeline and the integration and testing of the various parts of the pipeline. The first few weeks of the project were spent working closely with Alan to design the front end of the pipeline, specifically how to use GLSim to talk to the pipeline. This idea was quickly squashed as we found that GLSim was deprecated and had not been updated since 2002. 
 \subsection{Alan Zhu}
 \subsection{Nathan Wan}
 
