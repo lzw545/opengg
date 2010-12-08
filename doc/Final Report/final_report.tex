@@ -121,27 +121,6 @@ We chose to implement an OpenGL pipeline because it is a well known industry sta
 
 \subsection{Supported Functions}
 
-\begin{tabbing}
-The \= pipeline supports the following subset of OpenGL calls:\\
-\\
-\> glBegin (void)\\
-\> glEnd (void)\\
-\> glVertex (float x, float y, float z)\\
-\> glColor (float r, float g, float b)\\
-\> glFlush (void)\\
-\> glMatrixMode (enum mode)\\
-\> glMultMatrix (const float *m)\\
-\> glLoadMatrix (const float *m)\\
-\> glPushMatrix (void)\\
-\> glPopMatrix (void)\\
-\> glRotate (float angle, float x, float y, float z)\\
-\> glScale (float x, float y, float z)\\
-\> glTranslate (float x, float y, float z)\\
-\> glViewport (int x, int y, int width, int height)\\
-\> glFrustum (int left, int right, int bottom, int top, int near, int far)\\
-\> glOrtho (int left, int right, int bottom, int top, int near, int far)\\
-\end{tabbing}
-
 The pipeline supports the following subset of OpenGL calls:
 \begin{verbatim}
 	glBegin (void)
