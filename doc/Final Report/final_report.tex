@@ -211,12 +211,17 @@ The fetch unit reads one 32-bit word per cycle from the instruction cache, stall
 The decode unit generates control signals for the matrix stacks, matrix multipliers, perspective division, and viewport transformation. It also reads 4 32-bit words from the instruction cache for use in the latter pipeline stages.
 
 \section{Matrix Operations}
-The pipeline implements two 16x16 matrix stacks- one for Modelview matrices, one for Projection matrices. Matrices are updated 1 row at a time, with a row update module that utilizes 4 floating point multipliers and 3 floating point adders.
-\subsection{4x4 x 4x4 Matrix Multiplies}
-\subsection{4x4 x 1x4 Vertex Multiplies}
+
+\subsection{Matrix Stacks}
+The pipeline implements two 16x16 matrix stacks - one for Modelview matrices, one for Projection matrices. The bottom of each stack is initialized to the identity matrix by default, with the stack pointer initialized to point at the bottom. The matrix stacks are currently implemented in logic to support combinational reads, but could be moved to BRAM fairly easily. 
+
+\subsection{Matrix Multiply}
+Since the coordinate transformation takes relatively short amount of time when compared to the rasterizer, the decision was made to utilize less floating point units and allow a matrix multiply to take 4 cycles per row, or 16 cycles for a 4x4 x 4x4 multiply. Matrices are updated 1 row at a time, with a row update module that utilizes 4 floating point multipliers and 3 floating point adders. The fetch unit is stalled while a matrix multiply occurs, since most of the supported functions utilize the matrix stacks. Because each vertex is multiplied by both the Modelview and Projection matrices, this means that each call to glVertex takes 32 cycles on the coordinate transform clock.
+
+
 
 \section{Coordinate Transformation}
-Each vertex that gets passed into Coordinate Transformation goes through a series of transformations so that it ends up in the correct range to be displayed on the screen.
+Each vertex (consisting of 3 floating point numbers corresponding to x, y, z coordinates) that gets passed into Coordinate Transformation goes through a series of transformations so that it ends up in the correct range to be displayed on the screen. The resulting vertices and their corresponding colors are pushed into a dual clocked FIFO.
 
 \subsection{Eye Coordinates}
 The incoming vertex is multiplied by the modelview matrix to produce \emph{eye coordinates}. The modelview matrix is a the combination of the model and view matrices. Since there is no separate camera in OpenGL, the scene must be transformed by the inverse of the view transformation to simulate moving the camera.\\
@@ -356,7 +361,11 @@ CoreGEN allows us to generate different types of modules.  It is a tool provided
 
 \section{Individual Contributions}
 \subsection{Andrew Lau}
-My primary responsibilities for this project were the implementation of the vertex transformation pipeline and the integration and testing of the various parts of the pipeline. The first few weeks of the project were spent working closely with Alan to design the front end of the pipeline, specifically how to use GLSim to talk to the pipeline. This idea was quickly squashed as we found that GLSim was deprecated and had not been updated since 2002. \\
+My primary responsibilities for this project were the implementation of the vertex transformation pipeline and the integration and testing of the various parts of the pipeline. As the only team member who had taken Computer Graphics, much of the graphics design was deferred to me. The first few weeks of the project were spent working closely with Alan to design the front end of the pipeline, specifically how to use GLSim to talk to the pipeline. This idea was quickly squashed as we found that GLSim was deprecated and had not been updated since 2002. The next few weeks were spent designing the ISA, looking for suitable floating point units, investigating alternatives to GLSim, which included Mesa. We ultimately decided to write a primitive Perl script that would parse OpenGL calls and assemble the byte code.
+
+Alan and I worked closely to develop the matrix multiply and matrix stack control modules. These modules implement the 4x4 x 4x4 and 4x4 x 1x4 matrix multiply functionality as well as read in the operands from the correct places. I also wrote the testbenches for these modules, and tested them in simulation to verify correctness.
+
+I was mainly responsible for the coordinate transformation pipeline, as well as the fetch, decode units. The remainder of the semester was spent implementing, testing and integrating this part with the other parts of the pipeline.
 
 \subsection{Alan Zhu}
 \subsection{Nathan Wan}
@@ -391,6 +400,6 @@ DMA, P2P PLB, PLB alternative
 \section{Class Impression/Improvements}
 
 \subsection{Tool Chain Frustration}
-\subsection{Too much Independence / No Feedback}
+\subsection{Too much Independence / Lack of Feedback}
 
 \end{document}
