@@ -117,9 +117,30 @@ Initially, wanted machine to be primary machine for development.  Unfortunately,
 
 \section{OpenGL}
 \subsection{Rationale}
-We chose to implement an OpenGL pipeline because it is a well known industry standard for 2D/3D graphics. In addition, the pipeline design itself is well documented with numerous existing implementations in both hardware and software.
+We chose to implement an OpenGL pipeline because it is a well known industry standard for 2D/3D graphics. In addition, the pipeline design itself is well documented with numerous existing implementations in both hardware and software. When deciding on the project, an OpenGL pipeline seemed appropriate in scope and difficulty for a semester-long undergraduate course.
 
 \subsection{Supported Functions}
+
+\begin{tabbing}
+The \= pipeline supports the following subset of OpenGL calls:\\
+\\
+\> glBegin (void)\\
+\> glEnd (void)\\
+\> glVertex (float x, float y, float z)\\
+\> glColor (float r, float g, float b)\\
+\> glFlush (void)\\
+\> glMatrixMode (enum mode)\\
+\> glMultMatrix (const float *m)\\
+\> glLoadMatrix (const float *m)\\
+\> glPushMatrix (void)\\
+\> glPopMatrix (void)\\
+\> glRotate (float angle, float x, float y, float z)\\
+\> glScale (float x, float y, float z)\\
+\> glTranslate (float x, float y, float z)\\
+\> glViewport (int x, int y, int width, int height)\\
+\> glFrustum (int left, int right, int bottom, int top, int near, int far)\\
+\> glOrtho (int left, int right, int bottom, int top, int near, int far)\\
+\end{tabbing}
 
 \subsection{Interface to Pipeline}
 
@@ -131,7 +152,7 @@ The trace is generated from simple hand-generated C programs. Conditionals, loop
 The main function of the script is to parse each GL call, generate a 32-bit hex value that corresponds to the instruction code defined in the ISA, and output the hex value to a file. If there are argument parameters in the call, each parameter is translated into its hex representation and printed on subsequent lines in the file. The output is an OPNGG hex file (*.gg). Each line of the file is one hex value, either corresponding to an instruction call or one of several 32-bit arguments encoded in hex (single precision floating point , unsigned integer, etc.)
 
 \subsubsection{Instruction Assembler}
-The Microblaze processor is critical for programming the accelerator.  To program the instruction cache, the Microblaze reads off a file containing the graphical program and copies in data.  The file resides on the Compact Flash and its format guaranteed by the Perl Parser; the assembler does not check the format of the executable.  The SDK's XilFATFS is a library that allows the Microblaze to read files on the Compact Flash.  For the most part, it follows the C convention for file handling.  The instruction BRAM has an interface identical to that of the Xilinx BRAM cores.  This is so that a PLB to BRAM interface core, provided by Xilinx, can be used to allow the Microblaze to write directly into our module's BRAM.  
+The Microblaze processor is critical for programming the accelerator.  To program the instruction cache, the Microblaze reads off a file containing the graphical program and copies in data.  The file resides on the Compact Flash and its format guaranteed by the Perl Parser; the assembler does not check the format of the executable.  The SDK's XilFATFS is a library that allows the Microblaze to read files on the Compact Flash.  For the most part, it follows the C convention for file handling.  The instruction BRAM has an interface identical to that of the Xilinx BRAM cores.  This is so that a PLB to BRAM interface core, provided by Xilinx, can be used to allow the Microblaze to write directly into the instruction cache.  
 
 
 \section{Instruction Set Architecture}
@@ -180,10 +201,85 @@ glOrtho (int left, int right, int bottom, int top, int near, int far) & 1 & 6 & 
 \caption{OpenGL routine to opcode mappings}
 \end{table}
 
+\section{Fetch and Decode}
+\subsection{Instruction Cache}
+The instruction cache consists of 512 entries of 32-bit words and supports 5 reads and 1 write - concurrently serving the fetch, decode, and instruction assembler through a BRAM controller on the PLB. It is currently implemented in logic, with a combinational read. Further work would be needed to move the instruction cache into block RAM, requiring a clocked read.
+
+\subsection{Fetch Unit}
+The fetch unit reads one 32-bit word per cycle from the instruction cache, stalling if the vertex and color FIFOs are full and during matrix operations.
+
+\subsection{Decode Unit}
+The decode unit generates control signals for the matrix stacks, matrix multipliers, perspective division, and viewport transformation. It also reads 4 32-bit words from the instruction cache for use in the latter pipeline stages.
+
+\section{Matrix Operations}
+The pipeline implements two 16x16 matrix stacks- one for Modelview matrices, one for Projection matrices. Matrices are updated 1 row at a time, with a row update module that utilizes 4 floating point multipliers and 3 floating point adders.
+\subsection{4x4 x 4x4 Matrix Multiplies}
+\subsection{4x4 x 1x4 Vertex Multiplies}
+
 \section{Coordinate Transformation}
-\subsection{Matrix Operations}
+Each vertex that gets passed into Coordinate Transformation goes through a series of transformations so that it ends up in the correct range to be displayed on the screen.
+
+\subsection{Eye Coordinates}
+The incoming vertex is multiplied by the modelview matrix to produce \emph{eye coordinates}. The modelview matrix is a the combination of the model and view matrices. Since there is no separate camera in OpenGL, the scene must be transformed by the inverse of the view transformation to simulate moving the camera.\\
+
+\begin{figure}[h]
+\[
+\begin{pmatrix}
+x_{eye} \\
+y_{eye} \\
+z_{eye} \\
+w_{eye}
+\end{pmatrix}
+= M_{modelview} \cdot
+\begin{pmatrix}
+x_{obj} \\
+y_{obj} \\
+z_{obj} \\
+w_{obj}
+\end{pmatrix}
+\]
+\caption{Eye Coordinates}
+\end{figure}
+
+\subsection{Clip Coordinates}
+The eye coordinates are multiplied by the projection matrix to produce clip coordinates, in which objects that are not in the viewing frustum are clipped out. The viewing frustum is set by calls to \emph{glFrustum} and \emph{glOrtho} for perspective and orthographic projection, respectively. \\
+\begin{figure}[h]
+\[
+\begin{pmatrix}
+x_{clip} \\
+y_{clip} \\
+z_{clip} \\
+w_{clip}
+\end{pmatrix}
+= M_{projection} \cdot
+\begin{pmatrix}
+x_{eye} \\
+y_{eye} \\
+z_{eye} \\
+w_{eye}
+\end{pmatrix}
+\]
+\caption{Clip Coordinates}
+\end{figure}
 
 \subsection{Perspective Division}
+Perspective division yields coordinates known as \emph{normalized device coordinates}, with their range normalized to $(-1,1)$ for all 3 axes.\\
+\begin{figure}[h]
+\[
+\begin{pmatrix}
+x_{ndc} \\
+y_{ndc} \\
+z_{ndc}
+\end{pmatrix}
+=
+\begin{pmatrix}
+x_{clip}/w_{clip} \\
+y_{clip}/w_{clip} \\
+z_{clip}/w_{clip}
+\end{pmatrix}
+\]
+\caption{Perspective Division}
+\end{figure}
 
 \subsection{Viewport Transformation}
 Viewport transformation scales and translates the normalized device coordinates to fit the rendering screen. The results $(x_{w},y_{w},z_{w})$ are passed to the rasterizer. The transformation is given by: \\
