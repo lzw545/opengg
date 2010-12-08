@@ -142,6 +142,26 @@ The \= pipeline supports the following subset of OpenGL calls:\\
 \> glOrtho (int left, int right, int bottom, int top, int near, int far)\\
 \end{tabbing}
 
+The pipeline supports the following subset of OpenGL calls:
+\begin{verbatim}
+	glBegin (void)
+	glEnd (void)
+	glVertex (float x, float y, float z)
+	glColor (float r, float g, float b)
+	glFlush (void)
+	glMatrixMode (enum mode)
+	glMultMatrix (const float *m)
+	glLoadMatrix (const float *m)
+	glPushMatrix (void)
+	glPopMatrix (void)
+	glRotate (float angle, float x, float y, float z)
+	glScale (float x, float y, float z)
+	glTranslate (float x, float y, float z)
+	glViewport (int x, int y, int width, int height)
+	glFrustum (int left, int right, int bottom, int top, int near, int far)
+	glOrtho (int left, int right, int bottom, int top, int near, int far)
+\end{verbatim}
+
 \subsection{Interface to Pipeline}
 
 \subsubsection{Perl Parser}
@@ -322,6 +342,25 @@ Using the PLB actually offered great flexibility in the interconnect of cores.  
 \subsection{DMA}
 
 The DMA module was a late addition to the project.  It is an effort to increase the speed of the flush operation.  Previously, the fbwriter would zero out each pixel individually, requiring far more PLB transactions than necessary.  The fbwriter can program the flush operation to the DMA, which in turn will flush not only the frame buffer but the z-buffer, since they are contiguous in memory.
+
+\section{Development Software}
+\subsection{FPGA Tool Chain}
+Xilinx ISE Design Suite 12.2
+
+\subsubsection{EDK}
+\subsubsection{ISE}
+\subsubsection{CoreGEN}
+READ: OS and Libraries Document Collection and EDK Concept, Tools, and Techniques
+\subsubsection{PlanAhead}
+
+\subsection{Git}
+
+\subsection{Windows XP}
+Operating system that existed on 
+
+\subsection{Ubuntu}
+Initially, wanted machine to be primary machine for development.  Unfortunately, the usb drivers for the JTAG cable never came into fruition, so board programming was relegated to the Windows machine.  Much of the simulation and core development still happened on the Ubuntu box.  Also held a git repository that was later moved to github.  It was used as an easy way to transfer files between group members because Windows networked file system is unusable.  
+
 
 \section{Major Design Decisions}
 \subsection{Floating Point vs. Fixed Point}
