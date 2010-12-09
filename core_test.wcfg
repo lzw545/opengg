@@ -3,14 +3,14 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="/home/lzw/matrix_mul/core_test_isim_beh1.wdb" id="1" type="auto">
+      <db_ref path="C:/Users/ajlau/Desktop/OpenGG/opengg/core_test_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="core_test" />
             <top_module name="glbl" />
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="75" />
+   <WVObjectSize size="77" />
    <wvobject fp_name="/core_test/bram_a_din" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">bram_a_din[31:0]</obj_property>
       <obj_property name="ObjectShortName">bram_a_din[31:0]</obj_property>
@@ -137,6 +137,30 @@
    <wvobject fp_name="/core_test/core/GL_RAS/y3" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">y3[31:0]</obj_property>
       <obj_property name="ObjectShortName">y3[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/fifo_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fifo_data[0:95]</obj_property>
+      <obj_property name="ObjectShortName">fifo_data[0:95]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state[0:3]</obj_property>
+      <obj_property name="ObjectShortName">state[0:3]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/line" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">line[0:8]</obj_property>
+      <obj_property name="ObjectShortName">line[0:8]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/col" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">col[0:9]</obj_property>
+      <obj_property name="ObjectShortName">col[0:9]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/color" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">color[0:31]</obj_property>
+      <obj_property name="ObjectShortName">color[0:31]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/fifo_peek/vertex_out" type="array" db_ref_id="1">
@@ -317,20 +341,6 @@
    <wvobject fp_name="/core_test/fbwriter/wr_req" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">wr_req</obj_property>
       <obj_property name="ObjectShortName">wr_req</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/fbwriter/line" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">line[0:8]</obj_property>
-      <obj_property name="ObjectShortName">line[0:8]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/fbwriter/col" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">col[0:9]</obj_property>
-      <obj_property name="ObjectShortName">col[0:9]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/fbwriter/color" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">color[0:31]</obj_property>
-      <obj_property name="ObjectShortName">color[0:31]</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/core/pixel_wen" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">pixel_wen</obj_property>
