@@ -103,15 +103,11 @@ The graphics accelerator can be broken down into five major components:
 
 \item Xilinx ISE Design Suite 12.2
 
-READ: OS and Libraries Document Collection and EDK Concept, Tools, and Techniques
-
 \item Git
 
 \item Windows XP
 
 \item Ubuntu
-
-Initially, wanted machine to be primary machine for development.  Unfortunately, the usb drivers for the JTAG cable never came into fruition, so board programming was relegated to the Windows machine.  Much of the simulation and core development still happened on the Ubuntu box.  Also held a git repository that was later moved to github.  It was used as an easy way to transfer files between group members because Windows networked file system is unusable.  
 
 \end{itemize}
 
@@ -338,7 +334,7 @@ The reference design came as a Platform Studio and Embedded Development Kit (EDK
 OS and Libraries Document Collection and EDK Concept, Tools, and Techniques
 
 \subsubsection{ISE}
-We used this to manage multiple hardware projects.  The core had it's own project, 
+We used this to manage multiple hardware projects.  The core had it's own project, which EDK uses to import as a peripheral.  Also, each component 
 
 \subsubsection{CoreGEN}
 Another component of the Design Suite used to generate cores.  It was useful in many ways to construct basic hardware elements; see gripes in other sections.
