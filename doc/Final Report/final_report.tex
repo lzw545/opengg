@@ -298,7 +298,7 @@ z_{w}
 \end{pmatrix}
 \]
 \caption{Viewport Transformation}
-\end{figure}\\
+\end{figure}\\	
 With some factoring, this is implemented using three floating point multipliers and five floating point adders.
 
 \section{Rasterization}
@@ -309,7 +309,6 @@ With some factoring, this is implemented using three floating point multipliers 
 \section{Framebuffer/DVI Controller}
 
 \subsection{DVI Controller}
-
 The reference design for the XUPV5 contained a DVI controller that displays a frame buffer on DDR2 SDRAM.  The core outputs a 640 by 480 video over the DVI port of the board.  The core reads a line of the SDRAM frame buffer over the PLB bus and stores it locally in BRAM. Since the frame buffer is any 2MB region in the PLB address space, the frame buffer does not actually have to reside in SDRAM.  Any mapped address can be used as a frame buffer, which demonstrates some of the flexibility of the PLB.  The DVI controller has control registers mapped on the DCR bus interface.  In order for other elements in the system to configure the controller, there is a PLB/DCR bridge what maps the DCR space to a part of the system PLB address space.
 
 
@@ -317,16 +316,24 @@ The reference design for the XUPV5 contained a DVI controller that displays a fr
 fbwriter
 Using the PLB actually offered great flexibility in the interconnect of cores.  Although it restricted the project in some ways, requiring the use of particular 
 
-\subsection{Frame and Z Buffers}	
+\subsection{Frame and Z Buffers}
+
+\begin{figure}[htb]
+\begin{center}
+%\leavevmode
+\includegraphics[scale=.68]{buffer_space.png}
+\end{center}
+\caption{Organization of Buffers}
+\label{fig:buffer_space}
+\end{figure}
 
 \subsection{DMA}
-
 The DMA module was a late addition to the project.  It is an effort to increase the speed of the flush operation.  Previously, the fbwriter would zero out each pixel individually, requiring far more PLB transactions than necessary.  The fbwriter can program the flush operation to the DMA, which in turn will flush not only the frame buffer but the z-buffer, since they are contiguous in memory.
 
 \section{Development Software}
-\subsection{FPGA Tool Chain}
 
-The obvious, and apparently only, choice was Xilinx ISE Design Suite 12.2.
+\subsection{FPGA Tool Chain}
+The obvious, and apparently only, choice was Xilinx ISE Design Suite 12.2.  This is not an endorsement, for it is definitely worth the effort to consider an alternative.
 
 \subsubsection{EDK and SDK}
 The reference design came as a Platform Studio and Embedded Development Kit (EDK) project.  
@@ -419,6 +426,10 @@ DMA, P2P PLB, PLB alternative
 
 \subsection{Tool Chain Frustration}
 \subsection{Too much Independence / Lack of Feedback}
+
+\section{Citations}
+
+% Xilinx manuals
 
 \section{Credits}
 
