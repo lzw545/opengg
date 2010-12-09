@@ -345,18 +345,28 @@ The DMA module was a late addition to the project.  It is an effort to increase 
 
 \section{Development Software}
 \subsection{FPGA Tool Chain}
-Xilinx ISE Design Suite 12.2
 
-\subsubsection{EDK}
+The obvious, and apparently only, choice was Xilinx ISE Design Suite 12.2.
+
+\subsubsection{EDK and SDK}
+The reference design came as a Platform Studio and Embedded Development Kit (EDK) project.  
+
+OS and Libraries Document Collection and EDK Concept, Tools, and Techniques
+
 \subsubsection{ISE}
+We used this to manage multiple hardware projects.  The core had it's own project, 
+
 \subsubsection{CoreGEN}
-READ: OS and Libraries Document Collection and EDK Concept, Tools, and Techniques
+Another component of the Design Suite used to generate cores.  It was useful in many ways to construct basic hardware elements; see gripes in other sections.
+
 \subsubsection{PlanAhead}
+PlanAhead is another component of the Design Suite.  We used it to generate most of our ChipScope modules from netlists.  The netlists comes from the EDK builds and PlanAhead allows us to add ChipScope modules that sample particular signals on real hardware.  It does require a separate bit file and thus, an additional build, but the information is invaluable; this can solve so many of your bugs.  Getting this up early would also yields exponential benefits.
 
 \subsection{Git}
+A project without source control is simply unwieldy.  Two group members have had relatively enjoyable experiences with Git, and it was simpler to initialize and set-up than svn, the other likely alternative.  The distributed style allowed for great flexibility moving central repositories and asynchrony of the group's work style.
 
 \subsection{Windows XP}
-Operating system that existed on 
+Operating system that existed on the lab machine and had a licensed installation of the Design Suite was fairly convenient.  Machine was fairly slow, but static ip address and domain name given by the department made it easy to work remotely.
 
 \subsection{Ubuntu}
 Initially, wanted machine to be primary machine for development.  Unfortunately, the usb drivers for the JTAG cable never came into fruition, so board programming was relegated to the Windows machine.  Much of the simulation and core development still happened on the Ubuntu box.  Also held a git repository that was later moved to github.  It was used as an easy way to transfer files between group members because Windows networked file system is unusable.  
@@ -384,14 +394,15 @@ My primary responsibilities for this project were the implementation of the vert
 
 My main responsibilities involved the interfaces for the pipeline and the tool set.
 
-
 One Man Tools Team
+
 Webserver/SDK work
+
 I was mainly in charge of any software that ran on the Microblaze processor.  When we were considering a web-server front-end for our accelerator, I was working with the lwip library on the SDK trying to get the webserver running.  The current design uses an assembler to get data from Perl Parser to the pipeline.
 
 As the build engineer, I was left with most of the decisions on the system level.   
 
-On the final day, with pressure to bring down EDK utilization, I took SRAM out of the project.  Unbeknownst to me, SRAM actually contained configuration data necessary for the Microblaze to run.  That left us with a broken build pretty close to demo time. 
+On the final day, with pressure to bring down EDK utilization, I took SRAM out of the project.  Unbeknownst to me, SRAM actually contained configuration data necessary for the Microblaze to run.  That left us with a broken build pretty close to demo time.   The lesson here is to ensure you know exactly what you're cutting out of the reference design, or know as much as possible.
 
 \section{Status and Future Work}
 
@@ -413,5 +424,17 @@ DMA, P2P PLB, PLB alternative
 
 \subsection{Tool Chain Frustration}
 \subsection{Too much Independence / No Feedback}
+
+\section{Credits}
+
+% Prof and course staff
+
+% Ken Mai for initial meeting
+
+% Google Docs
+
+% OpenGG Tumblr
+
+% LaTeX and diagramming program
 
 \end{document}
