@@ -3,366 +3,108 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="C:/Users/ajlau/Desktop/OpenGG/opengg/core_test_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="C:/opengg/core_test_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="core_test" />
             <top_module name="glbl" />
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="77" />
-   <wvobject fp_name="/core_test/bram_a_din" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">bram_a_din[31:0]</obj_property>
-      <obj_property name="ObjectShortName">bram_a_din[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/clk1" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">clk1</obj_property>
-      <obj_property name="ObjectShortName">clk1</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/clk2" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">clk2</obj_property>
-      <obj_property name="ObjectShortName">clk2</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/bram_clk" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">bram_clk</obj_property>
-      <obj_property name="ObjectShortName">bram_clk</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core_reset" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">core_reset</obj_property>
-      <obj_property name="ObjectShortName">core_reset</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_full" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fifo_full</obj_property>
-      <obj_property name="ObjectShortName">fifo_full</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_write_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fifo_write_en</obj_property>
-      <obj_property name="ObjectShortName">fifo_write_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/vertex_fifo_in" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vertex_fifo_in[95:0]</obj_property>
-      <obj_property name="ObjectShortName">vertex_fifo_in[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/color_fifo_in" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">color_fifo_in[95:0]</obj_property>
-      <obj_property name="ObjectShortName">color_fifo_in[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/pixel_data" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">pixel_data[95:0]</obj_property>
-      <obj_property name="ObjectShortName">pixel_data[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fetch_inst_addr" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">fetch_inst_addr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">fetch_inst_addr[31:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/dc/opcode" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">opcode[7:0]</obj_property>
-      <obj_property name="ObjectShortName">opcode[7:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fetch_inst_out" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">fetch_inst_out[31:0]</obj_property>
-      <obj_property name="ObjectShortName">fetch_inst_out[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fetch_inst_in" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">fetch_inst_in[31:0]</obj_property>
-      <obj_property name="ObjectShortName">fetch_inst_in[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/pd_vert_z" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">pd_vert_z[31:0]</obj_property>
-      <obj_property name="ObjectShortName">pd_vert_z[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/vt_mulz_result" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vt_mulz_result[31:0]</obj_property>
-      <obj_property name="ObjectShortName">vt_mulz_result[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/vt_addz_result" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vt_addz_result[31:0]</obj_property>
-      <obj_property name="ObjectShortName">vt_addz_result[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_peek/state" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">state[1:0]</obj_property>
-      <obj_property name="ObjectShortName">state[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_peek/count" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">count[1:0]</obj_property>
-      <obj_property name="ObjectShortName">count[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_peek/vertex_rd_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">vertex_rd_en</obj_property>
-      <obj_property name="ObjectShortName">vertex_rd_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_peek/color_rd_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">color_rd_en</obj_property>
-      <obj_property name="ObjectShortName">color_rd_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_reg_flush" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fifo_reg_flush</obj_property>
-      <obj_property name="ObjectShortName">fifo_reg_flush</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/x1" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">x1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x1[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/x2" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">x2[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x2[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/x3" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">x3[31:0]</obj_property>
-      <obj_property name="ObjectShortName">x3[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/y1" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">y1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">y1[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/y2" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">y2[31:0]</obj_property>
-      <obj_property name="ObjectShortName">y2[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/y3" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">y3[31:0]</obj_property>
-      <obj_property name="ObjectShortName">y3[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
+   <WVObjectSize size="24" />
+   <wvobject fp_name="/core_test/fbwriter/PLB_clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">PLB_clk</obj_property>
+      <obj_property name="ObjectShortName">PLB_clk</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/fbwriter/fifo_data" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">fifo_data[0:95]</obj_property>
       <obj_property name="ObjectShortName">fifo_data[0:95]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/core_test/fbwriter/state" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">state[0:3]</obj_property>
-      <obj_property name="ObjectShortName">state[0:3]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/fbwriter/line" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">line[0:8]</obj_property>
-      <obj_property name="ObjectShortName">line[0:8]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/fbwriter/col" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">col[0:9]</obj_property>
-      <obj_property name="ObjectShortName">col[0:9]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/fbwriter/color" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">color[0:31]</obj_property>
-      <obj_property name="ObjectShortName">color[0:31]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_peek/vertex_out" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vertex_out[95:0]</obj_property>
-      <obj_property name="ObjectShortName">vertex_out[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_peek/vertex_out2" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vertex_out2[95:0]</obj_property>
-      <obj_property name="ObjectShortName">vertex_out2[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_peek/vertex_out3" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vertex_out3[95:0]</obj_property>
-      <obj_property name="ObjectShortName">vertex_out3[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_peek/color_in" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">color_in[95:0]</obj_property>
-      <obj_property name="ObjectShortName">color_in[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_peek/vertex_in" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vertex_in[95:0]</obj_property>
-      <obj_property name="ObjectShortName">vertex_in[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/wr_data" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">wr_data[95:0]</obj_property>
-      <obj_property name="ObjectShortName">wr_data[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/vertex_1" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vertex_1[95:0]</obj_property>
-      <obj_property name="ObjectShortName">vertex_1[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/vertex_2" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vertex_2[95:0]</obj_property>
-      <obj_property name="ObjectShortName">vertex_2[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/vertex_3" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vertex_3[95:0]</obj_property>
-      <obj_property name="ObjectShortName">vertex_3[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/wr_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">wr_en</obj_property>
-      <obj_property name="ObjectShortName">wr_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/raster_ready" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">raster_ready</obj_property>
-      <obj_property name="ObjectShortName">raster_ready</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/minx" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">minx[31:0]</obj_property>
-      <obj_property name="ObjectShortName">minx[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/maxx" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">maxx[31:0]</obj_property>
-      <obj_property name="ObjectShortName">maxx[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/miny" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">miny[31:0]</obj_property>
-      <obj_property name="ObjectShortName">miny[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/maxy" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">maxy[31:0]</obj_property>
-      <obj_property name="ObjectShortName">maxy[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/full" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">full</obj_property>
-      <obj_property name="ObjectShortName">full</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/in_rdy" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">in_rdy</obj_property>
-      <obj_property name="ObjectShortName">in_rdy</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_peek/count" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">count[1:0]</obj_property>
-      <obj_property name="ObjectShortName">count[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/fifo_peek/dequeue" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">dequeue</obj_property>
-      <obj_property name="ObjectShortName">dequeue</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/vertex_empty" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">vertex_empty</obj_property>
-      <obj_property name="ObjectShortName">vertex_empty</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/color_empty" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">color_empty</obj_property>
-      <obj_property name="ObjectShortName">color_empty</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/color_rd_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">color_rd_en</obj_property>
-      <obj_property name="ObjectShortName">color_rd_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/vertex_rd_en" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">vertex_rd_en</obj_property>
-      <obj_property name="ObjectShortName">vertex_rd_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/dequeue" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">dequeue</obj_property>
-      <obj_property name="ObjectShortName">dequeue</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/color_rd_data" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">color_rd_data[95:0]</obj_property>
-      <obj_property name="ObjectShortName">color_rd_data[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/vertex_rd_data" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">vertex_rd_data[95:0]</obj_property>
-      <obj_property name="ObjectShortName">vertex_rd_data[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/test" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">test[31:0]</obj_property>
-      <obj_property name="ObjectShortName">test[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/maxy_int_32" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">maxy_int_32[31:0]</obj_property>
-      <obj_property name="ObjectShortName">maxy_int_32[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/maxx_int_32" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">maxx_int_32[31:0]</obj_property>
-      <obj_property name="ObjectShortName">maxx_int_32[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/pixel_data" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">pixel_data[95:0]</obj_property>
-      <obj_property name="ObjectShortName">pixel_data[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/count_x" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">count_x[9:0]</obj_property>
-      <obj_property name="ObjectShortName">count_x[9:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/state" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">state[1:0]</obj_property>
-      <obj_property name="ObjectShortName">state[1:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/maxy_int" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">maxy_int[8:0]</obj_property>
-      <obj_property name="ObjectShortName">maxy_int[8:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/count_y" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">count_y[8:0]</obj_property>
-      <obj_property name="ObjectShortName">count_y[8:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/core_test/core/pixel_fifo/dout" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">dout[95:0]</obj_property>
-      <obj_property name="ObjectShortName">dout[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
+   <wvobject fp_name="/core_test/fbwriter/fifo_empty" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">fifo_empty</obj_property>
+      <obj_property name="ObjectShortName">fifo_empty</obj_property>
    </wvobject>
    <wvobject fp_name="/core_test/fbwriter/fifo_rd_en" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">fifo_rd_en</obj_property>
       <obj_property name="ObjectShortName">fifo_rd_en</obj_property>
    </wvobject>
-   <wvobject fp_name="/core_test/fifo_empty" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">fifo_empty</obj_property>
-      <obj_property name="ObjectShortName">fifo_empty</obj_property>
+   <wvobject fp_name="/core_test/fbwriter/fifo_rd_en_delayed" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">fifo_rd_en_delayed</obj_property>
+      <obj_property name="ObjectShortName">fifo_rd_en_delayed</obj_property>
    </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/flush" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">flush</obj_property>
-      <obj_property name="ObjectShortName">flush</obj_property>
+   <wvobject fp_name="/core_test/fbwriter/reset" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
-   <wvobject fp_name="/core_test/fbwriter/wr_req" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">wr_req</obj_property>
-      <obj_property name="ObjectShortName">wr_req</obj_property>
+   <wvobject fp_name="/core_test/fbwriter/IP2Bus_MstRd_Req" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">IP2Bus_MstRd_Req</obj_property>
+      <obj_property name="ObjectShortName">IP2Bus_MstRd_Req</obj_property>
    </wvobject>
-   <wvobject fp_name="/core_test/core/pixel_wen" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">pixel_wen</obj_property>
-      <obj_property name="ObjectShortName">pixel_wen</obj_property>
+   <wvobject fp_name="/core_test/fbwriter/IP2Bus_MstWr_Req" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">IP2Bus_MstWr_Req</obj_property>
+      <obj_property name="ObjectShortName">IP2Bus_MstWr_Req</obj_property>
    </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/alpha" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">alpha[31:0]</obj_property>
-      <obj_property name="ObjectShortName">alpha[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
+   <wvobject fp_name="/core_test/fbwriter/IP2Bus_Mst_Addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">IP2Bus_Mst_Addr[0:31]</obj_property>
+      <obj_property name="ObjectShortName">IP2Bus_Mst_Addr[0:31]</obj_property>
    </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/beta" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">beta[31:0]</obj_property>
-      <obj_property name="ObjectShortName">beta[31:0]</obj_property>
+   <wvobject fp_name="/core_test/fbwriter/IP2Bus_Mst_BE" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">IP2Bus_Mst_BE[0:3]</obj_property>
+      <obj_property name="ObjectShortName">IP2Bus_Mst_BE[0:3]</obj_property>
    </wvobject>
-   <wvobject fp_name="/core_test/core/GL_RAS/gamma" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">gamma[31:0]</obj_property>
-      <obj_property name="ObjectShortName">gamma[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
+   <wvobject fp_name="/core_test/fbwriter/Bus2IP_Mst_CmdAck" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">Bus2IP_Mst_CmdAck</obj_property>
+      <obj_property name="ObjectShortName">Bus2IP_Mst_CmdAck</obj_property>
    </wvobject>
-   <wvobject fp_name="/core_test/core/pixel_data" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">pixel_data[95:0]</obj_property>
-      <obj_property name="ObjectShortName">pixel_data[95:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
+   <wvobject fp_name="/core_test/fbwriter/Bus2IP_Mst_Cmplt" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">Bus2IP_Mst_Cmplt</obj_property>
+      <obj_property name="ObjectShortName">Bus2IP_Mst_Cmplt</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/Bus2IP_MstRd_d" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">Bus2IP_MstRd_d[0:31]</obj_property>
+      <obj_property name="ObjectShortName">Bus2IP_MstRd_d[0:31]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/IP2Bus_MstWr_d" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">IP2Bus_MstWr_d[0:31]</obj_property>
+      <obj_property name="ObjectShortName">IP2Bus_MstWr_d[0:31]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/draw" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">draw</obj_property>
+      <obj_property name="ObjectShortName">draw</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/line" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">line[0:8]</obj_property>
+      <obj_property name="ObjectShortName">line[0:8]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/col" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">col[0:9]</obj_property>
+      <obj_property name="ObjectShortName">col[0:9]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/color" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">color[0:31]</obj_property>
+      <obj_property name="ObjectShortName">color[0:31]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/z" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">z[0:31]</obj_property>
+      <obj_property name="ObjectShortName">z[0:31]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/completed" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">completed</obj_property>
+      <obj_property name="ObjectShortName">completed</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/address" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">address[0:31]</obj_property>
+      <obj_property name="ObjectShortName">address[0:31]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/wr_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">wr_data[0:31]</obj_property>
+      <obj_property name="ObjectShortName">wr_data[0:31]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/buffer" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">buffer</obj_property>
+      <obj_property name="ObjectShortName">buffer</obj_property>
+   </wvobject>
+   <wvobject fp_name="/core_test/fbwriter/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state[0:3]</obj_property>
+      <obj_property name="ObjectShortName">state[0:3]</obj_property>
    </wvobject>
 </wave_config>
