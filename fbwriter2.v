@@ -280,7 +280,8 @@ parameter DEQUE=0, DVI_REG=1, DMA_SA=2, DMA_DA=3, DMA_LEN=4, READ_ZB=5, WRITE_FB
           rd_req <= 0;
           wr_req <= 0;
         end
-      else if ( Bus2IP_Mst_Cmplt ) // or  completed[not sure...]
+      else if ( completed ) 
+        begin
         case ( state )
           READ_ZB: begin
             rd_req <= 1;
@@ -311,6 +312,7 @@ parameter DEQUE=0, DVI_REG=1, DMA_SA=2, DMA_DA=3, DMA_LEN=4, READ_ZB=5, WRITE_FB
             wr_req <= 1;
             end
         endcase
+        end
     end
       
   // assign line and col and color regs

@@ -87,7 +87,7 @@ module core_test(
     
     always @ (posedge bram_clk)
     begin
-        if (fb_rd_req || fb_wr_req)
+        if ((fb_rd_req || fb_wr_req) && !fb_ack)
         begin
             fb_ack <= 1;
         end
