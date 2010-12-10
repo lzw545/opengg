@@ -165,7 +165,7 @@ The ISA defines a 32-bit instruction word to align with the width of single prec
 \begin{tabular}{ | l | l | l | l |}
 \hline
 Bits & [31] & [30:8] & [7:0] \\ \hline
-Content & Type & Data & Opcode \\ \hline
+Content & \emph{type} & \emph{data} & \emph{opcode} \\ \hline
 \end{tabular}
 \end{center}
 \caption{Instruction word}
@@ -178,23 +178,23 @@ Each supported function is translated by the Perl parser into the follow instruc
 \begin{tabular}{ | l | l | l | l |}
 \hline
 Function & Type & Data & Opcode \\ \hline
-glBegin (void) & 0 & X & 00000001 \\ \hline
-glEnd (void) & 0 & X & 00000010 \\ \hline
-glVertex (float x, float y, float z) & 1 & 3 & 00000011 \\ \hline
-glColor (float r, float g, float b) & 1 & 3 & 00000100 \\ \hline
-glFlush (void) & 0 & X & 00000101 \\ \hline
-glMatrixMode (enum mode) & 0 & imm & 00010000 \\ \hline
-glMultMatrix (const float *m) & 0 & 16 & 00010001 \\ \hline
-glLoadIdentity (void) & 0 & X & 00010010 \\ \hline
-glLoadMatrix (const float *m) & 1 & 16 & 00010011 \\ \hline
-glPushMatrix (void) & 0 & X & 00010100 \\ \hline
-glPopMatrix (void) & 0 & X & 00010101 \\ \hline
-glRotate (float angle, float x, float y, float z) & 1 & 4 & 00010110 \\ \hline
-glScale (float x, float y, float z) & 1 & 3 & 00010111 \\ \hline
-glTranslate (float x, float y, float z) & 1 & 3 & 00011000 \\ \hline
-glViewport (int x, int y, int width, int height) & 1 & 4 & 00011001 \\ \hline
-glFrustum (int left, int right, int bottom, int top, int near, int far) & 1 & 6 & 00011010 \\ \hline
-glOrtho (int left, int right, int bottom, int top, int near, int far) & 1 & 6 & 00011011 \\ \hline
+\verb!glBegin (void)! & 0 & X & 00000001 \\ \hline
+\verb!glEnd (void)! & 0 & X & 00000010 \\ \hline
+\verb!glVertex (float x, float y, float z)! & 1 & 3 & 00000011 \\ \hline
+\verb!glColor (float r, float g, float b)! & 1 & 3 & 00000100 \\ \hline
+\verb!glFlush (void)! & 0 & X & 00000101 \\ \hline
+\verb!glMatrixMode (enum mode)! & 0 & imm & 00010000 \\ \hline
+\verb!glMultMatrix (const float *m)! & 0 & 16 & 00010001 \\ \hline
+\verb!glLoadIdentity (void)! & 0 & X & 00010010 \\ \hline
+\verb!glLoadMatrix (const float *m)! & 1 & 16 & 00010011 \\ \hline
+\verb!glPushMatrix (void)! & 0 & X & 00010100 \\ \hline
+\verb!glPopMatrix (void)! & 0 & X & 00010101 \\ \hline
+\verb!glRotate (float angle, float x, float y, float z)! & 1 & 4 & 00010110 \\ \hline
+\verb!glScale (float x, float y, float z)! & 1 & 3 & 00010111 \\ \hline
+\verb!glTranslate (float x, float y, float z)! & 1 & 3 & 00011000 \\ \hline
+\verb!glViewport (int x, int y, int width, int height)! & 1 & 4 & 00011001 \\ \hline
+\verb!glFrustum (int left, int right, int bottom, int top, int near, int far)! & 1 & 6 & 00011010 \\ \hline
+\verb!glOrtho (int left, int right, int bottom, int top, int near, int far)! & 1 & 6 & 00011011 \\ \hline
 \end{tabular}
 \end{center}
 \caption{OpenGL routine to opcode mappings}
@@ -216,7 +216,7 @@ The decode unit generates control signals for the matrix stacks, matrix multipli
 The pipeline implements two 16x16 matrix stacks - one for Modelview matrices, one for Projection matrices. The bottom of each stack is initialized to the identity matrix by default, with the stack pointer initialized to point at the bottom. The matrix stacks are currently implemented in logic to support combinational reads, but could be moved to BRAM fairly easily. 
 
 \subsection{Matrix Multiply}
-Since the coordinate transformation takes relatively short amount of time when compared to the rasterizer, the decision was made to utilize less floating point units and allow a matrix multiply to take 4 cycles per row, or 16 cycles for a 4x4 x 4x4 multiply. Matrices are updated 1 row at a time, with a row update module that utilizes 4 floating point multipliers and 3 floating point adders. The fetch unit is stalled while a matrix multiply occurs, since most of the supported functions utilize the matrix stacks. Because each vertex is multiplied by both the Modelview and Projection matrices, this means that each call to glVertex takes 32 cycles on the coordinate transform clock.
+Since the coordinate transformation takes relatively short amount of time when compared to the rasterizer, the decision was made to utilize less floating point units and allow a matrix multiply to take 4 cycles per row, or 16 cycles for a 4x4 x 4x4 multiply. Matrices are updated 1 row at a time, with a row update module that utilizes 4 floating point multipliers and 3 floating point adders. The fetch unit is stalled while a matrix multiply occurs, since most of the supported functions utilize the matrix stacks. Because each vertex is multiplied by both the Modelview and Projection matrices, this means that each call to \verb!glVertex! takes 32 cycles on the coordinate transform clock.
 
 
 
@@ -246,7 +246,7 @@ w_{obj}
 \end{figure}
 
 \subsection{Clip Coordinates}
-The eye coordinates are multiplied by the projection matrix to produce clip coordinates, in which objects that are not in the viewing frustum are clipped out. The viewing frustum is set by calls to \emph{glFrustum} and \emph{glOrtho} for perspective and orthographic projection, respectively. \\
+The eye coordinates are multiplied by the projection matrix to produce clip coordinates, in which objects that are not in the viewing frustum are clipped out. The viewing frustum is set by calls to \verb!glFrustum! and \verb!glOrtho! for perspective and orthographic projection, respectively. \\
 \begin{figure}[h]
 \[
 \begin{pmatrix}
