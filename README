@@ -1,0 +1,34 @@
+OpenGG: All the sources needed to build the main verilog peripheral are in the top level. 
+
+Currently all the sources files are added to a single project: 
+
+matrix_mul.xise
+
+
+Files needed to build the core:
+
+gl_core.v				Top level verilog module, encapsulates all the other modules besides fb_writer (coordinate transform, rasterizer, fifos, etc)
+async_inst_bram.v		instruction "BRAM" module with asynchronous reads, this will be placed in LUTS rather than BRAM due to the combinational reads- clock the reads to infer BRAM
+gl_fetch.v:				Fetch unit, hooked up to instruction BRAM, decode
+gl_decode.v				Decode unit
+matrix_ctrl.v			Contains and controls the two matrix stacks
+matrix_mul.v			Contains logic to perform matrix multiplies
+fifo_reg.v				Module to read and hold 3 values(1 triangle) off the fifo_96's to be consumed by gl_rasterizer
+gl_rasterizer.v			Raster unit
+fb_writer.v				Writes pixels to framebuffer
+
+All the floating point units needed are located in ipcore_dir:		*note: these are currently all combinational, to improve performance, regenerate with clock
+
+f2i.v/f2i.ngc			floating point to int
+fp_add.v/ngc
+fp_mul.v/ngc			uses 2 dsp slices per instance
+fp_mul2.v/ngc			uses no dsp slices
+fp_sub.v/ngc
+fp_div.v/ngc
+fifo_96.v/fifo_96.ngc	CoreGEN'd fifo, 96-bits wide to accomodate 3 floating point numbers. Sits between coordinate transform/rasterizer and between rasterizer/fb_writer
+
+
+Testbenches:
+core_test.v								Tests the entire core + fb_writer.
+
+other testbenches test what is implied by their names, might have deprecated ports
