@@ -169,7 +169,7 @@ Content & \emph{type} & \emph{data} & \emph{opcode} \\ \hline
 
 Each supported function is translated by the Perl parser into the follow instruction words. The \emph{data} field indicates to the fetch unit to expect a certain number of floats following the instruction word if the \emph{type} field is set.
 
-\begin{table}[htbp]
+\begin{table}[h!]
 \begin{center}
 \begin{tabular}{ | l | l | l | l |}
 \hline
@@ -283,7 +283,7 @@ z_{clip}/w_{clip}
 
 \subsection{Viewport Transformation}
 Viewport transformation scales and translates the normalized device coordinates to fit the rendering screen. The results $(x_{w},y_{w},z_{w})$ are passed to the rasterizer. The transformation is given by: \\
-\begin{figure}[h]
+\begin{figure}[h!]
 \[
 \begin{pmatrix}
 x_{w} \\
