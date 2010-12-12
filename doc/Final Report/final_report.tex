@@ -301,7 +301,29 @@ z_{w}
 \end{figure}\\	
 With some factoring, this is implemented using three floating point multipliers and five floating point adders.
 
+
 \section{Rasterization}
+
+The purpose of rasterization is to take sets of vertices from coordinate transform, and figure out which pixels on the screen should be drawn which color so that the correct primitive gets displayed on the screen in the correct position. 
+
+In our project, we dealt only with triangles. This means the rasterizer would dequeue sets of 3 vertices from both the vertex FIFO and color FIFO that the coordinate transform pipeline fills. Each vertex dequeued from the vertex FIFO is a 96-bit value which has has three 32-bit coordinates corresponding to $x, y, z$. Each color dequeued from the color FIFO is a 96-bit value which has three 32-bit coordinates corresponding to values for red, green, and blue, respective to the vertex that was also dequeued at the same time.
+
+Once three vertex objects and three color objects have been dequeued, the first step is finding the bounding box that the rasterizer must iterate through to decide which pixels correspond to the triangle described by the vertices and thus, which pixels are actually drawn onto the screen. After the bounding box is determined, the rasterizer must scan through each pixel within the bounding box and decide whether it is part of the triangle being drawn or not. This bounding box is 2-dimensional since the display is only 2-dimensional so it only checks the pixel against the $x, y$ values of the vertices. 
+
+To determine the color of pixels that should be drawn, the rasterizer uses color interpolation, since only three sets of RGB values are given from the color FIFO. The RGB value for each pixel in the triangle depends on where the pixel lies in the triangle since only the three vertices have defined colors. This process is called color interpolation. 
+
+The process that the pixel color is determined by also determines the $z$ value of the pixel being drawn. The $z$ value associates with depth, which allows the frame buffer writer to determine which pixels belong in front and which pixels are in back, that is they don't need to be drawn since something is already being drawn in the same place in front of them. 
+
+When the rasterizer finishes processing a pixel that needs to be drawn to the screen, it packages the coordinates of the pixel and color it that pixel should be drawn into a 96-bit value that gets queued onto the FIFO between the rasterizer and the frame buffer. 
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.80]{raster_high_level.png}
+\end{center}
+\caption{High-level Diagram of Rasterization Module and Related Interfaces}
+\label{fig:buffer_space}
+\end{figure}
+
 \subsection{Bounding Box}
 \subsection{Horizontal Scanline}
 \subsection{Color Interpolation}
