@@ -19,7 +19,7 @@
 % This version uses the latex2e styles, not the very ancient 2.09 stuff.
 \documentclass[letterpaper,10pt]{article}
 
-\usepackage{fullpage,epsfig,endnotes}
+\usepackage{fullpage,epsfig,endnotes,url}
 \usepackage{mathtools}
 
 \begin{document}
@@ -60,8 +60,6 @@ The graphics accelerator can be broken down into five major components:
 
 \item Instruction Assembler
 
-\item Instruction Cache
-
 \item Coordinate Transformation Pipeline
 
 \item Rasterization Unit
@@ -69,7 +67,13 @@ The graphics accelerator can be broken down into five major components:
 \item Framebuffer/Display
 
 \end{enumerate}
-<insert system diagram here>
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.70]{system.png}
+\end{center}
+\caption{System Diagram}
+\label{fig:system}
+\end{figure}
 
 \section{System Specification}
 \subsection{Hardware}
@@ -200,13 +204,21 @@ Function & Type & Data & Opcode \\ \hline
 
 \section{Fetch and Decode}
 \subsection{Instruction Cache}
-The instruction cache consists of 512 entries of 32-bit words and supports 5 reads and 1 write - concurrently serving the fetch, decode, and instruction assembler through a BRAM controller on the PLB. It is currently implemented in logic, with a combinational read. Further work would be needed to move the instruction cache into block RAM, requiring a clocked read.
+The instruction cache consists of 512 entries of 32-bit words and supports 5 reads and 1 write - concurrently serving the fetch, decode, and instruction assembler through a BRAM controller on the PLB. The BRAM interface is the same as the BRAM specified by Xilinx so that we could utilize the BRAM PLB interface provided by Xilinx. It is currently implemented in logic, with a combinational read. Further work would be needed to move the instruction cache into block RAM, requiring a clocked read.
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.70]{instruction_cache.png}
+\end{center}
+\caption{Instruction Cache}
+\label{fig:instruction_cache}
+\end{figure}
 \subsection{Fetch Unit}
-The fetch unit reads one 32-bit word per cycle from the instruction cache, stalling if the vertex and color FIFOs are full and during matrix operations.
+The fetch unit reads one 32-bit word per cycle from the instruction cache, stalling if the vertex and color FIFOs are full and during matrix operations. A PC register holds the address of the current instruction, and gets incremented based on the type of instruction, jumping over the data in the instruction cache to the next instruction.
 
 \subsection{Decode Unit}
-The decode unit generates control signals for the matrix stacks, matrix multipliers, perspective division, and viewport transformation. It also reads 4 32-bit words from the instruction cache for use in the latter pipeline stages.
+The decode unit generates control signals for the matrix stacks, matrix multipliers, perspective division, and viewport transformation. It also reads 4 32-bit words from the instruction cache for use in the latter pipeline stages. The decode module also contains registers to hold state for current viewport settings, the current matrix mode, current color (red, green, blue).
+
 
 \section{Matrix Operations}
 
@@ -214,17 +226,23 @@ The decode unit generates control signals for the matrix stacks, matrix multipli
 The pipeline implements two 16x16 matrix stacks - one for Modelview matrices, one for Projection matrices. The bottom of each stack is initialized to the identity matrix by default, with the stack pointer initialized to point at the bottom. The matrix stacks are currently implemented in logic to support combinational reads, but could be moved to BRAM fairly easily. 
 
 \subsection{Matrix Multiply}
-Since the coordinate transformation takes relatively short amount of time when compared to the rasterizer, the decision was made to utilize less floating point units and allow a matrix multiply to take 4 cycles per row, or 16 cycles for a 4x4 x 4x4 multiply. Matrices are updated 1 row at a time, with a row update module that utilizes 4 floating point multipliers and 3 floating point adders. The fetch unit is stalled while a matrix multiply occurs, since most of the supported functions utilize the matrix stacks. Because each vertex is multiplied by both the Modelview and Projection matrices, this means that each call to \verb!glVertex! takes 32 cycles on the coordinate transform clock.
-
-
+Since the coordinate transformation takes relatively short amount of time when compared to the rasterizer, the decision was made to utilize less floating point units and allow a matrix multiply to take 4 cycles per row, or 16 cycles for a 4x4 x 4x4 multiply. Matrices are updated 1 row at a time, with a row update module that utilizes 4 floating point multipliers and 3 floating point adders. The fetch unit is stalled while a matrix multiply occurs, since most of the supported functions utilize the matrix stacks. Because each vertex is multiplied by both the Modelview and Projection matrices, this means that each call to \verb!glVertex! takes 32 cycles on the coordinate transform clock. The decision was made to allow the coordinate transformation to stall during matrix operations because the rasterization unit performs much more work for each set of vertices, and thus would be stalling the coordinate transform pipeline anyway.
 
 \section{Coordinate Transformation}
-Each vertex (consisting of 3 floating point numbers corresponding to x, y, z coordinates) that gets passed into Coordinate Transformation goes through a series of transformations so that it ends up in the correct range to be displayed on the screen. The resulting vertices and their corresponding colors are pushed into a dual clocked FIFO.
+The coordinate transformation pipeline utilizes homogenous coordinates to perform the transformations. The rotation, translation, and scaling matrices are pre-calculated by the Perl parser, so they are carried out as matrix multiplies by the pipeline. Each vertex (consisting of 3 floating point numbers corresponding to x, y, z coordinates) that gets passed into Coordinate Transformation goes through a series of transformations so that it ends up in the correct range to be displayed on the screen. The resulting vertices and their corresponding colors are pushed into a dual clocked FIFOs that sit in front of the rasterization unit. A flush signaled by a call to \verb!glFlush! is encoded as a vertex with \verb!0xFFFFFFFF! as its x,y,z coordinates.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.80]{coordinate_transform.png}
+\end{center}
+\caption{Coordinate Transformation}
+\label{fig:coordinate_transform}
+\end{figure}
 
 \subsection{Eye Coordinates}
 The incoming vertex is multiplied by the modelview matrix to produce \emph{eye coordinates}. The modelview matrix is a the combination of the model and view matrices. Since there is no separate camera in OpenGL, the scene must be transformed by the inverse of the view transformation to simulate moving the camera.\\
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \[
 \begin{pmatrix}
 x_{eye} \\
@@ -245,7 +263,7 @@ w_{obj}
 
 \subsection{Clip Coordinates}
 The eye coordinates are multiplied by the projection matrix to produce clip coordinates, in which objects that are not in the viewing frustum are clipped out. The viewing frustum is set by calls to \verb!glFrustum! and \verb!glOrtho! for perspective and orthographic projection, respectively. \\
-\begin{figure}[h]
+\begin{figure}[h!]
 \[
 \begin{pmatrix}
 x_{clip} \\
@@ -266,7 +284,7 @@ w_{eye}
 
 \subsection{Perspective Division}
 Perspective division yields coordinates known as \emph{normalized device coordinates}, with their range normalized to $(-1,1)$ for all 3 axes.\\
-\begin{figure}[h]
+\begin{figure}[h!]
 \[
 \begin{pmatrix}
 x_{ndc} \\
@@ -308,13 +326,13 @@ With some factoring, this is implemented using three floating point multipliers 
 
 The purpose of rasterization is to take sets of vertices from coordinate transform, and figure out which pixels on the screen should be drawn which color so that the correct primitive gets displayed on the screen in the correct position. 
 
-In our project, we dealt only with triangles. This means the rasterizer would dequeue sets of 3 vertices from both the vertex FIFO and color FIFO that the coordinate transform pipeline fills. Each vertex dequeued from the vertex FIFO is a 96-bit value which has has three 32-bit coordinates corresponding to $x, y, z$. Each color dequeued from the color FIFO is a 96-bit value which has three 32-bit coordinates corresponding to values for red, green, and blue, respective to the vertex that was also dequeued at the same time.
+In our project, we dealt only with triangles. This means the rasterizer would dequeue a set of 3 vertices from the vertex FIFO and a set of 3 color objects from the color FIFO that the coordinate transform pipeline fills. Each vertex dequeued from the vertex FIFO is a 96-bit value which has has three 32-bit coordinates corresponding to $x, y, z$. Each color object dequeued from the color FIFO is a 96-bit value which has three 32-bit coordinates corresponding to values for red, green, and blue, respective to the vertex that was also dequeued at the same time. Both the 32-bit colors and the 32-bit coordinates are in IEEE single precision floating point format in correspondence with the OpenGL function calls.
 
 Once three vertex objects and three color objects have been dequeued, the first step is finding the bounding box that the rasterizer must iterate through to decide which pixels correspond to the triangle described by the vertices and thus, which pixels are actually drawn onto the screen. After the bounding box is determined, the rasterizer must scan through each pixel within the bounding box and decide whether it is part of the triangle being drawn or not. This bounding box is 2-dimensional since the display is only 2-dimensional so it only checks the pixel against the $x, y$ values of the vertices. 
 
-To determine the color of pixels that should be drawn, the rasterizer uses color interpolation, since only three sets of RGB values are given from the color FIFO. The RGB value for each pixel in the triangle depends on where the pixel lies in the triangle since only the three vertices have defined colors. This process is called color interpolation. 
+To determine the color of pixels that should be drawn, the rasterizer uses color interpolation, since only the RGB values for the 3 vertices are given from the color FIFO. The RGB value for each pixel in the triangle depends on where the pixel lies in the triangle in relation to the vertices since only the three vertices have defined colors.
 
-The process that the pixel color is determined by also determines the $z$ value of the pixel being drawn. The $z$ value associates with depth, which allows the frame buffer writer to determine which pixels belong in front and which pixels are in back, that is they don't need to be drawn since something is already being drawn in the same place in front of them. 
+The process that the pixel color is determined by also determines the $z$ value of the pixel being drawn. The $z$ value associates the pixel with a certain depth, which allows the frame buffer writer to determine which pixels belong in front and which pixels are in back if the $x$ and $y$ coordinates overlap. That is they don't need to be drawn since something is already being drawn in the same place in front of them. 
 
 When the rasterizer finishes processing a pixel that needs to be drawn to the screen, it packages the coordinates of the pixel and color it that pixel should be drawn into a 96-bit value that gets queued onto the FIFO between the rasterizer and the frame buffer. 
 
@@ -323,12 +341,113 @@ When the rasterizer finishes processing a pixel that needs to be drawn to the sc
 \includegraphics[scale=.80]{raster_high_level.png}
 \end{center}
 \caption{High-level Diagram of Rasterization Module and Related Interfaces}
-\label{fig:buffer_space}
+\label{fig:raster_high_level}
 \end{figure}
 
+\subsection{Pre-Fetching}
+The high level rasterizer diagram shows the interface with the coordinate transform and frame buffer writer via FIFOs. One critical observation of the rasterizer in terms of implementation is the fact that the FIFOs are only 96 bits wide. This means on any one read, only one vertex and one color object are dequeued. Since the core calculations in the rasterizer operate on three vertices and three color objects, the rasterizer must wait until 3 reads are completed.
+
+One of the implementation decisions made was to put a pre-fetching unit between the rasterizer core and the FIFO. The pre-fetching unit completes 3 reads, and then signals to the rasterizer core that the 3 vertices and colors are ready for processing. While the rasterizer core begins processing that set of 3 vertices, the pre-fetching continues to complete 3 more reads, and then waits for a ready signal from the rasterizer before starting the process over again. This way, the cost for dequeuing 3 items from the FIFO is amortized over the time it takes for the rasterizer to iterate through the bounding box.
+
 \subsection{Bounding Box}
+The bounding box is actually only an optimization, and not necessary for correctness, although the performance increase is too great to avoid. When the rasterizer is determining where to draw a triangle (3 vertices + color objects), it could potentially scan through the entire screen and for each pixel, determine whether it should be drawn and if so what color and what depth. It could do this for every triangle and the result would be the same as using a bounding box. 
+
+However, simply by finding the minimum and maximum $x, y$ values of the entire triangle, The percentage of the screen that the rasterizer must process decreases dramatically, namely to the size of the smallest rectangle with integral coordinates that can contain the triangle being drawn. The minimum and maximum  $x,y$ values would still take a good number of floating-point comparators to resolve since there are 3 $x,y$ pairs, but luckily we don't have to use any floating-point comparators, because the calculations for horizontal scan-line plus some bit checking can easily tell us the minimum and maximum $x$ and $y$ values.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.68]{bounding_box.png}
+\end{center}
+\caption{Bounding Box and Half Functions}
+\label{fig:bounding_box_and_scanline}
+\end{figure}
+
 \subsection{Horizontal Scanline}
-\subsection{Color Interpolation}
+So once given the bounding box, there is still the task of how to determine for each pixel in the bounding box, whether it belongs to the triangle or not and thus should be drawn or not? For each edge of the triangle we define a half-function. A half-function is a line-based function such that, given a pair of coordinates $(x, y)$, the function evaluates non-negative for all input points on a certain line and on one side of that line, and negative for input points on the other side of the line. Since the triangle has 3 edges which correspond to 3 different lines, 3 half-functions can be formulated such that if all 3 evaluate to non-negative values, the point in question is guaranteed to be inside the triangle bounded by the 3 lines of the 3 functions.
+
+For vertices $a, b$ the corresponding half-function is defined as follows:
+
+\begin{align*}
+    f_{ab}(x,y) &=  (x_{b}-x_{a})*(y-y_{a}) - (y_{b}-y_{a})*(x-x_{a})                           \\
+    &=  (x_{b}-x_{a})*y-(y_{b}-y_{a})*x-(x_{b}-x_{a})*y_{a}-(y_{b}-y_{a})*x_{a}                           \\
+    &= constant_{1}*y-constant_{2}*x- constant_{3}
+\end{align*}
+
+Since we have a set of 3 vertices,  we have 3 such functions, $f_{12}, f_{23}, f_{31}$. For each pixel $(x,y)$ we must evaluate all three of the functions to determine whether it lies in the triangle or not. With the equation written as is, this equates to 2 multiplies and 2 subtractions per pixel. This is because $x_a, x_b, y_a, y_b$ don't change for any set of 3 vertices so any part of the equations using only those variables need only be calculated once per triangle. Notice however that with some simple mathematical manipulation, we can manipulate the function such that even less computation per pixel is required.
+
+\begin{align*}
+    f_{ab}(x,y) &= constant_{1}*y-constant_{2}*x- constant_{3}					\\
+    f_{ab}(x+1,y) &= constant_{1}*y-constant_{2}*(x+1)- constant_{3}		\\
+    f_{ab}(x+1,y) &= constant_{1}*y-constant_{2}*x+constant_{2}- constant_{3} 	\\
+    f_{ab}(x+1,y) &= f_{ab}(x,y) + constant_{2}	
+\end{align*}
+
+Thus between any pixel $(x,y)$ being processed and the next pixel $(x+1,y)$ (with respect to the positive $x$ direction), we only have to do one addition operation. We can also do the same for when we are at the edge of the bounding box and starting a new line, meaning the transition from $(x,y)$ and $(x, y+1)$:
+
+\begin{align*}
+    f_{ab}(x,y) &= constant_{1}*y-constant_{2}*x- constant_{3}					\\
+    f_{ab}(x,y+1) &= constant_{1}*(y+1)-constant_{2}*x- constant_{3}				\\
+    f_{ab}(x,y+1) &= constant_{1}*y+constant_{1}-constant_{2}*x- constant_{3} 		\\
+    f_{ab}(x,y+1) &= f_{ab}(x,y) + constant_{1}	
+\end{align*}
+
+So now we only need to compute the above constants once per triangle, and then for each pixel in the bounding box, if we traverse from the top left of the box to the bottom right, we only need to do one addition for each pixel.
+
+If we exam the constant parts of the half-functions, as labeled above, we observe for every $f_{ab}$ for vertices $a,b$:
+
+\begin{align*}
+    constant_{1ab} &= x_{b}-x_{a}					\\
+    constant_{2ab} &= y_{b}-y_{a}					\\
+\end{align*}
+
+Since we develop half-functions for all 3 vertices, namely $f_{12}, f_{23}, f{31}$, we essentially have the differences between all possible $x$ and $y$ values. Now we can easily find the bounding box by just doing a little logic on these differences. Recall that floating-point format stores a sign bit at the most significant position. Since we only need to know whether each difference is positive or negative to determine which $x$ and $y$ are smallest and largest, we only need to check the sign bit of these differences. In the implementation, a separate module to handle this logic was developed that sat inside the rasterizer core. The logic in the module is all bitwise operations and ternary statements, which ideally saves significant costs compared to using full-functionality floating point comparators.
+
+\subsection{Color/Z Interpolation}
+
+Both color and depth interpolation utilize what are called $barycentric coordinates$. The barycentric coordinates consist of three constants $\alpha, \beta, \gamma$. They are defined by the following equations:
+
+\begin{align*}
+   \alpha &= \frac{f_{23}(x,y)}{f_{23}(x_1,y_1)}   \\
+   \beta &= \frac{f_{31}(x,y)}{f_{31}(x_2,y_2)}    \\
+   \gamma &= \frac{f_{12}(x,y)}{f_{12}(x_3,y_3)}  \\
+\end{align*}
+
+The barycentric coordinates do several things. First, the barycentric coordinates normalize the output of the half-functions to some value between $-1$ and $1$. On every pixel, to check whether it should be drawn, we now check if all three of $\alpha, \beta, \gamma$ are non-negative. This normalization now helps us to determine the color of the pixel that will be drawn. We define the color of the pixel being processed as:
+
+\begin{align*}
+    c_{r} &= \alpha*c_{r1} + \beta*c_{r2} + \gamma*c_{r3}					\\
+    c_{b} &= \alpha*c_{b1} + \beta*c_{b2} + \gamma*c_{b3}					\\
+    c_{g} &= \alpha*c_{g1} + \beta*c_{g2} + \gamma*c_{g3} \\
+\end{align*}
+
+Note that we need to do this 3 times, 1 time for each of red, green, and blue, since each vertex has a corresponding red, green, and blue component. This actually proves to be a computationally intensive step compared to the others, and could really be improved by some pipelining and non-combinational logic. 
+
+In a similar fashion, we use the same constants $\alpha, \beta, \gamma$ to interpolate the $z$ value of a pixel being drawn. Given a pixel that passes as valid in the triangle, its corresponding depth is given by:
+
+\begin{align*}
+    z &= \alpha*z_{1} + \beta*z_{2} + \gamma*z_{3}					\\
+\end{align*}
+
+Once we have the depth value of the pixel, we have all the information the frame buffer writer logic needs and so we pack the pixel according to an agreed format with the frame buffer writer and enqueue it onto the FIFO that sits between the rasterizer and the frame buffer writer. In our project, the z-buffer is implemented on the frame buffer logic side, although depending on implementation it can also be done in the rasterizer, likely requiring some caching depending on the precision of the color and the size of the display. The output format is as below:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ | l | l | l | l | l | l | l |}
+\hline
+Bits & [95:89] & [88:80] & [79:74] & [73:62] & [61:54] & [53:48] \\ \hline
+Content & \verb!7'b0! & \verb!count_y! & \verb!6'b0! & \verb!count_x! & \verb!8'b0! & \verb!red!  \\ \hline
+Bits & [47:46] & [45:41] & [40:39] & [38:34] & [33:32] & [31:0] \\ \hline
+Content & \verb!2'b0! & \verb!green! & \verb!2'b0! & \verb!blue! & \verb!2'b0! & \verb!final_z_i! \\ \hline
+\end{tabular}
+\end{center}
+\caption{Raster Output}
+\end{table}
+
+Some things to notice are that the RGB values are truncated to 6 bits each. The intensity/contribution from each color is scaled so that 6-bit 0 is no contribution and 6-bit all 1's is maximum contribution. This is simply following the specifications for the Xilinx TFT controller module. So what ended up happening in implementation is that we took the floating point color value, which was normalized to some value between $-1$ and $1$ by barycentric coordinates, multiplied it by $2^{7}-1$ and then converted it to integer format. 
+
+Also note that since our display is only $640$ x $480$, we do not need the entire 32-bits anymore for our $x,y$ values so we truncate them respectively to the least number of bits that can represent the full range of values within the dimensions of our display, namely $10$ and $9$ in this case.
+
+Last thing to note is that based on the definitions of $\alpha, \beta, \gamma$, that these constants have to be recomputed with each pixel, and actually, this is probably the bottleneck if any in the rasterizer implementation. As mentioned later on, there is code corresponding to a more efficient pipelined implementation of the rasterizer that was not able to be completed on time, but the source is also included in the project repository.
 
 \section{Framebuffer/DVI Controller}
 
@@ -365,16 +484,16 @@ The reference design came as a Platform Studio and Embedded Development Kit (EDK
 OS and Libraries Document Collection and EDK Concept, Tools, and Techniques
 
 \subsubsection{ISE}
-We used this to manage multiple hardware projects.  The core had it's own project, which EDK uses to import as a peripheral.  Also, each component 
+We used the ISE to manage multiple hardware projects.  The core had it's own project, which EDK uses to import as a peripheral.  Also, each component 
 
 \subsubsection{CoreGEN}
-Another component of the Design Suite used to generate cores.  It was useful in many ways to construct basic hardware elements; see gripes in other sections.
+Another component of the Design Suite used to generate cores.  It was useful in many ways to construct basic hardware elements; see gripes in other sections. We used CoreGEN to generate all the floating point units, as well as the FIFOs.
 
 \subsubsection{PlanAhead}
 PlanAhead is another component of the Design Suite.  We used it to generate most of our ChipScope modules from netlists.  The netlists comes from the EDK builds and PlanAhead allows us to add ChipScope modules that sample particular signals on real hardware.  It does require a separate bit file and thus, an additional build, but the information is invaluable; this can solve so many of your bugs.  Getting this up early would also yields exponential benefits.
 
 \subsection{Git}
-A project without source control is simply unwieldy.  Two group members have had relatively enjoyable experiences with Git, and it was simpler to initialize and set-up than svn, the other likely alternative.  The distributed style allowed for great flexibility moving central repositories and asynchrony of the group's work style.
+A project without source control is simply unwieldy.  Two group members have had relatively enjoyable experiences with Git, and it was simpler to initialize and set-up than svn, the other likely alternative.  The distributed style allowed for great flexibility moving central repositories and asynchrony of the group's work style. Our Git repository is online at \url{https://github.com/lzw545}
 
 \subsection{Windows XP}
 Operating system that existed on the lab machine and had a licensed installation of the Design Suite was fairly convenient.  Machine was fairly slow, but static ip address and domain name given by the department made it easy to work remotely.
@@ -382,7 +501,7 @@ Operating system that existed on the lab machine and had a licensed installation
 \subsection{Ubuntu}
 Initially, wanted machine to be primary machine for development.  Unfortunately, the usb drivers for the JTAG cable never came into fruition, so board programming was relegated to the Windows machine.  Much of the simulation and core development still happened on the Ubuntu box.  Also held a git repository that was later moved to github.  It was used as an easy way to transfer files between group members because Windows networked file system is unusable.  
 
-\section{Testing Methology}
+\section{Testing Methodology}
 Our testing methodology consisted of a combination of simulation, hardware analyzer, and a little bit of trial and error.
 
 \subsection{Unit Testing}
@@ -392,7 +511,9 @@ The majority of our custom components were unit tested by simulations. Using iSi
 We also used simulations in integration testing to ensure the functionality of the pipeline.  It was also helpful in ensuring connections were correct.  Another tool useful for integration testing was the hardware logic analyzer, ChipScope Pro.  It allows us to monitor perticular signals on the synthesized hardware, and we found the most convenient way to setup the trigger modules was through PlanAhead, a netlist and implementation tool.  
 
 \section{Major Design Decisions}
+
 \subsection{Floating Point vs. Fixed Point}
+One of the main decisions we had to make was whether to use floating point or fixed point math throughout the pipeline. Fixed point has the advantages of lower board utilization and faster performance, at the cost of precision. Floating point eventually won out because of the higher precision and the fact that we were not really limited by board space, and the CoreGEN'd floating point units could utilize the onboard DSP48 slices which reduces LUT usage even more.
 
 \subsection{Synchronization}
 With the division of work, and division of operational units of the pipeline, we clearly needed an intuitive, robust mechanism to synchronize the RTL.  fbwriter needs to operate on the PLB bus, so it conformed to the clock of the PLB bus.  Note also that per OpenGG instruction, the rasterization unit has more work than the coordinate transform.  The rasterization unit needs at least one clock cycle for each pixel in the bounding box in the process of horizontal scanline; that means it can vary on the size of the triangle.  The transformation unit has a fixed number of cycles per instruction; it does not vary on the size of the triangle drawn.  Clocking these units independently became extremely convenient.  Using clock independent FIFO's, data can be passed across clock domains safely and efficiently.  The unit will stall only when the queue is full, which is as good as can be expected.
@@ -406,14 +527,18 @@ CoreGEN allows us to generate different types of modules.  It is a tool provided
 
 \section{Individual Contributions}
 \subsection{Andrew Lau}
-My primary responsibilities for this project were the implementation of the vertex transformation pipeline and the integration and testing of the various parts of the pipeline. As the only team member who had taken Computer Graphics, much of the graphics design was deferred to me. The first few weeks of the project were spent working closely with Alan to design the front end of the pipeline, specifically how to use GLSim to talk to the pipeline. This idea was quickly squashed as we found that GLSim was deprecated and had not been updated since 2002. The next few weeks were spent designing the ISA, looking for suitable floating point units, investigating alternatives to GLSim, which included Mesa. We ultimately decided to write a primitive Perl script that would parse OpenGL calls and assemble the byte code.
+My primary responsibilities for this project were the implementation of the vertex transformation pipeline and the integration and testing of the various parts of the pipeline. As the only team member who had taken Computer Graphics, much of the graphics design was deferred to me. 
+
+The first few weeks of the project were spent working closely with Alan to design the front end of the pipeline, specifically how to use GLSim to talk to the pipeline. This idea was quickly squashed as we found that GLSim was deprecated and had not been updated since 2002. The next few weeks were spent designing the ISA, looking for suitable floating point units for use in the pipeline, and investigating alternatives to GLSim, which included Mesa. We ultimately decided to write a primitive Perl script that would parse OpenGL calls and assemble the byte code.
 
 Alan and I worked closely to develop the matrix multiply and matrix stack control modules. These modules implement the 4x4 x 4x4 and 4x4 x 1x4 matrix multiply functionality as well as read in the operands from the correct places. I also wrote the testbenches for these modules, and tested them in simulation to verify correctness.
 
 I was mainly responsible for the coordinate transformation pipeline, as well as the fetch, decode units. The remainder of the semester was spent implementing, testing and integrating this part with the other parts of the pipeline.
 
+In terms distribution of work goes, I feel like the project was divided along very natural boundaries that ended up dividing the work pretty evenly as well.
+
 \subsection{Alan Zhu}
-My responsibilities consisted of implementing the Perl parser, designing and implementing the matrix multiply and matrix stack units, and designing and implementing the rasterizerization module.
+My responsibilities consisted of implementing the Perl parser, designing and implementing the matrix multiply and matrix stack units, and designing and implementing the rasterization module.
 
 At the beginning of the project, I worked closely with Andrew in attempting to us the GLSim frontend to communicate to the pipeline. After a short period of successive failures and finally accepting that the already-broken source code had been sitting in the dust for 8 years, we decided do build everything from the ground up, which would start with implementing our own instruction set that would reflect a primitive version of basic OpenGL commands. 
 
@@ -449,21 +574,33 @@ As the build engineer, I was left with most of the decisions on the system level
 
 On the final day, with pressure to bring down EDK utilization, I took SRAM out of the project.  Unbeknownst to me, SRAM actually contained configuration data necessary for the Microblaze to run.  That left us with a broken build pretty close to demo time.   The lesson here is to ensure you know exactly what you're cutting out of the reference design, or know as much as possible.
 
-\section{Words of Wisdom}
+\section{Words of Wisdom / Lessons Learned}
 
-\begin{itemize}
+\subsection{Tool Chain}
+If I recall correctly, no guidance on the Xilinx Design Suite because we were encouraged to look for alternatives.  That is, we were not to be restricted to Xilinx tools.  Yet, no alternatives were found, none were found by other classmates.  Getting a tool chain or build process up early is a huge key to success.  This should be a priority for every group. Decide what tools you want to use, pick a lint tool as Xilinx tools are useless for finding inferred nets, etc.
 
-\item something Witty
-
-\end{itemize}
+\subsection{Stay on Schedule}
+When setting your schedule, try to parallelize as many things as possible. If something can be started at the beginning of the semester (i.e. does not depend on anything else), you should make every effort to do so. In our schedule, we planned to get the front end done in the first 4 weeks, and start the pipeline after that. What we should have done was start the pipeline earlier, and do that in parallel with the front end. Everything takes longer than you'd expect, and just getting started on it early gives you more time to think through any issues you come across.
 
 \section{Status and Future Work}
 
-\subsection{Tool Chain}
-If I recall correctly, no guidance on the Xilinx Design Suite because we were encouraged to look for alternatives.  That is, we were not to be restricted to Xilinx tools.  Yet, no alternatives were found, none were found by other classmates.  Getting a tool chain or build process up early is a huge key to success.  This should be a priority for every group. 	
+\subsection{Status}
+At the time of demo, we had a working pipeline, with a spinning octahedron running at a decent framerate. However, with no z-buffer or double buffering the image had issues with tearing and the triangles that were drawn were not necessarily the triangles that were closest to the camera. 
+Since the demo, we have added an attempt at both a z-buffer and double buffer. The results can be seen in the following videos, where we are running the same program as on the demo day, except with incorrect z-buffer. 
+\begin{itemize}
+
+\item \url{http://www.youtube.com/watch?v=kBDY8LMxK2k}
+
+\item \url{http://www.youtube.com/watch?v=75B-Qa6SDFc} 
+
+\end{itemize}
+
+
 
 \subsection{CPU Integration}
-Use Instruction Cache as a ring buffer for instructions.  Interrupt Microblaze every time the cache is consumed.
+The front end interface to the CPU is an area for improvement. Our initial plan was use GLSim, a software implementation of OpenGL, and replace the calls to the functions we planned to implement with code that would issue those calls to our hardware pipeline. When this plan fell through, we opted to use a Perl script that translates hand coded programs that only used the functions we support, forgoing a running C program altogether.
+
+A plan we considered but never got around to implementing involves using the instruction cache as a ring buffer for instructions called from a running OpenGL program running on the Microblaze. We would implement an OpenGL library similar to GLSim, that would translate all OpenGL calls to instructions for our pipeline and put those into the instruction cache. Whenever the cache is full, the Microblaze would have to wait until the pipeline catches up. In this way, we would be able to run actual OpenGL programs, ignoring all calls that we don't support and hardware implementation of calls we do support.
 
 \subsection{Shader}
 A very interesting project would be to work on a graphics shader.  OpenGL ES 2.0 relies primary on the shader to replace many fixed function units in the pipeline.  Although most of those units are effect units, and unimplemented in our implementation, the project would be interesting as it is the main unit in GPGPU Frameworks.  It also requires a microkernel to run in hardware, which would make for a interesting fusion of OS and hardware.
@@ -476,16 +613,14 @@ DMA, P2P PLB, PLB alternative
 \section{Class Impression/Improvements}
 
 \subsection{Tool Chain Frustration}
+
+We feel like the course simply didn't provide adequate support for proper use of the tools provided. Students were left basically to read through the entire Xilinx documentation, and there was no previous code or anyone with much previous experience that could shed light on how to properly set up the tool chain. Because of this, throughout the entire project we found ourselves struggling with the tools simply because we were pretty much feeling around in the dark and just breaking/modifying things until they seemed to work.
+
+The fact that one of our group members basically spent the entire span of the project trying to hack together our tools just to make sure they weren't going to crash on us, says something about maybe what should be done for the class in the future. It was our impression that this class should be about digital design, and that any overhead in learning the tool chain should be, if not minimal, certainly straightforward with proper guidance. There really should be some examples that have been tested by course staff to be known to function properly. When students were stuck with tool chain problems that stalled their entire project, they were left only to Xilinx forums and documentation, which, although usually ended up providing some sort of hack to allow continuation of the project, is not the ideal way to learn things. 
+
 \subsection{Too much Independence / Lack of Feedback}
 
-\section{Citations}
-
-% Gfx Algo/ Coordinate Transform Resources...
-
-% Bounding Box Forum
-
-% Xilinx manuals
-
+Another aspect of the class that probably could have been improved is the amount of feedback from course staff about the progress of the project. Status reports were written on a weekly basis, and presentations given every so often. However, it seemed that there was no real response or real evidence that something useful was being done with our reports. It just felt like for the most part that each group knew more about the projects of other groups than the professor or the TAs knew; we feel that perhaps the professor and the TAs should be only second in knowledge of each group's project, with that group of course being first.
 
 \section{Credits}
 
@@ -498,5 +633,25 @@ DMA, P2P PLB, PLB alternative
 % OpenGG Tumblr
 
 % LaTeX and diagramming program
+% Gfx Algo/ Coordinate Transform Resources...
+
+% Bounding Box Forum
+
+% Xilinx manuals
+\begin{thebibliography}{4}
+\bibitem{cite_key1}
+Ahn, Songho, 
+\emph{OpenGL Transformation}.
+2008,
+\url{http://www.songho.ca/opengl/gl_transform.html}.
+
+\bibitem{cite_key2}
+Capens, Nicolas, 
+\emph{Advanced Rasterization}.
+2004,
+\url{http://www.devmaster.net/forums/showthread.php?t=1884}.
+
+\end{thebibliography}
+
 
 \end{document}
