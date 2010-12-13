@@ -404,18 +404,38 @@ Since we develop half-functions for all 3 vertices, namely $f_{12}, f_{23}, f{31
 
 \subsection{Color/Z Interpolation}
 
+Both color and depth interpolation utilize what are called $barycentric coordinates$. The barycentric coordinates consist of three constants $\alpha, \beta, \gamma$. They are defined by the following equations:
 
-\subsection{High-Level Pseudocode}
+\begin{align*}
+   \alpha &= \frac{f_{23}(x,y)}{f_{23}(x_1,y_1)}   \\
+   \beta &= \frac{f_{31}(x,y)}{f_{31}(x_2,y_2)}    \\
+   \gamma &= \frac{f_{12}(x,y)}{f_{12}(x_3,y_3)}  \\
+\end{align*}
 
-The following is a high-level description of the entire rasterization process as described in the aforementioned sections:
+The barycentric coordinates do several things. First, the barycentric coordinates normalize the output of the half-functions to some value between $-1$ and $1$. On every pixel, to check whether it should be drawn, we now check if all three of $\alpha, \beta, \gamma$ are non-negative. This normalization now helps us to determine the color of the pixel that will be drawn. We define the color of the pixel being processed as:
 
-\begin{verbatim}
-rasterization(vertex_1, vertex_2, vertex_3, color_1, color_2, color_3) {
-	
+\begin{align*}
+    c_{r} &= \alpha*c_{r1} + \beta*c_{r2} + \gamma*c_{r3}					\\
+    c_{b} &= \alpha*c_{b1} + \beta*c_{b2} + \gamma*c_{b3}					\\
+    c_{g} &= \alpha*c_{g1} + \beta*c_{g2} + \gamma*c_{g3} \\
+\end{align*}
+
+Note that we need to do this 3 times, 1 time for each of red, green, and blue, since each vertex has a corresponding red, green, and blue component. This actually proves to be a computationally intensive step compared to the others, and could really be improved by some pipelining and non-combinational logic. 
+
+In a similar fashion, we use the same constants $\alpha, \beta, \gamma$ to interpolate the $z$ value of a pixel being drawn. Given a pixel that passes as valid in the triangle, its corresponding depth is given by:
+
+\begin{align*}
+    z &= \alpha*z_{1} + \beta*z_{2} + \gamma*z_{3}					\\
+\end{align*}
+
+Once we have the depth value of the pixel, we have all the information the frame buffer writer logic needs and so we pack the pixel according to an agreed format with the frame buffer writer and enqueue it onto the FIFO that sits between the rasterizer and the frame buffer writer. In our project, the z-buffer is implemented on the frame buffer logic side, although depending on implementation it can also be done in the rasterizer, likely requiring some caching depending on the precision of the color and the size of the display. The output format is as below:
 
 
+Some things to notice are that the RGB values are truncated to 6 bits each. The intensity/contribution from each color is scaled so that 6-bit 0 is no contribution and 6-bit all 1's is maximum contribution. This is simply following the specifications for the Xilinx TFT controller module. So what ended up happening in implementation is that we took the floating point color value, which was normalized to some value between $-1$ and $1$ by barycentric coordinates, multiplied it by $2^{7}-1$ and then converted it to integer format. 
 
-hello
+Also note that since our display is only $640$ x $480$, we do not need the entire 32-bits anymore for our $x,y$ values so we truncate them respectively to the least number of bits that can represent the full range of values within the dimensions of our display, namely $10$ and $9$ in this case.
+
+Last thing to note is that based on the definitions of $\alpha, \beta, \gamma$, that these constants have to be recomputed with each pixel, and actually, this is probably the bottleneck if any in the rasterizer implementation. As mentioned later on, there is code corresponding to a more efficient pipelined implementation of the rasterizer that was not able to be completed on time, but the source is also included in the project repository.
 
 
 \end{verbatim}
