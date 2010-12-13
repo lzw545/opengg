@@ -430,17 +430,6 @@ In a similar fashion, we use the same constants $\alpha, \beta, \gamma$ to inter
 
 Once we have the depth value of the pixel, we have all the information the frame buffer writer logic needs and so we pack the pixel according to an agreed format with the frame buffer writer and enqueue it onto the FIFO that sits between the rasterizer and the frame buffer writer. In our project, the z-buffer is implemented on the frame buffer logic side, although depending on implementation it can also be done in the rasterizer, likely requiring some caching depending on the precision of the color and the size of the display. The output format is as below:
 
-
-Some things to notice are that the RGB values are truncated to 6 bits each. The intensity/contribution from each color is scaled so that 6-bit 0 is no contribution and 6-bit all 1's is maximum contribution. This is simply following the specifications for the Xilinx TFT controller module. So what ended up happening in implementation is that we took the floating point color value, which was normalized to some value between $-1$ and $1$ by barycentric coordinates, multiplied it by $2^{7}-1$ and then converted it to integer format. 
-
-Also note that since our display is only $640$ x $480$, we do not need the entire 32-bits anymore for our $x,y$ values so we truncate them respectively to the least number of bits that can represent the full range of values within the dimensions of our display, namely $10$ and $9$ in this case.
-
-Last thing to note is that based on the definitions of $\alpha, \beta, \gamma$, that these constants have to be recomputed with each pixel, and actually, this is probably the bottleneck if any in the rasterizer implementation. As mentioned later on, there is code corresponding to a more efficient pipelined implementation of the rasterizer that was not able to be completed on time, but the source is also included in the project repository.
-
-
-\end{verbatim}
-
-
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{ | l | l | l | l | l | l | l |}
@@ -453,6 +442,12 @@ Content & \verb!2'b0! & \verb!green! & \verb!2'b0! & \verb!blue! & \verb!2'b0! &
 \end{center}
 \caption{Raster Output}
 \end{table}
+
+Some things to notice are that the RGB values are truncated to 6 bits each. The intensity/contribution from each color is scaled so that 6-bit 0 is no contribution and 6-bit all 1's is maximum contribution. This is simply following the specifications for the Xilinx TFT controller module. So what ended up happening in implementation is that we took the floating point color value, which was normalized to some value between $-1$ and $1$ by barycentric coordinates, multiplied it by $2^{7}-1$ and then converted it to integer format. 
+
+Also note that since our display is only $640$ x $480$, we do not need the entire 32-bits anymore for our $x,y$ values so we truncate them respectively to the least number of bits that can represent the full range of values within the dimensions of our display, namely $10$ and $9$ in this case.
+
+Last thing to note is that based on the definitions of $\alpha, \beta, \gamma$, that these constants have to be recomputed with each pixel, and actually, this is probably the bottleneck if any in the rasterizer implementation. As mentioned later on, there is code corresponding to a more efficient pipelined implementation of the rasterizer that was not able to be completed on time, but the source is also included in the project repository.
 
 \section{Framebuffer/DVI Controller}
 
