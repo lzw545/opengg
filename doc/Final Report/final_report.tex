@@ -337,10 +337,10 @@ The reference design for the XUPV5 contained a DVI controller that displays a fr
 
 
 \subsection{PLB IPIF}
-fbwriter
-Using the PLB actually offered great flexibility in the interconnect of cores.  Although it restricted the project in some ways, requiring the use of particular 
+Using the PLB actually offered great flexibility in the interconnect of cores.  Although it restricted the project in some ways, requiring the use of the particular cores.  Xilinx provided PLB slave and master cores that simplify bus interfacing for custom peripherals.  The documentation is mostly accurate according to the data sheets, but looking at the DVI controller also helped.  This was difficult to test based on the limited methods for we had no way of simulating a PLB bus.
 
 \subsection{Frame and Z Buffers}
+Each buffer consists of a contiguous 2MB region.  The frame buffer region is specified by the TFT LCD datasheet.  The Z buffer must be of equal size as it stores a z value for every pixel being displayed.  Notice that a change between frame and z buffer consists only of a bit flip.  The line and column remain exactly the same for every buffer is 2MB aligned.  The same is true to change buffers for double buffer: flipping the next significant bit changes the set of z and frame buffers being edited and displayed.  Our flush is combined with a buffer swap operation.   To reduce displayed tearing (horizontal scan lines on the screen), the frame buffer being displayed is not the same frame buffer being written to by the accelerator.  A flush operation consists of clearing out data in the frame buffer as well the z buffer.
 
 \begin{figure}[htb]
 \begin{center}
