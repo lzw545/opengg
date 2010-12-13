@@ -404,6 +404,14 @@ Since we develop half-functions for all 3 vertices, namely $f_{12}, f_{23}, f{31
 
 \subsection{Color/Z Interpolation}
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.80]{first_success.png}
+\end{center}
+\caption{Simple triangle with three different colored vertices and resulting color interpolation}
+\label{fig:color_interpolation}
+\end{figure}
+
 Both color and depth interpolation utilize what are called $barycentric coordinates$. The barycentric coordinates consist of three constants $\alpha, \beta, \gamma$. They are defined by the following equations:
 
 \begin{align*}
@@ -529,13 +537,13 @@ CoreGEN allows us to generate different types of modules.  It is a tool provided
 \subsection{Andrew Lau}
 My primary responsibilities for this project were the implementation of the vertex transformation pipeline and the integration and testing of the various parts of the pipeline. As the only team member who had taken Computer Graphics, much of the graphics design was deferred to me. 
 
-The first few weeks of the project were spent working closely with Alan to design the front end of the pipeline, specifically how to use GLSim to talk to the pipeline. This idea was quickly squashed as we found that GLSim was deprecated and had not been updated since 2002. The next few weeks were spent designing the ISA, looking for suitable floating point units for use in the pipeline, and investigating alternatives to GLSim, which included Mesa. We ultimately decided to write a primitive Perl script that would parse OpenGL calls and assemble the byte code.
+The first few weeks of the project were spent working closely with Alan to design the front end of the pipeline, specifically how to use GLSim to talk to the pipeline. This idea was quickly squashed as we found that GLSim was deprecated and had not been updated since 2002. The next few weeks were spent designing the ISA, looking for suitable floating point units for use in the pipeline, and investigating alternatives to GLSim, which included Mesa. We ultimately decided to write a primitive Perl script that would parse OpenGL calls and assemble the byte code. Some time was also spent generating and checking the CoreGEN'd floating point units. At first they did not seem to be working in simulation, so I spent some time looking for alternatives. A while later, when we revisited the CoreGEN option, we realized that those floating point units had the option to be optimized for latency or for throughput and that the output was being delayed by some 20 cycles and thus lead us to believe they were not functioning correctly.
 
-Alan and I worked closely to develop the matrix multiply and matrix stack control modules. These modules implement the 4x4 x 4x4 and 4x4 x 1x4 matrix multiply functionality as well as read in the operands from the correct places. I also wrote the testbenches for these modules, and tested them in simulation to verify correctness.
+After the floatin point units were settled, Alan and I worked closely to develop the matrix multiply and matrix stack control modules. These modules implement the 4x4 x 4x4 and 4x4 x 1x4 matrix multiply functionality as well as read in the operands from the correct places. I also wrote the testbenches for these modules, and tested them in simulation to verify correctness.
 
-I was mainly responsible for the coordinate transformation pipeline, as well as the fetch, decode units. The remainder of the semester was spent implementing, testing and integrating this part with the other parts of the pipeline.
+I was mainly responsible for the coordinate transformation pipeline, as well as the fetch, decode units. The remainder of the semester was spent implementing, testing and integrating this part with the other parts of the pipeline. The coordinate transform was fairly straightforward to implement once I understood everything that needed to be done. The stalling logic and control signals needed to control the matrix operations took the most time to implement. Like Alan, one of the main problems with the coordinate transform was the use of combinational reads for the instruction cache. Since Xilinx BRAMs do not support combinational reads, the instruction cache and matrix stacks ended up being implemented in LUTs rather than BRAM, and thus took up a large portion of the available resources on the board. This was ok for our demo, as we used about 96\% of the board resources- any additional floating point units and we would have had to move the the instruction cache and matrix stacks into actual BRAM.
 
-In terms distribution of work goes, I feel like the project was divided along very natural boundaries that ended up dividing the work pretty evenly as well.
+In terms distribution of work goes, I feel like the project was divided along very natural boundaries that ended up dividing the work pretty evenly as well. In the end, everything worked out fairly well, as we were able to get a working pipeline up for the demo, spinning an octahedron at a decent framerate, even though the rasterizer and coordinate transform were only clocked at 8 MHz. We definitely could have had a more interesting demo, but we were pushing right up against the demo time in our last build, and did not have enough time to hand code a more complicated program to run.
 
 \subsection{Alan Zhu}
 My responsibilities consisted of implementing the Perl parser, designing and implementing the matrix multiply and matrix stack units, and designing and implementing the rasterization module.
