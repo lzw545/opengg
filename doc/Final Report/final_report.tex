@@ -206,7 +206,7 @@ Function & Type & Data & Opcode \\ \hline
 
 \section{Fetch and Decode}
 \subsection{Instruction Cache}
-The instruction cache consists of 512 entries of 32-bit words and supports 5 reads and 1 write - concurrently serving the fetch, decode, and instruction assembler through a BRAM controller on the PLB. It is currently implemented in logic, with a combinational read. Further work would be needed to move the instruction cache into block RAM, requiring a clocked read.
+The instruction cache consists of 512 entries of 32-bit words and supports 5 reads and 1 write - concurrently serving the fetch, decode, and instruction assembler through a BRAM controller on the PLB. The BRAM interface is the same as the BRAM specified by Xilinx so that we could utilize the BRAM PLB interface provided by Xilinx. It is currently implemented in logic, with a combinational read. Further work would be needed to move the instruction cache into block RAM, requiring a clocked read.
 
 \begin{figure}[h!]
 \begin{center}
@@ -228,12 +228,18 @@ The decode unit generates control signals for the matrix stacks, matrix multipli
 The pipeline implements two 16x16 matrix stacks - one for Modelview matrices, one for Projection matrices. The bottom of each stack is initialized to the identity matrix by default, with the stack pointer initialized to point at the bottom. The matrix stacks are currently implemented in logic to support combinational reads, but could be moved to BRAM fairly easily. 
 
 \subsection{Matrix Multiply}
-Since the coordinate transformation takes relatively short amount of time when compared to the rasterizer, the decision was made to utilize less floating point units and allow a matrix multiply to take 4 cycles per row, or 16 cycles for a 4x4 x 4x4 multiply. Matrices are updated 1 row at a time, with a row update module that utilizes 4 floating point multipliers and 3 floating point adders. The fetch unit is stalled while a matrix multiply occurs, since most of the supported functions utilize the matrix stacks. Because each vertex is multiplied by both the Modelview and Projection matrices, this means that each call to \verb!glVertex! takes 32 cycles on the coordinate transform clock.
-
+Since the coordinate transformation takes relatively short amount of time when compared to the rasterizer, the decision was made to utilize less floating point units and allow a matrix multiply to take 4 cycles per row, or 16 cycles for a 4x4 x 4x4 multiply. Matrices are updated 1 row at a time, with a row update module that utilizes 4 floating point multipliers and 3 floating point adders. The fetch unit is stalled while a matrix multiply occurs, since most of the supported functions utilize the matrix stacks. Because each vertex is multiplied by both the Modelview and Projection matrices, this means that each call to \verb!glVertex! takes 32 cycles on the coordinate transform clock. The decision was made to allow the coordinate transformation to stall during matrix operations because the rasterization unit performs much more work for each set of vertices, and thus would be stalling the coordinate transform pipeline anyway.
 
 
 \section{Coordinate Transformation}
-Each vertex (consisting of 3 floating point numbers corresponding to x, y, z coordinates) that gets passed into Coordinate Transformation goes through a series of transformations so that it ends up in the correct range to be displayed on the screen. The resulting vertices and their corresponding colors are pushed into a dual clocked FIFO.
+The coordinate transformation pipeline utilizes homogenous coordinates to perform the transformations. The rotation, translation, and scaling matrices are pre-calculated by the Perl parser, so they are carried out as matrix multiplies by the pipeline. Each vertex (consisting of 3 floating point numbers corresponding to x, y, z coordinates) that gets passed into Coordinate Transformation goes through a series of transformations so that it ends up in the correct range to be displayed on the screen. The resulting vertices and their corresponding colors are pushed into a dual clocked FIFOs that sit in front of the rasterization unit. A flush signaled by a call to \verb!glFlush! is encoded as a vertex with \verb!0xFFFFFFFF! as its x,y,z coordinates.
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.80]{coordinate_transform.png}
+\end{center}
+\caption{Coordinate Transformation}
+\label{fig:coordinate_transform}
+\end{figure}
 
 \subsection{Eye Coordinates}
 The incoming vertex is multiplied by the modelview matrix to produce \emph{eye coordinates}. The modelview matrix is a the combination of the model and view matrices. Since there is no separate camera in OpenGL, the scene must be transformed by the inverse of the view transformation to simulate moving the camera.\\
@@ -396,7 +402,7 @@ Operating system that existed on the lab machine and had a licensed installation
 \subsection{Ubuntu}
 Initially, wanted machine to be primary machine for development.  Unfortunately, the usb drivers for the JTAG cable never came into fruition, so board programming was relegated to the Windows machine.  Much of the simulation and core development still happened on the Ubuntu box.  Also held a git repository that was later moved to github.  It was used as an easy way to transfer files between group members because Windows networked file system is unusable.  
 
-\section{Testing Methology}
+\section{Testing Methodology}
 Our testing methodology consisted of a combination of simulation, hardware analyzer, and a little bit of trial and error.
 
 \subsection{Unit Testing}
@@ -420,14 +426,18 @@ CoreGEN allows us to generate different types of modules.  It is a tool provided
 
 \section{Individual Contributions}
 \subsection{Andrew Lau}
-My primary responsibilities for this project were the implementation of the vertex transformation pipeline and the integration and testing of the various parts of the pipeline. As the only team member who had taken Computer Graphics, much of the graphics design was deferred to me. The first few weeks of the project were spent working closely with Alan to design the front end of the pipeline, specifically how to use GLSim to talk to the pipeline. This idea was quickly squashed as we found that GLSim was deprecated and had not been updated since 2002. The next few weeks were spent designing the ISA, looking for suitable floating point units, investigating alternatives to GLSim, which included Mesa. We ultimately decided to write a primitive Perl script that would parse OpenGL calls and assemble the byte code.
+My primary responsibilities for this project were the implementation of the vertex transformation pipeline and the integration and testing of the various parts of the pipeline. As the only team member who had taken Computer Graphics, much of the graphics design was deferred to me. 
+
+The first few weeks of the project were spent working closely with Alan to design the front end of the pipeline, specifically how to use GLSim to talk to the pipeline. This idea was quickly squashed as we found that GLSim was deprecated and had not been updated since 2002. The next few weeks were spent designing the ISA, looking for suitable floating point units for use in the pipeline, and investigating alternatives to GLSim, which included Mesa. We ultimately decided to write a primitive Perl script that would parse OpenGL calls and assemble the byte code.
 
 Alan and I worked closely to develop the matrix multiply and matrix stack control modules. These modules implement the 4x4 x 4x4 and 4x4 x 1x4 matrix multiply functionality as well as read in the operands from the correct places. I also wrote the testbenches for these modules, and tested them in simulation to verify correctness.
 
 I was mainly responsible for the coordinate transformation pipeline, as well as the fetch, decode units. The remainder of the semester was spent implementing, testing and integrating this part with the other parts of the pipeline.
 
+In terms distribution of work goes, I feel like the project was divided along very natural boundaries that ended up dividing the work pretty evenly as well. 
+
 \subsection{Alan Zhu}
-My responsibilities consisted of implementing the Perl parser, designing and implementing the matrix multiply and matrix stack units, and designing and implementing the rasterizerization module.
+My responsibilities consisted of implementing the Perl parser, designing and implementing the matrix multiply and matrix stack units, and designing and implementing the rasterization module.
 
 At the beginning of the project, I worked closely with Andrew in attempting to us the GLSim frontend to communicate to the pipeline. After a short period of successive failures and finally accepting that the already-broken source code had been sitting in the dust for 8 years, we decided do build everything from the ground up, which would start with implementing our own instruction set that would reflect a primitive version of basic OpenGL commands. 
 
