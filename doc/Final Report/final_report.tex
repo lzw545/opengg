@@ -60,8 +60,6 @@ The graphics accelerator can be broken down into five major components:
 
 \item Instruction Assembler
 
-\item Instruction Cache
-
 \item Coordinate Transformation Pipeline
 
 \item Rasterization Unit
@@ -418,7 +416,24 @@ rasterization(vertex_1, vertex_2, vertex_3, color_1, color_2, color_3) {
 
 
 hello
+
+
 \end{verbatim}
+
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ | l | l | l | l | l | l | l |}
+\hline
+Bits & [95:89] & [88:80] & [79:74] & [73:62] & [61:54] & [53:48] \\ \hline
+Content & \verb!7'b0! & \verb!count_y! & \verb!6'b0! & \verb!count_x! & \verb!8'b0! & \verb!red!  \\ \hline
+Bits & [47:46] & [45:41] & [40:39] & [38:34] & [33:32] & [31:0] \\ \hline
+Content & \verb!2'b0! & \verb!green! & \verb!2'b0! & \verb!blue! & \verb!2'b0! & \verb!final_z_i! \\ \hline
+\end{tabular}
+\end{center}
+\caption{Raster Output}
+\end{table}
+
 \section{Framebuffer/DVI Controller}
 
 \subsection{DVI Controller}
@@ -481,8 +496,9 @@ The majority of our custom components were unit tested by simulations. Using iSi
 We also used simulations in integration testing to ensure the functionality of the pipeline.  It was also helpful in ensuring connections were correct.  Another tool useful for integration testing was the hardware logic analyzer, ChipScope Pro.  It allows us to monitor perticular signals on the synthesized hardware, and we found the most convenient way to setup the trigger modules was through PlanAhead, a netlist and implementation tool.  
 
 \section{Major Design Decisions}
+
 \subsection{Floating Point vs. Fixed Point}
-One of the main decisions we had to make was whether to use floating point or fixed point math throughout the pipeline. Fixed point has the advantages of lower board utilization and faster performance, at the cost of precision. Floating point 
+One of the main decisions we had to make was whether to use floating point or fixed point math throughout the pipeline. Fixed point has the advantages of lower board utilization and faster performance, at the cost of precision. Floating point eventually won out because of the higher precision and the fact that we were not really limited by board space, and the CoreGEN'd floating point units could utilize the onboard DSP48 slices which reduces LUT usage even more.
 
 \subsection{Synchronization}
 With the division of work, and division of operational units of the pipeline, we clearly needed an intuitive, robust mechanism to synchronize the RTL.  fbwriter needs to operate on the PLB bus, so it conformed to the clock of the PLB bus.  Note also that per OpenGG instruction, the rasterization unit has more work than the coordinate transform.  The rasterization unit needs at least one clock cycle for each pixel in the bounding box in the process of horizontal scanline; that means it can vary on the size of the triangle.  The transformation unit has a fixed number of cycles per instruction; it does not vary on the size of the triangle drawn.  Clocking these units independently became extremely convenient.  Using clock independent FIFO's, data can be passed across clock domains safely and efficiently.  The unit will stall only when the queue is full, which is as good as can be expected.
