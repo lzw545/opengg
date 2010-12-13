@@ -153,7 +153,7 @@ The trace is generated from simple hand-generated C programs. Conditionals, loop
 The main function of the script is to parse each GL call, generate a 32-bit hex value that corresponds to the instruction code defined in the ISA, and output the hex value to a file. If there are argument parameters in the call, each parameter is translated into its hex representation and printed on subsequent lines in the file. The output is an OPNGG hex file (*.gg). Each line of the file is one hex value, either corresponding to an instruction call or one of several 32-bit arguments encoded in hex (single precision floating point , unsigned integer, etc.)
 
 \subsubsection{Instruction Assembler}
-The Microblaze processor is critical for programming the accelerator.  To program the instruction cache, the Microblaze reads off a file containing the graphical program and copies in data.  The file resides on the Compact Flash and its format guaranteed by the Perl Parser; the assembler does not check the format of the executable.  The SDK's XilFATFS is a library that allows the Microblaze to read files on the Compact Flash.  For the most part, it follows the C convention for file handling.  The instruction BRAM has an interface identical to that of the Xilinx BRAM cores.  This is so that a PLB to BRAM interface core, provided by Xilinx, can be used to allow the Microblaze to write directly into the instruction cache.  
+The Microblaze processor is critical for programming the accelerator.  To program the instruction cache, the Microblaze reads off a file containing the graphical program and copies in data.  The file resides on the Compact Flash and its format guaranteed by the Perl Parser; the assembler does not check the format of the executable.  The SDK's XilFATFS is a library that allows the Microblaze to read files on the Compact Flash.  For the most part, it follows the C convention for file handling.  The instruction BRAM has an interface identical to that of the Xilinx BRAM cores.  This is so that a Processor Local Bus (PLB) to BRAM interface core, provided by Xilinx, can be used to allow the Microblaze to write directly into the instruction cache.  
 
 
 \section{Instruction Set Architecture}
@@ -456,7 +456,7 @@ The reference design for the XUPV5 contained a DVI controller that displays a fr
 
 
 \subsection{PLB IPIF}
-Using the PLB actually offered great flexibility in the interconnect of cores.  Although it restricted the project in some ways, requiring the use of the particular cores.  Xilinx provided PLB slave and master cores that simplify bus interfacing for custom peripherals.  The documentation is mostly accurate according to the data sheets, but looking at the DVI controller also helped.  This was difficult to test based on the limited methods for we had no way of simulating a PLB bus.
+The reference design, and the Xilinx norm, is to utilize the Processor Local Bus (PLB) and modules that interface (IF) with it.  Using the PLB actually offered great flexibility in the interconnect of cores, even though it restricted the project in some ways, requiring the use of the particular cores.  Xilinx provided PLB slave and master cores that simplify bus interfacing for custom peripherals.  The documentation is mostly accurate according to the data sheets, but looking at the DVI controller also helped.  This was difficult to test based on the limited methods for we had no way of simulating a PLB bus.
 
 \subsection{Frame and Z Buffers}
 Each buffer consists of a contiguous 2MB region.  The frame buffer region is specified by the TFT LCD datasheet.  The Z buffer must be of equal size as it stores a z value for every pixel being displayed.  Notice that a change between frame and z buffer consists only of a bit flip.  The line and column remain exactly the same for every buffer is 2MB aligned.  The same is true to change buffers for double buffer: flipping the next significant bit changes the set of z and frame buffers being edited and displayed.  Our flush is combined with a buffer swap operation.   To reduce displayed tearing (horizontal scan lines on the screen), the frame buffer being displayed is not the same frame buffer being written to by the accelerator.  A flush operation consists of clearing out data in the frame buffer as well the z buffer.
@@ -564,13 +564,13 @@ I was quite motivated after seeing decently successful results of our project to
 
 My main responsibilities involved the interfaces for the pipeline and the tool set.
 
-One Man Tools Team
+I was mainly in charge of any software that ran on the Microblaze processor.  When we were considering a web-server front-end for our accelerator, I was working with the lwip library on the SDK trying to get the webserver running.  The current design uses an assembler to get data from Perl Parser to the pipeline.  Now the Microblaze runs a program that copies the executable from the Compact Flash to the instruction BRAM.
 
-Webserver/SDK work
+I also worked mainly on the fbwriter, the module that took the pixel data output by the rasterizer and wrote it the frame buffer.  This was mostly where the PLB interfacing was important.  Also, the fbwriter is critical in implementing the flush command.
 
-I was mainly in charge of any software that ran on the Microblaze processor.  When we were considering a web-server front-end for our accelerator, I was working with the lwip library on the SDK trying to get the webserver running.  The current design uses an assembler to get data from Perl Parser to the pipeline.  Now the Microblaze 
+As the build engineer, I was left with most of the tedious tasks of building the bit streams.  By the end of the project, I was corralling code changes to get into builds.  Since each build took so long, it was necessary to make every build count.  Since it was not sensible to force too many group members to learn the Xilinx tool chain, I was akin to the sacrificial lamb.  The other group members were relatively removed from the Xilinx peculiars, in the hopes that they would be more productive that way.  For the most part, this was a good decision in dividing the nuisances.
 
-As the build engineer, I was left with most of the decisions on the system level.   
+
 
 On the final day, with pressure to bring down EDK utilization, I took SRAM out of the project.  Unbeknownst to me, SRAM actually contained configuration data necessary for the Microblaze to run.  That left us with a broken build pretty close to demo time.   The lesson here is to ensure you know exactly what you're cutting out of the reference design, or know as much as possible.
 
@@ -606,9 +606,10 @@ A plan we considered but never got around to implementing involves using the ins
 A very interesting project would be to work on a graphics shader.  OpenGL ES 2.0 relies primary on the shader to replace many fixed function units in the pipeline.  Although most of those units are effect units, and unimplemented in our implementation, the project would be interesting as it is the main unit in GPGPU Frameworks.  It also requires a microkernel to run in hardware, which would make for a interesting fusion of OS and hardware.
 
 \subsection{MPMC}
-DMA, P2P PLB, PLB alternative
+There are many alternatives to the main PLB bus organization we used.  MPMC has an attached DMA unit that can operate closer to SDRAM, in place of the central DMA unit that can operate on any address.  This could have potentially saved some more logic utilization as well as improved performance.  The MPMC was also capable of a Point-to-Point connection, where there would only be exactly one master and one slave on the PLB bus.  This would also benefit performance, if the need arose.  There are other interfaces to the MPMC besides PLB that would work well for our needs.  The rasterizer outputs lines of pixels that are actually contiguous in the frame buffer, because every row is stored together.  Finding a way to optimize writing of the entire line might also be ideal.
 
 \subsection{vsync Timing}
+One further refinement would be to time buffer swaps to the display.  We would wait until the monitor is ready to display something new before changing the buffers.  This would make for an even smoother image or scene.
 
 \section{Class Impression/Improvements}
 
