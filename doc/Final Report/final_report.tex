@@ -337,10 +337,60 @@ When the rasterizer finishes processing a pixel that needs to be drawn to the sc
 \includegraphics[scale=.80]{raster_high_level.png}
 \end{center}
 \caption{High-level Diagram of Rasterization Module and Related Interfaces}
-\label{fig:buffer_space}
+\label{fig:raster_high_level}
 \end{figure}
 
+\subsection{Pre-Fetching}
+The high level rasterizer diagram shows the interface with the coordinate transform and frame buffer writer via FIFOs. One critical observation of the rasterizer in terms of implementation is the fact that the FIFOs are only 96 bits wide. This means on any one read, only one vertex and one color object are dequeued. Since the core calculations in the rasterizer operate on three vertices and three color objects, the rasterizer must wait until 3 reads are completed.
+
+One of the implementation decisions made was to put a pre-fetching unit between the rasterizer core and the FIFO. The pre-fetching unit completes 3 reads, and then signals to the rasterizer core that the 3 vertices and colors are ready for processing. While the rasterizer core begins processing that set of 3 vertices, the pre-fetching continues to complete 3 more reads, and then waits for a ready signal from the rasterizer before starting the process over again. This way, the cost for dequeuing 3 items from the FIFO is amortized over the time it takes for the rasterizer to iterate through the bounding box.
+
 \subsection{Bounding Box}
+The bounding box is actually only an optimization, and not necessary for correctness, although the performance increase is too great to avoid. When the rasterizer is determining where to draw a triangle (3 vertices + color objects), it could potentially scan through the entire screen and for each pixel, determine whether it should be drawn and if so what color and what depth. It could do this for every triangle and the result would be the same as using a bounding box. 
+
+However, simply by finding the minimum and maximum $x, y$ values of the entire triangle, The percentage of the screen that the rasterizer must process decreases dramatically, namely to the size of the smallest rectangle with integral coordinates that can contain the triangle being drawn. The minimum and maximum  $x,y$ values would still take a good number of floating-point comparators to resolve since there are 3 $x,y$ pairs, but luckily we don't have to use any floating-point comparators, because the calculations for horizontal scan-line plus some bit checking can easily tell us the minimum and maximum $x$ and $y$ values.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.68]{bounding_box.png}
+\end{center}
+\caption{Bounding Box and Half Functions}
+\label{fig:bounding_box_and_scanline}
+\end{figure}
+
+\subsection{Horizontal Scanline}
+So once given the bounding box, there is still the task of how to determine for each pixel in the bounding box, whether it belongs to the triangle or not and thus should be drawn or not? For each edge of the triangle we define a half-function. A half-function is a function that specifies a line such that, given a pair of coordinates $(x, y)$, the function evaluates non-negative for all input points on the line and on one side of the line, and negative for input points on the other side of the line. Since the triangle has 3 edges, 3 half-functions can be formulated such that if all 3 evaluate to non-negative values, the point in question is guaranteed to be inside the triangle bounded by the 3 lines of the 3 functions.
+
+For vertices $a, b$:
+
+\begin{align*}
+    f_{ab}(x,y) &=  (x_{b}-x_{a})*(y-y_{a}) - (y_{b}-y_{a})*(x-x_{a})                           \\
+    &=  (x_{b}-x_{a})*y-(y_{b}-y_{a})*x-(x_{b}-x_{a})*y_{a}-(y_{b}-y_{a})*x_{a}                           \\
+    &= constant_{1}*y-constant_{2}*x- constant_{3}
+\end{align*}
+
+Since we have a set of 3 vertices,  we have 3 such functions. For each pixel $(x,y)$ we must evaluate all three of the functions to determine whether it lies in the triangle or not. With the equation written as is, this equates to 2 multiplies and 2 subtractions per pixel. This is because $x_a, x_b, y_a, y_b$ don't change for any set of 3 vertices so any part of the equations using only those variables need only be calculated once per triangle. Notice however that with some simple mathematical manipulation, we can manipulate the function such that even less computation per pixel is required.
+
+\begin{align*}
+    f_{ab}(x,y) &= constant_{1}*y-constant_{2}*x- constant_{3}					\\
+    f_{ab}(x+1,y) &= constant_{1}*y-constant_{2}*(x+1)- constant_{3}		\\
+    f_{ab}(x+1,y) &= constant_{1}*y-constant_{2}*x+constant_{2}- constant_{3} 	\\
+    f_{ab}(x+1,y) &= f_{ab}(x,y) + constant_{2}	
+\end{align*}
+
+Thus between any pixel $(x,y)$ being processed and the next pixel $(x+1,y)$ (with respect to the positive $x$ direction), we only have to do one addition operation. We can also do the same for when we are at the edge of the bounding box and starting a new line, meaning the transition from $(x,y)$ and $(x, y+1)$:
+
+\begin{align*}
+    f_{ab}(x,y) &= constant_{1}*y-constant_{2}*x- constant_{3}					\\
+    f_{ab}(x,y+1) &= constant_{1}*(y+1)-constant_{2}*x- constant_{3}				\\
+    f_{ab}(x,y+1) &= constant_{1}*y+constant_{1}-constant_{2}*x- constant_{3} 		\\
+    f_{ab}(x,y+1) &= f_{ab}(x,y) + constant_{1}	
+\end{align*}
+
+So now we only need to compute the above constants 
+
+\subsection{Color/Z Interpolation}
+
 \subsection{Horizontal Scanline}
 \subsection{Color Interpolation}
 
