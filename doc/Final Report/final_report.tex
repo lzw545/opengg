@@ -404,12 +404,12 @@ Since we develop half-functions for all 3 vertices, namely $f_{12}, f_{23}, f{31
 
 \subsection{Color/Z Interpolation}
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=.80]{first_success.png}
 \end{center}
-\caption{High-level Diagram of Rasterization Module and Related Interfaces}
-\label{fig:raster_high_level}
+\caption{Simple triangle with three different colored vertices and resulting color interpolation}
+\label{fig:color_interpolation}
 \end{figure}
 
 Both color and depth interpolation utilize what are called $barycentric coordinates$. The barycentric coordinates consist of three constants $\alpha, \beta, \gamma$. They are defined by the following equations:
