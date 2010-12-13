@@ -67,7 +67,13 @@ The graphics accelerator can be broken down into five major components:
 \item Framebuffer/Display
 
 \end{enumerate}
-<insert system diagram here>
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.70]{system.png}
+\end{center}
+\caption{System Diagram}
+\label{fig:system}
+\end{figure}
 
 \section{System Specification}
 \subsection{Hardware}
@@ -200,11 +206,19 @@ Function & Type & Data & Opcode \\ \hline
 \subsection{Instruction Cache}
 The instruction cache consists of 512 entries of 32-bit words and supports 5 reads and 1 write - concurrently serving the fetch, decode, and instruction assembler through a BRAM controller on the PLB. It is currently implemented in logic, with a combinational read. Further work would be needed to move the instruction cache into block RAM, requiring a clocked read.
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.70]{instruction_cache.png}
+\end{center}
+\caption{Instruction Cache}
+\label{fig:instruction_cache}
+\end{figure}
 \subsection{Fetch Unit}
-The fetch unit reads one 32-bit word per cycle from the instruction cache, stalling if the vertex and color FIFOs are full and during matrix operations.
+The fetch unit reads one 32-bit word per cycle from the instruction cache, stalling if the vertex and color FIFOs are full and during matrix operations. A PC register holds the address of the current instruction, and gets incremented based on the type of instruction, jumping over the data in the instruction cache to the next instruction.
 
 \subsection{Decode Unit}
-The decode unit generates control signals for the matrix stacks, matrix multipliers, perspective division, and viewport transformation. It also reads 4 32-bit words from the instruction cache for use in the latter pipeline stages.
+The decode unit generates control signals for the matrix stacks, matrix multipliers, perspective division, and viewport transformation. It also reads 4 32-bit words from the instruction cache for use in the latter pipeline stages. The decode module also contains registers to hold state for current viewport settings, the current matrix mode, current color (red, green, blue).
+
 
 \section{Matrix Operations}
 
