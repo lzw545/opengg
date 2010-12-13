@@ -460,14 +460,14 @@ Last thing to note is that based on the definitions of $\alpha, \beta, \gamma$, 
 \section{Framebuffer/DVI Controller}
 
 \subsection{DVI Controller}
-The reference design for the XUPV5 contained a DVI controller that displays a frame buffer on DDR2 SDRAM.  The core outputs a 640 by 480 video over the DVI port of the board.  The core reads a line of the SDRAM frame buffer over the PLB bus and stores it locally in BRAM. Since the frame buffer is any 2MB region in the PLB address space, the frame buffer does not actually have to reside in SDRAM.  Any mapped address can be used as a frame buffer, which demonstrates some of the flexibility of the PLB.  The DVI controller has control registers mapped on the DCR bus interface.  In order for other elements in the system to configure the controller, there is a PLB/DCR bridge what maps the DCR space to a part of the system PLB address space.
+The reference design for the XUPV5-LX110T contained a DVI controller that displays a frame buffer on DDR2 SDRAM.  The core outputs a 640 by 480 video over the DVI port of the board.  The core reads a line of the SDRAM frame buffer over the PLB bus and stores it locally in BRAM. Since the frame buffer is any 2MB region in the PLB address space, the frame buffer does not actually have to reside in SDRAM.  Any mapped address can be used as a frame buffer, which demonstrates some of the flexibility of the PLB.  The DVI controller has control registers mapped on the DCR bus interface.  In order for other elements in the system to configure the controller, there is a PLB/DCR bridge what maps the DCR space to a part of the system PLB address space.  The design is nearly identical to the TFT LCD\cite{TFTds} data sheet.
 
 
 \subsection{PLB IPIF}
-The reference design, and the Xilinx norm, is to utilize the Processor Local Bus (PLB) and modules that interface (IF) with it.  Using the PLB actually offered great flexibility in the interconnect of cores, even though it restricted the project in some ways, requiring the use of the particular cores.  Xilinx provided PLB slave and master cores that simplify bus interfacing for custom peripherals.  The documentation is mostly accurate according to the data sheets, but looking at the DVI controller also helped.  This was difficult to test based on the limited methods for we had no way of simulating a PLB bus.
+The reference design, and the Xilinx norm, is to utilize the Processor Local Bus (PLB) and modules that interface (IF) with it.  Using the PLB actually offered great flexibility in the interconnect of cores, even though it restricted the project in some ways, requiring the use of the particular cores.  Xilinx provided PLB slave and master cores that simplify bus interfacing for custom peripherals.  The documentation is mostly accurate according to the data sheets\cite{plbmds}, but looking at the DVI controller also helped.  This was difficult to test based on the limited methods for we had no way of simulating a PLB bus.
 
 \subsection{Frame and Z Buffers}
-Each buffer consists of a contiguous 2MB region.  The frame buffer region is specified by the TFT LCD datasheet.  The Z buffer must be of equal size as it stores a z value for every pixel being displayed.  Notice that a change between frame and z buffer consists only of a bit flip.  The line and column remain exactly the same for every buffer is 2MB aligned.  The same is true to change buffers for double buffer: flipping the next significant bit changes the set of z and frame buffers being edited and displayed.  Our flush is combined with a buffer swap operation.   To reduce displayed tearing (horizontal scan lines on the screen), the frame buffer being displayed is not the same frame buffer being written to by the accelerator.  A flush operation consists of clearing out data in the frame buffer as well the z buffer.
+Each buffer consists of a contiguous 2MB region.  The frame buffer region is specified by the TFT LCD datasheet.  The Z buffer must be of equal size as it stores a z value for every pixel being displayed.  Notice that a change between frame and z buffer consists only of a bit flip.  The line and column remain exactly the same for every buffer is 2MB aligned.  The same is true to change buffers for double buffer: flipping the next significant bit changes the set of z and frame buffers being edited and displayed.  Our flush is combined with a buffer swap operation.   To reduce displayed tearing (horizontal scan lines on the screen), the frame buffer being displayed is not the same frame buffer being written to by the accelerator.  A flush operation consists of clearing out data in the frame buffer as well the z buffer.  A buffer swap is a write into the DCR space that controls the DVI controller.  By altering the frame buffer base address, the frame buffers are effectively swapped.
 
 \begin{figure}[htb]
 \begin{center}
@@ -479,7 +479,7 @@ Each buffer consists of a contiguous 2MB region.  The frame buffer region is spe
 \end{figure}
 
 \subsection{DMA}
-The DMA module was a late addition to the project.  It is an effort to increase the speed of the flush operation.  Previously, the fbwriter would zero out each pixel individually, requiring far more PLB transactions than necessary.  The fbwriter can program the flush operation to the DMA, which in turn will flush not only the frame buffer but the z-buffer, since they are contiguous in memory.
+The DMA module was a late addition to the project.  It is an effort to increase the speed of the flush operation.  Previously, the fbwriter would zero out each pixel individually, requiring far more PLB transactions than necessary.  The fbwriter can program the flush operation to the DMA, which in turn will flush not only the frame buffer but the z-buffer, since they are contiguous in memory.  This meant a flush operation became a series of writes to program the DMA controller.  
 
 \section{Development Software}
 
@@ -487,12 +487,12 @@ The DMA module was a late addition to the project.  It is an effort to increase 
 The obvious, and apparently only, choice was Xilinx ISE Design Suite 12.2.  This is not an endorsement, for it is definitely worth the effort to consider an alternative.
 
 \subsubsection{EDK and SDK}
-The reference design came as a Platform Studio and Embedded Development Kit (EDK) project.  
+The reference design came as a Platform Studio and Embedded Development Kit (EDK) project.  To gain familiarity with this duo, consider Xilinx documentation "OS and Libraries Document Collection" and "EDK Concept, Tools, and Techniques"\cite{edkcttds}.  The EDK allowed us to organize our system level design, make the appropriate connections and build the bitstreams to download to the board.  Our graphics pipeline was seen as a custom peripheral that could be imported to projects.  This became the crux of our tool chain problems.  Discovering the file organization and the methodology of the EDK eventually allowed us to develop a simple routine for getting our descriptions on the board.
 
-OS and Libraries Document Collection and EDK Concept, Tools, and Techniques
+The SDK allowed up us to write all the software the Microblaze processor might run.  This was used in developing the web-server, when that was part of the plan, and the cf2bram program.
 
 \subsubsection{ISE}
-We used the ISE to manage multiple hardware projects.  The core had it's own project, which EDK uses to import as a peripheral.  Also, each component 
+We used the ISE to manage multiple hardware projects.  The core had it's own project, which EDK uses to import as a peripheral.  There was also a project that contained all the component to simulate integration testing.  Also, each component had a testbench project which was used for simulations.  This contributed to our unit testing ability.  
 
 \subsubsection{CoreGEN}
 Another component of the Design Suite used to generate cores.  It was useful in many ways to construct basic hardware elements; see gripes in other sections. We used CoreGEN to generate all the floating point units, as well as the FIFOs.
@@ -516,7 +516,7 @@ Our testing methodology consisted of a combination of simulation, hardware analy
 The majority of our custom components were unit tested by simulations. Using iSim, the included simulation program in the ISE Design Suite, we simulated individual parts of the design to ensure correctness.  Most of the testbench projects are unit tests for each component.  When changing individual components, running the components testbench is fair smoke test.  The PLB was probably most difficult to test, as the Bus Functional Model (BFM) required ModelSim (CMU does not have a license for Windows).  Realistically, the only way to test PLB operation was trial and error, and testing after synthesis.  Other than that, simulating to specification was the furtherest unit testing possible. 
 
 \subsection{Integration Testing}
-We also used simulations in integration testing to ensure the functionality of the pipeline.  It was also helpful in ensuring connections were correct.  Another tool useful for integration testing was the hardware logic analyzer, ChipScope Pro.  It allows us to monitor perticular signals on the synthesized hardware, and we found the most convenient way to setup the trigger modules was through PlanAhead, a netlist and implementation tool.  
+We also used simulations in integration testing to ensure the functionality of the pipeline.  It was also helpful in ensuring connections were correct.  Another tool useful for integration testing was the hardware logic analyzer, ChipScope Pro.  It allows us to monitor perticular signals on the synthesized hardware, and we found the most convenient way to setup the trigger modules was through PlanAhead, a netlist and implementation tool.  The XMD debugger tool was also very useful in poking around the FPGA once the bitstream was loaded.  It can be found in both the EDK and the SDK.
 
 \section{Major Design Decisions}
 
@@ -527,7 +527,7 @@ One of the main decisions we had to make was whether to use floating point or fi
 With the division of work, and division of operational units of the pipeline, we clearly needed an intuitive, robust mechanism to synchronize the RTL.  fbwriter needs to operate on the PLB bus, so it conformed to the clock of the PLB bus.  Note also that per OpenGG instruction, the rasterization unit has more work than the coordinate transform.  The rasterization unit needs at least one clock cycle for each pixel in the bounding box in the process of horizontal scanline; that means it can vary on the size of the triangle.  The transformation unit has a fixed number of cycles per instruction; it does not vary on the size of the triangle drawn.  Clocking these units independently became extremely convenient.  Using clock independent FIFO's, data can be passed across clock domains safely and efficiently.  The unit will stall only when the queue is full, which is as good as can be expected.
 
 \subsection{External Cores}
-It soon became apparent we could not do everything. The decision to conform to the Xilinx tool chain stemmed partially from the convenience of provided Xilinx cores and generated cores from CoreGEN.  The framework provided by the Xilinx EDK had some advantages.  It has a way to run C code a soft processor, the Microblaze.  It provides the interconnecting bus structure, PLB.  The reference design also contains the Multi-Port Memory Controller (MPMC) which provides an accessible interface for the DD2 SDRAM.  
+It soon became apparent we could not do everything. The decision to conform to the Xilinx tool chain stemmed partially from the convenience of provided Xilinx cores and generated cores from CoreGEN.  The framework provided by the Xilinx EDK had some advantages.  It has a way to run C code a soft processor, the Microblaze.  It provides the interconnecting bus structure, PLB.  The reference design also contains the Multi-Port Memory Controller\cite{mpmcds} (MPMC) which provides an accessible interface for the DD2 SDRAM.  
 
 \subsubsection{CoreGEN}
 CoreGEN allows us to generate different types of modules.  It is a tool provided by Xilinx included in their design suite and provides blackbox *.v and *.ngc files for usage in your projects.  They provide a variety different, commonly used cores, that is, if it is not a custom type of hardware, you can probably find it in CoreGEN.  Most of the modules in the reference design actually comes from CoreGEN, including the versatile MPMC.  The floating point units used throughout our design were generated to specific parameters.  It was useful to specify usage of DSP48E slices instead of logic slices.  CoreGEN also allowed us to specify latency, which became extremely important.  The FIFO's were also generated by CoreGEN.  It was nice to be able to specify what kind of hardware resources each would consume, whether Block RAM, Distributed RAM or built-in units.  Note that the built-in units may not simulate as easily; simply generate Block RAM modules for simulation and regenerate the cores with the same project file when moving back to synthesis.
@@ -572,15 +572,15 @@ I was quite motivated after seeing decently successful results of our project to
 
 My main responsibilities involved the interfaces for the pipeline and the tool set.
 
-I was mainly in charge of any software that ran on the Microblaze processor.  When we were considering a web-server front-end for our accelerator, I was working with the lwip library on the SDK trying to get the web server running.  This involved learning the SDK interface along with the EDK interface, which initially annoying as the design suite was in the process of transitioning functionality between the two.  In fact, the EDK still provided some software configuration functions meant for the SDK, so there was an overlap of functionality.
+I was mainly in charge of any software that ran on the Microblaze processor.  When we were considering a web-server front-end for our accelerator, I was working with the lwip library on the SDK trying to get the web server running.  This involved learning the SDK interface along with the EDK interface; initially this was annoying as the design suite was in a transitionaly phase separating functionality between the two.  In fact, the EDK still provided some software configuration deprecated functions meant for the SDK, so there was an overlap of functionality.
 
 The current design uses an assembler to get data from Perl Parser to the pipeline.  Now the Microblaze runs a program that copies the executable from the Compact Flash to the instruction cache.
 
 I also worked mainly on the fbwriter, the module that took the pixel data output by the rasterizer and wrote it the frame buffer.  This was mostly where the PLB interfacing was important.  Also, the fbwriter is critical in implementing the flush command.  Adding the DMA module was the final part of this.
 
-As the build engineer, I was left with most of the tedious task of building the bit streams.  By the end of the project, I was corralling code changes to get into each build.  Since each build took so long, it was necessary to make every build count.  Since it was not sensible to force too many group members to learn the Xilinx tool chain, I was akin to the sacrificial lamb.  The other group members were relatively removed from the Xilinx peculiars, in the hopes that they would be more productive that way.  For the most part, this was a good decision in dividing the nuisances.  I would say that most of my time had been committed to understanding the tool chain.  Any guidance in this area would directly benefit me, and probably left me with more time and patience to devote to other aspects of the project.
+As the build engineer, I was left with most of the tedious task of building the bit streams.  By the end of the project, I was corralling code changes to get into each build.  Since each build took so long, it was necessary to make every build count.  It was not sensible to force too many group members to learn the Xilinx tool chain, so I was akin to a sacrificial lamb.  The other group members were relatively removed from the Xilinx peculiars, in the hopes that they would be more productive that way.  For the most part, this was a good decision in dividing the nuisances.  I would say that most of my time had been committed to understanding the tool chain.  Any guidance in this area would directly benefit me, and probably left me with more time and patience to devote to other aspects of the project.
 
-With my role removed from the OpenGG ISA, I became in charge of the system.  Most of the system level design decisions came through me since I was in charge of the synthesis and the Microblaze project.  Also since I was in charge of most of the interfacing, this was fairly convenient to work on most the system design and the endpoints.  
+With my role removed from the OpenGG ISA, I became in charge of the entire system.  Most of the system level design decisions came through me since I was in charge of the synthesis and the Microblaze project.  Also since I was in charge of most of the interfacing, this was fairly convenient to work on most the system design and the endpoints.  
 
 From my perspective, I oversaw most of the progress of the project so that I could create something synthesizable; we wanted to get something new on the board as often as possible.  On the final day, with pressure to bring down EDK utilization, I took SRAM out of the project.  Unbeknownst to me, SRAM actually contained configuration data necessary for the Microblaze to run.  That left us with a broken build pretty close to demo time.   The lesson here is to ensure you know exactly what you're cutting out of the reference design, or know as much as possible.
 
@@ -596,7 +596,7 @@ When setting your schedule, try to parallelize as many things as possible. If so
 
 \subsection{Status}
 At the time of demo, we had a working pipeline, with a spinning octahedron running at a decent framerate. However, with no z-buffer or double buffering the image had issues with tearing and the triangles that were drawn were not necessarily the triangles that were closest to the camera. 
-Since the demo, we have added an attempt at both a z-buffer and double buffer. The results can be seen in the following videos, where we are running the same program as on the demo day, except with incorrect z-buffer. 
+Since the demo, we have added an attempt at both a z-buffer and double buffer. The results can be seen in the following videos, where we are running the same program as on the demo day, except with incorrect z-buffer.  It's possible the DMA flushing is occurring too slowly, and that it is actually overwriting actual values, since DMA flush is a lazy flush.
 \begin{itemize}
 
 \item \url{http://www.youtube.com/watch?v=kBDY8LMxK2k}
@@ -614,7 +614,7 @@ A plan we considered but never got around to implementing involves using the ins
 A very interesting project would be to work on a graphics shader.  OpenGL ES 2.0 relies primary on the shader to replace many fixed function units in the pipeline.  Although most of those units are effect units, and unimplemented in our implementation, the project would be interesting as it is the main unit in GPGPU Frameworks.  It also requires a microkernel to run in hardware, which would make for a interesting fusion of OS and hardware.
 
 \subsection{MPMC}
-There are many alternatives to the main PLB bus organization we used.  MPMC has an attached DMA unit that can operate closer to SDRAM, in place of the central DMA unit that can operate on any address.  This could have potentially saved some more logic utilization as well as improved performance.  The MPMC was also capable of a Point-to-Point connection, where there would only be exactly one master and one slave on the PLB bus.  This would also benefit performance, if the need arose.  There are other interfaces to the MPMC besides PLB that would work well for our needs.  The rasterizer outputs lines of pixels that are actually contiguous in the frame buffer, because every row is stored together.  Finding a way to optimize writing of the entire line might also be ideal.
+There are many alternatives to the main PLB bus organization we used.  Multi-Port Memory Controller (MPMC) has an attached DMA unit that can operate closer to SDRAM, in place of the central DMA unit that can operate on any address.  This could have potentially saved some more logic utilization as well as improved performance.  The MPMC was also capable of a Point-to-Point connection, where there would only be exactly one master and one slave on the PLB bus.  This would also benefit performance, if the need arose.  There are other interfaces to the MPMC besides PLB that would work well for our needs.  The rasterizer outputs lines of pixels that are actually contiguous in the frame buffer, because every row is stored together.  Finding a way to optimize writing of the entire line might also be ideal.
 
 \subsection{vsync Timing}
 One further refinement would be to time buffer swaps to the display.  We would wait until the monitor is ready to display something new before changing the buffers.  This would make for an even smoother image or scene.
@@ -633,20 +633,13 @@ Another aspect of the class that probably could have been improved is the amount
 
 \section{Credits}
 
-% Prof and course staff
+\begin{itemize}
+\item Professor Bill Nace and course staff for running this semester's capstone course, a graduation requirement
+\item Professor Ken Mai for an initial meeting and steering our project from the beginning
+\item Google Docs for making collaboration simple, but kinda ugly
+\item Tumblr for host our blog and recorded missteps
+\end{itemize}
 
-% Ken Mai for initial meeting
-
-% Google Docs
-
-% OpenGG Tumblr
-
-% LaTeX and diagramming program
-% Gfx Algo/ Coordinate Transform Resources...
-
-% Bounding Box Forum
-
-% Xilinx manuals
 \begin{thebibliography}{4}
 \bibitem{cite_key1}
 Ahn, Songho, 
@@ -659,6 +652,35 @@ Capens, Nicolas,
 \emph{Advanced Rasterization}.
 2004,
 \url{http://www.devmaster.net/forums/showthread.php?t=1884}.
+
+\bibitem{TFTds}
+Xilinx, Inc. 
+\emph{Advanced XPS Thin Film Transistor
+(TFT) Controller (v2.01a)}.
+\underline{Product Specification DS695}.
+May 03, 2010.
+
+\bibitem{plbmds}
+Xilinx, Inc. 
+\emph{PLBV46 Master Single
+(v1.01a))}.
+\underline{Product Specification DS536}.
+May 14, 2008.
+
+\bibitem{edkcttds}
+Xilinx, Inc. 
+\emph{EDK Concepts, Tools,
+and Techniques v11.1}.
+\underline{UG683}.
+December 02, 2009.
+
+\bibitem{mpmcds}
+Xilinx, Inc. 
+\emph{Multi-Port Memory Controller
+(MPMC) (v6.01.a)}.
+\underline{Product Specification DS643}.
+July 23, 2010.
+
 
 \end{thebibliography}
 
