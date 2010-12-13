@@ -463,6 +463,7 @@ We also used simulations in integration testing to ensure the functionality of t
 
 \section{Major Design Decisions}
 \subsection{Floating Point vs. Fixed Point}
+One of the main decisions we had to make was whether to use floating point or fixed point math throughout the pipeline. Fixed point has the advantages of lower board utilization and faster performance, at the cost of precision. Floating point 
 
 \subsection{Synchronization}
 With the division of work, and division of operational units of the pipeline, we clearly needed an intuitive, robust mechanism to synchronize the RTL.  fbwriter needs to operate on the PLB bus, so it conformed to the clock of the PLB bus.  Note also that per OpenGG instruction, the rasterization unit has more work than the coordinate transform.  The rasterization unit needs at least one clock cycle for each pixel in the bounding box in the process of horizontal scanline; that means it can vary on the size of the triangle.  The transformation unit has a fixed number of cycles per instruction; it does not vary on the size of the triangle drawn.  Clocking these units independently became extremely convenient.  Using clock independent FIFO's, data can be passed across clock domains safely and efficiently.  The unit will stall only when the queue is full, which is as good as can be expected.
@@ -523,21 +524,20 @@ As the build engineer, I was left with most of the decisions on the system level
 
 On the final day, with pressure to bring down EDK utilization, I took SRAM out of the project.  Unbeknownst to me, SRAM actually contained configuration data necessary for the Microblaze to run.  That left us with a broken build pretty close to demo time.   The lesson here is to ensure you know exactly what you're cutting out of the reference design, or know as much as possible.
 
-\section{Words of Wisdom}
+\section{Words of Wisdom / Lessons Learned}
 
-\begin{itemize}
+\subsection{Tool Chain}
+If I recall correctly, no guidance on the Xilinx Design Suite because we were encouraged to look for alternatives.  That is, we were not to be restricted to Xilinx tools.  Yet, no alternatives were found, none were found by other classmates.  Getting a tool chain or build process up early is a huge key to success.  This should be a priority for every group. Decide what tools you want to use, pick a lint tool as Xilinx tools are useless for finding inferred nets, etc.
 
-\item something Witty
-
-\end{itemize}
+\subsection{Stay on Schedule}
+When setting your schedule, try to parallelize as many things as possible. If something can be started at the beginning of the semester (i.e. does not depend on anything else), you should make every effort to do so. In our schedule, we planned to get the front end done in the first 4 weeks, and start the pipeline after that. What we should have done was start the pipeline earlier, and do that in parallel with the front end. Everything takes longer than you'd expect, and just getting started on it early gives you more time to think through any issues you come across.
 
 \section{Status and Future Work}
 
-\subsection{Tool Chain}
-If I recall correctly, no guidance on the Xilinx Design Suite because we were encouraged to look for alternatives.  That is, we were not to be restricted to Xilinx tools.  Yet, no alternatives were found, none were found by other classmates.  Getting a tool chain or build process up early is a huge key to success.  This should be a priority for every group. 	
-
 \subsection{CPU Integration}
-Use Instruction Cache as a ring buffer for instructions.  Interrupt Microblaze every time the cache is consumed.
+The front end interface to the CPU is an area for improvement. Our initial plan was use GLSim, a software implementation of OpenGL, and replace the calls to the functions we planned to implement with code that would issue those calls to our hardware pipeline. When this plan fell through, we opted to use a Perl script that translates hand coded programs that only used the functions we support, forgoing a running C program altogether.
+
+A plan we considered but never got around to implementing involves using the instruction cache as a ring buffer for instructions called from a running OpenGL program running on the Microblaze. We would implement an OpenGL library similar to GLSim, that would translate all OpenGL calls to instructions for our pipeline and put those into the instruction cache. Whenever the cache is full, the Microblaze would have to wait until the pipeline catches up. In this way, we would be able to run actual OpenGL programs, ignoring all calls that we don't support and hardware implementation of calls we do support.
 
 \subsection{Shader}
 A very interesting project would be to work on a graphics shader.  OpenGL ES 2.0 relies primary on the shader to replace many fixed function units in the pipeline.  Although most of those units are effect units, and unimplemented in our implementation, the project would be interesting as it is the main unit in GPGPU Frameworks.  It also requires a microkernel to run in hardware, which would make for a interesting fusion of OS and hardware.
