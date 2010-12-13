@@ -18,8 +18,10 @@
 % usepackage command, below.
 % This version uses the latex2e styles, not the very ancient 2.09 stuff.
 \documentclass[letterpaper,10pt]{article}
-%\usepackage{usenix,epsfig,endnotes}
-\usepackage{fullpage,epsfig,endnotes,mathtools}
+
+\usepackage{fullpage,epsfig,endnotes}
+\usepackage{mathtools}
+
 \begin{document}
 %make title bold and 14 pt font (Latex default is non-bold, 16 pt}
 
@@ -358,6 +360,14 @@ Operating system that existed on the lab machine and had a licensed installation
 \subsection{Ubuntu}
 Initially, wanted machine to be primary machine for development.  Unfortunately, the usb drivers for the JTAG cable never came into fruition, so board programming was relegated to the Windows machine.  Much of the simulation and core development still happened on the Ubuntu box.  Also held a git repository that was later moved to github.  It was used as an easy way to transfer files between group members because Windows networked file system is unusable.  
 
+\section{Testing Methology}
+Our testing methodology consisted of a combination of simulation, hardware analyzer, and a little bit of trial and error.
+
+\subsection{Unit Testing}
+The majority of our custom components were unit tested by simulations. Using iSim, the included simulation program in the ISE Design Suite, we simulated individual parts of the design to ensure correctness.  Most of the testbench projects are unit tests for each component.  When changing individual components, running the components testbench is fair smoke test.  The PLB was probably most difficult to test, as the Bus Functional Model (BFM) required ModelSim (CMU does not have a license for Windows).  Realistically, the only way to test PLB operation was trial and error, and testing after synthesis.  Other than that, simulating to specification was the furtherest unit testing possible. 
+
+\subsection{Integration Testing}
+We also used simulations in integration testing to ensure the functionality of the pipeline.  It was also helpful in ensuring connections were correct.  Another tool useful for integration testing was the hardware logic analyzer, ChipScope Pro.  It allows us to monitor perticular signals on the synthesized hardware, and we found the most convenient way to setup the trigger modules was through PlanAhead, a netlist and implementation tool.  
 
 \section{Major Design Decisions}
 \subsection{Floating Point vs. Fixed Point}
@@ -402,6 +412,7 @@ Nevertheless, our rasterizer performed significantly well considering we added l
 As far as contributions go, we all took on separate responsibilities at certain points in the project, and I feel like the work distribution was extremely well balanced. Having been good friends prior to the class, our team dynamic proved invaluable later on. Although we did not know every intricate detail of what each person was doing, we were always able to just bounce design and implementation decisions off one another, as well as occasionally help one another debug. Working together at the same times in lab also helped set aside dedicated time to work on the project. Of course, being ambitious seniors we all had significant coursework outside of the class which taxed our project noticeably.
 
 I was quite motivated after seeing decently successful results of our project to pipeline the rasterizer but given the amount of work I had in other courses after the final demonstration, I was not able to fully implement a pipelined rasterizer. Another part of the rationale was that it probably isn't the current bottleneck in our project. The code repository includes a semi-completed version of the rasterizer and corresponding FIFO management unit that I began to pipeline at the end of our project, but was not able to complete.
+
 \subsection{Nathan Wan}
 
 My main responsibilities involved the interfaces for the pipeline and the tool set.
@@ -410,11 +421,19 @@ One Man Tools Team
 
 Webserver/SDK work
 
-I was mainly in charge of any software that ran on the Microblaze processor.  When we were considering a web-server front-end for our accelerator, I was working with the lwip library on the SDK trying to get the webserver running.  The current design uses an assembler to get data from Perl Parser to the pipeline.
+I was mainly in charge of any software that ran on the Microblaze processor.  When we were considering a web-server front-end for our accelerator, I was working with the lwip library on the SDK trying to get the webserver running.  The current design uses an assembler to get data from Perl Parser to the pipeline.  Now the Microblaze 
 
 As the build engineer, I was left with most of the decisions on the system level.   
 
 On the final day, with pressure to bring down EDK utilization, I took SRAM out of the project.  Unbeknownst to me, SRAM actually contained configuration data necessary for the Microblaze to run.  That left us with a broken build pretty close to demo time.   The lesson here is to ensure you know exactly what you're cutting out of the reference design, or know as much as possible.
+
+\section{Words of Wisdom}
+
+\begin{itemize}
+
+\item something Witty
+
+\end{itemize}
 
 \section{Status and Future Work}
 
@@ -439,7 +458,12 @@ DMA, P2P PLB, PLB alternative
 
 \section{Citations}
 
+% Gfx Algo/ Coordinate Transform Resources...
+
+% Bounding Box Forum
+
 % Xilinx manuals
+
 
 \section{Credits}
 
