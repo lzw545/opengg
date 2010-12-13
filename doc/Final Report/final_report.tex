@@ -19,7 +19,7 @@
 % This version uses the latex2e styles, not the very ancient 2.09 stuff.
 \documentclass[letterpaper,10pt]{article}
 
-\usepackage{fullpage,epsfig,endnotes}
+\usepackage{fullpage,epsfig,endnotes,url}
 \usepackage{mathtools}
 
 \begin{document}
@@ -244,7 +244,7 @@ The coordinate transformation pipeline utilizes homogenous coordinates to perfor
 \subsection{Eye Coordinates}
 The incoming vertex is multiplied by the modelview matrix to produce \emph{eye coordinates}. The modelview matrix is a the combination of the model and view matrices. Since there is no separate camera in OpenGL, the scene must be transformed by the inverse of the view transformation to simulate moving the camera.\\
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \[
 \begin{pmatrix}
 x_{eye} \\
@@ -265,7 +265,7 @@ w_{obj}
 
 \subsection{Clip Coordinates}
 The eye coordinates are multiplied by the projection matrix to produce clip coordinates, in which objects that are not in the viewing frustum are clipped out. The viewing frustum is set by calls to \verb!glFrustum! and \verb!glOrtho! for perspective and orthographic projection, respectively. \\
-\begin{figure}[h]
+\begin{figure}[h!]
 \[
 \begin{pmatrix}
 x_{clip} \\
@@ -286,7 +286,7 @@ w_{eye}
 
 \subsection{Perspective Division}
 Perspective division yields coordinates known as \emph{normalized device coordinates}, with their range normalized to $(-1,1)$ for all 3 axes.\\
-\begin{figure}[h]
+\begin{figure}[h!]
 \[
 \begin{pmatrix}
 x_{ndc} \\
@@ -454,16 +454,16 @@ The reference design came as a Platform Studio and Embedded Development Kit (EDK
 OS and Libraries Document Collection and EDK Concept, Tools, and Techniques
 
 \subsubsection{ISE}
-We used this to manage multiple hardware projects.  The core had it's own project, which EDK uses to import as a peripheral.  Also, each component 
+We used the ISE to manage multiple hardware projects.  The core had it's own project, which EDK uses to import as a peripheral.  Also, each component 
 
 \subsubsection{CoreGEN}
-Another component of the Design Suite used to generate cores.  It was useful in many ways to construct basic hardware elements; see gripes in other sections.
+Another component of the Design Suite used to generate cores.  It was useful in many ways to construct basic hardware elements; see gripes in other sections. We used CoreGEN to generate all the floating point units, as well as the FIFOs.
 
 \subsubsection{PlanAhead}
 PlanAhead is another component of the Design Suite.  We used it to generate most of our ChipScope modules from netlists.  The netlists comes from the EDK builds and PlanAhead allows us to add ChipScope modules that sample particular signals on real hardware.  It does require a separate bit file and thus, an additional build, but the information is invaluable; this can solve so many of your bugs.  Getting this up early would also yields exponential benefits.
 
 \subsection{Git}
-A project without source control is simply unwieldy.  Two group members have had relatively enjoyable experiences with Git, and it was simpler to initialize and set-up than svn, the other likely alternative.  The distributed style allowed for great flexibility moving central repositories and asynchrony of the group's work style.
+A project without source control is simply unwieldy.  Two group members have had relatively enjoyable experiences with Git, and it was simpler to initialize and set-up than svn, the other likely alternative.  The distributed style allowed for great flexibility moving central repositories and asynchrony of the group's work style. Our Git repository is online at \url{https://github.com/lzw545}
 
 \subsection{Windows XP}
 Operating system that existed on the lab machine and had a licensed installation of the Design Suite was fairly convenient.  Machine was fairly slow, but static ip address and domain name given by the department made it easy to work remotely.
@@ -504,7 +504,7 @@ Alan and I worked closely to develop the matrix multiply and matrix stack contro
 
 I was mainly responsible for the coordinate transformation pipeline, as well as the fetch, decode units. The remainder of the semester was spent implementing, testing and integrating this part with the other parts of the pipeline.
 
-In terms distribution of work goes, I feel like the project was divided along very natural boundaries that ended up dividing the work pretty evenly as well. 
+In terms distribution of work goes, I feel like the project was divided along very natural boundaries that ended up dividing the work pretty evenly as well.
 
 \subsection{Alan Zhu}
 My responsibilities consisted of implementing the Perl parser, designing and implementing the matrix multiply and matrix stack units, and designing and implementing the rasterization module.
@@ -553,6 +553,19 @@ When setting your schedule, try to parallelize as many things as possible. If so
 
 \section{Status and Future Work}
 
+\subsection{Status}
+At the time of demo, we had a working pipeline, with a spinning octahedron running at a decent framerate. However, with no z-buffer or double buffering the image had issues with tearing and the triangles that were drawn were not necessarily the triangles that were closest to the camera. 
+Since the demo, we have added an attempt at both a z-buffer and double buffer. The results can be seen in the following videos, where we are running the same program as on the demo day, except with incorrect z-buffer. 
+\begin{itemize}
+
+\item \url{http://www.youtube.com/watch?v=kBDY8LMxK2k}
+
+\item \url{http://www.youtube.com/watch?v=75B-Qa6SDFc} 
+
+\end{itemize}
+
+
+
 \subsection{CPU Integration}
 The front end interface to the CPU is an area for improvement. Our initial plan was use GLSim, a software implementation of OpenGL, and replace the calls to the functions we planned to implement with code that would issue those calls to our hardware pipeline. When this plan fell through, we opted to use a Perl script that translates hand coded programs that only used the functions we support, forgoing a running C program altogether.
 
@@ -571,14 +584,6 @@ DMA, P2P PLB, PLB alternative
 \subsection{Tool Chain Frustration}
 \subsection{Too much Independence / Lack of Feedback}
 
-\section{Citations}
-
-% Gfx Algo/ Coordinate Transform Resources...
-
-% Bounding Box Forum
-
-% Xilinx manuals
-
 
 \section{Credits}
 
@@ -591,5 +596,25 @@ DMA, P2P PLB, PLB alternative
 % OpenGG Tumblr
 
 % LaTeX and diagramming program
+% Gfx Algo/ Coordinate Transform Resources...
+
+% Bounding Box Forum
+
+% Xilinx manuals
+\begin{thebibliography}{4}
+\bibitem{cite_key1}
+Ahn, Songho, 
+\emph{OpenGL Transformation}.
+2008,
+\url{http://www.songho.ca/opengl/gl_transform.html}.
+
+\bibitem{cite_key2}
+Capens, Nicolas, 
+\emph{Advanced Rasterization}.
+2004,
+\url{http://www.devmaster.net/forums/showthread.php?t=1884}.
+
+\end{thebibliography}
+
 
 \end{document}
