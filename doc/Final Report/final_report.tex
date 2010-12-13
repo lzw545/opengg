@@ -605,8 +605,6 @@ Since the demo, we have added an attempt at both a z-buffer and double buffer. T
 
 \end{itemize}
 
-
-
 \subsection{CPU Integration}
 The front end interface to the CPU is an area for improvement. Our initial plan was use GLSim, a software implementation of OpenGL, and replace the calls to the functions we planned to implement with code that would issue those calls to our hardware pipeline. When this plan fell through, we opted to use a Perl script that translates hand coded programs that only used the functions we support, forgoing a running C program altogether.
 
